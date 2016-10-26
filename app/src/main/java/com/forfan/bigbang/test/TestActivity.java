@@ -30,7 +30,21 @@ public class TestActivity extends BaseActivity {
         arrayList.add("你好啊");
         arrayList.add("你好啊");
         RetrofitHelper.getWordSegmentService()
-                .getWordSegsList("你好啊")
+                .getWordSegsList("我好累哦 我想休息一下下 怎么办么")
+                .compose(this.bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(recommendInfo -> {
+                    LogUtil.d(recommendInfo.toString());
+                }, throwable -> {
+                    LogUtil.d(throwable.toString());
+                });
+    }
+
+    public void onTranslate(View view){
+
+        RetrofitHelper.getTranslationService()
+                .getTranslationItem("我好累哦 我想休息一下下 怎么办么")
                 .compose(this.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
