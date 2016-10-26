@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="umeng_fb_speech_dialog_style" parent="@android:style/Theme.Dialog">
+        <item name="android:windowBackground"> @android:color/transparent </item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="umeng_fb_image_dialog_anim">
+        <item name="android:windowEnterAnimation">@anim/umeng_fb_dialog_enter_anim</item>
+        <item name="android:windowExitAnimation">@anim/umeng_fb_dialog_exit_anim</item>
+    </style>
+</resources>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/umeng_fb_audio_dialog_layout"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerInParent="true"
+        android:background="#F4404040"
+        android:gravity="center">
+
+        <View
+            android:id="@+id/umeng_fb_audio_dialog_count_down_tv"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/umeng_fb_audio_dialog_content" />
+
+        <TextView
+            android:id="@+id/umeng_fb_audio_dialog_count_tv"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/umeng_fb_audio_dialog_count_down_tv"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/umeng_fb_white"
+            android:gravity="center"
+            android:textSize="72sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/umeng_fb_audio_dialog_count_down_tag_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/umeng_fb_audio_dialog_count_tv"
+            android:layout_marginTop="20dp"
+            android:text="@string/umeng_fb_slide_up_cancel"
+            android:textColor="@color/umeng_fb_white"
+            android:textSize="16sp" />
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

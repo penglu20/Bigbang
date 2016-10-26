@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/umeng_fb_reply_item_view_tag"
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:background="@color/umeng_fb_gray" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <FrameLayout
+            android:id="@+id/umeng_fb_reply_content_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <ImageView
+                android:id="@+id/umeng_fb_reply_image"
+                android:layout_width="100dp"
+                android:layout_height="160dp"
+                android:scaleType="fitXY"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/umeng_fb_reply_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/umeng_fb_reply_content_layout"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="2dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/umeng_fb_secondary_text_light"
+            android:textSize="@dimen/umeng_fb_item_time_size" />
+
+        <ImageView
+            android:id="@+id/umeng_fb_resend"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/umeng_fb_reply_date"
+            android:layout_below="@+id/umeng_fb_reply_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/umeng_fb_reply_date"
+            android:layout_toRightOf="@+id/umeng_fb_reply_date"
+            android:contentDescription="@string/umeng_fb_send"
+            android:visibility="visible" />
+
+        <View
+            android:id="@+id/umeng_fb_reply_item_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/umeng_fb_item_line_height"
+            android:layout_below="@+id/umeng_fb_reply_date"
+            android:background="@color/umeng_fb_line" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/umeng_fb_background"
+    >
+
+    <com.umeng.fb.widget.PagerSlidingTabStrip
+        android:id="@+id/umeng_fb_help_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/umeng_fb_help_pager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/umeng_fb_help_tabs" />
+
+</RelativeLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="umeng_fb_lightblue">#FF0FB0A8</color>
+    <color name="umeng_fb_gray">#FFD8D8D8</color>
+    <color name="umeng_fb_line">#DCDCDC</color>
+    <color name="umeng_fb_secondary_text_light">#8A000000</color>
+    <color name="umeng_fb_white">#FFFFFF</color>
+    <color name="umeng_fb_audo_dialog_bg">#F4F0745F</color>
+    <color name="umeng_fb_tab_bg_pressed">#6633B5E5</color>
+    <color name="umeng_fb_background">#F6F6F6</color>
+</resources>

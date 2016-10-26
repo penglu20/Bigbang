@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/umeng_fb_send_layout"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" />
+
+    <com.umeng.fb.widget.InterceptTouchSwipeRefreshLayout
+        android:id="@+id/umeng_fb_swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/umeng_fb_send_layout">
+
+        <ListView
+            android:id="@+id/umeng_fb_reply_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:listSelector="#00000000"
+            android:divider="@null"
+            android:transcriptMode="alwaysScroll"></ListView>
+
+    </com.umeng.fb.widget.InterceptTouchSwipeRefreshLayout>
+</RelativeLayout>

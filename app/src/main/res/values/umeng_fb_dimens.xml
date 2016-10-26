@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="umeng_fb_item_height">48dp</dimen>
+    <dimen name="umeng_fb_item_content_size">14sp</dimen>
+    <dimen name="umeng_fb_item_time_size">12sp</dimen>
+    <dimen name="umeng_fb_item_line_height">0.8dp</dimen>
+    <dimen name="umeng_fb_spinner_padding_left">12dp</dimen>
+    <dimen name="umeng_fb_record_btn_text_size">20sp</dimen>
+    <dimen name="umeng_fb_normal_size">13dp</dimen>
+</resources>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/umeng_fb_input_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal">
+
+    <View
+        android:id="@+id/fb_reply_item_view_tag"
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:background="@color/umeng_fb_gray" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/fb_reply_item_view_line"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/umeng_fb_item_line_height"
+            android:background="@color/umeng_fb_line" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp">
+            <ImageButton
+                android:id="@+id/umeng_fb_keyboard_tag_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@null"
+                android:src="@drawable/umeng_fb_keyboard" />
+
+            <Button
+                android:id="@+id/umeng_fb_record_btn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_toRightOf="@id/umeng_fb_keyboard_tag_btn"
+                android:background="@color/umeng_fb_gray"
+                android:text="@string/umeng_fb_press_speech"
+                android:focusable="true"
+                android:textSize="@dimen/umeng_fb_record_btn_text_size" />
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>
