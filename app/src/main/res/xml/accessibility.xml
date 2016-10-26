@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <accessibility-service
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:accessibilityEventTypes="typeAllMask"
+    android:accessibilityEventTypes="typeViewClicked|typeViewLongClicked"
     android:accessibilityFeedbackType="feedbackGeneric"
-    android:accessibilityFlags="flagDefault"
+    android:accessibilityFlags="flagIncludeNotImportantViews|flagRequestEnhancedWebAccessibility|flagRetrieveInteractiveWindows|flagRequestTouchExplorationMode"
     android:canRetrieveWindowContent="true"
+    android:canRequestEnhancedWebAccessibility="true"
     android:notificationTimeout="10"
     android:packageNames="@null"
     android:settingsActivity="com.forfun.bigbang.SettingActivity"
 />
+    <!--android:canRequestTouchExplorationMode="true"-->

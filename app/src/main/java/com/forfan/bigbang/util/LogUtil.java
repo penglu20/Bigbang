@@ -11,6 +11,7 @@ import com.forfan.bigbang.BigBangApp;
  */
 public class LogUtil {
 
+    public static final String _TAG = "BigBang";
     public static boolean isEshow=true;
     public static boolean isWshow=true;
     public static boolean isIshow=true;
@@ -46,31 +47,31 @@ public class LogUtil {
 
     public static void d(String msg){
         if(isDshow)
-        Log.d("GetAway", msg);
+        Log.d(_TAG, msg);
     }
     public static void d(String tag, String msg){
         d(tag+","+msg);
     }
     public static void e(String msg){
-        if(isEshow) Log.e("GetAway", msg);
+        if(isEshow) Log.e(_TAG, msg);
     }
     public static void e(String tag, String msg){
         e(tag+","+msg);
     }
     public static void i(String msg){
-        if(isIshow) Log.i("GetAway", msg);
+        if(isIshow) Log.i(_TAG, msg);
     }
     public static void i(String tag, String msg){
         i(tag+","+msg);
     }
     public static void w(String msg){
-        if(isWshow) Log.w("GetAway", msg);
+        if(isWshow) Log.w(_TAG, msg);
     }
     public static void w(String tag, String msg){
         w(tag+","+msg);
     }
     public static void v(String msg){
-        if(isVshow) Log.v("GetAway", msg);
+        if(isVshow) Log.v(_TAG, msg);
     }
     public static void v(String tag, String msg){
         v(tag+","+msg);

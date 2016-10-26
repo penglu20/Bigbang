@@ -1,22 +1,37 @@
 package com.forfan.bigbang.util;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.view.BigBangLayout;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 
-public class TipViewController implements View.OnClickListener, View.OnTouchListener {
+public class TipViewController implements  View.OnTouchListener {
     private static final String TAG="TipViewController";
 
     private static final int MOVETOEDGE=10010;
@@ -25,12 +40,19 @@ public class TipViewController implements View.OnClickListener, View.OnTouchList
     private WindowManager mWindowManager;
     private Context mContext;
     private View mWholeView;
+    private BigBangLayout bigBangLayout;
+    private FrameLayout bangWrap;
+    private CheckBox floagImage;
     private Handler mainHandler;
     private WindowManager.LayoutParams layoutParams;
     private float mTouchStartX,mTouchStartY;
     private int rotation;
     private boolean isMovingToEdge=false;
     private float density=0;
+    private boolean showBigBang=false;
+    private boolean isMoving=false;
+
+    private BigBangLayout.ActionListener mActionListener;
 
     public TipViewController(Context application) {
         mContext = application;
@@ -81,6 +103,12 @@ public class TipViewController implements View.OnClickListener, View.OnTouchList
 
         mWholeView = View.inflate(mContext, R.layout.view_float, null);
 
+        floagImage = (CheckBox) mWholeView.findViewById(R.id.image);
+        bigBangLayout= (BigBangLayout) mWholeView.findViewById(R.id.bang_ll);
+        bangWrap= (FrameLayout) mWholeView.findViewById(R.id.bang_wrap);
+
+        bigBangLayout.setActionListener(mActionListener);
+
         DisplayMetrics displayMetrics=new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(displayMetrics);
         density=displayMetrics.density;
@@ -88,10 +116,18 @@ public class TipViewController implements View.OnClickListener, View.OnTouchList
         // event listeners
         mWholeView.setOnTouchListener(this);
 
+        floagImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                showBigBang=isChecked;
+            }
+        });
+        floagImage.setChecked(true);
+
         int w = WindowManager.LayoutParams.WRAP_CONTENT;
         int h = WindowManager.LayoutParams.WRAP_CONTENT;
 
-        int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
+        int flags = WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL|WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE|WindowManager.LayoutParams.FLAG_WATCH_OUTSIDE_TOUCH;
         int type = 0;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             type = WindowManager.LayoutParams.TYPE_TOAST;
@@ -129,8 +165,40 @@ public class TipViewController implements View.OnClickListener, View.OnTouchList
         }
     }
 
-    @Override
-    public void onClick(View v) {
+    public void showImage(){
+        if (mWholeView==null){
+            show();
+        }
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                floagImage.setVisibility(View.VISIBLE);
+                bangWrap.setVisibility(View.GONE);
+                mWindowManager.updateViewLayout(mWholeView, layoutParams);
+            }
+        });
+    }
+
+    public void showBigBang(final String ... txts){
+        if (mWholeView==null){
+            show();
+        }
+        if (!showBigBang){
+            return;
+        }
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                bigBangLayout.reset();
+                for (String txt: txts){
+                    bigBangLayout.addTextItem(txt);
+                }
+                floagImage.setVisibility(View.GONE);
+                bangWrap.setVisibility(View.VISIBLE);
+                mWindowManager.updateViewLayout(mWholeView, layoutParams);
+            }
+        });
+
     }
 
     /**
@@ -143,26 +211,49 @@ public class TipViewController implements View.OnClickListener, View.OnTouchList
         }
         float x = event.getRawX();
         float y = event.getRawY();
+        Rect rect = new Rect();
+        mWholeView.getGlobalVisibleRect(rect);
+        if (!rect.contains((int)x, (int)y)) {
+            showImage();
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mTouchStartX = event.getX();
                 mTouchStartY = event.getY();
+                isMoving=false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                updateViewPosition(x,y);
+                if (Math.abs(event.getX()-mTouchStartX)>30||Math.abs(event.getY()-mTouchStartY)>30){
+                    isMoving=true;
+                }
+                updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());
                 break;
             case MotionEvent.ACTION_UP:
-                updateViewPosition(x,y);
+                if (isMoving||Math.abs(event.getX()-mTouchStartX)>30||Math.abs(event.getY()-mTouchStartY)>30){
+                }else {
+                    floagImage.setChecked(!floagImage.isChecked());
+                }
+                updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());
                 mTouchStartX = mTouchStartY = 0;
                 moveToEdge();
+                break;
+            case MotionEvent.ACTION_OUTSIDE:
+                showImage();
                 break;
         }
         return true;
     }
 
     private void updateViewPosition(float x,float y) {
-        layoutParams.x = (int) (x - mTouchStartX);
-        layoutParams.y = (int) (y - mTouchStartY);
+        layoutParams.x = (int) (x );
+        layoutParams.y = (int) (y );
+
+        if (layoutParams.x<0){
+            layoutParams.x=0;
+        }
+        if (layoutParams.y<0){
+            layoutParams.y=0;
+        }
 //        layoutParams.x= (int) x;
 //        layoutParams.y= (int) y;
         layoutParams.gravity= Gravity.TOP| Gravity.LEFT;
@@ -194,6 +285,10 @@ public class TipViewController implements View.OnClickListener, View.OnTouchList
                 mainHandler.sendMessage(mainHandler.obtainMessage(MOVETOEDGE,desX));
             }
         });
+    }
+
+    public void setActionListener(BigBangLayout.ActionListener actionListener) {
+        mActionListener = actionListener;
     }
 
 }
