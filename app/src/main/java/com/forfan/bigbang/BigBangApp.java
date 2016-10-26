@@ -15,7 +15,7 @@ public class BigBangApp extends Application {
 
     @Override
     public void onCreate() {
-        instance=this;
         super.onCreate();
+        instance=this;
     }
 }

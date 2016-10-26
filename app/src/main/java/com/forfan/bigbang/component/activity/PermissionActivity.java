@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.util.EasyPermissions;
+import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
  * @描述	      ${Activity基类 }
  * @更新描述   ${适配6.0权限问题}
  */
-public class PermissionActivity extends AppCompatActivity implements
+public class PermissionActivity extends RxAppCompatActivity implements
         EasyPermissions.PermissionCallbacks {
 
     protected static final int RC_PERM = 123;

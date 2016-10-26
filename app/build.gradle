@@ -1,10 +1,25 @@
 apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
+}
+apply plugin: 'me.tatarka.retrolambda'
 def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 android {
     compileSdkVersion 24
     buildToolsVersion "24.0.3"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     defaultConfig {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
@@ -81,6 +96,19 @@ dependencies {
     compile files('libs/umeng-onlineconfig_v1.0.0.jar')
     compile files('libs/com.umeng.fb.5.4.0.jar')
     compile files('libs/360update-5.0.4.jar')
+
+    //Okhttp3
+    compile 'com.squareup.okhttp3:okhttp:3.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+
+    //Retrofit2
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+
+    //RxLifecycle
+    compile 'com.trello:rxlifecycle-components:0.6.1'
+
 // Because RxAndroid releases are few and far between, it is recommended you also
 // explicitly depend on RxJava's latest version for bug fixes and new features.
 
