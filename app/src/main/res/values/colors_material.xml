@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>    
+    
+    <color name="colorPrimary">#03A9F4</color>
+	<color name="colorPrimaryDark">#0288D1</color>
+	<color name="lightPrimaryColor">#B3E5FC</color>
+	<color name="colorAccent">#009688</color>
+	<color name="colorControlNormal">#FF78909C</color>  
+	<color name="colorControlActivated">#3F51B5</color>
+	<color name="colorSwitchThumbNormal">#FF78909C</color>
+
+    <color name="colorPrimaryQuarter">#3303A9F4</color>
+    <color name="colorPrimaryHalf">#9003A9F4</color>
+    <color name="colorControlNormalHalf">#9078909C</color>
+    <color name="colorControlActivatedHalf">#009688</color>
+    <color name="colorAccentQuarter">#3300E5FF</color>
+    <color name="colorAccentHalf">#9000E5FF</color>
+
+    <color name="colorAccentPressed">#00796B</color>
+
+    
+</resources>

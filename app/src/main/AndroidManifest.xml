@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.forfan.bigbang">
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
+    package="com.forfan.bigbang" >
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:allowBackup="true"
-        android:name=".BigBangApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.qihoo.updatesdk.lib.UpdateTipDialogActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -29,7 +26,8 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
-        <activity android:name=".component.activity.SettingActivity">
+
+        <activity android:name=".component.activity.SettingActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,24 +35,29 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".component.service.BigBangMonitorService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:process=":monitor">
+        <activity
+            android:name="com.umeng.fb.ConversationActivity"
+            android:label="@string/app_name" />
+
+        <service android:name=".component.service.BigBangMonitorService"
+            android:process=":monitor"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
-
             <meta-data
                 android:name="android.accessibilityservice"
-                android:resource="@xml/accessibility" />
+                android:resource="@xml/accessibility"
+                />
         </service>
+
         <service
             android:name=".component.service.JobService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:process=":monitor" />
+
         <service
             android:name=".component.service.GetAwayNotificationListenerService"
             android:label="@string/app_name"
@@ -70,13 +73,6 @@
             android:authorities="com.forfun.bigbang"
             android:exported="false"
             android:process=":monitor" />
-
-        <activity android:name=".test.TestActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>
