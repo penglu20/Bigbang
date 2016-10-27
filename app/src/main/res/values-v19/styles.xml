@@ -3,4 +3,9 @@
     <style name="AppTheme" parent="@style/AppBaseTheme">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
+    <!-- 启动页 引导页设置StatusBar为透明色 -->
+    <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 </resources>

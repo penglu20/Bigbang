@@ -28,5 +28,14 @@
     </style>
 
     <style name="AppTheme" parent="@style/AppBaseTheme"/>
+    <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+    <!-- 启动页 引导页设置StatusBar为透明色 -->
+    <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme" />
 
 </resources>
