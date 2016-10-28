@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".BigBangApp"
@@ -39,13 +40,8 @@
         </activity>
 
         <activity android:name=".component.activity.BigBangActivity"
-            android:theme="@style/BigBangTheme"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
-        </activity>
+            android:theme="@style/BigBangTheme" />
+
         <activity
             android:name="com.umeng.fb.ConversationActivity"
             android:label="@string/app_name" />

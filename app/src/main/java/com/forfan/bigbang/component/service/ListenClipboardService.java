@@ -64,6 +64,7 @@ public final class ListenClipboardService extends Service  {
         }
         LogUtil.e(TAG,"showContent:"+content);
         sLastContent = content;
+
     }
 
 }

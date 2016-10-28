@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.util.UpdateUtil;
 import com.qihoo.updatesdk.lib.UpdateTipDialogActivity;
 import com.umeng.fb.ConversationActivity;
+import com.umeng.fb.FeedbackAgent;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -23,17 +25,15 @@ public class HomeActivity extends AppCompatActivity {
         findViewById(R.id.converstation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(HomeActivity.this, ConversationActivity.class);
-                startActivity(intent);
+                com.umeng.fb.util.Res.setPackageName(R.class.getPackage().getName());
+                FeedbackAgent agent = new FeedbackAgent(HomeActivity.this);
+                agent.startFeedbackActivity();
             }
         });
         findViewById(R.id.upgrade).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(HomeActivity.this, UpdateTipDialogActivity.class);
-                startActivity(intent);
+                UpdateUtil.UserCheckUpdate(v);
             }
         });
         findViewById(R.id.setting).setOnClickListener(new View.OnClickListener() {
