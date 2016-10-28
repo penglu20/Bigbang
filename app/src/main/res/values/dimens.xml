@@ -7,5 +7,23 @@
     <dimen name="big_bang_default_line_space">8dp</dimen>
     <dimen name="big_bang_action_bar_height">42dp</dimen>
 
+    <!--tab layout size-->
+    <dimen name="tab_indicator_corner_tiny_radius">1dp</dimen>
+    <dimen name="tab_indicator_corner_small_radius">1.5dp</dimen>
+    <dimen name="tab_indicator_small_height">2dp</dimen>
+    <dimen name="tab_indicator_default_height">3dp</dimen>
+    <dimen name="tab_indicator_small_width">25dp</dimen>
+    <dimen name="tab_indicator_center_width">30dp</dimen>
+    <dimen name="tab_indicator_long_width">40dp</dimen>
+    <dimen name="tab_layout_small_height">40dp</dimen>
+    <dimen name="tab_layout_default_height">48dp</dimen>
+
+    <dimen name="default_tiny_padding">5dp</dimen>
+    <dimen name="default_small_padding">8dp</dimen>
+    <dimen name="default_tiny_margin">3dp</dimen>
+    <dimen name="default_general_margin">10dp</dimen>
+    <dimen name="default_grow_margin">20dp</dimen>
+    <dimen name="default_long_margin">30dp</dimen>
+
 
 </resources>
