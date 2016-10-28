@@ -1,7 +1,3 @@
-/*
- * The MIT License (MIT)
- * Copyright (c) 2016 baoyongzhang <baoyz94@gmail.com>
- */
 package com.forfan.bigbang.view;
 
 import android.animation.ObjectAnimator;
@@ -19,35 +15,35 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.util.ViewUtil;
 
-/**
- * Created by baoyongzhang on 2016/10/20.
- */
-class BigBangActionBar extends ViewGroup implements View.OnClickListener {
+class BigBangHeader extends ViewGroup implements View.OnClickListener {
 
     ImageView mSearch;
     ImageView mShare;
     ImageView mCopy;
+    ImageView mDrag;
     Drawable mBorder;
     private int mActionGap;
     private int mContentPadding;
     private ActionListener mActionListener;
+    private boolean dragMode=false;
 
-    public BigBangActionBar(Context context) {
+    public BigBangHeader(Context context) {
         this(context, null);
     }
 
-    public BigBangActionBar(Context context, AttributeSet attrs) {
+    public BigBangHeader(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public BigBangActionBar(Context context, AttributeSet attrs, int defStyleAttr) {
+    public BigBangHeader(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initSubViews();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public BigBangActionBar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public BigBangHeader(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initSubViews();
     }
@@ -68,14 +64,19 @@ class BigBangActionBar extends ViewGroup implements View.OnClickListener {
         mCopy.setImageResource(R.mipmap.bigbang_action_copy);
         mCopy.setOnClickListener(this);
 
+        mDrag=new ImageView(context);
+        mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
+        mDrag.setOnClickListener(this);
+
         addView(mSearch, createLayoutParams());
         addView(mShare, createLayoutParams());
         addView(mCopy, createLayoutParams());
+        addView(mDrag, createLayoutParams());
 
         setWillNotDraw(false);
 
-        mActionGap = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, getResources().getDisplayMetrics());
-        mContentPadding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getResources().getDisplayMetrics());
+        mActionGap = (int) ViewUtil.dp2px(15);
+        mContentPadding = (int) ViewUtil.dp2px(10);
     }
 
     private LayoutParams createLayoutParams() {
@@ -109,7 +110,10 @@ class BigBangActionBar extends ViewGroup implements View.OnClickListener {
         int height = getMeasuredHeight();
 
         layoutSubView(mSearch, mActionGap, 0);
-        layoutSubView(mShare, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
+//        layoutSubView(mShare, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
+        layoutSubView(mShare, 2 * mActionGap + mShare.getMeasuredWidth() , 0);
+
+        layoutSubView(mDrag, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
         layoutSubView(mCopy, width - mActionGap - mCopy.getMeasuredWidth(), 0);
 
         Rect oldBounds = mBorder.getBounds();
@@ -154,6 +158,14 @@ class BigBangActionBar extends ViewGroup implements View.OnClickListener {
             mActionListener.onShare();
         } else if (v == mCopy) {
             mActionListener.onCopy();
+        }else if (v==mDrag){
+            dragMode=!dragMode;
+            if (dragMode) {
+                mDrag.setImageResource(R.mipmap.ic_done_white_36dp);
+            }else {
+                mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
+            }
+            mActionListener.onDrag();
         }
     }
 
@@ -161,5 +173,6 @@ class BigBangActionBar extends ViewGroup implements View.OnClickListener {
         void onSearch();
         void onShare();
         void onCopy();
+        void onDrag();
     }
 }

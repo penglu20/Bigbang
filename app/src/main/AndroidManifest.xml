@@ -32,7 +32,16 @@
 
         <activity android:name=".component.activity.SettingActivity" />
         <activity android:name=".test.TestActivity">
-        <!--    <intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
+
+        <activity android:name=".component.activity.BigBangActivity"
+            android:theme="@style/BigBangTheme"
+            >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>-->
@@ -53,6 +62,10 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility" />
         </service>
+        <service android:name=".component.service.ListenClipboardService"
+            android:process=":monitor"
+                />
+
         <service
             android:name=".component.service.JobService"
             android:enabled="true"
