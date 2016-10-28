@@ -1,4 +1,4 @@
-package com.forfan.bigbang.component.activity;
+package com.forfan.bigbang.component.base;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.base.PermissionActivity;
 import com.forfan.bigbang.util.StatusBarCompat;
 import com.umeng.analytics.MobclickAgent;
 

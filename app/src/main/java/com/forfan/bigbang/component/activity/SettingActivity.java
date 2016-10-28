@@ -7,6 +7,7 @@ import android.provider.Settings;
 import android.text.TextUtils;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.util.LogUtil;
 

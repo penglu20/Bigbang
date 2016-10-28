@@ -1,4 +1,4 @@
-package com.forfan.bigbang.component.activity;
+package com.forfan.bigbang.component.base;
 
 
 import android.content.Intent;
