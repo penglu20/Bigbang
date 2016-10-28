@@ -523,6 +523,14 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         dragMode=!dragMode;
     }
 
+    @Override
+    public void onTrans() {
+        if (mActionListener != null) {
+            String text = makeSelectedText();
+            mActionListener.onTrans(text);
+        }
+    }
+
     public void setActionListener(ActionListener actionListener) {
         mActionListener = actionListener;
     }
@@ -627,6 +635,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         void onShare(String text);
 
         void onCopy(String text);
+
+        void onTrans(String text);
 
     }
 

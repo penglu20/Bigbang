@@ -5,9 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.forfan.bigbang.clipboard.ClipboardManagerCompat;
+import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.util.LogUtil;
 
 
@@ -62,9 +62,12 @@ public final class ListenClipboardService extends Service  {
         if (sLastContent != null && sLastContent.equals(content) || content == null) {
             return;
         }
-        LogUtil.e(TAG,"showContent:"+content);
+        LogUtil.d(TAG,"showContent:"+content);
         sLastContent = content;
-
+        Intent intent=new Intent(this, BigBangActivity.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(BigBangActivity.TO_SPLIT_STR,sLastContent);
+        startActivity(intent);
     }
 
 }

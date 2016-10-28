@@ -13,6 +13,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.forfan.bigbang.BigBangApp;
+import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
@@ -37,7 +38,6 @@ public class BigBangMonitorService extends AccessibilityService {
     public void onCreate() {
         super.onCreate();
         tipViewController=new TipViewController(getApplicationContext());
-        tipViewController.setActionListener(bigBangActionListener);
         tipViewController.show();
     }
 
@@ -72,58 +72,29 @@ public class BigBangMonitorService extends AccessibilityService {
         AccessibilityNodeInfo info=event.getSource();
         LogUtil.e(TAG,"getText:"+info.getText());
         CharSequence txt=info.getText();
-        if (TextUtils.isEmpty(txt)){
-            List<CharSequence> txts=event.getText();
-            if (txts!=null) {
-                StringBuilder sb=new StringBuilder();
-                for (CharSequence t : txts) {
-                    sb.append(t);
-                }
-                txt=sb.toString();
-            }
-        }
-        if (!TextUtils.isEmpty(txt)) {
-            ToastUtil.show(txt.toString());
-            tipViewController.showBigBang(txt.toString().split("[!%！  ，~,-_=+。\\.\\\\]"));
-        }else {
-            tipViewController.showImage();
-        }
+
+
+        Intent intent=new Intent(this, BigBangActivity.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(BigBangActivity.TO_SPLIT_STR,txt);
+        startActivity(intent);
+//        if (TextUtils.isEmpty(txt)){
+//            List<CharSequence> txts=event.getText();
+//            if (txts!=null) {
+//                StringBuilder sb=new StringBuilder();
+//                for (CharSequence t : txts) {
+//                    sb.append(t);
+//                }
+//                txt=sb.toString();
+//            }
+//        }
+//        if (!TextUtils.isEmpty(txt)) {
+//            ToastUtil.show(txt.toString());
+//            tipViewController.showBigBang(txt.toString().split("[!%！  ，~,-_=+。\\.\\\\]"));
+//        }else {
+//            tipViewController.showImage();
+//        }
     }
-
-    BigBangLayout.ActionListener bigBangActionListener=new BigBangLayout.ActionListener() {
-
-        @Override
-        public void onSearch(String text) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                tipViewController.showImage();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onShare(String text) {
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
-            startActivity(sharingIntent);
-            tipViewController.showImage();
-        }
-
-        @Override
-        public void onCopy(String text) {
-            if (!TextUtils.isEmpty(text)) {
-                ClipboardManager service = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                service.setPrimaryClip(ClipData.newPlainText("BigBang", text));
-                ToastUtil.show("已复制");
-                tipViewController.showImage();
-            }
-        }
-    };
 
     // To check if service is enabled
     public static boolean isAccessibilitySettingsOn(Context mContext) {

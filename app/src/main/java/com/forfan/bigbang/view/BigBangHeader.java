@@ -23,6 +23,7 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
     ImageView mShare;
     ImageView mCopy;
     ImageView mDrag;
+    ImageView mTrans;
     Drawable mBorder;
     private int mActionGap;
     private int mContentPadding;
@@ -68,10 +69,15 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
         mDrag.setOnClickListener(this);
 
+        mTrans=new ImageView(context);
+        mTrans.setImageResource(R.mipmap.ic_compare_arrows_white_36dp);
+        mTrans.setOnClickListener(this);
+
         addView(mSearch, createLayoutParams());
         addView(mShare, createLayoutParams());
         addView(mCopy, createLayoutParams());
         addView(mDrag, createLayoutParams());
+        addView(mTrans, createLayoutParams());
 
         setWillNotDraw(false);
 
@@ -112,6 +118,8 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         layoutSubView(mSearch, mActionGap, 0);
 //        layoutSubView(mShare, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
         layoutSubView(mShare, 2 * mActionGap + mShare.getMeasuredWidth() , 0);
+
+        layoutSubView(mTrans, 3 * mActionGap + mTrans.getMeasuredWidth() , 0);
 
         layoutSubView(mDrag, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
         layoutSubView(mCopy, width - mActionGap - mCopy.getMeasuredWidth(), 0);
@@ -166,6 +174,8 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
                 mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
             }
             mActionListener.onDrag();
+        }else if (v==mTrans){
+            mActionListener.onTrans();
         }
     }
 
@@ -174,5 +184,6 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         void onShare();
         void onCopy();
         void onDrag();
+        void onTrans();
     }
 }

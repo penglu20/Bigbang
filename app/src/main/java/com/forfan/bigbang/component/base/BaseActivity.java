@@ -24,7 +24,6 @@ public class BaseActivity extends PermissionActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(),true, R.color.colorPrimaryDark);
     }
 
     public void switchFragment(Fragment fragment){
