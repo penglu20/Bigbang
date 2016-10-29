@@ -1,9 +1,9 @@
 package com.forfan.bigbang.component.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -23,7 +23,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         initView();
         //setupToolbar();
+        setupCollapsingToolbar();
     }
+
     private void setupToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -32,11 +34,13 @@ public class HomeActivity extends AppCompatActivity {
         //toolbar.setLogo(R.mipmap.ic_launcher);//设置app logo
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
     private void setupCollapsingToolbar() {
         final CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(
                 R.id.collapse_toolbar);
         collapsingToolbar.setTitleEnabled(false);
     }
+
     private void initView() {
         findViewById(R.id.converstation).setOnClickListener(new View.OnClickListener() {
             @Override

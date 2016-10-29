@@ -31,7 +31,7 @@ public class SplashActivity extends AppCompatActivity {
                 .flatMap(new Func1<Long,Observable<String>>(){
                     @Override
                     public Observable<String> call(Long aLong){
-                        boolean isShowIntro = SPHelper.getBoolean(KEY, true);
+                        boolean isShowIntro = SPHelper.getBoolean(KEY, false);
                         if (isShowIntro)
                             return Observable.just(GOTO_HOME);
                         else
@@ -43,7 +43,7 @@ public class SplashActivity extends AppCompatActivity {
                         startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                         finish();
                     }else{
-//                        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                        startActivity(new Intent(SplashActivity.this, IntroActivity.class));
                         finish();
                     }
                 });

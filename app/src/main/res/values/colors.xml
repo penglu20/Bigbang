@@ -14,5 +14,7 @@
     <color name="half_trans">#bc1e1e1e</color>
     <color name="divider">#cee9e9e9</color>
     <color name="quarter_transparent">#40000000</color>
+    <color name="shadow">#aa000000</color>
+    <color name="transparent">#00000000</color>
 
 </resources>

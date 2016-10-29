@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_intro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.forfan.bigbang.component.activity.IntroActivity">
+
+    <TextView
+        android:id="@+id/intro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/dimen_70dp"
+        android:layout_marginRight="@dimen/dimen_70dp"
+        android:layout_marginTop="@dimen/dimen_100dp"
+        android:text="@string/stringValue1" />
+
+    <com.forfan.bigbang.view.BigBangLayout
+        android:id="@+id/bigbang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/default_general_margin"
+        android:layout_marginRight="@dimen/default_general_margin"
+        android:layout_marginTop="@dimen/default_general_margin"
+        android:background="@color/bigbang_bg"
+        android:visibility="gone"
+        app:textSize="16sp" />
+
+    <ViewStub
+        android:id="@+id/trans_view_stub"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout="@layout/items_translate" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/enter_bigbang"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/default_long_margin"
+        android:text="@string/stringValue2" />
+</RelativeLayout>

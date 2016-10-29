@@ -1,64 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <dimen name="big_bang_default_item_space">0dp</dimen>
-    <dimen name="big_bang_default_line_space">8dp</dimen>
-    <dimen name="big_bang_action_bar_height">42dp</dimen>
-
-    <!--tab layout size-->
-    <dimen name="tab_indicator_corner_tiny_radius">1dp</dimen>
-    <dimen name="tab_indicator_corner_small_radius">1.5dp</dimen>
-    <dimen name="tab_indicator_small_height">2dp</dimen>
-    <dimen name="tab_indicator_default_height">3dp</dimen>
-    <dimen name="tab_indicator_small_width">25dp</dimen>
-    <dimen name="tab_indicator_center_width">30dp</dimen>
-    <dimen name="tab_indicator_long_width">40dp</dimen>
-    <dimen name="tab_layout_small_height">40dp</dimen>
-    <dimen name="tab_layout_default_height">48dp</dimen>
-
-    <dimen name="default_tiny_padding">5dp</dimen>
-    <dimen name="default_small_padding">8dp</dimen>
-    <dimen name="default_tiny_margin">3dp</dimen>
-    <dimen name="default_general_margin">10dp</dimen>
-    <dimen name="default_grow_margin">20dp</dimen>
-    <dimen name="default_long_margin">30dp</dimen>
-
-    <dimen name="text_size_super_huge">33sp</dimen>
-    <dimen name="text_size_huge">24sp</dimen>
-    <dimen name="text_size_title">19sp</dimen>
-    <dimen name="text_size_normal">16sp</dimen>
-    <dimen name="text_size_small">14sp</dimen>
-    <dimen name="text_size_tiny">12sp</dimen>
-
-
-    <dimen name="margin_normal">8dp</dimen>
-    <dimen name="margin_double">16dp</dimen>
-    <dimen name="margin_triple">24dp</dimen>
-    <dimen name="margin_four">32dp</dimen>
-
-    <dimen name="height_small">24dp</dimen>
-    <dimen name="height_small_32">32dp</dimen>
-    <dimen name="height_normal">48dp</dimen>
-    <dimen name="height_title">56dp</dimen>
-    <dimen name="height_large">72dp</dimen>
-
-
-    <dimen name="card_list_margin">@dimen/margin_normal</dimen>
-    <dimen name="card_line_height">@dimen/height_normal</dimen>
-    <dimen name="card_detail_line_height">@dimen/height_title</dimen>
-    <dimen name="card_divider_height">@dimen/margin_normal</dimen>
-    <dimen name="card_padding_height">@dimen/margin_normal</dimen>
-    <dimen name="card_padding_width">@dimen/margin_double</dimen>
-    <dimen name="card_padding_width_large">20dp</dimen>
-    <dimen name="card_padding_width_double">@dimen/margin_four</dimen>
-    <dimen name="card_padding_width_half">@dimen/margin_normal</dimen>
-    <dimen name="card_padding_width_tiny">4dp</dimen>
-    <dimen name="card_corner">2dp</dimen>
-
-    <dimen name="btn_corner">4dp</dimen>
-    <dimen name="share_card_button_height">32dp</dimen>
-    <dimen name="share_card_button_width">148dp</dimen>
-    <dimen name="share_btn_stroke_width">1dp</dimen>
+	<dimen name="card_corner">2dp</dimen>
+	<dimen name="card_list_margin">@dimen/margin_normal</dimen>
+	<dimen name="share_card_button_height">32dp</dimen>
+	<dimen name="default_tiny_margin">3dp</dimen>
+	<dimen name="height_normal">48dp</dimen>
+	<dimen name="btn_corner">4dp</dimen>
+	<dimen name="big_bang_default_item_space">0dp</dimen>
+	<dimen name="height_small">24dp</dimen>
+	<dimen name="big_bang_default_line_space">8dp</dimen>
+	<dimen name="text_size_small">14sp</dimen>
+	<dimen name="text_size_tiny">12sp</dimen>
+	<dimen name="card_padding_width_tiny">4dp</dimen>
+	<dimen name="tab_indicator_small_height">2dp</dimen>
+	<dimen name="default_grow_margin">20dp</dimen>
+	<dimen name="card_padding_width">@dimen/margin_double</dimen>
+	<dimen name="card_detail_line_height">@dimen/height_title</dimen>
+	<dimen name="margin_triple">24dp</dimen>
+	<dimen name="share_btn_stroke_width">1dp</dimen>
+	<dimen name="tab_indicator_long_width">40dp</dimen>
+	<dimen name="tab_layout_default_height">48dp</dimen>
+	<dimen name="default_general_margin">10dp</dimen>
+	<dimen name="margin_double">16dp</dimen>
+	<dimen name="height_large">72dp</dimen>
+	<dimen name="activity_horizontal_margin">16dp</dimen>
+	<dimen name="tab_indicator_corner_tiny_radius">1dp</dimen>
+	<dimen name="margin_four">32dp</dimen>
+	<dimen name="card_padding_height">@dimen/margin_normal</dimen>
+	<dimen name="big_bang_action_bar_height">42dp</dimen>
+	<dimen name="tab_indicator_small_width">25dp</dimen>
+	<dimen name="tab_layout_small_height">40dp</dimen>
+	<dimen name="height_title">56dp</dimen>
+	<dimen name="share_card_button_width">148dp</dimen>
+	<dimen name="card_line_height">@dimen/height_normal</dimen>
+	<dimen name="card_padding_width_half">@dimen/margin_normal</dimen>
+	<dimen name="text_size_super_huge">33sp</dimen>
+	<dimen name="activity_vertical_margin">16dp</dimen>
+	<dimen name="tab_indicator_corner_small_radius">1.5dp</dimen>
+	<dimen name="default_long_margin">30dp</dimen>
+	<dimen name="tab_indicator_default_height">3dp</dimen>
+	<dimen name="card_padding_width_double">@dimen/margin_four</dimen>
+	<dimen name="margin_normal">8dp</dimen>
+	<dimen name="text_size_normal">16sp</dimen>
+	<dimen name="tab_indicator_center_width">30dp</dimen>
+	<dimen name="height_small_32">32dp</dimen>
+	<dimen name="card_padding_width_large">20dp</dimen>
+	<dimen name="default_tiny_padding">5dp</dimen>
+	<dimen name="dimen_100dp">100dp</dimen>
+	<dimen name="default_small_padding">8dp</dimen>
+	<dimen name="dimen_70dp">70dp</dimen>
+	<dimen name="text_size_title">19sp</dimen>
+	<dimen name="text_size_huge">24sp</dimen>
+	<dimen name="card_divider_height">@dimen/margin_normal</dimen>
 </resources>

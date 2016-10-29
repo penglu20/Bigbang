@@ -48,24 +48,24 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
+        <Button
+            android:id="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="打开BigBang" />
         <Button
             android:id="@+id/converstation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ConversationActivity" />
+            android:text="有什么好点子，告诉我们吧" />
 
         <Button
             android:id="@+id/upgrade"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="UpdateTipDialogActivity" />
+            android:text="检查更新" />
 
-        <Button
-            android:id="@+id/setting"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="SettingActivity" />
+
 
     </LinearLayout>
 
