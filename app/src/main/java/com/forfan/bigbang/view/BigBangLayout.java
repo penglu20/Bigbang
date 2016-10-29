@@ -130,6 +130,9 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 //                    return true;
 //                }
 //                String txt=event.getClipDescription().getLabel().toString();
+                if (dragItem==null || !((TextView)dragItem.view).getText().equals(event.getClipDescription().getLabel())){
+                    return false;
+                }
                 Item item=findItemByPoint(x,y);
                 Log.e("findItemIndexByPoint","item="+item+","+(item!=null?item.index:-1));
                 if (item==null){

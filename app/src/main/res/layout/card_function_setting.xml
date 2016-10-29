@@ -8,7 +8,6 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/default_setting"
         style="@style/cardViewTextView"
-        android:visibility="gone"
         android:text="@string/default_setting" />
 
     <RelativeLayout

@@ -91,6 +91,7 @@ public class FunctionSettingCard extends AbsCard {
         monitorClickSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
+                // TODO: 2016/10/29 关闭的时候，应该把MonitorSettingCard隐藏起来
                 monitorClick = isChecked;
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
@@ -108,9 +109,8 @@ public class FunctionSettingCard extends AbsCard {
                     }else {
                         mContext.startService(new Intent(context,BigBangMonitorService.class));
                     }
-                } else {
-                    mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                 }
+                mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
         });
 
@@ -165,7 +165,7 @@ public class FunctionSettingCard extends AbsCard {
                     remainSymbolSwitch.setChecked(!remainSymbolSwitch.isChecked());
                     break;
                 case R.id.default_setting:
-                    // TODO: 2016/10/29  
+                    // TODO: 2016/10/29  恢复默认设置
                     break;
                 default:
                     break;
