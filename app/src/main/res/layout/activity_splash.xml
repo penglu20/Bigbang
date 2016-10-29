@@ -13,10 +13,29 @@
     tools:context="com.forfan.bigbang.component.activity.SplashActivity">
 
     <TextView
+        android:id="@+id/show"
         android:text="一触即达，便捷你的生活！"
         android:textColor="@color/colorPrimary"
         android:textSize="20sp"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:id="@+id/right"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="45dp"
+        android:textColor="@color/colorPrimary"
+        android:text="Copyright ©2016 BigBang.All Rights  Reserved"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/hand_down"
+        android:layout_above="@+id/show"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
