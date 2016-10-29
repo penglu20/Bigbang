@@ -1,6 +1,7 @@
 package com.forfan.bigbang.component.activity.setting;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
+
+import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
 
 
 /**
@@ -60,6 +63,7 @@ public class MonitorSettingCard extends AbsCard {
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 onlyText = isChecked;
                 SPHelper.save(ConstantUtil.TEXT_ONLY, onlyText);
+                mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
         });
 
@@ -68,6 +72,7 @@ public class MonitorSettingCard extends AbsCard {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
                 SPHelper.save(ConstantUtil.QQ_SELECTION,spinnerArray[position]);
+                mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
 
             @Override
@@ -83,6 +88,7 @@ public class MonitorSettingCard extends AbsCard {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
                 SPHelper.save(ConstantUtil.WEIXIN_SELECTION,spinnerArray[position]);
+                mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
 
             @Override
@@ -98,6 +104,7 @@ public class MonitorSettingCard extends AbsCard {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
                 SPHelper.save(ConstantUtil.OTHER_SELECTION,spinnerArray[position]);
+                mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
 
             @Override
