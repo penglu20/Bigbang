@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;
@@ -15,6 +17,7 @@ import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
 
 import java.io.UnsupportedEncodingException;
@@ -35,7 +38,13 @@ public class BigBangActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_big_bang);
+
+        CardView cardView=new CardView(this);
+        View view= LayoutInflater.from(this).inflate(R.layout.activity_big_bang,null,false);
+        cardView.setRadius(ViewUtil.dp2px(5));
+        cardView.addView(view);
+
+        setContentView(cardView);
 
         Intent intent=getIntent();
         String str=intent.getStringExtra(TO_SPLIT_STR);

@@ -33,6 +33,7 @@ import java.util.List;
 
 public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionListener, NestedScrollingChild {
 
+
     private static final int DEFAULT_TEXT_SIZE=14;//sp
     private static final int DEFAULT_TEXT_COLOR_RES=R.color.bigbang_item_text;
     private static final int DEFAULT_TEXT_BG_RES=R.drawable.item_background;
@@ -577,7 +578,11 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             if (items != null && items.size() > 0) {
                 for (Item item : items) {
                     if (item.isSelected()) {
-                        builder.append(item.getText());
+                        String txt=item.getText().toString();
+                        builder.append(txt);
+                        if (txt.matches("[a-zA-Z]*")){
+                            builder.append(" ");
+                        }
                     }
                 }
             }

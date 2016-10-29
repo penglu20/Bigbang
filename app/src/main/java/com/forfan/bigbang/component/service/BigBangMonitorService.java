@@ -6,6 +6,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.TransactionTooLargeException;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,29 +35,35 @@ public class BigBangMonitorService extends AccessibilityService {
     private static final String TAG="BigBangMonitorService";
     private TipViewController tipViewController;
 
+    private CharSequence mWindowClassName;
+
+    private boolean showBigBang = true;
     @Override
     public void onCreate() {
         super.onCreate();
         tipViewController=new TipViewController(getApplicationContext());
         tipViewController.show();
+        tipViewController.setActionListener(isShow ->{
+                showBigBang=isShow;
+        });
     }
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        LogUtil.e(TAG,"onAccessibilityEvent:"+event);
         int type=event.getEventType();
-        if (type!=TYPE_NOTIFICATION_STATE_CHANGED){
-            LogUtil.e(TAG,"AccessibilityEvent:"+event);
-        }
+        CharSequence className = event.getClassName();
         switch (type){
-            case TYPE_VIEW_CLICKED:
-                LogUtil.e(TAG,"TYPE_VIEW_CLICKED:"+event);
+            case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
+                mWindowClassName = className;
                 break;
-            case TYPE_VIEW_LONG_CLICKED:
-                LogUtil.e(TAG,"TYPE_VIEW_LONG_CLICKED:"+event);
+            case TYPE_VIEW_CLICKED:
+                if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
+
+                }
                 getText(event);
                 break;
-            case TYPE_VIEW_CONTEXT_CLICKED:
-                LogUtil.e(TAG,"TYPE_VIEW_CONTEXT_CLICKED:"+event);
+            case TYPE_VIEW_LONG_CLICKED:
                 getText(event);
                 break;
         }
@@ -69,31 +76,27 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private void getText(AccessibilityEvent event){
         LogUtil.e(TAG,"getText:"+event);
+        if (!showBigBang){
+            return;
+        }
         AccessibilityNodeInfo info=event.getSource();
-        LogUtil.e(TAG,"getText:"+info.getText());
         CharSequence txt=info.getText();
-
-
-        Intent intent=new Intent(this, BigBangActivity.class);
-        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BigBangActivity.TO_SPLIT_STR,txt);
-        startActivity(intent);
-//        if (TextUtils.isEmpty(txt)){
-//            List<CharSequence> txts=event.getText();
-//            if (txts!=null) {
-//                StringBuilder sb=new StringBuilder();
-//                for (CharSequence t : txts) {
-//                    sb.append(t);
-//                }
-//                txt=sb.toString();
-//            }
-//        }
-//        if (!TextUtils.isEmpty(txt)) {
-//            ToastUtil.show(txt.toString());
-//            tipViewController.showBigBang(txt.toString().split("[!%！  ，~,-_=+。\\.\\\\]"));
-//        }else {
-//            tipViewController.showImage();
-//        }
+        if (TextUtils.isEmpty(txt)){
+            List<CharSequence> txts=event.getText();
+            if (txts!=null) {
+                StringBuilder sb=new StringBuilder();
+                for (CharSequence t : txts) {
+                    sb.append(t);
+                }
+                txt=sb.toString();
+            }
+        }
+        if (!TextUtils.isEmpty(txt)) {
+            Intent intent=new Intent(this, BigBangActivity.class);
+            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(BigBangActivity.TO_SPLIT_STR,txt.toString());
+            startActivity(intent);
+        }
     }
 
     // To check if service is enabled

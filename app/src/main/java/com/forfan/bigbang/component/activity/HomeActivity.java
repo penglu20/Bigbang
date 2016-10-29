@@ -2,16 +2,14 @@ package com.forfan.bigbang.component.activity;
 
 import android.content.Intent;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.INotificationSideChannel;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.util.UpdateUtil;
-import com.qihoo.updatesdk.lib.UpdateTipDialogActivity;
-import com.umeng.fb.ConversationActivity;
 import com.umeng.fb.FeedbackAgent;
 
 

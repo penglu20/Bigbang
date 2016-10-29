@@ -31,7 +31,8 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
-        <activity android:name=".component.activity.SettingActivity" />
+        <activity android:name=".component.activity.setting.SettingActivity"
+            android:theme="@style/AppTheme"/>
         <activity android:name=".test.TestActivity">
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->

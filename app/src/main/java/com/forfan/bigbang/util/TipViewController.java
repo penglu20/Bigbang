@@ -17,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -51,8 +52,9 @@ public class TipViewController implements  View.OnTouchListener {
     private float density=0;
     private boolean showBigBang=false;
     private boolean isMoving=false;
+    private int mScaledTouchSlop;
 
-    private BigBangLayout.ActionListener mActionListener;
+    private ActionListener mActionListener;
 
     public TipViewController(Context application) {
         mContext = application;
@@ -84,6 +86,8 @@ public class TipViewController implements  View.OnTouchListener {
                 }
             }
         };
+
+        mScaledTouchSlop = (int) ViewUtil.dp2px(20);
     }
 
     public void show() {
@@ -107,7 +111,6 @@ public class TipViewController implements  View.OnTouchListener {
         bigBangLayout= (BigBangLayout) mWholeView.findViewById(R.id.bang_ll);
         bangWrap= (FrameLayout) mWholeView.findViewById(R.id.bang_wrap);
 
-        bigBangLayout.setActionListener(mActionListener);
 
         DisplayMetrics displayMetrics=new DisplayMetrics();
         mWindowManager.getDefaultDisplay().getMetrics(displayMetrics);
@@ -120,6 +123,9 @@ public class TipViewController implements  View.OnTouchListener {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 showBigBang=isChecked;
+                if (mActionListener!=null){
+                    mActionListener.isShow(showBigBang);
+                }
             }
         });
         floagImage.setChecked(true);
@@ -218,18 +224,18 @@ public class TipViewController implements  View.OnTouchListener {
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                mTouchStartX = event.getX();
-                mTouchStartY = event.getY();
+                mTouchStartX = x;
+                mTouchStartY = y;
                 isMoving=false;
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (Math.abs(event.getX()-mTouchStartX)>30||Math.abs(event.getY()-mTouchStartY)>30){
+                if (Math.abs(x-mTouchStartX)>mScaledTouchSlop||Math.abs(y-mTouchStartY)>mScaledTouchSlop){
                     isMoving=true;
                 }
                 updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());
                 break;
             case MotionEvent.ACTION_UP:
-                if (isMoving||Math.abs(event.getX()-mTouchStartX)>30||Math.abs(event.getY()-mTouchStartY)>30){
+                if (isMoving||Math.abs(x-mTouchStartX)>mScaledTouchSlop||Math.abs(y-mTouchStartY)>mScaledTouchSlop){
                 }else {
                     floagImage.setChecked(!floagImage.isChecked());
                 }
@@ -287,8 +293,12 @@ public class TipViewController implements  View.OnTouchListener {
         });
     }
 
-    public void setActionListener(BigBangLayout.ActionListener actionListener) {
+    public void setActionListener(ActionListener actionListener) {
         mActionListener = actionListener;
+    }
+
+    public interface ActionListener{
+        void isShow(boolean isShow);
     }
 
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="click_or_long_click">
+        <item>单击</item>
+        <item>长按</item>
+        <item>不使用</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_view"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/qq_monitor"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/qq_spinner"
+            style="@style/spinnerStyle"
+            app:theme="@style/MonthDropTheme"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/weixin_monitor"/>
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/weixin_spinner"
+            style="@style/spinnerStyle"
+            app:theme="@style/MonthDropTheme"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/other_monitor" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/other_spinner"
+            style="@style/spinnerStyle"
+            app:theme="@style/MonthDropTheme"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/text_only_rl"
+        android:duplicateParentState="false"
+        style="@style/cardViewRelativeLayoutSelector">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/text_only_tv"
+
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/only_text" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/text_only_switch"
+            style="@style/switchStyle"/>
+    </RelativeLayout>
+</LinearLayout>

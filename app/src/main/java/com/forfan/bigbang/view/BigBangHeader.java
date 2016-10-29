@@ -117,9 +117,9 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
 
         layoutSubView(mSearch, mActionGap, 0);
 //        layoutSubView(mShare, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
-        layoutSubView(mShare, 2 * mActionGap + mShare.getMeasuredWidth() , 0);
+        layoutSubView(mShare, 2 * mActionGap + mSearch.getMeasuredWidth() , 0);
 
-        layoutSubView(mTrans, 3 * mActionGap + mTrans.getMeasuredWidth() , 0);
+        layoutSubView(mTrans, 3 * mActionGap + mTrans.getMeasuredWidth()+ mShare.getMeasuredWidth() , 0);
 
         layoutSubView(mDrag, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
         layoutSubView(mCopy, width - mActionGap - mCopy.getMeasuredWidth(), 0);

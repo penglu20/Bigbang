@@ -12,6 +12,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:layout_centerInParent="true"
         android:layout_height="wrap_content" />
+
     <com.forfan.bigbang.view.BigBangLayout
         android:id="@+id/bigbang"
         android:padding="10dp"
