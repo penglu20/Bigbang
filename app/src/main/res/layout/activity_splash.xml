@@ -26,7 +26,7 @@
     <TextView
         android:id="@+id/right"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="45dp"
+        android:layout_marginBottom="25dp"
         android:textColor="@color/colorPrimary"
         android:text="Copyright ©2016 BigBang.All Rights  Reserved"
         android:layout_centerHorizontal="true"

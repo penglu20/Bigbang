@@ -140,12 +140,14 @@ public class IntroActivity extends BaseActivity {
                 .setShape(GuideView.MyShape.RECTANGULAR)   // 设置圆形显示区域，
                 .setRadius(5)
                 .setOffset(0,550)
-                .setBgColor(getResources().getColor(R.color.black))
+                .setBgColor(getResources().getColor(R.color.shadow))
                 .setOnclickListener(new GuideView.OnClickCallback() {
                     @Override
                     public void onClickedGuideView() {
                         guideView.hide();
                         mEnterBtn.setVisibility(View.VISIBLE);
+                        findViewById(R.id.bigbang_intro).setVisibility(View.VISIBLE);
+                        findViewById(R.id.enter_bigbang_intro).setVisibility(View.VISIBLE);
                     }
                 })
                 .build();
