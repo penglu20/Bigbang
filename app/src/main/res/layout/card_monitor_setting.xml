@@ -64,7 +64,6 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/text_only_tv"
-
             style="@style/cardViewTextViewInLayoutLeft"
             android:text="@string/only_text" />
 

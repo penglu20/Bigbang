@@ -1,38 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="cancel">取消</string>
-	<string name="other_monitor">在其他应用中监控</string>
-	<string name="perm_tip">
-        缺少运行所需权限。\n请点击"设置"-"权限"-打开权限。\n再点击两次后退按钮返回本页。</string>
-	<string name="monitor_click">监控点击/长按</string>
-	<string name="go_set">打开设置</string>
-	<string name="about">关于</string>
-	<string name="setting">设置</string>
-	<string name="go_set_msg">下面的设置入口有助于提高程序的存活性，但并不是手机管家的清理白名单，可能无法彻底解决问题！</string>
-	<string name="share_request_cancel">无感...</string>
-	<string name="feed_back">反馈</string>
-	<string name="share_request_msg">您喜欢本应用吗？</string>
-	<string name="share_request_cancel_like">算了吧...</string>
-	<string name="share_request_confirm_dislike">当然！</string>
-	<string name="only_text">只监控文本</string>
-	<string name="qq_monitor">在QQ中监控</string>
-	<string name="monitor_clipboard">监控剪贴板</string>
-	<string name="introduction">欢迎页</string>
-	<string name="weixin_monitor">在微信中监控</string>
-	<string name="share_request_confirm">喜欢！</string>
-	<string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
-	<string name="share_request_msg_dislike">愿意给我们一些建议吗？</string>
-	<string name="share_request_msg_like">愿意分享给您的朋友吗？</string>
+    <string name="app_name">BigBang</string>
+
 	<string name="stringValue1">BigBang 是您的快捷助手，您只需在设置中开启BigBang的辅助功能，便可以在任意app中对文字进行进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
-	<string name="app_name">BigBang</string>
-	<string name="recover_tips">重新显示使用提示</string>
-	<string name="stringValue2">开启BigBang之旅</string>
-	<string name="remain_symbol">保留标点符号</string>
-	<string name="share_request_cancel_dislike">算了吧...</string>
-	<string name="snackbar_net_error">连接网络失败，请稍后再试</string>
-	<string name="share_request_confirm_like">当然！</string>
-	<string name="check_update">检测</string>
-	<string name="show_float_view">显示悬浮窗</string>
-	<string name="default_setting">恢复默认设置</string>
-	<string name="problems">程序不工作？</string>
+
+    <string name="stringValue2">开启BigBang之旅</string>
+
+
+
+    <string name="setting">设置</string>
+    <string name="perm_tip">
+        缺少运行所需权限。\n请点击"设置"-"权限"-打开权限。\n再点击两次后退按钮返回本页。
+    </string>
+    <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
+    <string name="cancel">取消</string>
+
+
+
+    <string name="request_accessibility_msg">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
+    <string name="request_accessibility_confirm">前往设置</string>
+
+
+
+    //请求分享对话框
+    <string name="share_request_msg">您喜欢本应用吗？</string>
+    <string name="share_request_confirm">喜欢！</string>
+    <string name="share_request_cancel">无感...</string>
+
+    <string name="share_request_msg_like">愿意分享给您的朋友吗？</string>
+    <string name="share_request_confirm_like">当然！</string>
+    <string name="share_request_cancel_like">算了吧...</string>
+
+
+    <string name="share_request_msg_dislike">愿意给我们一些建议吗？</string>
+    <string name="share_request_confirm_dislike">当然！</string>
+    <string name="share_request_cancel_dislike">算了吧...</string>
+
+    //FunctionSettingCard
+    <string name="default_setting">恢复默认设置</string>
+    <string name="monitor_clipboard">监控剪贴板</string>
+    <string name="monitor_click">监控点击/长按</string>
+    <string name="show_float_view">显示悬浮窗</string>
+    <string name="remain_symbol">保留标点符号</string>
+
+    //MonitorSettingCard
+
+    <string name="qq_monitor">在QQ中监控</string>
+    <string name="weixin_monitor">在微信中监控</string>
+    <string name="other_monitor">在其他应用中监控</string>
+    <string name="only_text">只监控文本</string>
+
+    //FeedBackAndUpdateCard
+    <string name="feed_back">反馈</string>
+    <string name="go_set">打开设置</string>
+    <string name="go_set_msg">下面的设置入口有助于提高程序的存活性，但并不是手机管家的清理白名单，可能无法彻底解决问题！</string>
+    <string name="check_update">检测更新</string>
+    <string name="problems">程序不工作？</string>
+    <string name="introduction">欢迎页</string>
+    <string name="recover_tips">重新显示使用提示</string>
+    <string name="about">关于</string>
+
+
+    //网络连接
+    <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
 </resources>

@@ -25,10 +25,14 @@
         <item name="android:textColorPrimary">@color/white</item>
 
         <item name="android:listDivider">@drawable/card_list_divider</item>
-
-
+        <item name="textAppearanceLargePopupMenu">@style/PopUpMenuStyle</item>
+        <item name="textAppearanceSmallPopupMenu">@style/PopUpMenuStyle</item>
+        <item name="android:spinnerItemStyle">@style/MonthDropTheme</item>
     </style>
 
+    <style name="PopUpMenuStyle" parent="@style/Base.TextAppearance.AppCompat.Menu">
+        <item name="android:textColor">@color/black</item>
+    </style>
     <style name="AppTheme" parent="@style/AppBaseTheme"/>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -45,12 +49,6 @@
     <style name="BigBangTheme" parent="Theme.AppCompat.Dialog">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
-    </style>
-
-    <style name="MonthDropTheme" parent="Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:textColor">@color/black</item>
-        <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="android:textSize">20sp</item>
     </style>
 
 
@@ -88,7 +86,6 @@
 
     <style name="cardViewRelativeLayoutSelector" parent="selectableItemBackgrond">
         <item name="android:paddingLeft">@dimen/card_padding_width</item>
-        <item name="android:paddingRight">@dimen/card_padding_width</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/card_line_height</item>
     </style>
@@ -100,15 +97,24 @@
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:clickable">false</item>
         <item name="android:focusable">false</item>
+        <item name="android:layout_marginRight">@dimen/card_padding_width</item>
         <item name="android:focusableInTouchMode">false</item>
     </style>
 
-    <style name="spinnerStyle" parent="Widget.AppCompat.Spinner">
-        <item name="android:background">@null</item>
+    <style name="spinnerStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/height_normal</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:entries">@array/click_or_long_click</item>
         <item name="android:spinnerMode">dropdown</item>
+        <item name="android:dropDownWidth">@dimen/spinner_drop_down_width</item>
     </style>
+
+
+    <style name="MonthDropTheme" parent="Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:textColor">@color/black</item>
+        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
+
 </resources>

@@ -11,14 +11,24 @@ import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.baseCard.CardListAdapter;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.component.activity.HomeActivity;
+import com.forfan.bigbang.component.activity.SplashActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
+import com.forfan.bigbang.util.ConstantUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
+
+import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_RELOAD_SETTING;
 
 
 public class SettingActivity extends BaseActivity {
@@ -38,7 +48,7 @@ public class SettingActivity extends BaseActivity {
         cardList.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));
 
-        cardViews.add(new ShareCard(this));
+
         cardViews.add(new FunctionSettingCard(this));
         cardViews.add(new MonitorSettingCard(this));
         cardViews.add(new FeedBackAndUpdateCard(this));
@@ -49,18 +59,31 @@ public class SettingActivity extends BaseActivity {
         cardList.setItemAnimator(new FadeInAnimator());
         cardList.setAdapter(newAdapter);
 
+        Observable.timer(3, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<Long,Observable<String>>(){
+                    @Override
+                    public Observable<String> call(Long aLong){
+                        return Observable.just("");
+                    }
+                })
+                .subscribe(s -> {
+                    if (s.equals("")){
+                        boolean hasShared=SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
+                        if (!hasShared){
+                            newAdapter.addView(new ShareCard(this),0);
+                        }
+                    }
+                });
 
 
-        if (!BigBangMonitorService.isAccessibilitySettingsOn(this)) {
-            Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-            startActivity(intent);
-        }
+
     }
 
-    public void start(View view){
-        Intent intent = new Intent(this,BigBangActivity.class);
-        startActivity(intent);
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sendBroadcast(new Intent(BROADCAST_RELOAD_SETTING));
     }
-
-
 }

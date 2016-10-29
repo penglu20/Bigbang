@@ -1,12 +1,10 @@
 package com.forfan.bigbang.component.service;
 
 import android.accessibilityservice.AccessibilityService;
-import android.content.ClipData;
-import android.content.ClipboardManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.TransactionTooLargeException;
+import android.content.IntentFilter;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,54 +13,85 @@ import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.component.activity.setting.SettingActivity;
+import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
-import com.forfan.bigbang.util.ToastUtil;
-import com.forfan.bigbang.view.BigBangLayout;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
-import static android.view.accessibility.AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CONTEXT_CLICKED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
+import static com.forfan.bigbang.component.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
 
 
 public class BigBangMonitorService extends AccessibilityService {
 
     private static final String TAG="BigBangMonitorService";
-    private TipViewController tipViewController;
+
+    private static final int TYPE_VIEW_CLICKED=AccessibilityEvent.TYPE_VIEW_CLICKED;
+    private static final int TYPE_VIEW_LONG_CLICKED=AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
+    private static final int TYPE_VIEW_NONE=3;
 
     private CharSequence mWindowClassName;
 
+    private TipViewController tipViewController;
     private boolean showBigBang = true;
+    private boolean monitorClick =true;
+    private boolean showFloatView =true;
+    private boolean onlyText =true;
+
+    private int qqSelection = TYPE_VIEW_LONG_CLICKED;
+    private int weixinSelection = TYPE_VIEW_LONG_CLICKED;
+    private int otherSelection = TYPE_VIEW_LONG_CLICKED;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
-        tipViewController=new TipViewController(getApplicationContext());
-        tipViewController.show();
-        tipViewController.setActionListener(isShow ->{
-                showBigBang=isShow;
-        });
+        tipViewController=TipViewController.getInstance();
+        tipViewController.addActionListener(actionListener);
+
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
+        registerReceiver(bigBangBroadcastReceiver,intentFilter);
+
+        readSettingFromSp();
     }
+
+    @Override
+    public void onDestroy() {
+        tipViewController.removeActionListener(actionListener);
+        tipViewController.remove();
+        unregisterReceiver(bigBangBroadcastReceiver);
+        super.onDestroy();
+    }
+
+    private TipViewController.ActionListener actionListener=new TipViewController.ActionListener() {
+        @Override
+        public void isShow(boolean isShow) {
+            showBigBang=isShow;
+        }
+
+        @Override
+        public boolean longPressed() {
+            Intent intent=new Intent(BigBangMonitorService.this, SettingActivity.class);
+            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            return true;
+        }
+    };
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         LogUtil.e(TAG,"onAccessibilityEvent:"+event);
         int type=event.getEventType();
-        CharSequence className = event.getClassName();
         switch (type){
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
-                mWindowClassName = className;
+                mWindowClassName = event.getClassName();
                 break;
             case TYPE_VIEW_CLICKED:
-                if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
-
-                }
-                getText(event);
-                break;
             case TYPE_VIEW_LONG_CLICKED:
                 getText(event);
                 break;
@@ -74,14 +103,34 @@ public class BigBangMonitorService extends AccessibilityService {
         Log.e(TAG,"onInterrupt");
     }
 
-    private void getText(AccessibilityEvent event){
+    private synchronized void getText(AccessibilityEvent event){
         LogUtil.e(TAG,"getText:"+event);
-        if (!showBigBang){
+        if (!showBigBang || !monitorClick){
             return;
+        }
+        int type=event.getEventType();
+        CharSequence className = event.getClassName();
+        if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
+            if (type!=weixinSelection){
+                return;
+            }
+        }else if ("com.tencent.mobileqq.activity.SplashActivity".equals(mWindowClassName)){
+            if (type!=qqSelection){
+                return;
+            }
+        }else {
+            if (type!=otherSelection){
+                return;
+            }
+        }
+        if (onlyText){
+            if (className==null || !className.equals("android.widget.TextView")){
+                return;
+            }
         }
         AccessibilityNodeInfo info=event.getSource();
         CharSequence txt=info.getText();
-        if (TextUtils.isEmpty(txt)){
+        if (TextUtils.isEmpty(txt) && !onlyText){
             List<CharSequence> txts=event.getText();
             if (txts!=null) {
                 StringBuilder sb=new StringBuilder();
@@ -137,4 +186,42 @@ public class BigBangMonitorService extends AccessibilityService {
 
         return false;
     }
+
+    private synchronized void readSettingFromSp(){
+        monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
+        showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
+        onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY,true) ;
+
+        String[] spinnerArray= getResources().getStringArray(SPINNER_ARRAY);
+        String qq = SPHelper.getString(ConstantUtil.QQ_SELECTION,spinnerArray[2]);
+        String weixin = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[2]);
+        String other = SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[2]);
+        if (showFloatView){
+            tipViewController.show();
+        }else {
+            tipViewController.remove();
+        }
+
+        qqSelection=spinnerArrayIndex(spinnerArray, qq)+1;
+        weixinSelection=spinnerArrayIndex(spinnerArray, weixin)+1;
+        otherSelection=spinnerArrayIndex(spinnerArray, other)+1;
+    }
+
+
+    private int spinnerArrayIndex(String[] array,String txt){
+        int length=array.length;
+        for (int i=0;i<length;i++){
+            if (array[i].equals(txt)){
+                return i;
+            }
+        }
+        return 2;
+    }
+
+    private BroadcastReceiver bigBangBroadcastReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            readSettingFromSp();
+        }
+    };
 }

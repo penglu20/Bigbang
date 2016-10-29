@@ -21,6 +21,14 @@ public class ConstantUtil {
     public static final String NULL_STRING= "null";
 
 
+    public static final String BROADCAST_RELOAD_SETTING="broadcast_reload_setting";
+    public static final String BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED ="broadcast_bigbang_monitor_service_modified";
+
+    public static final String BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED="broadcast_clipboard_listen_service_modified";
+
+
+
+
     //shareCard
     public static final String HAD_SHARED="had_shared";
 
@@ -35,6 +43,9 @@ public class ConstantUtil {
 
     //MonitorSettingCard
     public static final String TEXT_ONLY="text_only";
+    public static final String QQ_SELECTION="qq_selection";
+    public static final String WEIXIN_SELECTION="weixin_selection";
+    public static final String OTHER_SELECTION="other_selection";
 
 
 }

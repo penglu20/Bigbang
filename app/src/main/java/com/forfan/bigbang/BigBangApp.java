@@ -3,6 +3,7 @@ package com.forfan.bigbang;
 import android.app.Application;
 import android.content.Intent;
 
+import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 
 /**
@@ -21,5 +22,6 @@ public class BigBangApp extends Application {
         super.onCreate();
         instance=this;
         startService(new Intent(this, ListenClipboardService.class));
+        startService(new Intent(this, BigBangMonitorService.class));
     }
 }

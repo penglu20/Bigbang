@@ -104,4 +104,12 @@ public class CardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+    public void addView(AbsCard v, int postion){
+        if (cardViews.size()<postion){
+            postion=cardViews.size();
+        }
+        cardViews.add(postion,v);
+        notifyItemInserted(postion);
+    }
+
 }

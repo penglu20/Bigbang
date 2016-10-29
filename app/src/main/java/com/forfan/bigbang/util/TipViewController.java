@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -25,11 +26,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.view.BigBangLayout;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TipViewController implements  View.OnTouchListener {
@@ -37,6 +41,14 @@ public class TipViewController implements  View.OnTouchListener {
 
     private static final int MOVETOEDGE=10010;
 
+
+    private static class InnerClass{
+        private static TipViewController instance=new TipViewController(BigBangApp.getInstance());
+    }
+
+    public static TipViewController getInstance(){
+        return InnerClass.instance;
+    }
 
     private WindowManager mWindowManager;
     private Context mContext;
@@ -52,11 +64,14 @@ public class TipViewController implements  View.OnTouchListener {
     private float density=0;
     private boolean showBigBang=false;
     private boolean isMoving=false;
+    private boolean isLongPressed=false;
     private int mScaledTouchSlop;
 
-    private ActionListener mActionListener;
+    private boolean isRemoved=false;
 
-    public TipViewController(Context application) {
+    private List<ActionListener> mActionListener;
+
+    private TipViewController(Context application) {
         mContext = application;
         mWindowManager = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
         mainHandler=new Handler(Looper.getMainLooper()){
@@ -86,13 +101,16 @@ public class TipViewController implements  View.OnTouchListener {
                 }
             }
         };
-
+        mActionListener=new ArrayList<>();
         mScaledTouchSlop = (int) ViewUtil.dp2px(20);
     }
 
-    public void show() {
+    public synchronized void show() {
 
         if (mWholeView!=null){
+            if (isRemoved){
+                addViewInternal();
+            }
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -124,7 +142,9 @@ public class TipViewController implements  View.OnTouchListener {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 showBigBang=isChecked;
                 if (mActionListener!=null){
-                    mActionListener.isShow(showBigBang);
+                    for (ActionListener listener:mActionListener) {
+                        listener.isShow(showBigBang);
+                    }
                 }
             }
         });
@@ -146,15 +166,20 @@ public class TipViewController implements  View.OnTouchListener {
         layoutParams.x=0;
         layoutParams.y=0;
 
+        addViewInternal();
+    }
+
+    private void addViewInternal() {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
                 mWindowManager.addView(mWholeView, layoutParams);
             }
         });
+        isRemoved=false;
     }
 
-    public void hide(){
+    public synchronized void hide(){
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -165,13 +190,14 @@ public class TipViewController implements  View.OnTouchListener {
         });
     }
 
-    public void remove(){
-        if (mWindowManager!=null&&mWholeView!=null) {
+    public synchronized void remove(){
+        if (mWindowManager!=null && mWholeView!=null && !isRemoved) {
             mWindowManager.removeView(mWholeView);
+            isRemoved=true;
         }
     }
 
-    public void showImage(){
+    public synchronized void showImage(){
         if (mWholeView==null){
             show();
         }
@@ -185,7 +211,7 @@ public class TipViewController implements  View.OnTouchListener {
         });
     }
 
-    public void showBigBang(final String ... txts){
+    public synchronized void showBigBang(final String ... txts){
         if (mWholeView==null){
             show();
         }
@@ -227,17 +253,25 @@ public class TipViewController implements  View.OnTouchListener {
                 mTouchStartX = x;
                 mTouchStartY = y;
                 isMoving=false;
+                isLongPressed=false;
+                mainHandler.postDelayed(longPressRunnable, ViewConfiguration.getLongPressTimeout());
                 break;
             case MotionEvent.ACTION_MOVE:
                 if (Math.abs(x-mTouchStartX)>mScaledTouchSlop||Math.abs(y-mTouchStartY)>mScaledTouchSlop){
                     isMoving=true;
+                    mainHandler.removeCallbacks(longPressRunnable);
+                }else {
                 }
                 updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());
                 break;
             case MotionEvent.ACTION_UP:
                 if (isMoving||Math.abs(x-mTouchStartX)>mScaledTouchSlop||Math.abs(y-mTouchStartY)>mScaledTouchSlop){
+                    mainHandler.removeCallbacks(longPressRunnable);
                 }else {
-                    floagImage.setChecked(!floagImage.isChecked());
+                    if (!isLongPressed) {
+                        mainHandler.removeCallbacks(longPressRunnable);
+                        floagImage.setChecked(!floagImage.isChecked());
+                    }
                 }
                 updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());
                 mTouchStartX = mTouchStartY = 0;
@@ -249,6 +283,7 @@ public class TipViewController implements  View.OnTouchListener {
         }
         return true;
     }
+
 
     private void updateViewPosition(float x,float y) {
         layoutParams.x = (int) (x );
@@ -293,12 +328,31 @@ public class TipViewController implements  View.OnTouchListener {
         });
     }
 
-    public void setActionListener(ActionListener actionListener) {
-        mActionListener = actionListener;
+    public synchronized void addActionListener(ActionListener actionListener) {
+        mActionListener.add(actionListener);
+    }
+
+    public synchronized void removeActionListener(ActionListener actionListener){
+        mActionListener.remove(actionListener);
     }
 
     public interface ActionListener{
         void isShow(boolean isShow);
+        boolean longPressed();
     }
+
+    private Runnable longPressRunnable = new Runnable() {
+        @Override
+        public void run() {
+            isLongPressed=true;
+            if (mActionListener!=null){
+                for (ActionListener listener:mActionListener) {
+                    if (listener.longPressed()){
+                        break;
+                    }
+                }
+            }
+        }
+    };
 
 }

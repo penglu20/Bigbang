@@ -13,8 +13,10 @@ import android.widget.EditText;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.util.ClipboardUtils;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.ViewUtil;
@@ -35,6 +37,8 @@ public class BigBangActivity extends BaseActivity {
     public static final String TO_SPLIT_STR="to_split_str";
     private BigBangLayout bigBangLayout;
     private ContentLoadingProgressBar loading;
+    private boolean remainSymbol=true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +58,17 @@ public class BigBangActivity extends BaseActivity {
             return;
         }
 
+        remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,false);
+
         bigBangLayout= (BigBangLayout) findViewById(R.id.bigbang);
         loading= (ContentLoadingProgressBar) findViewById(R.id.loading);
 
         loading.show();
         bigBangLayout.reset();
 
+        if (!remainSymbol){
+            str = str.replaceAll("[,./:\"\\\\\\\\[\\\\]|`~!@#$%^&*()_+-=<>?;'，。、；：‘’“”【】《》？{}~!@#$%^&*()_+-=]","");
+        }
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
                 .compose(this.bindToLifecycle())

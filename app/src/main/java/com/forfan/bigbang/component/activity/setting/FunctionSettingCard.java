@@ -1,7 +1,10 @@
 package com.forfan.bigbang.component.activity.setting;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.support.design.widget.BottomSheetDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.provider.Settings;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +15,12 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.forfan.bigbang.component.service.BigBangMonitorService;
+import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
+
+import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
+import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
 
 
 /**
@@ -39,8 +47,6 @@ public class FunctionSettingCard extends AbsCard {
     private boolean monitorClick =true;
     private boolean showFloatView =true;
     private boolean remainSymbol =false;
-
-    private BottomSheetDialog mBottomSheetDialog;
 
     public FunctionSettingCard(Context context) {
         super(context);
@@ -75,10 +81,9 @@ public class FunctionSettingCard extends AbsCard {
                 monitorClipBoard = isChecked;
                 SPHelper.save(ConstantUtil.MONITOR_CLIP_BOARD, monitorClipBoard);
                 if (monitorClipBoard) {
-                    // TODO: 2016/10/29
-                } else {
-                    // TODO: 2016/10/29
+                    mContext.startService(new Intent(context,ListenClipboardService.class));
                 }
+                mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
             }
         });
 
@@ -89,9 +94,22 @@ public class FunctionSettingCard extends AbsCard {
                 monitorClick = isChecked;
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
-                    // TODO: 2016/10/29
+                    if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
+                        AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
+                        builder.setMessage(R.string.request_accessibility_msg);
+                        builder.setPositiveButton(R.string.request_accessibility_confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                                mContext.startActivity(intent);
+                            }
+                        });
+                        builder.create().show();
+                    }else {
+                        mContext.startService(new Intent(context,BigBangMonitorService.class));
+                    }
                 } else {
-                    // TODO: 2016/10/29
+                    mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                 }
             }
         });
@@ -101,11 +119,8 @@ public class FunctionSettingCard extends AbsCard {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 showFloatView = isChecked;
                 SPHelper.save(ConstantUtil.SHOW_FLOAT_VIEW, showFloatView);
-                if (showFloatView) {
-                    // TODO: 2016/10/29
-                } else {
-                    // TODO: 2016/10/29
-                }
+                mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
+                mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
         });
 
@@ -114,11 +129,6 @@ public class FunctionSettingCard extends AbsCard {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 remainSymbol = isChecked;
                 SPHelper.save(ConstantUtil.REMAIN_SYMBOL, remainSymbol);
-                if (remainSymbol) {
-                    // TODO: 2016/10/29
-                } else {
-                    // TODO: 2016/10/29
-                }
             }
         });
 
