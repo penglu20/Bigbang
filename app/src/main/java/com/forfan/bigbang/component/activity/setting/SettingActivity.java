@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
+import jp.wasabeef.recyclerview.animators.FlipInLeftYAnimator;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -48,7 +49,7 @@ public class SettingActivity extends BaseActivity {
             boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS,true);
             if(isChecked){
                 if(!newAdapter.containsView(settingCard))
-                   newAdapter.addView(settingCard,2);
+                   newAdapter.addView(settingCard,  cardViews.size()-1);
             }else {
                 if(newAdapter.containsView(settingCard))
                     newAdapter.deleteView(settingCard);
@@ -76,7 +77,7 @@ public class SettingActivity extends BaseActivity {
 
         newAdapter = new CardListAdapter(this, false);
         newAdapter.setCardViews(cardViews);
-        cardList.setItemAnimator(new FadeInAnimator());
+        cardList.setItemAnimator(new FlipInLeftYAnimator());
         cardList.setAdapter(newAdapter);
 
         Observable.timer(3, TimeUnit.SECONDS)

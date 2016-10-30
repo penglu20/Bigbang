@@ -129,7 +129,7 @@
 </style>
     <style name="DialogTheme" parent="AlertDialog.AppCompat.Light">
         <item name="android:textColor">@color/black</item>
-        <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/black</item>
     </style>
 
 </resources>
