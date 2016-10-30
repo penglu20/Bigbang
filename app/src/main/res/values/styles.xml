@@ -123,9 +123,13 @@
 
 
     <style name="MonthDropTheme" parent="Widget.AppCompat.DropDownItem.Spinner">
+    <item name="android:textColor">@color/black</item>
+    <item name="colorControlNormal">@color/colorAccent</item>
+    <item name="android:textSize">@dimen/text_size_normal</item>
+</style>
+    <style name="DialogTheme" parent="AlertDialog.AppCompat.Light">
         <item name="android:textColor">@color/black</item>
         <item name="colorControlNormal">@color/colorAccent</item>
-        <item name="android:textSize">@dimen/text_size_normal</item>
     </style>
 
 </resources>

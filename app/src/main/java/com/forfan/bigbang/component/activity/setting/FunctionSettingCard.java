@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -93,11 +94,12 @@ public class FunctionSettingCard extends AbsCard {
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 // TODO: 2016/10/29 关闭的时候，应该把MonitorSettingCard隐藏起来
                 monitorClick = isChecked;
+                sendTencentSettingsBroadcast(isChecked);
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
                     if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
                         AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
-                        builder.setMessage(R.string.request_accessibility_msg);
+                        builder.setMessage("监控单击/长按需要开启辅助功能，请在设置中开启！");
                         builder.setPositiveButton(R.string.request_accessibility_confirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -144,6 +146,13 @@ public class FunctionSettingCard extends AbsCard {
         defaultSettingTV.setOnClickListener(myOnClickListerner);
 
         refresh();
+    }
+
+    private void sendTencentSettingsBroadcast(boolean isChecked) {
+        Intent intent = new Intent();
+        intent.setAction(ConstantUtil.Setting_content_Changes);
+        intent.putExtra(ConstantUtil.SHOW_TENCENT_SETTINGS,isChecked);
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
     private OnClickListener myOnClickListerner=new OnClickListener(){

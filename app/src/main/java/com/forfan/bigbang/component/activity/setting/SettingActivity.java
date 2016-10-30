@@ -1,8 +1,12 @@
 package com.forfan.bigbang.component.activity.setting;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -38,6 +42,22 @@ public class SettingActivity extends BaseActivity {
 
     protected RecyclerView cardList;
     protected List<AbsCard> cardViews=new ArrayList<>();
+    private BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS,true);
+            if(isChecked){
+                if(!newAdapter.containsView(settingCard))
+                   newAdapter.addView(settingCard,2);
+            }else {
+                if(newAdapter.containsView(settingCard))
+                    newAdapter.deleteView(settingCard);
+            }
+        }
+    };
+    private MonitorSettingCard settingCard;
+    private CardListAdapter newAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,13 +68,13 @@ public class SettingActivity extends BaseActivity {
         cardList.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));
 
-
+        settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
-        cardViews.add(new MonitorSettingCard(this));
+        cardViews.add(settingCard);
         cardViews.add(new FeedBackAndUpdateCard(this));
 
 
-        CardListAdapter newAdapter = new CardListAdapter(this, false);
+        newAdapter = new CardListAdapter(this, false);
         newAdapter.setCardViews(cardViews);
         cardList.setItemAnimator(new FadeInAnimator());
         cardList.setAdapter(newAdapter);
@@ -77,8 +97,14 @@ public class SettingActivity extends BaseActivity {
                     }
                 });
 
+      initLocalBroadcast();
 
+    }
 
+    private void initLocalBroadcast() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ConstantUtil.Setting_content_Changes);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,intentFilter);
     }
 
     @Override
@@ -87,5 +113,13 @@ public class SettingActivity extends BaseActivity {
         sendBroadcast(new Intent(BROADCAST_RELOAD_SETTING));
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.forfan.bigbang.component.activity.setting.MonitorSettingCard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,6 +55,15 @@ public class CardListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     @Override
     public int getItemCount() {
         return cardViews.size();
+    }
+
+    public boolean containsView(AbsCard v) {
+        for (int i = 0; i< cardViews.size(); i++){
+            if (v == cardViews.get(i)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public static class ViewHolder<T extends View> extends RecyclerView.ViewHolder {
