@@ -32,6 +32,7 @@
             android:value="${UMENG_CHANNEL_VALUE}" />
 
         <activity android:name=".component.activity.setting.SettingActivity"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme"/>
         <activity android:name=".test.TestActivity">
 
