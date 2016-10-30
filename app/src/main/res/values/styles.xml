@@ -49,6 +49,17 @@
     <style name="BigBangTheme" parent="Theme.AppCompat.Dialog">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="android:windowAnimationStyle">@style/fade</item>
+    </style>
+    <!-- 淡入淡出动画 -->
+    <style name="activity_switch_fade" > <item name="android:windowAnimationStyle">@style/fade</item> </style>
+    <!-- 第一个表示新的activity创建进入效果， 第2个表示activity还没有finish()下退出效果， 第3个表示上一个activity返回进入效果，
+    第4个表示的是activity finish()之后退出效果 比如有两个activity A和B, A上面有个按钮可以打开
+    B, 点击按钮后，此时A执行第二个动画（android:activityOpenExitAnimation） B执行第一个动画(android:activityOpenEnterAnimation) 如此此时按下返回键,
+    B退出，A显示，则此时A执行动画3（android:activityCloseEnterAnimation） B执行动画4（android:activityCloseExitAnimation） -->
+    <style name="fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/zoomin</item>
+        <item name="android:activityCloseExitAnimation">@anim/zoomout</item>
     </style>
 
 
