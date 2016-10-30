@@ -86,4 +86,6 @@ public class SettingActivity extends BaseActivity {
         super.onPause();
         sendBroadcast(new Intent(BROADCAST_RELOAD_SETTING));
     }
+
+
 }

@@ -44,6 +44,7 @@ public class SplashActivity extends AppCompatActivity {
                         finish();
                     }else{
                         startActivity(new Intent(SplashActivity.this, IntroActivity.class));
+                        SPHelper.save(KEY, true);
                         finish();
                     }
                 });

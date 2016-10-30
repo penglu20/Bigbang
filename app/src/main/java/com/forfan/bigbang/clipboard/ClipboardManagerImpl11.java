@@ -1,6 +1,7 @@
 package com.forfan.bigbang.clipboard;
 
 import android.annotation.TargetApi;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Build;
@@ -42,6 +43,10 @@ public final class ClipboardManagerImpl11 extends ClipboardManagerCompat {
 
     @Override
     public CharSequence getText() {
-        return mClipboardManager.getText();
+        if(mClipboardManager.getPrimaryClip().getItemCount() > 0){
+           ClipData.Item item =mClipboardManager.getPrimaryClip().getItemAt(0);
+            return item.getText();
+        }
+        return"";
     }
 }
