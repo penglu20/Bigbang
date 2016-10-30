@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
@@ -85,7 +86,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
                 break;
             case R.id.introduction:
                 // TODO: 2016/10/29
-
+                showIntro();
                 break;
             case R.id.problems:
                 // TODO: 2016/10/29
@@ -96,6 +97,12 @@ public class FeedBackAndUpdateCard extends AbsCard {
         }
         }
     };
+
+    private void showIntro() {
+        Intent intent = new Intent();
+        intent.setClass(mContext, IntroActivity.class);
+        mContext.startActivity(intent);
+    }
 
     protected void startFeedBack() {
         com.umeng.fb.util.Res.setPackageName(R.class.getPackage().getName());

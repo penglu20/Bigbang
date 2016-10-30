@@ -8,6 +8,7 @@
     android:canRequestEnhancedWebAccessibility="true"
     android:notificationTimeout="10"
     android:packageNames="@null"
+    android:description="@string/accessibility_des"
     android:settingsActivity="com.forfun.bigbang.SettingActivity"
 />
     <!--android:canRequestTouchExplorationMode="true"-->

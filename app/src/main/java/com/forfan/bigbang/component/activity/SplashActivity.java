@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,7 @@ public class SplashActivity extends AppCompatActivity {
                 })
                 .subscribe(s -> {
                     if (s.equals(GOTO_HOME)){
-                        startActivity(new Intent(SplashActivity.this, HomeActivity.class));
+                        startActivity(new Intent(SplashActivity.this, SettingActivity.class));
                         finish();
                     }else{
                         startActivity(new Intent(SplashActivity.this, IntroActivity.class));
