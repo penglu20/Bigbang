@@ -40,7 +40,6 @@
 
         style="@style/cardViewTextView"
         android:layout_below="@id/introduction"
-        android:visibility="gone"
         android:text="@string/about"/>
 
 

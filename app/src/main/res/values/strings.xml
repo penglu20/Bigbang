@@ -7,6 +7,8 @@
     <string name="stringValue2">开启BigBang之旅</string>
 
 
+    <string name="about_content">\t\t\t本产品是根据老罗的BigBang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n版本号：%1$s</string>
+
 
     <string name="setting">设置</string>
     <string name="perm_tip">
@@ -14,6 +16,8 @@
     </string>
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
     <string name="cancel">取消</string>
+    <string name="confirm">确认</string>
+
 
 
 

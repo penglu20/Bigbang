@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -349,6 +350,8 @@ public class TipViewController implements  View.OnTouchListener {
             LogUtil.e(TAG,"longPressRunnable time="+System.currentTimeMillis());
             isLongPressed=true;
             if (mActionListener!=null){
+                Vibrator vibrator= (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);
+                vibrator.vibrate(10);
                 for (ActionListener listener:mActionListener) {
                     if (listener.longPressed()){
                         break;

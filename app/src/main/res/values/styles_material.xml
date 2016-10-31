@@ -1,0 +1,132 @@
+<resources>
+
+    <style name="DialogNoAnimation">
+        <item name="android:windowEnterAnimation">@null</item>
+        <item name="android:windowExitAnimation">@null</item>
+    </style>
+
+    <!--<style name="MenuItemRippleStyle" parent="Material.Drawable.Ripple.Wave">-->
+        <!--<item name="rd_rippleColor">#902DA0FF</item>-->
+        <!--<item name="rd_rippleAnimDuration">300</item>-->
+        <!--<item name="rd_maskType">rectangle</item>-->
+        <!--<item name="rd_cornerRadius">0dp</item>-->
+    <!--</style>-->
+
+    <!-- AppBar Style -->
+    
+    <style name="AppBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="selectableItemBackground">@null</item>
+    </style>
+    
+
+    <style name="SimpleDialog" parent="Material.App.Dialog.Simple">
+        <item name="di_inAnimation">@anim/anim_scale_in</item>
+        <item name="di_outAnimation">@anim/anim_scale_out</item>
+    </style>
+
+    <style name="SimpleDialogLight" parent="Material.App.Dialog.Simple.Light">
+        <item name="di_inAnimation">@anim/anim_scale_in</item>
+        <item name="di_outAnimation">@anim/anim_scale_out</item>
+    </style>
+
+
+
+    <style name="Material"></style>
+
+    <style name="Material.Drawable"></style>
+
+    <style name="Material.Widget"></style>
+
+    <style name="Material.App"></style>
+
+    <style name="Material.TextAppearance"></style>
+
+    <style name="Material.App.Dialog">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="di_dimAmount">0.5</item>
+        <item name="di_backgroundColor">@color/background_floating_material_dark</item>
+        <item name="di_elevation">4dp</item>
+        <item name="di_maxElevation">4dp</item>
+        <item name="di_cornerRadius">2dp</item>
+        <item name="di_layoutDirection">locale</item>
+        <item name="di_titleTextAppearance">@style/TextAppearance.AppCompat.Title</item>
+        <item name="di_titleTextColor">@color/abc_primary_text_material_dark</item>
+        <item name="di_actionTextAppearance">@style/TextAppearance.AppCompat.Button</item>
+        <item name="di_actionTextColor">?attr/colorControlActivated</item>
+        <item name="di_dividerColor">#1E999999</item>
+        <item name="di_dividerHeight">1dp</item>
+        <item name="di_cancelable">true</item>
+        <item name="di_canceledOnTouchOutside">true</item>
+    </style>
+
+    <style name="Material.TextAppearance.SimpleDialog" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/abc_secondary_text_material_dark</item>
+    </style>
+
+    <style name="Material.TextAppearance.SimpleDialog.Light" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/abc_secondary_text_material_light</item>
+    </style>
+
+    <style name="Material.TextAppearance.SimpleDialog.Light.NonPositive" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/abc_secondary_text_material_light</item>
+    </style>
+
+    <style name="Material.Drawable.RadioButton">
+        <!--<item name="rbd_width">32dp</item>-->
+        <!--<item name="rbd_height">32dp</item>-->
+        <!--<item name="rbd_strokeSize">2dp</item>-->
+        <!--<item name="rbd_radius">10dp</item>-->
+        <!--<item name="rbd_innerRadius">5dp</item>-->
+        <!--<item name="rbd_animDuration">@android:integer/config_mediumAnimTime</item>-->
+    </style>
+
+    <style name="Material.Drawable.CheckBox">
+        <!--<item name="cbd_width">32dp</item>-->
+        <!--<item name="cbd_height">32dp</item>-->
+        <!--<item name="cbd_boxSize">20dp</item>-->
+        <!--<item name="cbd_cornerRadius">2dp</item>-->
+        <!--<item name="cbd_strokeSize">2dp</item>-->
+        <!--<item name="cbd_animDuration">@android:integer/config_mediumAnimTime</item>-->
+    </style>
+
+    <style name="Material.App.Dialog.Light" parent="Material.App.Dialog">
+        <item name="di_backgroundColor">@color/background_floating_material_light</item>
+        <item name="di_titleTextColor">@color/abc_primary_text_material_light</item>
+        <item name="di_dividerColor">#1E000000</item>
+    </style>
+
+    <style name="Material.App.Dialog.Simple" parent="Material.App.Dialog">
+        <item name="di_messageTextAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="di_messageTextColor">@color/abc_secondary_text_material_dark</item>
+        <item name="di_radioButtonStyle">@style/Material.Drawable.RadioButton</item>
+        <item name="di_checkBoxStyle">@style/Material.Drawable.CheckBox</item>
+        <item name="di_itemTextAppearance">@style/Material.TextAppearance.SimpleDialog</item>
+        <item name="di_itemHeight">48dp</item>
+    </style>
+
+    <style name="Material.App.Dialog.Simple.Light" parent="Material.App.Dialog.Light">
+        <item name="di_messageTextAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="di_messageTextColor">@color/abc_secondary_text_material_light</item>
+        <item name="di_radioButtonStyle">@style/Material.Drawable.RadioButton</item>
+        <item name="di_checkBoxStyle">@style/Material.Drawable.CheckBox</item>
+        <item name="di_itemTextAppearance">@style/Material.TextAppearance.SimpleDialog.Light</item>
+        <item name="di_neutralActionTextAppearance">@style/Material.TextAppearance.SimpleDialog.Light.NonPositive</item>
+        <item name="di_negativeActionTextAppearance">@style/Material.TextAppearance.SimpleDialog.Light.NonPositive</item>
+        <item name="di_itemHeight">48dp</item>
+    </style>
+
+    <style name="Material.App.BottomSheetDialog">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="bsd_inDuration">@android:integer/config_mediumAnimTime</item>
+        <item name="bsd_inInterpolator">@android:anim/decelerate_interpolator</item>
+        <item name="bsd_outDuration">@android:integer/config_mediumAnimTime</item>
+        <item name="bsd_outInterpolator">@android:anim/accelerate_interpolator</item>
+        <item name="bsd_cancelable">true</item>
+        <item name="bsd_canceledOnTouchOutside">true</item>
+        <item name="bsd_dimAmount">0.5</item>
+    </style>
+
+</resources>

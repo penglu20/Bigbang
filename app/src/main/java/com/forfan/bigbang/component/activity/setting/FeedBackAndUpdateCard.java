@@ -18,6 +18,9 @@ import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.forfan.bigbang.view.Dialog;
+import com.forfan.bigbang.view.DialogFragment;
+import com.forfan.bigbang.view.SimpleDialog;
 import com.umeng.fb.FeedbackAgent;
 
 /**
@@ -112,22 +115,22 @@ public class FeedBackAndUpdateCard extends AbsCard {
 
     private void showAboutDialog(){
         // TODO: 2016/10/29
-//        PackageManager manager = mContext.getPackageManager();
-//        PackageInfo info = null;
-//        String version="1.3.0";
-//        try {
-//            info = manager.getPackageInfo(mContext.getPackageName(), 0);
-//            version = info.versionName;
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//            Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight);
-//        ((SimpleDialog.Builder) builder).
-//                    message(String.format(mContext.getString(R.string.about_content),version))
-//                    .title(mContext.getString(R.string.about))
-//                    .positiveAction(mContext.getString(R.string.confirm));
-//            DialogFragment fragment = DialogFragment.newInstance(builder);
-//            fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
+        PackageManager manager = mContext.getPackageManager();
+        PackageInfo info = null;
+        String version="1.3.0";
+        try {
+            info = manager.getPackageInfo(mContext.getPackageName(), 0);
+            version = info.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+            Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight);
+        ((SimpleDialog.Builder) builder).
+                    message(String.format(mContext.getString(R.string.about_content),version))
+                    .title(mContext.getString(R.string.about))
+                    .positiveAction(mContext.getString(R.string.confirm));
+            DialogFragment fragment = DialogFragment.newInstance(builder);
+            fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
     private void showProblemDialog(){

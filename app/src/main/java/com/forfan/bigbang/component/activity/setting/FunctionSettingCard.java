@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,6 +20,8 @@ import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.view.DialogFragment;
+import com.forfan.bigbang.view.SimpleDialog;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
@@ -98,16 +101,7 @@ public class FunctionSettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
                     if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
-                        AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
-                        builder.setMessage("监控单击/长按需要开启辅助功能，请在设置中开启！");
-                        builder.setPositiveButton(R.string.request_accessibility_confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                                mContext.startActivity(intent);
-                            }
-                        });
-                        builder.create().show();
+                        showOpenAccessibilityDialog();
                     }else {
                         mContext.startService(new Intent(context,BigBangMonitorService.class));
                     }
@@ -146,6 +140,28 @@ public class FunctionSettingCard extends AbsCard {
         defaultSettingTV.setOnClickListener(myOnClickListerner);
 
         refresh();
+    }
+
+    private void showOpenAccessibilityDialog() {
+        SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                // 这里是保持开启
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                mContext.startActivity(intent);
+                super.onPositiveActionClicked(fragment);
+            }
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                super.onCancel(dialog);
+            }
+        };
+        builder.message("监控单击/长按需要开启辅助功能，请在设置中开启！")
+                .positiveAction(mContext.getString(R.string.request_accessibility_confirm))
+                .negativeAction(mContext.getString(R.string.cancel));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
     private void sendTencentSettingsBroadcast(boolean isChecked) {

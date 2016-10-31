@@ -62,6 +62,7 @@
     <dimen name="card_corner">2dp</dimen>
 
     <dimen name="btn_corner">4dp</dimen>
+    <dimen name="btn_stroke_width">2dp</dimen>
     <dimen name="share_card_button_height">32dp</dimen>
     <dimen name="share_card_button_width">148dp</dimen>
     <dimen name="share_btn_stroke_width">1dp</dimen>
