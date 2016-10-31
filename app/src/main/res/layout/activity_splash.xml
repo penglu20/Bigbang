@@ -34,7 +34,7 @@
         android:layout_height="wrap_content" />
     <ImageView
         android:layout_marginBottom="10dp"
-        android:src="@mipmap/hand_down"
+        android:src="@mipmap/hand_down_splash"
         android:layout_above="@+id/show"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"

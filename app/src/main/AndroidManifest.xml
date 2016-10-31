@@ -103,7 +103,9 @@
         <activity
             android:name=".component.activity.HomeActivity"
             android:theme="@style/BaseAppTheme" />
-        <activity android:name=".component.activity.IntroActivity"></activity>
+
+        <activity android:name=".component.activity.IntroActivity"
+            android:theme="@style/ColorTranslucentTheme"/>
     </application>
 
 </manifest>

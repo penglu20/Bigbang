@@ -67,7 +67,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.reset();
 
         if (!remainSymbol){
-            str = str.replaceAll("[,./:\"\\\\\\\\[\\\\]|`~!@#$%^&*()_+-=<>?;'，。、；：‘’“”【】《》？{}~!@#$%^&*()_+-=]","");
+            str = str.replaceAll("[,./:\"\\\\\\\\[\\\\]|`~!@#$%^&*()_+-=<>?;'，。、；：‘’“”【】《》？{}~！@#￥%……&*（）——+-=+]","");
         }
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
@@ -92,6 +92,11 @@ public class BigBangActivity extends BaseActivity {
     }
 
     BigBangLayout.ActionListener bigBangActionListener=new BigBangLayout.ActionListener() {
+
+        @Override
+        public void onSelected(String text) {
+
+        }
 
         @Override
         public void onSearch(String text) {
@@ -151,6 +156,11 @@ public class BigBangActivity extends BaseActivity {
                             LogUtil.d(throwable.toString());
                         });
             }
+        }
+
+        @Override
+        public void onDrag() {
+
         }
     };
 }

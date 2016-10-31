@@ -130,9 +130,14 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 //                    return true;
 //                }
 //                String txt=event.getClipDescription().getLabel().toString();
-                if (dragItem==null || !((TextView)dragItem.view).getText().equals(event.getClipDescription().getLabel())){
+                try {
+                    if (dragItem==null || !((TextView)dragItem.view).getText().equals(event.getClipDescription().getLabel())){
+                        return false;
+                    }
+                }catch (Throwable e){
                     return false;
                 }
+
                 Item item=findItemByPoint(x,y);
                 Log.e("findItemIndexByPoint","item="+item+","+(item!=null?item.index:-1));
                 if (item==null){
@@ -406,6 +411,12 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                         getParent().requestDisallowInterceptTouchEvent(false);
                     }
                     mItemState = null;
+                    String selected=makeSelectedText();
+                    if (!TextUtils.isEmpty(selected)){
+                        if (mActionListener!=null){
+                            mActionListener.onSelected(selected);
+                        }
+                    }
                     break;
             }
         }
@@ -525,6 +536,9 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     @Override
     public void onDrag() {
         dragMode=!dragMode;
+        if (mActionListener!=null){
+            mActionListener.onDrag();
+        }
     }
 
     @Override
@@ -638,6 +652,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
      * Action Listener
      */
     public interface ActionListener {
+        void onSelected(String text);
+
         void onSearch(String text);
 
         void onShare(String text);
@@ -645,6 +661,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         void onCopy(String text);
 
         void onTrans(String text);
+
+        void onDrag();
 
     }
 

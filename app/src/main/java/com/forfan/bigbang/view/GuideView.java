@@ -1,6 +1,7 @@
 package com.forfan.bigbang.view;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -21,6 +22,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.IntroActivity;
+import com.forfan.bigbang.util.LogUtil;
 
 import java.util.List;
 
@@ -100,7 +103,10 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
      */
     private int[] location;
     private boolean onClickExit;
+    private boolean onLongClickExit;
     private OnClickCallback onclickListener;
+    private OnLongClickCallback onLongclickListener;
+    private OnViewAddedListener onViewAddedListener;
     private RelativeLayout guideViewLayout;
 
     public void restoreState() {
@@ -306,25 +312,13 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
             LayoutParams centerViewParams;
             centerViewParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             centerViewParams.setMargins(0, center[1], 0, 0);
+            if (centerView.getParent()!=null){
+                ((ViewGroup)centerView.getParent()).removeView(centerView);
+            }
             this.addView(centerView, centerViewParams);
-            Animation animation = AnimationUtils.loadAnimation(this.getContext(),R.anim.umeng_fb_dialog_exit_anim);
-            centerView.startAnimation(animation);
-            animation.setAnimationListener(new Animation.AnimationListener() {
-               @Override
-               public void onAnimationStart(Animation animation) {
-
-               }
-
-               @Override
-               public void onAnimationEnd(Animation animation) {
-                   centerView.startAnimation(animation);
-               }
-
-               @Override
-               public void onAnimationRepeat(Animation animation) {
-
-               }
-           });
+            if (onViewAddedListener!=null){
+                onViewAddedListener.viewAdded(centerView);
+            }
         }
     }
 
@@ -438,8 +432,19 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
         this.onClickExit = onClickExit;
     }
 
+    public void setOnLongClickExit(boolean onLongClickExit) {
+        this.onLongClickExit = onLongClickExit;
+    }
     public void setOnclickListener(OnClickCallback onclickListener) {
         this.onclickListener = onclickListener;
+    }
+
+    public void setOnLongclickListener(OnLongClickCallback onLongclickListener) {
+        this.onLongclickListener = onLongclickListener;
+    }
+
+    public void setOnViewAddedListener(OnViewAddedListener onViewAddedListener) {
+        this.onViewAddedListener = onViewAddedListener;
     }
 
     private void setClickInfo() {
@@ -455,6 +460,22 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
                 }
             }
         });
+        final boolean exit1 = onLongClickExit;
+        setOnLongClickListener(new OnLongClickListener() {
+               @Override
+               public boolean onLongClick(View v) {
+                   boolean t=false;
+                   if (onLongclickListener != null) {
+                       onLongclickListener.onLongClickedGuideView();
+                       t=true;
+                   }
+                   if (exit1) {
+                       hide();
+                   }
+                   return t;
+               }
+           }
+        );
     }
 
     @Override
@@ -508,6 +529,17 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
      */
     public interface OnClickCallback {
         void onClickedGuideView();
+    }
+
+    /**
+     * GuideView长按Callback
+     */
+    public interface OnLongClickCallback {
+        void onLongClickedGuideView();
+    }
+
+    public interface OnViewAddedListener {
+        void viewAdded(View view);
     }
 
     public static class Builder {
@@ -583,8 +615,24 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
             return instance;
         }
 
+        public Builder setOnLongClickExit(boolean onLongClickExit){
+            guiderView.setOnLongClickExit(onLongClickExit);
+            return instance;
+        }
+
         public Builder setOnclickListener(final OnClickCallback callback) {
             guiderView.setOnclickListener(callback);
+            return instance;
+        }
+
+
+        public Builder setOnLongclickListener(final OnLongClickCallback callback) {
+            guiderView.setOnLongclickListener(callback);
+            return instance;
+        }
+
+        public Builder setOnViewAddedListener(OnViewAddedListener listener){
+            guiderView.setOnViewAddedListener(listener);
             return instance;
         }
 
