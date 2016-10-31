@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.IntroActivity;
+import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
@@ -136,9 +137,9 @@ public class FeedBackAndUpdateCard extends AbsCard {
     private void showProblemDialog(){
 
         // TODO: 2016/10/29
-//        Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
-//            @Override
-//            public void onNegativeActionClicked(DialogFragment fragment) {
+        Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
+            @Override
+            public void onNegativeActionClicked(DialogFragment fragment) {
 //                if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
 //                    try {
 //                        mContext.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
@@ -147,24 +148,24 @@ public class FeedBackAndUpdateCard extends AbsCard {
 //                        SnackBarUtil.show(FeedBackAndUpdateCard.this,R.string.open_setting_failed);
 //                    }
 //                }else {
-//                    startFeedBack();
+                    startFeedBack();
 //                }
-//                super.onNegativeActionClicked(fragment);
-//            }
-//        };
-//        String msg=mContext.getString(R.string.problem_content);
+                super.onNegativeActionClicked(fragment);
+            }
+        };
+        String msg=mContext.getString(R.string.problem_content);
 //        if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
 //            builder.negativeAction(mContext.getString(R.string.go_set));
 //            msg=msg+"\n"+mContext.getString(R.string.go_set_msg);
 //        }else {
-//            builder.negativeAction(mContext.getString(R.string.feed_back));
+            builder.negativeAction(mContext.getString(R.string.feed_back));
 //        }
-//        ((SimpleDialog.Builder) builder)
-//                .message(msg)
-//                .title(mContext.getString(R.string.problems))
-//                .positiveAction(mContext.getString(R.string.confirm_known));
-//        DialogFragment fragment = DialogFragment.newInstance(builder);
-//        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
+        ((SimpleDialog.Builder) builder)
+                .message(msg)
+                .title(mContext.getString(R.string.problems))
+                .positiveAction(mContext.getString(R.string.confirm_known));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
 }
