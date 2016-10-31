@@ -31,6 +31,7 @@ import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SE
  * Created by penglu on 2015/11/23.
  */
 public class FunctionSettingCard extends AbsCard {
+    private static final String IS_LONG_PREESS_TIPS_SHOW = "show_long_pressed_tips";
 
     private RelativeLayout monitorClipBoardRl;
     private RelativeLayout monitorClickRl;
@@ -51,6 +52,7 @@ public class FunctionSettingCard extends AbsCard {
     private boolean monitorClick =true;
     private boolean showFloatView =true;
     private boolean remainSymbol =false;
+    private boolean isInFirst = true;
 
     public FunctionSettingCard(Context context) {
         super(context);
@@ -117,6 +119,14 @@ public class FunctionSettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.SHOW_FLOAT_VIEW, showFloatView);
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
+                if(!SPHelper.getBoolean(IS_LONG_PREESS_TIPS_SHOW,false) && isChecked){
+                    if(!isInFirst){
+                        showLongClickDialog();
+                        SPHelper.save(IS_LONG_PREESS_TIPS_SHOW,true);
+                    }
+
+                }
+                isInFirst = false;
             }
         });
 
@@ -140,6 +150,25 @@ public class FunctionSettingCard extends AbsCard {
         defaultSettingTV.setOnClickListener(myOnClickListerner);
 
         refresh();
+    }
+
+    private void showLongClickDialog() {
+        SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                // 这里是保持开启
+                super.onPositiveActionClicked(fragment);
+            }
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                super.onCancel(dialog);
+            }
+        };
+        builder.message("在任意界面长按悬浮图片即可进入设置页。")
+                .positiveAction(mContext.getString(R.string.ok));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
     private void showOpenAccessibilityDialog() {
