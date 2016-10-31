@@ -35,9 +35,9 @@ public class SplashActivity extends BaseActivity {
                     @Override
                     public Observable<String> call(Long aLong){
                         boolean isShowIntro = SPHelper.getBoolean(KEY, false);
-//                        if (isShowIntro)
-//                            return Observable.just(GOTO_HOME);
-//                        else
+                        if (isShowIntro)
+                            return Observable.just(GOTO_HOME);
+                        else
                             return Observable.just(GOTO_INTRO);
                     }
                 })

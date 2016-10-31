@@ -706,10 +706,10 @@ public class SimpleDialog extends Dialog {
             mMode = in.readInt();
             switch (mMode){
                 case MODE_MESSAGE:
-                    mMessage = (CharSequence)in.readParcelable(null);
+                    mMessage = (CharSequence)in.readValue(null);
                     break;
                 case MODE_ITEMS: {
-                    Parcelable[] values = in.readParcelableArray(null);
+                    Parcelable[] values = (Parcelable[]) in.readArray(null);
                     if (values != null && values.length > 0) {
                         mItems = new CharSequence[values.length];
                         for (int i = 0; i < mItems.length; i++)
@@ -720,7 +720,7 @@ public class SimpleDialog extends Dialog {
                     break;
                 }
                 case MODE_MULTI_ITEMS: {
-                    Parcelable[] values = in.readParcelableArray(null);
+                    Parcelable[] values = (Parcelable[]) in.readArray(null);
                     if (values != null && values.length > 0) {
                         mItems = new CharSequence[values.length];
                         for (int i = 0; i < mItems.length; i++)

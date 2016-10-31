@@ -176,7 +176,7 @@ public class IntroActivity extends BaseActivity {
 
     private void showBigBangIntro() {
         TextView tv = new TextView(this);
-        tv.setText("请试着点击或滑动上方文字");
+        tv.setText("请点击或滑动上方文字");
         tv.setTextColor(getResources().getColor(R.color.white));
 
         ImageView imageView = new ImageView(this);
@@ -256,9 +256,8 @@ public class IntroActivity extends BaseActivity {
             if (firstSearch){
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
-                mFunctionIntroTV.setText("搜索");
+                mFunctionIntroTV.setText("搜索\n将选中的词句通过默认浏览器进行百度搜索");
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
-                firstSearch=false;
             }else {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
@@ -277,9 +276,8 @@ public class IntroActivity extends BaseActivity {
             if (firstShare){
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
-                mFunctionIntroTV.setText("分享");
+                mFunctionIntroTV.setText("分享\n将选择的词句分享到其他APP");
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
-                firstShare=false;
             }else {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -296,9 +294,8 @@ public class IntroActivity extends BaseActivity {
             if (firstCopy){
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
-                mFunctionIntroTV.setText("复制");
+                mFunctionIntroTV.setText("复制\n将选择的词句复制到剪贴板");
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
-                firstCopy=false;
             }else {
                 if (!TextUtils.isEmpty(text)) {
                     ClipboardUtils.setText(getApplicationContext(), text);
@@ -314,7 +311,7 @@ public class IntroActivity extends BaseActivity {
             if (firstTrans){
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
-                mFunctionIntroTV.setText("翻译");
+                mFunctionIntroTV.setText("翻译\n使用有道词典进行中英互译");
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
             }else {
                 if (!TextUtils.isEmpty(text)) {
@@ -326,11 +323,14 @@ public class IntroActivity extends BaseActivity {
         @Override
         public void onDrag() {
             if (firstDrag){
-                mFunctionIntroTV.setScaleY(0);
-                mFunctionIntroTV.setScaleX(0);
-                mFunctionIntroTV.setText("排序");
-                mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+                mFunctionIntroTV.setText("排序模式\n通过拖动改变词句的排列\n再次点击则返回选词模式");
+            }else {
+                mFunctionIntroTV.setText("选词模式\n通过滑动和点击来选择词句进行操作");
             }
+            firstDrag=!firstDrag;
+            mFunctionIntroTV.setScaleY(0);
+            mFunctionIntroTV.setScaleX(0);
+            mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
         }
     };
     @Override

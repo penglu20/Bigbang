@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="#8BC34A"
+    android:background="@color/intro_bg"
     tools:context="com.forfan.bigbang.component.activity.IntroActivity">
 
         <RelativeLayout
@@ -18,10 +18,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="@dimen/dimen_70dp"
-                android:layout_marginRight="@dimen/dimen_70dp"
+                android:layout_marginLeft="@dimen/dimen_50dp"
+                android:layout_marginRight="@dimen/dimen_50dp"
                 android:layout_marginTop="@dimen/dimen_150dp"
                 android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal"
                 android:text="@string/stringValue1" />
 
             <android.support.v7.widget.CardView
@@ -31,8 +32,8 @@
                 app:cardCornerRadius="@dimen/btn_corner"
                 android:layout_below="@id/intro"
                 android:layout_gravity="center"
-                android:layout_marginLeft="@dimen/default_general_margin"
-                android:layout_marginRight="@dimen/default_general_margin"
+                android:layout_marginLeft="@dimen/default_grow_margin"
+                android:layout_marginRight="@dimen/default_grow_margin"
                 android:layout_marginTop="@dimen/margin_four"
                 android:layout_height="wrap_content">
 
@@ -41,8 +42,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_double"
-                    android:background="@color/bigbang_bg"
-                    app:textSize="16sp" />
+                    android:background="@color/half_trans"
+                    app:textSize="@dimen/text_size_small" />
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.AppCompatTextView
@@ -51,11 +52,11 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/bigbang_wraper"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/margin_four"
                 android:gravity="center"
-                android:text="在您选择文本后，可点击文本上方的按钮进行体验"
-                android:background="@mipmap/bigbang_item_bg_sel"
+                android:text="@string/click_to_see_function"
                 android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal"
                 android:visibility="gone" />
 
             <android.support.v7.widget.AppCompatButton
@@ -65,9 +66,15 @@
                 android:layout_alignParentBottom="true"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:background="@mipmap/bigbang_item_bg_sel"
+                android:paddingTop="@dimen/margin_double"
+                android:paddingBottom="@dimen/margin_double"
+                android:paddingLeft="@dimen/margin_four"
+                android:paddingRight="@dimen/margin_four"
+                android:background="@drawable/button_introduction"
                 android:layout_marginBottom="@dimen/margin_four"
                 android:text="@string/stringValue2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_title"
                 android:visibility="gone" />
 
         </RelativeLayout>

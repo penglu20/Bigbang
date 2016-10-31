@@ -70,4 +70,5 @@
 
 
     <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡,然后就会打开 BigBang 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>
+    <string name="click_to_see_function">点击文本上方的按钮查看功能介绍</string>
 </resources>
