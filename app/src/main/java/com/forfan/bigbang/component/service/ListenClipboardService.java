@@ -4,13 +4,18 @@ import android.app.Notification;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.widget.TextView;
 
+import com.forfan.bigbang.R;
 import com.forfan.bigbang.clipboard.ClipboardManagerCompat;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
@@ -18,6 +23,10 @@ import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
+import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.view.Dialog;
+import com.forfan.bigbang.view.DialogFragment;
+import com.forfan.bigbang.view.SimpleDialog;
 
 
 public final class ListenClipboardService extends Service  {
@@ -36,6 +45,9 @@ public final class ListenClipboardService extends Service  {
         @Override
         public void isShow(boolean isShow) {
             showBigBang=isShow;
+            String text = isShow ? "BigBang 功能已打开":"BigBang功能已关闭";
+            ToastUtil.show(text);
+
         }
 
         @Override
@@ -46,6 +58,8 @@ public final class ListenClipboardService extends Service  {
             return true;
         }
     };
+
+
 
     private TipViewController tipViewController;
     private boolean showBigBang = true;
