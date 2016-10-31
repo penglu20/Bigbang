@@ -9,6 +9,7 @@ import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
@@ -21,6 +22,7 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import jp.wasabeef.recyclerview.animators.FadeInAnimator;
 import jp.wasabeef.recyclerview.animators.FlipInLeftYAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
@@ -63,6 +66,7 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+//        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(),true,R.color.colorPrimary);
 
         cardList = (RecyclerView) findViewById(R.id.card_list);
 
@@ -71,13 +75,15 @@ public class SettingActivity extends BaseActivity {
 
         settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
-        cardViews.add(settingCard);
+        if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true)) {
+            cardViews.add(settingCard);
+        }
         cardViews.add(new FeedBackAndUpdateCard(this));
 
 
         newAdapter = new CardListAdapter(this, false);
         newAdapter.setCardViews(cardViews);
-        cardList.setItemAnimator(new FlipInLeftYAnimator());
+        cardList.setItemAnimator(new SlideInRightAnimator());
         cardList.setAdapter(newAdapter);
 
         Observable.timer(3, TimeUnit.SECONDS)
@@ -92,6 +98,7 @@ public class SettingActivity extends BaseActivity {
                 .subscribe(s -> {
                     if (s.equals("")){
                         boolean hasShared=SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
+                        // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
                         if (!hasShared){
                             newAdapter.addView(new ShareCard(this),0);
                         }

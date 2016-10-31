@@ -48,6 +48,7 @@
             android:theme="@style/BigBangTheme" />
         <activity
             android:name="com.umeng.fb.ConversationActivity"
+            android:theme="@style/BaseAppTheme"
             android:label="@string/app_name" />
 
         <service

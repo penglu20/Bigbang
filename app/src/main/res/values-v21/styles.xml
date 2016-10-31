@@ -1,7 +1,7 @@
 <resources>
 
     <style name="AppTheme" parent="@style/AppBaseTheme">
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
     <!-- 启动页 引导页设置StatusBar为透明色 -->
     <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme">

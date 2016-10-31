@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppBaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppBaseTheme" parent="Theme.AppCompat.Light">
 
         <!--<item name="windowActionBar">false</item>-->
         <!--<item name="windowNoTitle">true</item>-->
@@ -28,6 +28,7 @@
         <item name="textAppearanceLargePopupMenu">@style/PopUpMenuStyle</item>
         <item name="textAppearanceSmallPopupMenu">@style/PopUpMenuStyle</item>
         <item name="android:spinnerItemStyle">@style/MonthDropTheme</item>
+        <item name="android:fitsSystemWindows">true</item>
     </style>
 
     <style name="PopUpMenuStyle" parent="@style/Base.TextAppearance.AppCompat.Menu">

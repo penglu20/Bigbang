@@ -18,6 +18,7 @@ import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
+import com.forfan.bigbang.util.ToastUtil;
 
 import java.util.List;
 
@@ -72,6 +73,9 @@ public class BigBangMonitorService extends AccessibilityService {
         @Override
         public void isShow(boolean isShow) {
             showBigBang=isShow;
+            showBigBang=isShow;
+            String text = isShow ? "BigBang 功能已打开":"BigBang 功能已关闭";
+            ToastUtil.show(text);
         }
 
         @Override

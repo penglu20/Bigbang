@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -54,14 +55,23 @@ public class FunctionSettingCard extends AbsCard {
     private boolean remainSymbol =false;
     private boolean isInFirst = true;
 
+    private Handler handler;
+
     public FunctionSettingCard(Context context) {
         super(context);
         initView(context);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        handler.removeCallbacksAndMessages(null);
+        super.onDetachedFromWindow();
+    }
+
     private void initView(Context context){
         mContext=context;
 
+        handler=new Handler();
 
         LayoutInflater.from(context).inflate(R.layout.card_function_setting,this);
 
@@ -103,7 +113,15 @@ public class FunctionSettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
                     if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
-                        showOpenAccessibilityDialog();
+                        handler.removeCallbacksAndMessages(null);
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (monitorClick) {
+                                    showOpenAccessibilityDialog();
+                                }
+                            }
+                        }, 2000);
                     }else {
                         mContext.startService(new Intent(context,BigBangMonitorService.class));
                     }
@@ -173,16 +191,20 @@ public class FunctionSettingCard extends AbsCard {
 
     private void showOpenAccessibilityDialog() {
         SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){
-
+            private boolean isPositive=false;
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
                 Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                 mContext.startActivity(intent);
+                isPositive=true;
                 super.onPositiveActionClicked(fragment);
             }
             @Override
             public void onDismiss(DialogInterface dialog) {
+                if (!isPositive){
+                    monitorClickSwitch.setChecked(false);
+                }
                 super.onCancel(dialog);
             }
         };
