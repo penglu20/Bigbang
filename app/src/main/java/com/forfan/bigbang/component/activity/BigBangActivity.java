@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
@@ -38,6 +40,9 @@ public class BigBangActivity extends BaseActivity {
     private BigBangLayout bigBangLayout;
     private ContentLoadingProgressBar loading;
     private boolean remainSymbol=true;
+    private EditText toTrans;
+    private EditText transResult;
+    private RelativeLayout transRl;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +63,7 @@ public class BigBangActivity extends BaseActivity {
             return;
         }
 
-        remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,false);
+        remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true);
 
         bigBangLayout= (BigBangLayout) findViewById(R.id.bigbang);
         loading= (ContentLoadingProgressBar) findViewById(R.id.loading);
@@ -67,7 +72,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.reset();
 
         if (!remainSymbol){
-            str = str.replaceAll("[,./:\"\\\\\\\\[\\\\]|`~!@#$%^&*()_+-=<>?;'，。、；：‘’“”【】《》？{}~！@#￥%……&*（）——+-=+]","");
+            str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_+-=<>\\?;'，。、；：‘’“”【】《》？\\{\\}~！@#￥%……&*（）——\\+-=+]","");
         }
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
@@ -100,24 +105,28 @@ public class BigBangActivity extends BaseActivity {
 
         @Override
         public void onSearch(String text) {
-            try {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            if (!TextUtils.isEmpty(text)) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         @Override
         public void onShare(String text) {
-            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-            sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
-            startActivity(sharingIntent);
-            finish();
+            if (!TextUtils.isEmpty(text)) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
+                startActivity(sharingIntent);
+                finish();
+            }
         }
 
         @Override
@@ -133,28 +142,22 @@ public class BigBangActivity extends BaseActivity {
         public void onTrans(String text) {
             if (!TextUtils.isEmpty(text)) {
 //                loading.show();
-                bigBangLayout.setVisibility(View.GONE);
-                ViewStub viewStub= (ViewStub) findViewById(R.id.trans_view_stub);
-                viewStub.inflate();
-                EditText toTrans= (EditText) findViewById(R.id.to_translate);
-                EditText transResult= (EditText) findViewById(R.id.translate_result);
-                toTrans.setText(text);
-                transResult.setText("正在翻译");
-                RetrofitHelper.getTranslationService()
-                        .getTranslationItem(text)
-                        .compose(BigBangActivity.this.bindToLifecycle())
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(recommendInfo -> {
-                            List<String> transes=recommendInfo.getTranslation();
-                            if (transes.size()>0){
-                                String trans=transes.get(0);
-                                transResult.setText(trans);
-                            }
-                            LogUtil.d(recommendInfo.toString());
-                        }, throwable -> {
-                            LogUtil.d(throwable.toString());
-                        });
+                if (transRl==null){
+                    ViewStub viewStub= (ViewStub) findViewById(R.id.trans_view_stub);
+                    viewStub.inflate();
+                    transRl= (RelativeLayout) findViewById(R.id.trans_rl);
+                    toTrans= (EditText) findViewById(R.id.to_translate);
+                    transResult= (EditText) findViewById(R.id.translate_result);
+                    ImageView transAgain = (ImageView) findViewById(R.id.trans_again);
+                    transAgain.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            ViewUtil.hideInputMethod(toTrans);
+                            translate(toTrans.getText().toString());
+                        }
+                    });
+                }
+                translate(text);
             }
         }
 
@@ -163,4 +166,40 @@ public class BigBangActivity extends BaseActivity {
 
         }
     };
+
+    private void translate(String text) {
+        if (TextUtils.isEmpty(text)) {
+            transResult.setText("");
+            return;
+        }
+        bigBangLayout.setVisibility(View.GONE);
+        transRl.setVisibility(View.VISIBLE);
+        toTrans.setText(text);
+        transResult.setText("正在翻译");
+        RetrofitHelper.getTranslationService()
+                .getTranslationItem(text)
+                .compose(BigBangActivity.this.bindToLifecycle())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(recommendInfo -> {
+                    List<String> transes=recommendInfo.getTranslation();
+                    if (transes.size()>0){
+                        String trans=transes.get(0);
+                        transResult.setText(trans);
+                    }
+                    LogUtil.d(recommendInfo.toString());
+                }, throwable -> {
+                    LogUtil.d(throwable.toString());
+                });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (bigBangLayout.getVisibility()==View.GONE){
+            bigBangLayout.setVisibility(View.VISIBLE);
+            transRl.setVisibility(View.GONE);
+        }else {
+            super.onBackPressed();
+        }
+    }
 }

@@ -102,9 +102,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".component.activity.HomeActivity"
-            android:theme="@style/BaseAppTheme" />
 
         <activity android:name=".component.activity.IntroActivity"
             android:excludeFromRecents="true"

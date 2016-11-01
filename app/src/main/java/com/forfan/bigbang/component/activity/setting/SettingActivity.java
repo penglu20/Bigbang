@@ -5,36 +5,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.baseCard.CardListAdapter;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
-import com.forfan.bigbang.component.activity.BigBangActivity;
-import com.forfan.bigbang.component.activity.HomeActivity;
-import com.forfan.bigbang.component.activity.SplashActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
-import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import jp.wasabeef.recyclerview.animators.FadeInAnimator;
-import jp.wasabeef.recyclerview.animators.FlipInLeftYAnimator;
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_RELOAD_SETTING;
 
@@ -86,24 +71,25 @@ public class SettingActivity extends BaseActivity {
         cardList.setItemAnimator(new SlideInRightAnimator());
         cardList.setAdapter(newAdapter);
 
-        Observable.timer(3, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<Long,Observable<String>>(){
-                    @Override
-                    public Observable<String> call(Long aLong){
-                        return Observable.just("");
-                    }
-                })
-                .subscribe(s -> {
-                    if (s.equals("")){
-                        boolean hasShared=SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
-                        // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
-                        if (!hasShared){
-                            newAdapter.addView(new ShareCard(this),0);
-                        }
-                    }
-                });
+//        Observable.timer(3, TimeUnit.SECONDS)
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(AndroidSchedulers.mainThread())
+//                .flatMap(new Func1<Long,Observable<String>>(){
+//                    @Override
+//                    public Observable<String> call(Long aLong){
+//                        return Observable.just("");
+//                    }
+//                })
+//                .subscribe(s -> {
+//                    if (s.equals("")){
+//                        boolean hasShared=SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
+//                        //// TODO: 2016/11/1 第一期先不上分享功能了
+//                        // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
+//                        if (!hasShared){
+//                            newAdapter.addView(new ShareCard(this),0);
+//                        }
+//                    }
+//                });
 
       initLocalBroadcast();
 

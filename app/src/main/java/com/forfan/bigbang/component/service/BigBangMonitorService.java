@@ -197,9 +197,9 @@ public class BigBangMonitorService extends AccessibilityService {
         onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY,true) ;
 
         String[] spinnerArray= getResources().getStringArray(SPINNER_ARRAY);
-        String qq = SPHelper.getString(ConstantUtil.QQ_SELECTION,spinnerArray[2]);
-        String weixin = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[2]);
-        String other = SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[2]);
+        String qq = SPHelper.getString(ConstantUtil.QQ_SELECTION,spinnerArray[1]);
+        String weixin = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[1]);
+        String other = SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[1]);
         if (showFloatView){
             tipViewController.show();
         }else {

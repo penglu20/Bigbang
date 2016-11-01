@@ -183,7 +183,7 @@ public class FunctionSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message("在任意界面长按悬浮图片即可进入设置页。")
+        builder.message("单击悬浮窗切换开关，长按悬浮打开设置页。")
                 .positiveAction(mContext.getString(R.string.ok));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
@@ -254,7 +254,7 @@ public class FunctionSettingCard extends AbsCard {
         monitorClipBoard = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
         monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
         showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
-        remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,false) ;
+        remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true) ;
 
         monitorClipBoardSwitch.setChecked(monitorClipBoard);
         monitorClickSwitch.setChecked(monitorClick);

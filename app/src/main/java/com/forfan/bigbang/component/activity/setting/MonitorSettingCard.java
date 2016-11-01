@@ -136,9 +136,9 @@ public class MonitorSettingCard extends AbsCard {
 
     private void refresh(){
         onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY,true) ;
-        qqSelection= SPHelper.getString(ConstantUtil.QQ_SELECTION,spinnerArray[2]);
-        weixinSelection = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[2]);
-        otherSelection= SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[2]);
+        qqSelection= SPHelper.getString(ConstantUtil.QQ_SELECTION,spinnerArray[1]);
+        weixinSelection = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[1]);
+        otherSelection= SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[1]);
 
         onlyTextSwitch.setChecked(onlyText);
 
