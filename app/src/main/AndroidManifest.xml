@@ -44,6 +44,9 @@
         </activity>
         <activity
             android:name=".component.activity.BigBangActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:autoRemoveFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/BigBangTheme" />
         <activity
