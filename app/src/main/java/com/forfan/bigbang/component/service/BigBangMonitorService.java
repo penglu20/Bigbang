@@ -126,6 +126,10 @@ public class BigBangMonitorService extends AccessibilityService {
             if (type!=otherSelection){
                 return;
             }
+            if (mWindowClassName.toString().startsWith("com.forfan.bigbang")){
+                //自己的应用不监控
+                return;
+            }
         }
         if (onlyText){
             if (className==null || !className.equals("android.widget.TextView")){

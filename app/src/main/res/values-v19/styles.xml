@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="@style/AppBaseTheme">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
     <!-- 启动页 引导页设置StatusBar为透明色 -->

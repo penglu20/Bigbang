@@ -113,20 +113,21 @@ public class FunctionSettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
                     if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
-                        handler.removeCallbacksAndMessages(null);
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (monitorClick) {
-                                    showOpenAccessibilityDialog();
-                                }
-                            }
-                        }, 2000);
+                        handler.removeCallbacks(showAccess);
+                        handler.postDelayed(showAccess, 2000);
                     }else {
                         mContext.startService(new Intent(context,BigBangMonitorService.class));
                     }
                 }
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
+
+                monitorClickRl.setClickable(false);
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        monitorClickRl.setClickable(true);
+                    }
+                }, 500);
             }
         });
 
@@ -169,6 +170,20 @@ public class FunctionSettingCard extends AbsCard {
 
         refresh();
     }
+
+    Runnable showAccess= new Runnable() {
+        @Override
+        public void run() {
+            if (monitorClick) {
+
+                try {
+                    showOpenAccessibilityDialog();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
 
     private void showLongClickDialog() {
         SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){

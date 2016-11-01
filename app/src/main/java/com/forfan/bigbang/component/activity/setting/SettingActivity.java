@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.ViewGroup;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
@@ -15,6 +16,7 @@ import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +53,7 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-//        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(),true,R.color.colorPrimary);
+        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(),true,R.color.colorPrimary);
 
         cardList = (RecyclerView) findViewById(R.id.card_list);
 
