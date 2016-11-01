@@ -72,7 +72,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.reset();
 
         if (!remainSymbol){
-            str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_+-=<>\\?;'，。、；：‘’“”【】《》？\\{\\}~！@#￥%……&*（）——\\+-=+]","");
+            str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
         }
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
