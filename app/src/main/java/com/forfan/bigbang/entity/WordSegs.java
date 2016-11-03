@@ -1,4 +1,4 @@
-package com.forfan.bigbang.entity.wordsegement;
+package com.forfan.bigbang.entity;
 
 import java.util.List;
 

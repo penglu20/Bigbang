@@ -1,13 +1,12 @@
 package com.forfan.bigbang.network.api;
 
-import com.forfan.bigbang.entity.wordsegement.WordSegs;
+import com.forfan.bigbang.entity.WordSegs;
 
 import java.util.ArrayList;
 
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**

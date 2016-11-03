@@ -1,6 +1,7 @@
 package com.forfan.bigbang.network;
 
 import com.forfan.bigbang.BigBangApp;
+import com.forfan.bigbang.network.api.OcrService;
 import com.forfan.bigbang.network.api.TranslationService;
 import com.forfan.bigbang.network.api.WordSegmentService;
 import com.forfan.bigbang.util.LogUtil;
@@ -27,6 +28,7 @@ public class RetrofitHelper {
     private static OkHttpClient mOkHttpClient;
     private static final String BASE_URL = "http://api.bosonnlp.com/";
     private static final String YOUDAO_URL = "http://fanyi.youdao.com/";
+    private static final String OCR_URL = "https://api.ocr.space/";
     static {
         initOkHttpClient();
     }
@@ -85,6 +87,15 @@ public class RetrofitHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(WordSegmentService.class);
+    }
+    public static OcrService getOcrService(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(OCR_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(OcrService.class);
     }
 
     /**
