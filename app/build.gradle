@@ -78,6 +78,7 @@ android {
         eoe {}
         xiaomi {}
         meizu {}
+        coolapk {}
         for_test {}
     }
 
