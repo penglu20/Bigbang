@@ -73,7 +73,6 @@ public class BigBangMonitorService extends AccessibilityService {
         @Override
         public void isShow(boolean isShow) {
             showBigBang=isShow;
-            showBigBang=isShow;
             String text = isShow ? "BigBang 功能已打开":"BigBang 功能已关闭";
             ToastUtil.show(text);
         }

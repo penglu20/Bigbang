@@ -59,7 +59,7 @@ public class SettingActivity extends BaseActivity {
 
         cardList.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));
-
+        cardViews.add(new OcrCard(this));
         settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
         if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true)) {

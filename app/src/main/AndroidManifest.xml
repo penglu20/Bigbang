@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.forfan.bigbang">
-
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"/>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -39,10 +41,10 @@
             android:theme="@style/AppTheme"/>
         <activity android:name=".test.TestActivity">
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".component.activity.BigBangActivity"
@@ -102,10 +104,10 @@
         <activity
             android:name=".component.activity.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity android:name=".component.activity.IntroActivity"
@@ -113,6 +115,8 @@
             android:noHistory="true"
             android:autoRemoveFromRecents="true"
             android:theme="@style/ColorTranslucentTheme"/>
+        <activity android:name=".component.activity.OcrActivity"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

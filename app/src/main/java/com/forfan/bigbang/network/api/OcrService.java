@@ -20,7 +20,8 @@ import rx.Observable;
 
 public interface OcrService {
     @Headers({
-            "User-Agent: Mozilla/5.0"
+            "User-Agent: Mozilla/5.0",
+            "accept-language:zh-CN,zh;q=0.8"
     })
     @Multipart// 参数的类型都应该是RequestBody，不然上传的图片的时候会报JSON must start with an array or an object错误
     @POST("parse/image/")
