@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,7 +35,7 @@ public class WebActivity
     private LinearLayout mContentLayout;
     private ObjectAnimator mEnterAnim;
     private FrameLayout mFrameLayout;
-    private ProgressBar mProgressBar;
+    private ContentLoadingProgressBar mProgressBar;
     private TextView mTitle;
     private String mUrl;
     private WebView mWebView;
@@ -59,7 +60,8 @@ public class WebActivity
         this.mContentLayout = ((LinearLayout) findViewById(R.id.content_view));
         this.mWebView = new WebView(this);
         this.mContentLayout.addView(this.mWebView, -1, -1);
-        this.mProgressBar = ((ProgressBar) findViewById(R.id.progress));
+        this.mProgressBar = ((ContentLoadingProgressBar) findViewById(R.id.progress));
+        mProgressBar.onAttachedToWindow();
         this.mWebView.getSettings().setJavaScriptEnabled(true);
         this.mWebView.setBackgroundColor(-1);
         findViewById(R.id.finish).setOnClickListener(new View.OnClickListener() {
@@ -94,17 +96,18 @@ public class WebActivity
         this.mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView paramAnonymousWebView, int paramAnonymousInt) {
                 if (paramAnonymousInt == 100) {
-                    WebActivity.this.mProgressBar.setVisibility(View.GONE);
+                    WebActivity.this.mProgressBar.hide();
                     WebActivity.this.mTitle.setText(WebActivity.this.mWebView.getTitle());
                     return;
                 }
                 WebActivity.this.mProgressBar.setProgress(paramAnonymousInt);
-                WebActivity.this.mProgressBar.setVisibility(View.VISIBLE);
+                WebActivity.this.mProgressBar.show();
                 WebActivity.this.mTitle.setText("加载中...");
             }
         });
         this.mWebView.getSettings().setCacheMode(LOAD_NO_CACHE);
     }
+
 
     private void initWindow() {
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
@@ -160,7 +163,10 @@ public class WebActivity
             this.mWebView.destroy();
             this.mWebView = null;
         }
-        System.exit(0);
+        if(mProgressBar != null){
+            mProgressBar.onDetachedFromWindow();
+        }
+        finish();
     }
 
     public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent) {
