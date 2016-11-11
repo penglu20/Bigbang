@@ -89,6 +89,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         initView(attrs);
     }
 
+
+
     private void initView(AttributeSet attrs) {
         if (attrs != null) {
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BigBangLayout);
@@ -547,6 +549,16 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             String text = makeSelectedText();
             mActionListener.onTrans(text);
         }
+    }
+
+    @Override
+    public void onSelectAll() {
+
+    }
+
+    @Override
+    public void onSelectOther() {
+
     }
 
     public void setActionListener(ActionListener actionListener) {

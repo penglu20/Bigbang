@@ -12,6 +12,7 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.forfan.bigbang.BigBangApp;
+import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
@@ -47,6 +48,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private int weixinSelection = TYPE_VIEW_LONG_CLICKED;
     private int otherSelection = TYPE_VIEW_LONG_CLICKED;
 
+    private boolean hasShowTipToast;
 
     @Override
     public void onCreate() {
@@ -132,6 +134,10 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (onlyText){
             if (className==null || !className.equals("android.widget.TextView")){
+                if (!hasShowTipToast){
+                    ToastUtil.show(R.string.toast_tip_content);
+                    hasShowTipToast=true;
+                }
                 return;
             }
         }

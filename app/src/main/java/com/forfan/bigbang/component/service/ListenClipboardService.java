@@ -33,7 +33,7 @@ public final class ListenClipboardService extends Service  {
     private static final String TAG="ListenClipboardService";
 
     private static final int GRAY_SERVICE_ID = -1001;
-    private static CharSequence sLastContent = null;
+//    private static CharSequence sLastContent = null;
     private ClipboardManagerCompat mClipboardWatcher;
     private ClipboardManagerCompat.OnPrimaryClipChangedListener mOnPrimaryClipChangedListener = new ClipboardManagerCompat.OnPrimaryClipChangedListener() {
         public void onPrimaryClipChanged() {
@@ -106,7 +106,7 @@ public final class ListenClipboardService extends Service  {
         mClipboardWatcher.removePrimaryClipChangedListener(mOnPrimaryClipChangedListener);
         tipViewController.removeActionListener(actionListener);
         tipViewController.remove();
-        sLastContent = null;
+//        sLastContent = null;
         super.onDestroy();
     }
 
@@ -137,17 +137,19 @@ public final class ListenClipboardService extends Service  {
 
     private void showContent(CharSequence content) {
         if (!showBigBang || !monitorClipborad){
-            sLastContent=null;
+//            sLastContent=null;
             return;
         }
-        if (sLastContent != null && sLastContent.equals(content) || content == null) {
+//        if (sLastContent != null && sLastContent.equals(content) || content == null) {
+        if ( content == null) {
             return;
         }
         LogUtil.d(TAG,"showContent:"+content);
-        sLastContent = content;
+//        sLastContent = content;
         Intent intent=new Intent(this, BigBangActivity.class);
         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BigBangActivity.TO_SPLIT_STR,sLastContent);
+//        intent.putExtra(BigBangActivity.TO_SPLIT_STR,sLastContent);
+        intent.putExtra(BigBangActivity.TO_SPLIT_STR,content);
         startActivity(intent);
     }
 

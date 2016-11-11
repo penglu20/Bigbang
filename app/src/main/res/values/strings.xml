@@ -11,6 +11,7 @@
     <string name="about_content">\t\t\t本产品是根据老罗的BigBang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n版本号：%1$s</string>
 
 
+    <string name="toast_tip_content">如果触发BigBang异常，可以切换"只监控文本"设置查看效果。</string>
     <string name="setting">设置</string>
     <string name="perm_tip">
         缺少运行所需权限。\n请点击"设置"-"权限"-打开权限。\n再点击两次后退按钮返回本页。
@@ -49,6 +50,7 @@
     <string name="monitor_click">监控点击/长按</string>
     <string name="show_float_view">显示悬浮窗</string>
     <string name="remain_symbol">保留标点符号</string>
+    <string name="setting_bigbang">设置BigBang样式</string>
 
     //MonitorSettingCard
 

@@ -43,6 +43,7 @@ public class FunctionSettingCard extends AbsCard {
 //    private TextView showFloatViewTV;
 //    private TextView remainSymbolTV;
     private TextView defaultSettingTV;
+    private TextView settingBigbang;
 
     private SwitchCompat monitorClipBoardSwitch;
     private SwitchCompat monitorClickSwitch;
@@ -90,6 +91,7 @@ public class FunctionSettingCard extends AbsCard {
 //        showFloatViewTV= (TextView) findViewById(R.id.show_float_view_tv);
 //        remainSymbolTV= (TextView) findViewById(R.id.remain_symbol_tv);
         defaultSettingTV= (TextView) findViewById(R.id.default_setting);
+        settingBigbang= (TextView) findViewById(R.id.setting_bigbang);
 
         monitorClipBoardSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -167,6 +169,7 @@ public class FunctionSettingCard extends AbsCard {
 //        showFloatViewTV.setOnClickListener(myOnClickListerner);
 //        remainSymbolTV.setOnClickListener(myOnClickListerner);
         defaultSettingTV.setOnClickListener(myOnClickListerner);
+        settingBigbang.setOnClickListener(myOnClickListerner);
 
         refresh();
     }
@@ -257,6 +260,10 @@ public class FunctionSettingCard extends AbsCard {
                     break;
                 case R.id.default_setting:
                     // TODO: 2016/10/29  恢复默认设置
+                    break;
+                case R.id.setting_bigbang:
+                    Intent intent=new Intent(mContext,SettingBigBangActivity.class);
+                    mContext.startActivity(intent);
                     break;
                 default:
                     break;
