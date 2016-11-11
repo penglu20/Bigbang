@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
@@ -35,6 +36,7 @@ public final class ListenClipboardService extends Service  {
     private static final int GRAY_SERVICE_ID = -1001;
 //    private static CharSequence sLastContent = null;
     private ClipboardManagerCompat mClipboardWatcher;
+    private Handler handler;
     private ClipboardManagerCompat.OnPrimaryClipChangedListener mOnPrimaryClipChangedListener = new ClipboardManagerCompat.OnPrimaryClipChangedListener() {
         public void onPrimaryClipChanged() {
             performClipboardCheck();
@@ -99,6 +101,19 @@ public final class ListenClipboardService extends Service  {
         registerReceiver(clipboardBroadcastReceiver,intentFilter);
 
         readSettingFromSp();
+
+        handler=new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    startService(new Intent(ListenClipboardService.this,BigBangMonitorService.class));
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                handler.postDelayed(this,3000);
+            }
+        });
     }
 
     @Override
@@ -136,10 +151,13 @@ public final class ListenClipboardService extends Service  {
     }
 
     private void showContent(CharSequence content) {
-        if (!showBigBang || !monitorClipborad){
-//            sLastContent=null;
+        if (!monitorClipborad) {
             return;
         }
+        if (showFloatView && !showBigBang) {
+           return;
+        }
+
 //        if (sLastContent != null && sLastContent.equals(content) || content == null) {
         if ( content == null) {
             return;

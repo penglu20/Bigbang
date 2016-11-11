@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
@@ -49,6 +50,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private int otherSelection = TYPE_VIEW_LONG_CLICKED;
 
     private boolean hasShowTipToast;
+    private Handler handler;
 
     @Override
     public void onCreate() {
@@ -61,6 +63,19 @@ public class BigBangMonitorService extends AccessibilityService {
         registerReceiver(bigBangBroadcastReceiver,intentFilter);
 
         readSettingFromSp();
+
+        handler=new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    startService(new Intent(BigBangMonitorService.this,ListenClipboardService.class));
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                handler.postDelayed(this,3000);
+            }
+        });
     }
 
     @Override
@@ -110,7 +125,10 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private synchronized void getText(AccessibilityEvent event){
         LogUtil.e(TAG,"getText:"+event);
-        if (!showBigBang || !monitorClick){
+        if (!monitorClick) {
+            return;
+        }
+        if (showFloatView && !showBigBang) {
             return;
         }
         int type=event.getEventType();
@@ -142,6 +160,9 @@ public class BigBangMonitorService extends AccessibilityService {
             }
         }
         AccessibilityNodeInfo info=event.getSource();
+        if(info==null){
+            return;
+        }
         CharSequence txt=info.getText();
         if (TextUtils.isEmpty(txt) && !onlyText){
             List<CharSequence> txts=event.getText();

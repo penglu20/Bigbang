@@ -28,7 +28,7 @@
         <item name="textAppearanceLargePopupMenu">@style/PopUpMenuStyle</item>
         <item name="textAppearanceSmallPopupMenu">@style/PopUpMenuStyle</item>
         <item name="android:spinnerItemStyle">@style/MonthDropTheme</item>
-        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:fitsSystemWindows">false</item>
     </style>
 
     <style name="PopUpMenuStyle" parent="@style/Base.TextAppearance.AppCompat.Menu">
