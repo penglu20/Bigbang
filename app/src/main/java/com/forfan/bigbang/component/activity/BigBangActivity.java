@@ -106,14 +106,22 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onSearch(String text) {
             if (!TextUtils.isEmpty(text)) {
+//                try {
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent);
+//                    finish();
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+                Intent intent = new Intent();
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-                    finish();
+                    intent.putExtra("url","https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
+                intent.setClass(BigBangActivity.this,WebActivity.class);
+                startActivity(intent);
             }
         }
 
