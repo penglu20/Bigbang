@@ -5,20 +5,20 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        style="@style/cardViewRelativeLayoutSelector"
         android:id="@+id/orc"
+        style="@style/cardViewRelativeLayoutSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_line_height"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:textColor="@color/primary_text"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_line_height"
-            android:text="打开OCR" />
+            android:text="@string/stringValue8"
+            android:textColor="@color/primary_text" />
 
     </RelativeLayout>
 </LinearLayout>

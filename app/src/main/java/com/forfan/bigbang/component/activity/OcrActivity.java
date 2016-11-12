@@ -131,7 +131,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                     mResultTextView.setText(getPasedText(recommendInfo));
                 }, throwable -> {
                     LogUtil.d(throwable.toString());
-                    mResultTextView.setText("抱歉，解析失败");
+                    mResultTextView.setText(R.string.sorry_for_parse_fail);
                     mPicReOcr.setVisibility(View.VISIBLE);
                 });
 
@@ -152,7 +152,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 return result;
             }
         }
-        return "抱歉，未获取到文本。";
+        return getResources().getString(R.string.sorry_for_no_text);
     }
 
     private void showBigBang(String result) {

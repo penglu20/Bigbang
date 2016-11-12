@@ -8,36 +8,39 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/image"
-            android:visibility="gone"
+            android:layout_width="@dimen/dimen_150dp"
+            android:layout_height="@dimen/dimen_150dp"
             android:layout_gravity="center_horizontal"
-            android:layout_width="150dp"
-            android:layout_height="150dp" />
+            android:visibility="gone" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/select_pic"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dimen_50dp"
             android:gravity="center"
-            android:text="从图库中选取图片识别" />
+            android:text="@string/stringValue3" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/take_pic"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="@dimen/dimen_50dp"
             android:gravity="center"
-            android:text="拍照识别" />
+            android:text="@string/stringValue4" />
+
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/result"
-            android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center" />
+
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/re_ocr"
-            android:text="重新识别"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/stringValue5"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

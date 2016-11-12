@@ -5,43 +5,48 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="#dddddd"
-        android:layout_height="40dp">
+        android:layout_height="@dimen/tab_indicator_long_width"
+        android:background="#dddddd">
+
         <ImageView
-            android:src="@mipmap/bigbang_action_share"
             android:id="@+id/finish"
-            android:layout_width="40dp"
-            android:padding="1dp"
-            android:layout_height="40dp" />
+            android:layout_width="@dimen/tab_indicator_long_width"
+            android:layout_height="@dimen/tab_indicator_long_width"
+            android:padding="@dimen/share_btn_stroke_width"
+            android:src="@mipmap/bigbang_action_share" />
+
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/title"
-            android:text="加载中..."
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:layout_gravity="center|center_horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center|center_horizontal"
+            android:text="@string/stringValue8" />
+
         <ImageView
             android:id="@+id/open_chrome"
+            android:layout_width="@dimen/tab_indicator_long_width"
+            android:layout_height="@dimen/tab_indicator_long_width"
             android:layout_alignParentRight="true"
-            android:padding="1dp"
-            android:src="@mipmap/bigbang_action_search"
-            android:layout_width="40dp"
-            android:layout_height="40dp" />
+            android:padding="@dimen/share_btn_stroke_width"
+            android:src="@mipmap/bigbang_action_search" />
     </RelativeLayout>
+
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/progress"
         android:layout_width="match_parent"
-        app:theme="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_height="2dp" />
+        android:layout_height="@dimen/card_corner"
+        app:theme="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
     <LinearLayout
         android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
 
 
     </LinearLayout>

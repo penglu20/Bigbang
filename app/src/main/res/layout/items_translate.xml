@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
     android:id="@+id/trans_rl"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
-        android:text="翻译结果："
+        android:layout_height="@dimen/height_normal"
+        android:layout_marginLeft="@dimen/share_card_button_height"
+        android:layout_marginTop="@dimen/margin_double"
         android:gravity="center_vertical|left"
-        android:layout_marginLeft="32dp"
-        android:textSize="@dimen/text_size_title"
+        android:text="@string/stringValue9"
         android:textColor="@color/white"
-        android:layout_marginTop="16dp"
-        android:layout_height="48dp" />
+        android:textSize="@dimen/text_size_title" />
 
     <android.support.v7.widget.AppCompatImageView
-        android:layout_width="48dp"
         android:id="@+id/trans_again"
-        android:src="@mipmap/ic_compare_arrows_white_36dp"
+        android:layout_width="@dimen/height_normal"
+        android:layout_height="@dimen/height_normal"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="16dp"
+        android:layout_marginRight="@dimen/margin_double"
+        android:layout_marginTop="@dimen/margin_double"
         android:scaleType="centerInside"
-        android:layout_marginRight="16dp"
-        android:layout_height="48dp" />
+        android:src="@mipmap/ic_compare_arrows_white_36dp" />
 
     <android.support.v7.widget.AppCompatEditText
-        android:layout_below="@id/title"
-        android:layout_width="match_parent"
         android:id="@+id/to_translate"
-        android:layout_marginLeft="16dp"
-        android:textSize="@dimen/text_size_normal"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_150dp"
+        android:layout_below="@id/title"
+        android:layout_marginLeft="@dimen/margin_double"
+        android:layout_marginRight="@dimen/margin_double"
         android:textColor="@color/white"
-        android:layout_marginRight="16dp"
-        android:layout_height="150dp" />
+        android:textSize="@dimen/text_size_normal" />
 
     <android.support.v7.widget.AppCompatEditText
-        android:layout_width="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_below="@id/to_translate"
-        android:textSize="@dimen/text_size_normal"
-        android:textColor="@color/white"
         android:id="@+id/translate_result"
-        android:layout_height="150dp" />
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_150dp"
+        android:layout_below="@id/to_translate"
+        android:layout_marginBottom="@dimen/margin_double"
+        android:layout_marginLeft="@dimen/margin_double"
+        android:layout_marginRight="@dimen/margin_double"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_normal" />
 
 </RelativeLayout>

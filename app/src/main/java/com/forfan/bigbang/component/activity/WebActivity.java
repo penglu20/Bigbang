@@ -102,7 +102,7 @@ public class WebActivity
                 }
                 WebActivity.this.mProgressBar.setProgress(paramAnonymousInt);
                 WebActivity.this.mProgressBar.show();
-                WebActivity.this.mTitle.setText("加载中...");
+                WebActivity.this.mTitle.setText(R.string.loading);
             }
         });
         this.mWebView.getSettings().setCacheMode(LOAD_NO_CACHE);

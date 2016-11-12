@@ -94,7 +94,7 @@ public class BigBangActivity extends BaseActivity {
                     loading.hide();
                 }, throwable -> {
                     LogUtil.d(throwable.toString());
-                    ToastUtil.show("无网络，使用本地弱鸡分词");
+                    ToastUtil.show(R.string.no_internet_for_fenci);
                     List<String> txts= new ArrayList<String>();
                     for(int index = 0; index < finalStr.length() ; index++){
                         txts.add(finalStr.charAt(index)+"");

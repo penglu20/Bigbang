@@ -47,7 +47,7 @@ public final class ListenClipboardService extends Service  {
         @Override
         public void isShow(boolean isShow) {
             showBigBang=isShow;
-            String text = isShow ? "BigBang 功能已打开":"BigBang 功能已关闭";
+            int text = isShow ?R.string.bigbang_open:R.string.bigbang_close;
             ToastUtil.show(text);
 
         }
