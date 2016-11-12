@@ -29,7 +29,8 @@
                 android:id="@+id/bigbang_wraper"
                 android:layout_width="match_parent"
                 android:visibility="invisible"
-                app:cardCornerRadius="@dimen/btn_corner"
+                app:cardCornerRadius="@dimen/bigbang_card_corner"
+                app:cardBackgroundColor="@color/bigbang_bg"
                 android:layout_below="@id/intro"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/default_grow_margin"
@@ -42,7 +43,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_double"
-                    android:background="@color/half_trans"
                     app:textSize="@dimen/text_size_small" />
             </android.support.v7.widget.CardView>
 

@@ -74,6 +74,7 @@
 
     <dimen name="spinner_drop_down_width">150dp</dimen>
 
+    <dimen name="bigbang_card_corner">10dp</dimen>
 
     <dimen name="setting_bigbang_activity_text_height">@dimen/height_small_32</dimen>
     <dimen name="setting_bigbang_activity_line_height">@dimen/height_normal</dimen>

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/intro_bg"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
       <LinearLayout
@@ -14,26 +14,39 @@
           android:paddingTop="@dimen/setting_activity_top_margin"
           tools:context="com.forfan.bigbang.component.activity.IntroActivity">
 
-            <com.forfan.bigbang.view.BigBangLayout
-                android:id="@+id/bigbang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_double"
-                android:padding="@dimen/margin_double"
-                android:background="@color/half_trans"
-                app:textSize="@dimen/text_size_small" />
+            <android.support.v7.widget.CardView
+                android:id="@+id/bigbang_wraper"
+                android:layout_width="match_parent"
+                app:cardCornerRadius="@dimen/bigbang_card_corner"
+                android:layout_below="@id/intro"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/bigbang_bg"
+                android:layout_marginLeft="@dimen/default_grow_margin"
+                android:layout_marginRight="@dimen/default_grow_margin"
+                android:layout_height="wrap_content">
+                  <com.forfan.bigbang.view.BigBangLayout
+                      android:id="@+id/bigbang"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:padding="@dimen/margin_double"
+                      app:textSize="@dimen/text_size_small" />
+            </android.support.v7.widget.CardView>
 
             <TextView
                 android:id="@+id/text_size"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_double"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/margin_double"
                 android:textSize="@dimen/text_size_normal"
                 android:layout_height="@dimen/setting_bigbang_activity_text_height" />
 
             <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/set_text_size"
                 android:layout_width="match_parent"
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double"
                 android:max="100"
                 android:layout_height="@dimen/setting_bigbang_activity_line_height" />
 
@@ -41,13 +54,17 @@
                 android:id="@+id/line_margin"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_double"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/margin_double"
                 android:textSize="@dimen/text_size_normal"
                 android:layout_height="@dimen/setting_bigbang_activity_text_height" />
 
             <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/set_line_margin"
                 android:layout_width="match_parent"
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double"
                 android:max="100"
                 android:layout_height="@dimen/setting_bigbang_activity_line_height" />
 
@@ -57,13 +74,17 @@
                 android:id="@+id/item_margin"
                 android:layout_width="match_parent"
                 android:layout_marginTop="@dimen/margin_double"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/margin_double"
                 android:textSize="@dimen/text_size_normal"
                 android:layout_height="@dimen/setting_bigbang_activity_text_height" />
 
             <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/set_item_margin"
                 android:layout_width="match_parent"
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double"
                 android:max="100"
                 android:layout_height="@dimen/setting_bigbang_activity_line_height" />
       </LinearLayout>

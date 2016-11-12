@@ -57,9 +57,11 @@ public class BigBangActivity extends BaseActivity {
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         CardView cardView=new CardView(this);
         View view= LayoutInflater.from(this).inflate(R.layout.activity_big_bang,null,false);
-        cardView.setRadius(ViewUtil.dp2px(5));
+        cardView.setRadius(ViewUtil.dp2px(10));
+        cardView.setCardBackgroundColor(getResources().getColor(R.color.bigbang_bg));
         cardView.addView(view);
 
+        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
         setContentView(cardView);
 
         Intent intent=getIntent();
@@ -134,12 +136,13 @@ public class BigBangActivity extends BaseActivity {
             if (!TextUtils.isEmpty(text)) {
                 try {
                     Uri uri=null;
-                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
+//                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
+                    Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE );
                     Matcher matcher=p.matcher(text);
                     if (!matcher.matches()){
                         uri=Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8"));
                     }else {
-                        uri=Uri.parse(URLEncoder.encode(text, "utf-8"));
+                        uri=Uri.parse(text);
                     }
 
 //                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
