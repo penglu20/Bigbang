@@ -5,12 +5,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Handler;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
@@ -22,7 +26,10 @@ import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 
+import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Set;
 
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
@@ -51,6 +58,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private boolean hasShowTipToast;
     private Handler handler;
+    private HashSet<String> launcherSet;
 
     @Override
     public void onCreate() {
@@ -76,6 +84,10 @@ public class BigBangMonitorService extends AccessibilityService {
                 handler.postDelayed(this,3000);
             }
         });
+
+        launcherSet=new HashSet<>();
+        launcherSet.addAll(getLauncherAsWhiteList());
+        launcherSet.addAll(getInputMethodAsWhiteList());
     }
 
     @Override
@@ -103,6 +115,32 @@ public class BigBangMonitorService extends AccessibilityService {
         }
     };
 
+    private Set<String> getLauncherAsWhiteList(){
+        HashSet<String> packages=new HashSet<>();
+        PackageManager packageManager = getPackageManager();
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+//        final ResolveInfo res = context.getPackageManager().resolveActivity(intent, 0);
+        List<ResolveInfo> resolveInfo = packageManager.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        for(ResolveInfo ri : resolveInfo){
+            packages.add(ri.activityInfo.packageName);
+        }
+        return packages;
+    }
+
+    private Set<String> getInputMethodAsWhiteList(){
+        HashSet<String> packages=new HashSet<>();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        List<InputMethodInfo> methodList = imm.getInputMethodList();
+        for (InputMethodInfo info: methodList) {
+            packages.add(info.getPackageName());
+        }
+        return packages;
+    }
+
+
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         LogUtil.e(TAG,"onAccessibilityEvent:"+event);
@@ -125,7 +163,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private synchronized void getText(AccessibilityEvent event){
         LogUtil.e(TAG,"getText:"+event);
-        if (!monitorClick) {
+        if (!monitorClick || event==null ) {
             return;
         }
         if (showFloatView && !showBigBang) {
@@ -133,6 +171,9 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         int type=event.getEventType();
         CharSequence className = event.getClassName();
+        if (mWindowClassName==null || launcherSet.contains(event.getPackageName())|| launcherSet.contains(mWindowClassName)){
+            return;
+        }
         if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
             if (type!=weixinSelection){
                 return;

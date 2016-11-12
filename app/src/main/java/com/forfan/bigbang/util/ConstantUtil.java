@@ -26,6 +26,9 @@ public class ConstantUtil {
 
     public static final String BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED="broadcast_clipboard_listen_service_modified";
 
+    public static final String BROADCAST_SET_TO_CLIPBOARD="broadcast_set_to_clipboard";
+    public static final String BROADCAST_SET_TO_CLIPBOARD_MSG="broadcast_set_to_clipboard_msg";
+
 
 
 
@@ -50,4 +53,7 @@ public class ConstantUtil {
 
     public static final String Setting_content_Changes ="tencent_contents_change";
     public static final String SHOW_TENCENT_SETTINGS = "tencent_settings";
+
+
+    public static final String ONLINE_CONFIG_OPEN_UPDATE="online_config_open_update";
 }

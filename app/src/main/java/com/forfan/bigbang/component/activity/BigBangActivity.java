@@ -3,6 +3,8 @@ package com.forfan.bigbang.component.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
@@ -23,6 +25,7 @@ import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
+import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -49,6 +52,7 @@ public class BigBangActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         CardView cardView=new CardView(this);
         View view= LayoutInflater.from(this).inflate(R.layout.activity_big_bang,null,false);
         cardView.setRadius(ViewUtil.dp2px(5));
@@ -115,22 +119,22 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onSearch(String text) {
             if (!TextUtils.isEmpty(text)) {
-//                try {
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                    finish();
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-                Intent intent = new Intent();
                 try {
-                    intent.putExtra("url","https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                intent.setClass(BigBangActivity.this,WebActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent();
+//                try {
+//                    intent.putExtra("url","https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8"));
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                }
+//                intent.setClass(BigBangActivity.this,WebActivity.class);
+//                startActivity(intent);
             }
         }
 
@@ -149,9 +153,18 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onCopy(String text) {
             if (!TextUtils.isEmpty(text)) {
-                ClipboardUtils.setText(getApplicationContext(),text);
-                ToastUtil.show("已复制");
-                finish();
+                Intent intent=new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
+                intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG,text);
+                sendBroadcast(intent);
+                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ClipboardUtils.setText(getApplicationContext(),text);
+                        ToastUtil.show("已复制");
+                        finish();
+                    }
+                }, 100);
+
             }
         }
 

@@ -20,7 +20,8 @@ public abstract class ClipboardManagerCompat {
 
     public void addPrimaryClipChangedListener(OnPrimaryClipChangedListener listener) {
         synchronized (mPrimaryClipChangedListeners) {
-            mPrimaryClipChangedListeners.add(listener);
+            if (!mPrimaryClipChangedListeners.contains(listener))
+                mPrimaryClipChangedListeners.add(listener);
         }
     }
 

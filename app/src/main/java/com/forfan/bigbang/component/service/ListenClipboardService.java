@@ -34,7 +34,7 @@ public final class ListenClipboardService extends Service  {
     private static final String TAG="ListenClipboardService";
 
     private static final int GRAY_SERVICE_ID = -1001;
-//    private static CharSequence sLastContent = null;
+    private static CharSequence sLastContent = null;
     private ClipboardManagerCompat mClipboardWatcher;
     private Handler handler;
     private ClipboardManagerCompat.OnPrimaryClipChangedListener mOnPrimaryClipChangedListener = new ClipboardManagerCompat.OnPrimaryClipChangedListener() {
@@ -98,6 +98,7 @@ public final class ListenClipboardService extends Service  {
 
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED);
+        intentFilter.addAction(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
         registerReceiver(clipboardBroadcastReceiver,intentFilter);
 
         readSettingFromSp();
@@ -150,19 +151,21 @@ public final class ListenClipboardService extends Service  {
         showContent(content);
     }
 
-    private void showContent(CharSequence content) {
-        if (!monitorClipborad) {
+    private void showContent(CharSequence contentc) {
+        if (!monitorClipborad || contentc==null) {
             return;
         }
         if (showFloatView && !showBigBang) {
            return;
         }
-
-//        if (sLastContent != null && sLastContent.equals(content) || content == null) {
-        if ( content == null) {
+        String content = contentc.toString().trim();
+        LogUtil.d(TAG,"showContent:"+content);
+        if (TextUtils.isEmpty(content) || (sLastContent != null && sLastContent.equals(content))  ) {
+//        if ( content == null) {
+            sLastContent=null;
             return;
         }
-        LogUtil.d(TAG,"showContent:"+content);
+        LogUtil.d(TAG,"sLastContent:"+content);
 //        sLastContent = content;
         Intent intent=new Intent(this, BigBangActivity.class);
         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
@@ -189,7 +192,12 @@ public final class ListenClipboardService extends Service  {
     private BroadcastReceiver clipboardBroadcastReceiver =new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            readSettingFromSp();
+            if (intent.getAction().equals(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD)){
+                sLastContent=intent.getStringExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG);
+                LogUtil.d(TAG,"onReceive:"+sLastContent);
+            }else {
+                readSettingFromSp();
+            }
         }
     };
 }

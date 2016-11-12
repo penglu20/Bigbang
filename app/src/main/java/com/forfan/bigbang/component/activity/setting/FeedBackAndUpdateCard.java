@@ -15,6 +15,7 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
@@ -23,6 +24,7 @@ import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
 import com.umeng.fb.FeedbackAgent;
+import com.umeng.onlineconfig.OnlineConfigAgent;
 
 /**
  * Created by penglu on 2015/11/23.
@@ -79,8 +81,13 @@ public class FeedBackAndUpdateCard extends AbsCard {
                     SnackBarUtil.show(v,R.string.snackbar_net_error);
                     return;
                 }
-                UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
-//                PEventBus.getInstance().post(new Events.CheckUpdate());
+                boolean isopen=Boolean.valueOf(
+                        OnlineConfigAgent.getInstance().getConfigParams(mContext.getApplicationContext(), ConstantUtil.ONLINE_CONFIG_OPEN_UPDATE));
+                if (isopen) {
+                    UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
+                }else {
+                    SnackBarUtil.show(v,R.string.check_update_close);
+                }
                 break;
             case R.id.feedback:
                 startFeedBack();

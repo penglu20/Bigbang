@@ -17,11 +17,17 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.StatusBarCompat;
+import com.forfan.bigbang.util.UpdateUtil;
+import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import jp.wasabeef.recyclerview.animators.SlideInRightAnimator;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_RELOAD_SETTING;
 
@@ -92,6 +98,30 @@ public class SettingActivity extends BaseActivity {
 //                        }
 //                    }
 //                });
+
+
+        Observable.timer(3, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<Long,Observable<String>>(){
+                    @Override
+                    public Observable<String> call(Long aLong){
+                        return Observable.just("");
+                    }
+                })
+                .subscribe(s -> {
+                    if (s.equals("")){
+                        try {
+                            boolean isopen=Boolean.valueOf(
+                                    OnlineConfigAgent.getInstance().getConfigParams(getApplicationContext(), ConstantUtil.ONLINE_CONFIG_OPEN_UPDATE));
+                            if (isopen) {
+                                UpdateUtil.autoCheckUpdate();
+                            }
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
 
       initLocalBroadcast();
 

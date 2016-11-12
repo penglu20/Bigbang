@@ -26,6 +26,7 @@ public final class ClipboardManagerImpl11 extends ClipboardManagerCompat {
         super.addPrimaryClipChangedListener(listener);
         synchronized (mPrimaryClipChangedListeners) {
             if (mPrimaryClipChangedListeners.size() == 1) {
+                mClipboardManager.removePrimaryClipChangedListener(mOnPrimaryClipChangedListener);
                 mClipboardManager.addPrimaryClipChangedListener(mOnPrimaryClipChangedListener);
             }
         }

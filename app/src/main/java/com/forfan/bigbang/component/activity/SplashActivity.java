@@ -8,6 +8,7 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +26,7 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+        OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         setUpSplash();
     }
     private void setUpSplash(){

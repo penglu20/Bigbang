@@ -69,6 +69,8 @@
     <string name="recover_tips">重新显示使用提示</string>
     <string name="about">关于</string>
 
+    <string name="check_update_close">已是最新版本</string>
+
 
     //网络连接
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
