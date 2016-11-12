@@ -115,7 +115,7 @@ public class WebActivity
         ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
         localLayoutParams.width = ((int) (localDisplayMetrics.widthPixels * 0.99D));
         localLayoutParams.gravity = 17;
-        localLayoutParams.height = ((int) (localDisplayMetrics.widthPixels * 1.1D));
+        localLayoutParams.height = ((int) (localDisplayMetrics.heightPixels * 0.8D));
         getWindow().setAttributes(localLayoutParams);
         getWindow().setGravity(17);
         getWindow().getAttributes().windowAnimations = R.anim.anim_scale_in;

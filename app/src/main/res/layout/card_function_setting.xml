@@ -81,7 +81,6 @@
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/setting_bigbang"
         style="@style/cardViewTextView"
-        android:visibility="gone"
         android:layout_below="@id/introduction"
         android:text="@string/setting_bigbang"/>
 

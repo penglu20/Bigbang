@@ -56,4 +56,15 @@ public class ConstantUtil {
 
 
     public static final String ONLINE_CONFIG_OPEN_UPDATE="online_config_open_update";
+
+
+    //SettingBigBangActivity
+    public static final String TEXT_SIZE="text_size";
+    public static final String LINE_MARGIN="line_margin";
+    public static final String ITEM_MARGIN="item_margin";
+
+
+    public static final int DEFAULT_TEXT_SIZE=14;
+    public static final int DEFAULT_LINE_MARGIN=8;
+    public static final int DEFAULT_ITEM_MARGIN=0;
 }

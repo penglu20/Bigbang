@@ -1,22 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_intro"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
     android:background="@color/intro_bg"
-    tools:context="com.forfan.bigbang.component.activity.IntroActivity">
+    android:layout_height="match_parent">
 
-      <com.forfan.bigbang.view.BigBangLayout
-        android:id="@+id/bigbang"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-          android:layout_margin="@dimen/margin_double"
-        android:padding="@dimen/margin_double"
-        android:background="@color/half_trans"
-        app:textSize="@dimen/text_size_small" />
+      <LinearLayout
+          android:id="@+id/activity_intro"
+          android:layout_width="match_parent"
+          android:orientation="vertical"
+          android:layout_height="match_parent"
+          android:paddingTop="@dimen/setting_activity_top_margin"
+          tools:context="com.forfan.bigbang.component.activity.IntroActivity">
+
+            <com.forfan.bigbang.view.BigBangLayout
+                android:id="@+id/bigbang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_double"
+                android:padding="@dimen/margin_double"
+                android:background="@color/half_trans"
+                app:textSize="@dimen/text_size_small" />
+
+            <TextView
+                android:id="@+id/text_size"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_double"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_height="@dimen/setting_bigbang_activity_text_height" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/set_text_size"
+                android:layout_width="match_parent"
+                android:max="100"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height" />
+
+            <TextView
+                android:id="@+id/line_margin"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_double"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_height="@dimen/setting_bigbang_activity_text_height" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/set_line_margin"
+                android:layout_width="match_parent"
+                android:max="100"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height" />
 
 
-</LinearLayout>
+
+            <TextView
+                android:id="@+id/item_margin"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/margin_double"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_normal"
+                android:layout_height="@dimen/setting_bigbang_activity_text_height" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/set_item_margin"
+                android:layout_width="match_parent"
+                android:max="100"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height" />
+      </LinearLayout>
+</ScrollView>
+

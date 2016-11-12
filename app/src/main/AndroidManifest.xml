@@ -122,12 +122,13 @@
 
         <activity android:name=".component.activity.setting.SettingBigBangActivity"
             android:theme="@style/AppTheme"/>
+
         <activity android:name=".component.activity.WebActivity"
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:autoRemoveFromRecents="true"
             android:launchMode="singleInstance"
-            android:theme="@style/BigBangTheme"
+            android:theme="@style/WebActivityTheme"
             />
     </application>
 

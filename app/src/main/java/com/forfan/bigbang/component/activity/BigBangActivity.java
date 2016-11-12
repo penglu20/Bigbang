@@ -31,6 +31,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -70,11 +72,22 @@ public class BigBangActivity extends BaseActivity {
 
         remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true);
 
+
+
+        int text=SPHelper.getInt(ConstantUtil.TEXT_SIZE,ConstantUtil.DEFAULT_TEXT_SIZE);
+        int line=SPHelper.getInt(ConstantUtil.LINE_MARGIN,ConstantUtil.DEFAULT_LINE_MARGIN);
+        int item=SPHelper.getInt(ConstantUtil.ITEM_MARGIN,ConstantUtil.DEFAULT_ITEM_MARGIN);
+
+
         bigBangLayout= (BigBangLayout) findViewById(R.id.bigbang);
         loading= (ContentLoadingProgressBar) findViewById(R.id.loading);
 
         loading.show();
         bigBangLayout.reset();
+
+        bigBangLayout.setTextSize(text);
+        bigBangLayout.setLineSpace(line);
+        bigBangLayout.setItemSpace(item);
 
         if (!remainSymbol){
             str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
@@ -120,21 +133,26 @@ public class BigBangActivity extends BaseActivity {
         public void onSearch(String text) {
             if (!TextUtils.isEmpty(text)) {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Uri uri=null;
+                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
+                    Matcher matcher=p.matcher(text);
+                    if (!matcher.matches()){
+                        uri=Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8"));
+                    }else {
+                        uri=Uri.parse(URLEncoder.encode(text, "utf-8"));
+                    }
+
+//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                    Intent intent = new Intent();
+                    intent.putExtra("url",uri.toString());
+                    intent.setClass(BigBangActivity.this,WebActivity.class);
                     startActivity(intent);
                     finish();
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-//                Intent intent = new Intent();
-//                try {
-//                    intent.putExtra("url","https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8"));
-//                } catch (UnsupportedEncodingException e) {
-//                    e.printStackTrace();
-//                }
-//                intent.setClass(BigBangActivity.this,WebActivity.class);
-//                startActivity(intent);
             }
         }
 

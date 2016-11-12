@@ -15,6 +15,7 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
+import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
@@ -83,7 +84,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
                 }
                 boolean isopen=Boolean.valueOf(
                         OnlineConfigAgent.getInstance().getConfigParams(mContext.getApplicationContext(), ConstantUtil.ONLINE_CONFIG_OPEN_UPDATE));
-                if (isopen) {
+                if (isopen || ChanelUtil.isForTest(mContext.getApplicationContext())) {
                     UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
                 }else {
                     SnackBarUtil.show(v,R.string.check_update_close);

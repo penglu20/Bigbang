@@ -15,6 +15,7 @@ import com.forfan.bigbang.baseCard.CardListAdapter;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.StatusBarCompat;
 import com.forfan.bigbang.util.UpdateUtil;
@@ -114,7 +115,7 @@ public class SettingActivity extends BaseActivity {
                         try {
                             boolean isopen=Boolean.valueOf(
                                     OnlineConfigAgent.getInstance().getConfigParams(getApplicationContext(), ConstantUtil.ONLINE_CONFIG_OPEN_UPDATE));
-                            if (isopen) {
+                            if (isopen || ChanelUtil.isForTest(getApplicationContext())) {
                                 UpdateUtil.autoCheckUpdate();
                             }
                         } catch (Throwable e) {

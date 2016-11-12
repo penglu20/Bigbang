@@ -53,6 +53,11 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@style/fade</item>
     </style>
+
+    <style name="WebActivityTheme" parent="BigBangTheme">
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
     <!-- 淡入淡出动画 -->
     <style name="activity_switch_fade" > <item name="android:windowAnimationStyle">@style/fade</item> </style>
     <!-- 第一个表示新的activity创建进入效果， 第2个表示activity还没有finish()下退出效果， 第3个表示上一个activity返回进入效果，

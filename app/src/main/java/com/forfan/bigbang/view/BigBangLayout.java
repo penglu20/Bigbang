@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -53,6 +54,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private Paint dragPaint;
     private boolean dragMode=false;
     private Item dragItem;
+
+    private ColorStateList mColorStateList;
 
     private AnimatorListenerAdapter mActionBarAnimationListener = new AnimatorListenerAdapter() {
         @Override
@@ -166,6 +169,58 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         });
     }
 
+    public int getLineSpace() {
+        return mLineSpace;
+    }
+
+    public void setLineSpace(int mLineSpace) {
+        this.mLineSpace = mLineSpace;
+        requestLayout();
+    }
+
+    public int getItemSpace() {
+        return mItemSpace;
+    }
+
+    public void setItemSpace(int mItemSpace) {
+        this.mItemSpace = mItemSpace;
+        requestLayout();
+    }
+
+    public ColorStateList getTextColorStateList() {
+        return mColorStateList;
+    }
+
+    public void setTextColorStateList(ColorStateList colorStateList) {
+        // TODO: 2016/11/12
+        this.mColorStateList = colorStateList;
+    }
+
+    public int getTextSize() {
+        return mTextSize;
+    }
+
+    public void setTextSize(int mTextSize) {
+        this.mTextSize = mTextSize;
+        if (mLines!=null) {
+            for (Line line : mLines) {
+                List<Item> items = line.getItems();
+                for (Item item : items) {
+                    ((TextView) item.view).setTextSize(mTextSize);
+                }
+            }
+        }
+    }
+
+    public int getTextBgRes() {
+        return mTextBgRes;
+    }
+
+    public void setTextBgRes(int mTextBgRes) {
+        // TODO: 2016/11/12
+        this.mTextBgRes = mTextBgRes;
+    }
+
     public void addTextItem(String text) {
         if (TextUtils.isEmpty(text)){
             return;
@@ -173,7 +228,11 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         TextView view = new TextView(getContext());
         view.setText(text);
         view.setBackgroundResource(mTextBgRes);
-        view.setTextColor(ContextCompat.getColorStateList(getContext(), mTextColorRes));
+        if (mColorStateList==null) {
+            view.setTextColor(ContextCompat.getColorStateList(getContext(), mTextColorRes));
+        }else {
+            view.setTextColor(mColorStateList);
+        }
         view.setTextSize(mTextSize);
         view.setGravity(Gravity.CENTER);
         addView(view);
@@ -295,7 +354,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 mHeader.animate().translationYBy(-translationY).setDuration(200).start();
             }
         } else {
-            if (mHeader.getVisibility() == View.VISIBLE) {
+            if (mHeader.getVisibility() == View.VISIBLE && !dragMode) {
                 mHeader.animate().alpha(0).setDuration(200).setListener(mActionBarAnimationListener).start();
             }
         }
@@ -553,12 +612,24 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     @Override
     public void onSelectAll() {
-
+        for (Line line : mLines) {
+            List<Item> items = line.getItems();
+            for (Item item : items) {
+                item.setSelected(true);
+            }
+        }
+        requestLayout();
     }
 
     @Override
     public void onSelectOther() {
-
+        for (Line line : mLines) {
+            List<Item> items = line.getItems();
+            for (Item item : items) {
+                item.setSelected(!item.isSelected());
+            }
+        }
+        requestLayout();
     }
 
     public void setActionListener(ActionListener actionListener) {

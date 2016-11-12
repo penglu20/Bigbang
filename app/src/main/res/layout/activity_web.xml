@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frame_layout"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -12,11 +13,11 @@
         android:background="#dddddd">
 
         <ImageView
+            android:src="@mipmap/ic_close"
             android:id="@+id/finish"
             android:layout_width="@dimen/tab_indicator_long_width"
             android:layout_height="@dimen/tab_indicator_long_width"
-            android:padding="@dimen/share_btn_stroke_width"
-            android:src="@mipmap/bigbang_action_share" />
+            android:padding="@dimen/ic_close_width"/>
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/title"
@@ -24,6 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal"
             android:layout_gravity="center|center_horizontal"
             android:text="@string/stringValue8" />
 
@@ -32,10 +35,15 @@
             android:layout_width="@dimen/tab_indicator_long_width"
             android:layout_height="@dimen/tab_indicator_long_width"
             android:layout_alignParentRight="true"
-            android:padding="@dimen/share_btn_stroke_width"
-            android:src="@mipmap/bigbang_action_search" />
+            android:padding="@dimen/ic_bowser_width"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_browser"/>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/text_color_grey"/>
     <android.support.v4.widget.ContentLoadingProgressBar
         android:id="@+id/progress"
         android:layout_width="match_parent"
