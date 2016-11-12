@@ -26,6 +26,7 @@ import com.forfan.bigbang.view.BigBangLayout;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -74,6 +75,7 @@ public class BigBangActivity extends BaseActivity {
         if (!remainSymbol){
             str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
         }
+        String finalStr = str;
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
                 .compose(this.bindToLifecycle())
@@ -88,8 +90,15 @@ public class BigBangActivity extends BaseActivity {
                     loading.hide();
                 }, throwable -> {
                     LogUtil.d(throwable.toString());
-                    ToastUtil.show("解析错误，请重试");
-                    finish();
+                    ToastUtil.show("无网络，使用本地弱鸡分词");
+                    List<String> txts= new ArrayList<String>();
+                    for(int index = 0; index < finalStr.length() ; index++){
+                        txts.add(finalStr.charAt(index)+"");
+                    }
+                    for (String t:txts) {
+                        bigBangLayout.addTextItem(t);
+                    }
+                    loading.hide();
                 });
         bigBangLayout.setActionListener(bigBangActionListener);
 
