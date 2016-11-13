@@ -41,7 +41,7 @@
     <string name="other_monitor">在其他应用中监控</string>
     <string name="perm_tip">缺少运行所需权限。\n请点击"设置"-"权限"-打开权限。\n再点击两次后退按钮返回本页。</string>
     <string name="monitor_click">监控点击/长按</string>
-    <string name="setting_bigbang">设置BigBang功能与样式</string>
+    <string name="setting_bigbang">设置BigBang样式</string>
     <string name="confirm_known">我知道了</string>
     <string name="go_set_msg">下面的设置入口有助于提高程序的存活性，但并不是手机管家的清理白名单，可能无法彻底解决问题！</string>
     <string name="share_request_cancel">无感...</string>
@@ -68,4 +68,10 @@
     <string name="show_float_view">显示悬浮窗</string>
     <string name="check_update_close">已是最新版本</string>
     <string name="default_setting">恢复默认设置</string>
+
+
+    <string name="punish_float_problem">悬浮窗功能已开启!</string>
+    <string name="punish_float_action">有问题？点击设置</string>
+
+    <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
 </resources>

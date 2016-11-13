@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
@@ -21,6 +22,8 @@ import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.SnackBarUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
 
@@ -55,6 +58,7 @@ public class FunctionSettingCard extends AbsCard {
     private boolean showFloatView =true;
     private boolean remainSymbol =false;
     private boolean isInFirst = true;
+    private boolean isClickFloat = false;
 
     private Handler handler;
 
@@ -146,6 +150,23 @@ public class FunctionSettingCard extends AbsCard {
                         SPHelper.save(IS_LONG_PREESS_TIPS_SHOW,true);
                     }
 
+                }
+                if (isClickFloat && isChecked){
+                    SnackBarUtil.show(buttonView,
+                            mContext.getString(R.string.punish_float_problem),
+                            mContext.getString(R.string.punish_float_action),
+                            new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
+                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+                                        mContext.startActivity(intent);
+                                    }catch (Throwable e){
+                                        SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
+                                    }
+                                }
+                            });
                 }
                 isInFirst = false;
             }
@@ -253,6 +274,7 @@ public class FunctionSettingCard extends AbsCard {
                     monitorClickSwitch.setChecked(!monitorClickSwitch.isChecked());
                     break;
                 case R.id.show_float_view_rl:
+                    isClickFloat=true;
                     showFloarViewSwitch.setChecked(!showFloarViewSwitch.isChecked());
                     break;
                 case R.id.remain_symbol_rl:

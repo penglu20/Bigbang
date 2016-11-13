@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="umeng_fb_contact_info_hint">Email, MSN, Gtalk, or whatever we can find you.</string>
+    <string name="umeng_fb_back">Back</string>
+    <string name="umeng_fb_title">Feedback</string>
+    <string name="umeng_fb_write_contact_title">Write contact Info</string>
+    <string name="umeng_fb_change_contact_title">Change contact Info</string>
+    <string name="umeng_fb_contact_info">Contact Info</string>
+    <string name="umeng_fb_send">Send</string>
+    <string name="umeng_fb_reply_content_default">Your precious feedback are appriciated.</string>
+    <string name="umeng_fb_notification_ticker_text">Got new reply</string>
+    <string name="umeng_fb_notification_content_formatter_single_msg">New reply: %s</string>
+    <string name="umeng_fb_notification_content_formatter_multiple_msg">You received %d new replies from the app developer.</string>
+    <string name="umeng_fb_feedback">Feedback</string>
+    <string name="umeng_fb_contact_save">Save</string>
+    <string name="umeng_fb_time_right_now">Just now</string>
+    <string name="umeng_fb_time_minutes_ago">%d minutes ago</string>
+    <string name="umeng_fb_time_this_year_format">MM/dd HH:mm:ss</string>
+    <string name="umeng_fb_time_pre_year_format">yy/MM/dd HH:mm:ss</string>
+    <string name="umeng_fb_contact_qq">QQ</string>
+    <string name="umeng_fb_contact_email">Email</string>
+    <string name="umeng_fb_contact_phone">Phone</string>
+    <string name="umeng_fb_contact_other">Other</string>
+    <string name="umeng_fb_send_fail">Send fail</string>
+    <string name="umeng_fb_sending">Sending&#8230;</string>
+    <string name="umeng_fb_contact_key_qq">qq</string>
+    <string name="umeng_fb_contact_key_email">email</string>
+    <string name="umeng_fb_contact_key_phone">phone</string>
+    <string name="umeng_fb_contact_key_other">plain</string>
+    <!-- 5.0.1 -->
+    <string name="umeng_fb_press_speech">Hold to Talk</string>
+    <string name="umeng_fb_release_send">Release to Send</string>
+    <string name="umeng_fb_release_cancel">Release to cancel</string>
+    <string name="umeng_fb_slide_up_cancel">Slide up to cancel</string>
+    <string name="umeng_fb_record_time_short">Message too short</string>
+    <string name="umeng_fb_count_down">Count down</string>
+    <string name="umeng_fb_record_fail">Record fail</string>
+    <string name="umeng_fb_no_record_permission">No permission of record</string>
+    <string name="umeng_fb_please_select_picture">Please select a picture</string>
+
+    <string name="umeng_fb_questions_question">Q:</string>
+    <string name="umeng_fb_questions_anwser">A:</string>
+
+    <string-array name="umeng_fb_contact_type_array">
+        <item>@string/umeng_fb_contact_email</item>
+        <item>@string/umeng_fb_contact_qq</item>
+        <item>@string/umeng_fb_contact_phone</item>
+        <item>@string/umeng_fb_contact_other</item>
+    </string-array>
+
+    <string-array name="umeng_fb_contact_key_array">
+        <item>@string/umeng_fb_contact_key_email</item>
+        <item>@string/umeng_fb_contact_key_qq</item>s
+        <item>@string/umeng_fb_contact_key_phone</item>
+        <item>@string/umeng_fb_contact_key_other</item>
+    </string-array>
+
+    <string-array name="umeng_fb_tabs_title">
+        <item>Feedback</item>
+        <item>FAQ</item>
+    </string-array>
+</resources>
+
+
+
+

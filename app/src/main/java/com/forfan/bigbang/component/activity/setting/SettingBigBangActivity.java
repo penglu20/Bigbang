@@ -57,11 +57,17 @@ public class SettingBigBangActivity extends BaseActivity {
         itemMargin= (TextView) findViewById(R.id.item_margin);
 
 
+        mTextSizeSeekBar.setMax(MAX_TEXT_SIZE-MIN_TEXT_SIZE);
+        mLineMarginSeekBar.setMax(MAX_LINE_MARGIN-MIN_LINE_MARGIN);
+        mItemMarginSeekBar.setMax(MAX_ITEM_MARGIN-MIN_ITEM_MARGIN);
+
+
+
 
         mTextSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value= (int) (MIN_TEXT_SIZE + progress/100.0f*(MAX_TEXT_SIZE-MIN_TEXT_SIZE));
+                int value= (int) (MIN_TEXT_SIZE + progress);
                 mBigBangLayout.setTextSize(value);
                 textSize.setText("字体大小： "+value);
                 SPHelper.save(ConstantUtil.TEXT_SIZE,value);
@@ -81,7 +87,7 @@ public class SettingBigBangActivity extends BaseActivity {
         mLineMarginSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value= (int) (MIN_LINE_MARGIN + progress/100.0f*(MAX_LINE_MARGIN-MIN_LINE_MARGIN));
+                int value= (int) (MIN_LINE_MARGIN + progress);
                 mBigBangLayout.setLineSpace(value);
                 lineMargin.setText("行间距： "+value);
                 SPHelper.save(ConstantUtil.LINE_MARGIN,value);
@@ -100,7 +106,7 @@ public class SettingBigBangActivity extends BaseActivity {
         mItemMarginSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value= (int) (MIN_ITEM_MARGIN + progress/100.0f*(MAX_ITEM_MARGIN-MIN_ITEM_MARGIN));
+                int value= (int) (MIN_ITEM_MARGIN + progress);
                 mBigBangLayout.setItemSpace(value);
                 itemMargin.setText("块间距"+value);
                 SPHelper.save(ConstantUtil.ITEM_MARGIN,value);
@@ -123,10 +129,18 @@ public class SettingBigBangActivity extends BaseActivity {
         int line=SPHelper.getInt(ConstantUtil.LINE_MARGIN,ConstantUtil.DEFAULT_LINE_MARGIN);
         int item=SPHelper.getInt(ConstantUtil.ITEM_MARGIN,ConstantUtil.DEFAULT_ITEM_MARGIN);
 
-        mTextSizeSeekBar.setProgress((int) (100.0f*(text-MIN_TEXT_SIZE)/(MAX_TEXT_SIZE-MIN_TEXT_SIZE)));
-        mLineMarginSeekBar.setProgress((int) (100.0f*(line-MIN_LINE_MARGIN)/(MAX_LINE_MARGIN-MIN_LINE_MARGIN)));
-        mItemMarginSeekBar.setProgress((int) (100.0f*(item-MIN_ITEM_MARGIN)/(MAX_ITEM_MARGIN-MIN_ITEM_MARGIN)));
 
+        mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
+        mLineMarginSeekBar.setProgress((int) ((MIN_LINE_MARGIN)));
+        mItemMarginSeekBar.setProgress((int) ((MIN_ITEM_MARGIN)));
+
+        mTextSizeSeekBar.setProgress((int) ((MAX_TEXT_SIZE)));
+        mLineMarginSeekBar.setProgress((int) ((MAX_LINE_MARGIN)));
+        mItemMarginSeekBar.setProgress((int) ((MAX_ITEM_MARGIN)));
+
+        mTextSizeSeekBar.setProgress((int) ((text-MIN_TEXT_SIZE)));
+        mLineMarginSeekBar.setProgress((int) ((line-MIN_LINE_MARGIN)));
+        mItemMarginSeekBar.setProgress((int) ((item-MIN_ITEM_MARGIN)));
 
 
         String[] txts=new String[]{"BigBang","可以","对","文字","进行","编辑","，",

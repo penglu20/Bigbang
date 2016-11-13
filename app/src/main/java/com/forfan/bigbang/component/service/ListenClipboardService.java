@@ -160,7 +160,7 @@ public final class ListenClipboardService extends Service  {
         }
         String content = contentc.toString().trim();
         LogUtil.d(TAG,"showContent:"+content);
-        if (TextUtils.isEmpty(content) || (sLastContent != null && sLastContent.equals(content))  ) {
+        if (TextUtils.isEmpty(content) || (sLastContent != null && sLastContent.toString().trim().equals(content))  ) {
 //        if ( content == null) {
             sLastContent=null;
             return;

@@ -69,4 +69,10 @@
     <string name="show_float_view">show floating window</string>
     <string name="check_update_close">Is the latest version</string>
     <string name="default_setting">restore defaults</string>
+
+
+    <string name="punish_float_problem">floating window enabled!</string>
+    <string name="punish_float_action">problem？click for setting</string>
+
+    <string name="open_setting_failed_diy">unable to start system setting, please diy!</string>
 </resources>

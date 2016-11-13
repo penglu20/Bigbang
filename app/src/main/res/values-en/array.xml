@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="click_or_long_click">
+        <item>Click</item>
+        <item>LongClick</item>
+        <item>Disable</item>
+    </string-array>
+
+</resources>
