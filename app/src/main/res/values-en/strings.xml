@@ -75,4 +75,5 @@
     <string name="punish_float_action">problem？click for setting</string>
 
     <string name="open_setting_failed_diy">unable to start system setting, please diy!</string>
+    <string name="share_to">Share To:</string>
 </resources>

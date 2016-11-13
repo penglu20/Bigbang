@@ -74,4 +74,5 @@
     <string name="punish_float_action">有问题？点击设置</string>
 
     <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
+    <string name="share_to">分享到：</string>
 </resources>

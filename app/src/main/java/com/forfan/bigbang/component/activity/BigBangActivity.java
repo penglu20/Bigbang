@@ -166,7 +166,7 @@ public class BigBangActivity extends BaseActivity {
                 sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 sharingIntent.setType("text/plain");
                 sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
-                startActivity(sharingIntent);
+                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_to)));
                 finish();
             }
         }
