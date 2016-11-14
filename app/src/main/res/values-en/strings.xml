@@ -61,6 +61,8 @@
     <string name="share_request_msg_dislike">Would you like to give us some advice？</string>
     <string name="share_request_msg_like">Willing to share with your friends？</string>
     <string name="about_content">This product is programmed by the design of Smartisan OS\'sBigBang，in order to allow more users to experience this kind of high efficient mode of operation！If you feel that just works，you can buy Smartisan M1 experience better feelings！\n This product is part of the content from the Internet and other open source components，If have to infringe your copyright，Please contact me ，Thx！\n if you have any opinion or suggestion to our products，welcoming feedback。\n Version：%1$s</string>
+
+    <string name="donate">Donate A Cup of Coffee!</string>
     <string name="confirm">confirm</string>
     <string name="app_name">Smartisan BigBang</string>
     <string name="share_request_cancel_dislike">Let\'s forget it ...</string>

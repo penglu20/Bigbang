@@ -188,6 +188,10 @@ public class SimpleDialog extends Dialog {
         return this;
     }
 
+    public TextView getMessageTextView() {
+        return mMessage;
+    }
+
     /**
      * Set a message text to this SimpleDialog.
      * @param id The resourceId of text.

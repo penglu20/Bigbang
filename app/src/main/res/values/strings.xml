@@ -60,6 +60,7 @@
     <string name="share_request_msg_dislike">愿意给我们一些建议吗？</string>
     <string name="share_request_msg_like">愿意分享给您的朋友吗？</string>
     <string name="about_content">\t\t\t本产品是根据老罗的BigBang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n版本号：%1$s</string>
+    <string name="donate">我请作者吃辣条</string>
     <string name="confirm">确认</string>
     <string name="app_name">锤子BigBang</string>
     <string name="share_request_cancel_dislike">算了吧...</string>
@@ -75,4 +76,8 @@
 
     <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
     <string name="share_to">分享到：</string>
+
+
+
+
 </resources>

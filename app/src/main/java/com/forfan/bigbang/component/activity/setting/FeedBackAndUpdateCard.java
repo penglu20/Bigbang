@@ -6,6 +6,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +125,6 @@ public class FeedBackAndUpdateCard extends AbsCard {
     }
 
     private void showAboutDialog(){
-        // TODO: 2016/10/29
         PackageManager manager = mContext.getPackageManager();
         PackageInfo info = null;
         String version="1.3.0";
@@ -133,13 +134,23 @@ public class FeedBackAndUpdateCard extends AbsCard {
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-            Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight);
+        Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
+            @Override
+            protected void onBuildDone(Dialog dialog) {
+                ((SimpleDialog)dialog).getMessageTextView().setMovementMethod(LinkMovementMethod.getInstance());
+                super.onBuildDone(dialog);
+            }
+        };
+        String zhifubao="https://mobilecodec.alipay.com/client_download.htm?qrcode=ap13zwff7wggcfdn80";
+        String donate=mContext.getString(R.string.donate);
         ((SimpleDialog.Builder) builder).
-                    message(String.format(mContext.getString(R.string.about_content),version))
-                    .title(mContext.getString(R.string.about))
-                    .positiveAction(mContext.getString(R.string.confirm));
-            DialogFragment fragment = DialogFragment.newInstance(builder);
-            fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
+                message( Html.fromHtml(
+                        String.format(mContext.getString(R.string.about_content),version).replaceAll("\n","<br />")
+                                +"<br /><a href='"+zhifubao+"'>"+donate+"</a>"))
+                .title(mContext.getString(R.string.about))
+                .positiveAction(mContext.getString(R.string.confirm));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
     private void showProblemDialog(){
