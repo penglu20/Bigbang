@@ -78,4 +78,13 @@
 
     <string name="open_setting_failed_diy">unable to start system setting, please diy!</string>
     <string name="share_to">Share To:</string>
+
+
+    <string name="setting_text_size">Text Size：</string>
+    <string name="setting_line_margin">Line Margin：</string>
+    <string name="setting_item_margin">Block Margin：</string>
+
+    <string name="search_input_hint">Use ￥ instead of query</string>
+    <string name="search_type">Search Through:</string>
+
 </resources>

@@ -49,7 +49,8 @@
     <string name="search_mode_help">搜索\n将选中的词句通过默认浏览器进行百度搜索</string>
     <string name="try_click_text">请点击或滑动上方文字</string>
     <string name="share_request_cancel_like">算了吧...</string>
-    <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡,然后就会打开 BigBang 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>    <string name="qq_monitor">在QQ中监控</string>
+    <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡,然后就会打开 BigBang 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>
+    <string name="qq_monitor">在QQ中监控</string>
     <string name="ok">我知道了</string>
     <string name="translate_mode_help">翻译\n使用有道词典进行中英互译</string>
     <string name="introduction">如何使用</string>
@@ -77,7 +78,13 @@
     <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
     <string name="share_to">分享到：</string>
 
+    <string name="setting_text_size">字体大小：</string>
+    <string name="setting_line_margin">行间距：</string>
+    <string name="setting_item_margin">块间距：</string>
 
+    <string name="setting_loca_webview">使用自带浏览器</string>
 
+    <string name="search_input_hint">使用￥符号代替搜索词</string>
+    <string name="search_type">搜索引擎</string>
 
 </resources>

@@ -28,3 +28,55 @@ ok 10.添加了捐赠链接，在关于中
 9.白名单功能
 
 
+ //自设搜索引擎推荐
+//    1)	搜索页类
+//    #搜狗(手机版)
+//    http空:空//m点sogou点com/web/searchList点jsp?keyword=@
+//    #搜狗(PC版)
+//    https空:空//www点sogou点com/web?query=@
+//    #GOOGLE
+//    https空:空//www点google点com/search?q=@
+//    #百度
+//    http空:空//www点baidu点com点cn/s?wd=@
+//    #BING
+//    https空:空//www点bing点com/search?q=@
+//    #知乎(搜狗版)
+//    http空:空//zhihu点sogou点com/zhihuwap?query=@
+//    #知乎
+//    http空:空//www点zhihu点com/search?q=@
+//    2)	网购引擎
+//    #淘宝
+//    https空:空//s点m点taobao点com/h5?q=@
+//    #天猫
+//    https空:空//list点tmall点com/search_product点htm?q=@
+//    #京东
+//    https空:空//search点jd点com/Search?keyword=@
+//    #京东(手机版)
+//    http空:空//so点m点jd点com/ware/search点action?keyword=@
+//    #亚马逊
+//    https空:空//www点amazon点cn/s/ref=nb_sb_noss?field-keywords=@
+//    3)	地图
+//    #搜狗地图
+//    http空:空//map点sogou点com/#lq=@
+//    #百度地图
+//    http空:空//map点baidu点com/mobile/webapp/search/search/qt=s&wd=@
+//    #谷歌地图
+//    https空:空//www点google点com点hk/maps/place/@
+//    4)	字典引擎
+//    #有道查词
+//    http空:空//m点youdao点com/dict?q=@
+//    #金山词霸
+//    http空:空//www点iciba点com/@
+//    #汉典(中文字典)
+//    http空:空//wap点zdic点net/s?q=@
+//    5)	翻译引擎
+//    #谷哥翻译 自动检测 > 转英文
+//    http空:空//translate点google点cn/m/translate#auto/en/@
+//    #谷哥翻译 自动检测 > 转简体中文
+//    http空:空//translate点google点cn/m/translate#auto/zh-CN/@
+//    #谷哥翻译 英文 > 转简体中文
+//    http空:空//translate点google点cn/m/translate#en/zh-CN/@
+//    #谷哥翻译 自动检测 > 转繁体中文
+//    http空:空//translate点google点cn/m/translate#auto/zh-TW/@
+
+

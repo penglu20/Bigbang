@@ -1,7 +1,9 @@
-package com.forfan.bigbang.component.activity.setting;
+package com.forfan.bigbang.component.activity;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -38,6 +40,7 @@ public class SettingBigBangActivity extends BaseActivity {
 
     private TextView textSize,lineMargin,itemMargin;
 
+    private CheckBox mLocalWebView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,7 @@ public class SettingBigBangActivity extends BaseActivity {
         lineMargin= (TextView) findViewById(R.id.line_margin);
         itemMargin= (TextView) findViewById(R.id.item_margin);
 
+        mLocalWebView= (CheckBox) findViewById(R.id.local_webview);
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE-MIN_TEXT_SIZE);
         mLineMarginSeekBar.setMax(MAX_LINE_MARGIN-MIN_LINE_MARGIN);
@@ -69,7 +73,7 @@ public class SettingBigBangActivity extends BaseActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value= (int) (MIN_TEXT_SIZE + progress);
                 mBigBangLayout.setTextSize(value);
-                textSize.setText("字体大小： "+value);
+                textSize.setText(getString(R.string.setting_text_size)+value);
                 SPHelper.save(ConstantUtil.TEXT_SIZE,value);
             }
 
@@ -89,7 +93,7 @@ public class SettingBigBangActivity extends BaseActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value= (int) (MIN_LINE_MARGIN + progress);
                 mBigBangLayout.setLineSpace(value);
-                lineMargin.setText("行间距： "+value);
+                lineMargin.setText(getString(R.string.setting_line_margin)+value);
                 SPHelper.save(ConstantUtil.LINE_MARGIN,value);
             }
 
@@ -108,7 +112,7 @@ public class SettingBigBangActivity extends BaseActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value= (int) (MIN_ITEM_MARGIN + progress);
                 mBigBangLayout.setItemSpace(value);
-                itemMargin.setText("块间距"+value);
+                itemMargin.setText(getString(R.string.setting_item_margin)+value);
                 SPHelper.save(ConstantUtil.ITEM_MARGIN,value);
             }
 
@@ -122,6 +126,13 @@ public class SettingBigBangActivity extends BaseActivity {
 
             }
         });
+        mLocalWebView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.USE_LOCAL_WEBVIEW,isChecked);
+            }
+        });
+
 
 
 
@@ -141,6 +152,8 @@ public class SettingBigBangActivity extends BaseActivity {
         mTextSizeSeekBar.setProgress((int) ((text-MIN_TEXT_SIZE)));
         mLineMarginSeekBar.setProgress((int) ((line-MIN_LINE_MARGIN)));
         mItemMarginSeekBar.setProgress((int) ((item-MIN_ITEM_MARGIN)));
+
+        mLocalWebView.setChecked(SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW,true));
 
 
         String[] txts=new String[]{"BigBang","可以","对","文字","进行","编辑","，",

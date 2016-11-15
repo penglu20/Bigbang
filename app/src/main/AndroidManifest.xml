@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.forfan.bigbang">
+
     <uses-feature
         android:name="android.hardware.camera"
-        android:required="true"/>
+        android:required="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".BigBangApp"
@@ -36,27 +40,28 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
-        <activity android:name=".component.activity.setting.SettingActivity"
+        <activity
+            android:name=".component.activity.setting.SettingActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity android:name=".test.TestActivity">
 
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN" />-->
-             <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".component.activity.BigBangActivity"
-            android:excludeFromRecents="true"
-            android:noHistory="true"
             android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
+            android:noHistory="true"
             android:theme="@style/BigBangTheme" />
         <activity
             android:name="com.umeng.fb.ConversationActivity"
-            android:theme="@style/BaseAppTheme"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@style/BaseAppTheme" />
 
         <service
             android:name=".component.service.BigBangMonitorService"
@@ -70,12 +75,12 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility" />
         </service>
-        <service android:name=".component.service.ListenClipboardService"
-            android:process=":monitor"
-                />
-        <service android:name=".component.service.ListenClipboardService$GrayInnerService"
-            android:process=":monitor"/>
-
+        <service
+            android:name=".component.service.ListenClipboardService"
+            android:process=":monitor" />
+        <service
+            android:name=".component.service.ListenClipboardService$GrayInnerService"
+            android:process=":monitor" />
         <service
             android:name=".component.service.ListenClipboardService"
             android:process=":monitor" />
@@ -106,30 +111,30 @@
             android:theme="@style/ColorTranslucentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".component.activity.IntroActivity"
+        <activity
+            android:name=".component.activity.IntroActivity"
+            android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:noHistory="true"
+            android:theme="@style/ColorTranslucentTheme" />
+        <activity
+            android:name=".component.activity.OcrActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.activity.SettingBigBangActivity"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".component.activity.WebActivity"
             android:autoRemoveFromRecents="true"
-            android:theme="@style/ColorTranslucentTheme"/>
-        <activity android:name=".component.activity.OcrActivity"
-            android:theme="@style/AppTheme"/>
-
-
-
-        <activity android:name=".component.activity.setting.SettingBigBangActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity android:name=".component.activity.WebActivity"
             android:excludeFromRecents="true"
-            android:noHistory="true"
-            android:autoRemoveFromRecents="true"
             android:launchMode="singleInstance"
-            android:theme="@style/WebActivityTheme"
-            />
+            android:noHistory="true"
+            android:theme="@style/WebActivityTheme" />
+        <activity android:name=".component.activity.SettingQueryActivity"></activity>
     </application>
 
 </manifest>

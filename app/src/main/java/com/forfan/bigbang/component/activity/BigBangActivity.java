@@ -145,12 +145,16 @@ public class BigBangActivity extends BaseActivity {
                         uri=Uri.parse(text);
                     }
 
-//                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-                    Intent intent = new Intent();
-                    intent.putExtra("url",uri.toString());
-                    intent.setClass(BigBangActivity.this,WebActivity.class);
+                    boolean t=SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW,true);
+                    Intent intent;
+                    if (t){
+                        intent = new Intent();
+                        intent.putExtra("url",uri.toString());
+                        intent.setClass(BigBangActivity.this,WebActivity.class);
+                    }else {
+                        intent = new Intent(Intent.ACTION_VIEW, uri);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    }
                     startActivity(intent);
                     finish();
                 } catch (UnsupportedEncodingException e) {
