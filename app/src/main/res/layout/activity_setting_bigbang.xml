@@ -88,42 +88,7 @@
                 android:max="100"
                 android:layout_height="@dimen/setting_bigbang_activity_line_height" />
 
-            <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/local_webview"
-                android:layout_width="match_parent"
-                android:paddingLeft="@dimen/margin_double"
-                android:text="@string/setting_loca_webview"
-                android:gravity="center_vertical"
-                app:theme="@style/CheckBoxTheme"
-                android:layout_height="@dimen/setting_bigbang_activity_line_height"
-                />
 
-            <LinearLayout
-                android:id="@+id/search_address"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                  <android.support.v7.widget.AppCompatTextView
-                      android:id="@+id/search_text"
-                      android:layout_width="match_parent"
-                      android:layout_marginTop="@dimen/margin_double"
-                      android:textColor="@color/black"
-                      android:gravity="left|center_vertical"
-                      android:paddingLeft="@dimen/margin_double"
-                      android:textSize="@dimen/text_size_normal"
-                      android:text="@string/search_type"
-                      android:layout_height="@dimen/setting_bigbang_activity_text_height" />
-
-                  <android.support.v7.widget.AppCompatTextView
-                      android:id="@+id/search_edit"
-                      android:layout_width="match_parent"
-                      android:gravity="left|center_vertical"
-                      android:padding="@dimen/margin_double"
-                      android:textSize="@dimen/text_size_normal"
-                      android:textColor="@color/secondary_text"
-                      android:layout_height="wrap_content" />
-
-            </LinearLayout>
       </LinearLayout>
 </ScrollView>
 

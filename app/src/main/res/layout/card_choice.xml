@@ -5,18 +5,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/white_list"
-        style="@style/cardViewRelativeLayoutSelector"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatTextView
-            style="@style/cardViewTextViewInLayoutLeft"
-            android:text="@string/white_list_settings" />
 
-    </RelativeLayout>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/setting_bigbang"
+        style="@style/cardViewTextView"
+        android:text="@string/setting_bigbang"/>
+    <!---->
+    <!--<RelativeLayout-->
+        <!--android:id="@+id/white_list"-->
+        <!--style="@style/cardViewRelativeLayoutSelector"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+
+        <!--<android.support.v7.widget.AppCompatTextView-->
+            <!--style="@style/cardViewTextViewInLayoutLeft"-->
+            <!--android:text="@string/white_list_settings" />-->
+
+    <!--</RelativeLayout>-->
 
     <RelativeLayout
         android:id="@+id/browser_setting"
