@@ -44,7 +44,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private static final int TYPE_VIEW_LONG_CLICKED=AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
     private static final int TYPE_VIEW_DOUBLD_CLICKED=3;
     private static final int TYPE_VIEW_NONE=3;
-    public static final int DOUBLE_CLICK_INTERVAL = 1000;
+    public  int double_click_interval = ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL;
 
     private CharSequence mWindowClassName;
 
@@ -291,7 +291,7 @@ public class BigBangMonitorService extends AccessibilityService {
             mLastSourceNodeId=-1;
             return type;
         }
-        if (type==TYPE_VIEW_CLICKED && time - mLastClickTime<=DOUBLE_CLICK_INTERVAL && id==mLastSourceNodeId){
+        if (type==TYPE_VIEW_CLICKED && time - mLastClickTime<= double_click_interval && id==mLastSourceNodeId){
             mLastClickTime=-1;
             mLastSourceNodeId=-1;
             return TYPE_VIEW_DOUBLD_CLICKED;
@@ -352,6 +352,7 @@ public class BigBangMonitorService extends AccessibilityService {
         monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
         showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
         onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY,true) ;
+        double_click_interval=SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL,ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
 
         String[] spinnerArray= getResources().getStringArray(SPINNER_ARRAY);
         String qq = SPHelper.getString(ConstantUtil.QQ_SELECTION,spinnerArray[1]);

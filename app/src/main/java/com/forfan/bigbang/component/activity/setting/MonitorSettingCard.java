@@ -2,11 +2,16 @@ package com.forfan.bigbang.component.activity.setting;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.SwitchCompat;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,6 +22,7 @@ import com.forfan.bigbang.component.activity.whitelist.WhiteListActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.ViewUtil;
 
 import okhttp3.Call;
 
@@ -30,8 +36,8 @@ public class MonitorSettingCard extends AbsCard {
     private static final String TAG="MonitorSettingCard";
 
     public static final int SPINNER_ARRAY=R.array.click_or_long_click;
-    private RelativeLayout onlyTextRL;
-    private TextView whiteList;
+    private RelativeLayout onlyTextRL ,doubleClickIntervalRl;
+    private TextView whiteList,mDoubleClick;
 
     private SwitchCompat onlyTextSwitch;
 
@@ -39,6 +45,10 @@ public class MonitorSettingCard extends AbsCard {
     private String qqSelection;
     private String weixinSelection;
     private String otherSelection;
+
+    private TextInputLayout doubleClickInputLayout;
+    private EditText doubleClickEditText;
+    private Button doubleClickConfirm;
 
     private boolean onlyText =false;
     private String[] spinnerArray;
@@ -64,6 +74,12 @@ public class MonitorSettingCard extends AbsCard {
         onlyTextSwitch = (SwitchCompat) findViewById(R.id.text_only_switch);
 
         whiteList = (TextView) findViewById(R.id.white_list);
+
+        doubleClickIntervalRl = (RelativeLayout) findViewById(R.id.double_click_interval_rl);
+        mDoubleClick = (TextView) findViewById(R.id.double_click_setting);
+        doubleClickEditText= (EditText) findViewById(R.id.double_click_interval_edit);
+        doubleClickInputLayout= (TextInputLayout) findViewById(R.id.double_click_interval);
+        doubleClickConfirm= (Button) findViewById(R.id.double_click_confirm);
 
         onlyTextSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -123,6 +139,8 @@ public class MonitorSettingCard extends AbsCard {
 
         onlyTextRL.setOnClickListener(myOnClickListerner);
         whiteList.setOnClickListener(myOnClickListerner);
+        mDoubleClick.setOnClickListener(myOnClickListerner);
+        doubleClickConfirm.setOnClickListener(myOnClickListerner);
 
         refresh();
     }
@@ -138,6 +156,24 @@ public class MonitorSettingCard extends AbsCard {
                     break;
                 case R.id.white_list:
                     mContext.startActivity(new Intent(mContext, WhiteListActivity.class));
+                    break;
+                case R.id.double_click_setting:
+                    doubleClickIntervalRl.setVisibility(VISIBLE);
+                    mDoubleClick.setVisibility(GONE);
+                    int t= SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL,ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
+                    doubleClickEditText.setText(t+"");
+                    doubleClickEditText.requestFocus();
+                    break;
+                case R.id.double_click_confirm:
+                    int time=Integer.parseInt(doubleClickEditText.getText().toString());
+                    SPHelper.save(ConstantUtil.DOUBLE_CLICK_INTERVAL,time);
+                    String text=mContext.getString(R.string.double_click_intercal);
+                    text=text.replace("#","<font color=\"#009688\">"+time+"</font>");
+                    mDoubleClick.setText(Html.fromHtml(text));
+                    doubleClickIntervalRl.setVisibility(GONE);
+                    mDoubleClick.setVisibility(VISIBLE);
+                    ViewUtil.hideInputMethod(mDoubleClick);
+                    mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                     break;
                 default:
                     break;
@@ -157,6 +193,10 @@ public class MonitorSettingCard extends AbsCard {
         weixinSpinner.setSelection(spinnerArrayIndex(weixinSelection));
         otherSpinner.setSelection(spinnerArrayIndex(otherSelection));
 
+        int t= SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL,ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
+        String text=mContext.getString(R.string.double_click_intercal);
+        text=text.replace("#","<font color=\"#009688\">"+t+"</font>");
+        mDoubleClick.setText(Html.fromHtml(text));
 
     }
 

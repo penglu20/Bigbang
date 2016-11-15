@@ -58,6 +58,8 @@ public class ConstantUtil {
 
 
     public static final String ONLINE_CONFIG_OPEN_UPDATE="online_config_open_update";
+    public static final String DOUBLE_CLICK_INTERVAL="double_click_interval";
+    public static final int DEFAULT_DOUBLE_CLICK_INTERVAL = 1000;
 
 
     //SettingBigBangActivity

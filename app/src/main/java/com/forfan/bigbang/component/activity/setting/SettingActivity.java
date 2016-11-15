@@ -1,5 +1,6 @@
 package com.forfan.bigbang.component.activity.setting;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -125,8 +126,19 @@ public class SettingActivity extends BaseActivity {
                     }
                 });
 
-      initLocalBroadcast();
+        initLocalBroadcast();
+        checkPermission();
+    }
 
+
+    private void checkPermission(){
+        checkPermission(new CheckPermListener() {
+                            @Override
+                            public void superPermission() {
+                            }
+                        },R.string.ask_again,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private void initLocalBroadcast() {

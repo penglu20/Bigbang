@@ -56,6 +56,8 @@
     <string name="translate_mode_help">翻译\n使用有道词典进行中英互译</string>
     <string name="introduction">如何使用</string>
     <string name="weixin_monitor">在微信中监控</string>
+    <string name="double_click_intercal">双击间隔#毫秒\t\t\t\t\t\t\t\t\t点击修改</string>
+    <string name="double_click_intercal_hint">太长易误触，太短会于微信自身冲突</string>
     <string name="request_accessibility_msg">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
     <string name="share_request_confirm">喜欢！</string>
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
@@ -101,5 +103,7 @@
     <string name="user_app">第三方应用</string>
     <string name="search">搜索</string>
     <string name="wait_until_loaded">加载中，请稍后再操作</string>
+
+
 
 </resources>

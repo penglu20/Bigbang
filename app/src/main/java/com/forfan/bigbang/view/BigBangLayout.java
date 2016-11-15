@@ -32,7 +32,7 @@ import com.forfan.bigbang.util.ViewUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionListener, NestedScrollingChild {
+public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionListener,BigBangBottom.ActionListener, NestedScrollingChild {
 
 
     private static final int DEFAULT_TEXT_SIZE=14;//sp
@@ -49,6 +49,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private int mActionBarTopHeight;
     private int mActionBarBottomHeight;
     private BigBangHeader mHeader;
+    private BigBangBottom mBottom;
 
     private boolean showAnimation=false;
     private Paint dragPaint;
@@ -113,11 +114,15 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         mHeader.setVisibility(View.GONE);
         mHeader.setActionListener(this);
 
+        mBottom = new BigBangBottom(getContext());
+        mBottom.setActionListener(this);
+
         dragPaint=new Paint();
 //        dragPaint.setAlpha(100);
         dragPaint.setAntiAlias(true);
 
         addView(mHeader, 0);
+        addView(mBottom, 1);
 
         setClipChildren(false);
 
@@ -268,7 +273,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
             View child = getChildAt(i);
 
-            if (mHeader == child) {
+            if (mHeader == child || mBottom ==child) {
                 continue;
             }
 
@@ -299,7 +304,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             mHeader.measure(MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(selectedLineHeight, MeasureSpec.UNSPECIFIED));
         }
 
-        int size = heightSize + getPaddingTop() + getPaddingBottom() + (mLines.size() - 1) * mLineSpace + mActionBarTopHeight + mActionBarBottomHeight;
+        mBottom.measure(MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.EXACTLY));
+        int size = heightSize + getPaddingTop() + getPaddingBottom() + (mLines.size() - 1) * mLineSpace + mActionBarTopHeight * 2 + mActionBarBottomHeight;
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
     }
 
@@ -358,6 +364,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 mHeader.animate().alpha(0).setDuration(200).setListener(mActionBarAnimationListener).start();
             }
         }
+        mBottom.layout(getPaddingLeft(),b-mBottom.getMeasuredHeight()-getPaddingBottom(),getPaddingLeft() + mBottom.getMeasuredWidth(), b-getPaddingBottom());
     }
 
     private Line findLastSelectedLine() {

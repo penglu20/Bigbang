@@ -22,11 +22,11 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
     ImageView mSearch;
     ImageView mShare;
     ImageView mCopy;
-    ImageView mDrag;
+//    ImageView mDrag;
     ImageView mTrans;
 
-    ImageView mSelectAll;
-    ImageView mSelectOther;
+//    ImageView mSelectAll;
+//    ImageView mSelectOther;
 
 
     Drawable mBorder;
@@ -70,37 +70,37 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         mCopy.setImageResource(R.mipmap.bigbang_action_copy);
         mCopy.setOnClickListener(this);
 
-        mDrag=new ImageView(context);
-        mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
-        mDrag.setOnClickListener(this);
+//        mDrag=new ImageView(context);
+//        mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
+//        mDrag.setOnClickListener(this);
 
         mTrans=new ImageView(context);
         mTrans.setImageResource(R.mipmap.ic_compare_arrows_white_36dp);
         mTrans.setOnClickListener(this);
 
-        mSelectAll=new ImageView(context);
-        mSelectAll.setImageResource(R.mipmap.bigbang_action_select_all);
-        mSelectAll.setOnClickListener(this);
-
-        mSelectOther=new ImageView(context);
-        mSelectOther.setImageResource(R.mipmap.bigbang_action_select_other);
-        mSelectOther.setOnClickListener(this);
+//        mSelectAll=new ImageView(context);
+//        mSelectAll.setImageResource(R.mipmap.bigbang_action_select_all);
+//        mSelectAll.setOnClickListener(this);
+//
+//        mSelectOther=new ImageView(context);
+//        mSelectOther.setImageResource(R.mipmap.bigbang_action_select_other);
+//        mSelectOther.setOnClickListener(this);
 
         addView(mSearch, createLayoutParams());
         addView(mShare, createLayoutParams());
         addView(mCopy, createLayoutParams());
-        addView(mDrag, createLayoutParams());
         addView(mTrans, createLayoutParams());
 
 
-        addView(mSelectAll, createLayoutParams());
-        addView(mSelectOther, createLayoutParams());
+//        addView(mDrag, createLayoutParams());
+//        addView(mSelectAll, createLayoutParams());
+//        addView(mSelectOther, createLayoutParams());
 
-        mSearch.setVisibility(VISIBLE);
-        mShare.setVisibility(VISIBLE);
-        mTrans.setVisibility(VISIBLE);
-        mSelectAll.setVisibility(GONE);
-        mSelectOther.setVisibility(GONE);
+//        mSearch.setVisibility(VISIBLE);
+//        mShare.setVisibility(VISIBLE);
+//        mTrans.setVisibility(VISIBLE);
+//        mSelectAll.setVisibility(GONE);
+//        mSelectOther.setVisibility(GONE);
 
         setWillNotDraw(false);
 
@@ -142,10 +142,10 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         layoutSubView(mShare, 2 * mActionGap + mSearch.getMeasuredWidth() , 0);
         layoutSubView(mTrans, 3 * mActionGap + mTrans.getMeasuredWidth()+ mShare.getMeasuredWidth() , 0);
 
-        layoutSubView(mSelectAll, 2 * mActionGap + mSearch.getMeasuredWidth() , 0);
-        layoutSubView(mSelectOther, 3 * mActionGap + mTrans.getMeasuredWidth()+ mShare.getMeasuredWidth() , 0);
-
-        layoutSubView(mDrag, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
+//        layoutSubView(mSelectAll, 2 * mActionGap + mSearch.getMeasuredWidth() , 0);
+//        layoutSubView(mSelectOther, 3 * mActionGap + mTrans.getMeasuredWidth()+ mShare.getMeasuredWidth() , 0);
+//
+//        layoutSubView(mDrag, width - mActionGap * 2 - mShare.getMeasuredWidth() - mCopy.getMeasuredWidth(), 0);
         layoutSubView(mCopy, width - mActionGap - mCopy.getMeasuredWidth(), 0);
 
         Rect oldBounds = mBorder.getBounds();
@@ -190,30 +190,30 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
             mActionListener.onShare();
         } else if (v == mCopy) {
             mActionListener.onCopy();
-        }else if (v==mDrag){
-            dragMode=!dragMode;
-            if (dragMode) {
-                mDrag.setImageResource(R.mipmap.ic_done_white_36dp);
-                mSearch.setVisibility(GONE);
-                mShare.setVisibility(GONE);
-                mTrans.setVisibility(GONE);
-                mSelectAll.setVisibility(VISIBLE);
-                mSelectOther.setVisibility(VISIBLE);
-            }else {
-                mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
-                mSearch.setVisibility(VISIBLE);
-                mShare.setVisibility(VISIBLE);
-                mTrans.setVisibility(VISIBLE);
-                mSelectAll.setVisibility(GONE);
-                mSelectOther.setVisibility(GONE);
-            }
-            mActionListener.onDrag();
-        }else if (v==mTrans){
-            mActionListener.onTrans();
-        }else if (v==mSelectAll){
-            mActionListener.onSelectAll();
-        }else if (v==mSelectOther){
-            mActionListener.onSelectOther();
+//        }else if (v==mDrag){
+//            dragMode=!dragMode;
+//            if (dragMode) {
+//                mDrag.setImageResource(R.mipmap.ic_done_white_36dp);
+//                mSearch.setVisibility(GONE);
+//                mShare.setVisibility(GONE);
+//                mTrans.setVisibility(GONE);
+//                mSelectAll.setVisibility(VISIBLE);
+//                mSelectOther.setVisibility(VISIBLE);
+//            }else {
+//                mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
+//                mSearch.setVisibility(VISIBLE);
+//                mShare.setVisibility(VISIBLE);
+//                mTrans.setVisibility(VISIBLE);
+//                mSelectAll.setVisibility(GONE);
+//                mSelectOther.setVisibility(GONE);
+//            }
+//            mActionListener.onDrag();
+//        }else if (v==mTrans){
+//            mActionListener.onTrans();
+//        }else if (v==mSelectAll){
+//            mActionListener.onSelectAll();
+//        }else if (v==mSelectOther){
+//            mActionListener.onSelectOther();
         }
     }
 

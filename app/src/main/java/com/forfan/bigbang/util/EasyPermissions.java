@@ -79,7 +79,7 @@ public class EasyPermissions {
     /**
 
      */
-    public static void requestPermissions(final Object object, String rationale,
+    public static void requestPermissions(final Object object, CharSequence rationale,
                                           final int requestCode, final String... perms) {
         requestPermissions(object, rationale,
                 android.R.string.ok,
@@ -90,7 +90,7 @@ public class EasyPermissions {
     /**
 
      */
-    public static void requestPermissions(final Object object, String rationale,
+    public static void requestPermissions(final Object object, CharSequence rationale,
                                           @StringRes int positiveButton,
                                           @StringRes int negativeButton,
                                           final int requestCode, final String... perms) {

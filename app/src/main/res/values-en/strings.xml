@@ -100,4 +100,8 @@
     <string name="search">Search</string>
     <string name="wait_until_loaded">Please try later</string>
     <string name="white_list">set white list</string>
+
+
+    <string name="double_click_intercal">double click interval #ms， click to modify</string>
+    <string name="double_click_intercal_hint">Both too long or too short may cause mistake.</string>
 </resources>
