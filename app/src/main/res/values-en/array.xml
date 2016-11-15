@@ -3,6 +3,7 @@
     <string-array name="click_or_long_click">
         <item>Click</item>
         <item>LongClick</item>
+        <item>DoubleClick</item>
         <item>Disable</item>
     </string-array>
 

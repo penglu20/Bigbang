@@ -26,6 +26,8 @@ import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -40,7 +42,9 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private static final int TYPE_VIEW_CLICKED=AccessibilityEvent.TYPE_VIEW_CLICKED;
     private static final int TYPE_VIEW_LONG_CLICKED=AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
+    private static final int TYPE_VIEW_DOUBLD_CLICKED=3;
     private static final int TYPE_VIEW_NONE=3;
+    public static final int DOUBLE_CLICK_INTERVAL = 1000;
 
     private CharSequence mWindowClassName;
 
@@ -193,7 +197,7 @@ public class BigBangMonitorService extends AccessibilityService {
         if (showFloatView && !showBigBang) {
             return;
         }
-        int type=event.getEventType();
+        int type=getClickType(event);
         CharSequence className = event.getClassName();
         if (mWindowClassName==null || whiteList.contains(event.getPackageName())|| whiteList.contains(mWindowClassName)){
             return;
@@ -246,6 +250,64 @@ public class BigBangMonitorService extends AccessibilityService {
             startActivity(intent);
         }
     }
+
+
+    private Method getSourceNodeIdMethod;
+    private long mLastSourceNodeId;
+    private long mLastClickTime;
+
+    private long getSourceNodeId(AccessibilityEvent event)  {
+        if (getSourceNodeIdMethod==null) {
+            Class<AccessibilityEvent> eventClass = AccessibilityEvent.class;
+            try {
+                getSourceNodeIdMethod = eventClass.getMethod("getSourceNodeId");
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
+        }
+        if (getSourceNodeIdMethod!=null) {
+            try {
+                return (long) getSourceNodeIdMethod.invoke(event);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
+    }
+
+    private int getClickType(AccessibilityEvent event){
+        int type = event.getEventType();
+        long time = event.getEventTime();
+        long id=getSourceNodeId(event);
+        if (type!=TYPE_VIEW_CLICKED){
+            mLastClickTime=time;
+            mLastSourceNodeId=-1;
+            return type;
+        }
+        if (id==-1){
+            mLastClickTime=time;
+            mLastSourceNodeId=-1;
+            return type;
+        }
+        if (type==TYPE_VIEW_CLICKED && time - mLastClickTime<=DOUBLE_CLICK_INTERVAL && id==mLastSourceNodeId){
+            mLastClickTime=-1;
+            mLastSourceNodeId=-1;
+            return TYPE_VIEW_DOUBLD_CLICKED;
+        }else {
+            mLastClickTime=time;
+            mLastSourceNodeId=id;
+            return type;
+        }
+    }
+
+
+
+
+
+
+
 
     // To check if service is enabled
     public static boolean isAccessibilitySettingsOn(Context mContext) {
@@ -314,7 +376,7 @@ public class BigBangMonitorService extends AccessibilityService {
                 return i;
             }
         }
-        return 2;
+        return 3;
     }
 
 
