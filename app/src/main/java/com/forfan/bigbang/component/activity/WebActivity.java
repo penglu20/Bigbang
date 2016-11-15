@@ -9,21 +9,21 @@ import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.util.DisplayMetrics;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.DensityUtils;
+import com.forfan.bigbang.util.LogUtil;
 
 import java.lang.reflect.Field;
 
@@ -73,7 +73,7 @@ public class WebActivity
         findViewById(R.id.open_chrome).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent  intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -87,11 +87,12 @@ public class WebActivity
                 paramAnonymousMessage2.sendToTarget();
             }
 
-            public boolean shouldOverrideUrlLoading(WebView paramAnonymousWebView, String paramAnonymousString) {
-                paramAnonymousWebView.loadUrl(paramAnonymousString);
-                mUrl = paramAnonymousWebView.getUrl();
-                return true;
-            }
+//            public boolean shouldOverrideUrlLoading(WebView paramAnonymousWebView, String paramAnonymousString) {
+//                paramAnonymousWebView.loadUrl(paramAnonymousString);
+//                mUrl = paramAnonymousWebView.getUrl();
+//                LogUtil.d( "loadurl",paramAnonymousWebView.getUrl());
+//                return true;
+//            }
         });
         this.mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView paramAnonymousWebView, int paramAnonymousInt) {
@@ -105,7 +106,7 @@ public class WebActivity
                 WebActivity.this.mTitle.setText(R.string.loading);
             }
         });
-        this.mWebView.getSettings().setCacheMode(LOAD_NO_CACHE);
+        this.mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
 
 
@@ -163,21 +164,19 @@ public class WebActivity
             this.mWebView.destroy();
             this.mWebView = null;
         }
-        if(mProgressBar != null){
+        if (mProgressBar != null) {
             mProgressBar.onDetachedFromWindow();
         }
         finish();
     }
 
-    public boolean onKeyDown(int paramInt, KeyEvent paramKeyEvent) {
-        if (paramInt == 4) {
-            if (this.mWebView.canGoBack()) {
-                this.mWebView.goBack();
-                return true;
-            }
+    @Override
+    public void onBackPressed() {
+        if (mWebView.isFocused() && mWebView.canGoBack()) {
+            mWebView.goBack();
+        } else {
+            super.onBackPressed();
             finish();
-            return true;
         }
-        return super.onKeyDown(paramInt, paramKeyEvent);
     }
 }

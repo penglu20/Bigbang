@@ -140,7 +140,7 @@ public class BigBangActivity extends BaseActivity {
                     Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE );
                     Matcher matcher=p.matcher(text);
                     if (!matcher.matches()){
-                        uri=Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8"));
+                        uri=Uri.parse("https://m.baidu.com/s?word=" + URLEncoder.encode(text, "utf-8"));
                     }else {
                         uri=Uri.parse(text);
                     }

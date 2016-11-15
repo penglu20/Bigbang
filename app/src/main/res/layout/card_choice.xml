@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/white_list"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/white_list_settings" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/browser_setting"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/text_only_tv"
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/use_app_browser" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/browser_switch"
+            style="@style/switchStyle" />
+    </RelativeLayout>
+</LinearLayout>

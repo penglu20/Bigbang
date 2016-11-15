@@ -87,4 +87,7 @@
     <string name="search_input_hint">使用￥符号代替搜索词</string>
     <string name="search_type">搜索引擎</string>
 
+    <string name="use_app_browser">使用内置浏览器</string>
+    <string name="white_list_settings">白名单设置</string>
+
 </resources>

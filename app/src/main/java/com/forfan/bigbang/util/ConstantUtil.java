@@ -65,6 +65,7 @@ public class ConstantUtil {
     public static final String USE_LOCAL_WEBVIEW="use_local_webview";
 
 
+
     public static final int DEFAULT_TEXT_SIZE=14;
     public static final int DEFAULT_LINE_MARGIN=8;
     public static final int DEFAULT_ITEM_MARGIN=0;

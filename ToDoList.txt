@@ -7,6 +7,7 @@ ok 1.文字过多的情况下，要可以滑动，同时要处理好滑动选择的功能
 6.本地bigbang
 7.本地webview
 8.添加打点记录
+9.加入xposed框架
 
 
 ok 1.launcher应用加白名单

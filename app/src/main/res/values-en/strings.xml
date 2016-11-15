@@ -87,4 +87,9 @@
     <string name="search_input_hint">Use ￥ instead of query</string>
     <string name="search_type">Search Through:</string>
 
+
+    <string name="use_app_browser">Use built-in browser</string>
+    <string name="white_list_settings">White list settings</string>
+
+
 </resources>
