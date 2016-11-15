@@ -155,13 +155,13 @@ public class WebActivity
             case 1:
                 url ="https://www.google.com/search?q=";
                 break;
+//            case 2:
+//                url ="http://m.so.com/s?q=";
+//                break;
             case 2:
-                url ="http://m.so.com/s?q=";
-                break;
-            case 3:
                 url="https://www.bing.com/search?q=";
                 break;
-            case 4:
+            case 3:
                 url="https://s.m.taobao.com/h5?event_submit_do_new_search_auction=1&_input_charset=utf-8&topSearch=1&atype=b&searchfrom=1&action=home%3Aredirect_app_action&from=1&sst=1&n=20&buying=buyitnow&q=";
                 break;
         }

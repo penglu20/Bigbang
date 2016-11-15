@@ -2,6 +2,7 @@
     android:id="@android:id/text1"
     style="@style/spinnerItemStyle"
     android:gravity="center|center_horizontal"
+    android:paddingRight="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee" />

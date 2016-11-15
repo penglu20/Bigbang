@@ -138,6 +138,7 @@
         <item name="android:layout_height">@dimen/height_normal</item>
         <item name="android:entries">@array/browser_list</item>
         <item name="android:spinnerMode">dropdown</item>
+        <item name="android:paddingRight">10dp</item>
         <item name="android:dividerHeight">1dp</item>
         <item name="android:dropDownWidth">@dimen/spinner_drop_down_width</item>
 
