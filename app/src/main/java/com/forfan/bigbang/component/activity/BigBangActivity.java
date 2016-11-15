@@ -139,17 +139,24 @@ public class BigBangActivity extends BaseActivity {
 //                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
                     Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE );
                     Matcher matcher=p.matcher(text);
+                    boolean isUrl;
                     if (!matcher.matches()){
                         uri=Uri.parse("https://m.baidu.com/s?word=" + URLEncoder.encode(text, "utf-8"));
+                        isUrl = false;
                     }else {
                         uri=Uri.parse(text);
+                        isUrl = true;
                     }
 
                     boolean t=SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW,true);
                     Intent intent;
                     if (t){
                         intent = new Intent();
-                        intent.putExtra("url",uri.toString());
+                        if(isUrl){
+                            intent.putExtra("url",uri.toString());
+                        }else {
+                            intent.putExtra("query",text);
+                        }
                         intent.setClass(BigBangActivity.this,WebActivity.class);
                     }else {
                         intent = new Intent(Intent.ACTION_VIEW, uri);

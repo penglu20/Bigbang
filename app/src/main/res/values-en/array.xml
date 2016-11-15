@@ -6,5 +6,12 @@
         <item>DoubleClick</item>
         <item>Disable</item>
     </string-array>
+    <string-array name="browser_list">
+        <item>Baidu</item>
+        <item>Google</item>
+        <item>360Sou</item>
+        <item>Bing</item>
+        <item>Taobao</item>
+    </string-array>
 
 </resources>

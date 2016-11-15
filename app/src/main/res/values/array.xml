@@ -6,5 +6,12 @@
         <item>双击</item>
         <item>不使用</item>
     </string-array>
+    <string-array name="browser_list">
+        <item>百度</item>
+        <item>谷歌</item>
+        <item>360搜索</item>
+        <item>必应</item>
+        <item>淘宝</item>
+    </string-array>
 
 </resources>

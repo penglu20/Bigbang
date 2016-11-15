@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.widget.ContentLoadingProgressBar;
+import android.support.v7.widget.AppCompatSpinner;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,29 +18,34 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.DensityUtils;
 import com.forfan.bigbang.util.LogUtil;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
-
-import static android.webkit.WebSettings.LOAD_NO_CACHE;
+import java.net.URLEncoder;
 
 
 public class WebActivity
         extends BaseActivity {
+    private static final java.lang.String TAG = "webActivity";
     private LinearLayout mContentLayout;
     private ObjectAnimator mEnterAnim;
     private FrameLayout mFrameLayout;
     private ContentLoadingProgressBar mProgressBar;
-    private TextView mTitle;
+    private AppCompatSpinner mTitleSpinner;
     private String mUrl;
     private WebView mWebView;
+    private int browserSelection;
+    private String mQuery;
 
     private void initAnim() {
         this.mEnterAnim = ObjectAnimator.ofFloat(this.mFrameLayout, "_enter", new float[]{0.0F, 1.0F}).setDuration(250L);
@@ -55,7 +62,22 @@ public class WebActivity
     }
 
     private void initViews() {
-        this.mTitle = ((TextView) findViewById(R.id.title));
+        this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
+        mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SPHelper.save(ConstantUtil.BROWSER_SELECTION,position);
+                toLoadUrl("",mQuery);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                LogUtil.d(TAG,"onNothingSelected:");
+
+            }
+        });
+        browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0);
+        mTitleSpinner.setSelection(browserSelection);
         this.mFrameLayout = ((FrameLayout) findViewById(android.R.id.content));
         this.mContentLayout = ((LinearLayout) findViewById(R.id.content_view));
         this.mWebView = new WebView(this);
@@ -87,26 +109,65 @@ public class WebActivity
                 paramAnonymousMessage2.sendToTarget();
             }
 
-//            public boolean shouldOverrideUrlLoading(WebView paramAnonymousWebView, String paramAnonymousString) {
-//                paramAnonymousWebView.loadUrl(paramAnonymousString);
-//                mUrl = paramAnonymousWebView.getUrl();
-//                LogUtil.d( "loadurl",paramAnonymousWebView.getUrl());
-//                return true;
-//            }
+            public boolean shouldOverrideUrlLoading(WebView paramAnonymousWebView, String paramAnonymousString) {
+                mUrl = paramAnonymousWebView.getUrl();
+                return super.shouldOverrideUrlLoading(paramAnonymousWebView, paramAnonymousString);
+
+            }
         });
         this.mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView paramAnonymousWebView, int paramAnonymousInt) {
                 if (paramAnonymousInt == 100) {
                     WebActivity.this.mProgressBar.hide();
-                    WebActivity.this.mTitle.setText(WebActivity.this.mWebView.getTitle());
                     return;
                 }
                 WebActivity.this.mProgressBar.setProgress(paramAnonymousInt);
                 WebActivity.this.mProgressBar.show();
-                WebActivity.this.mTitle.setText(R.string.loading);
             }
         });
         this.mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+    }
+
+    /**
+     *
+     */
+    private void toLoadUrl(String url,String query) {
+        if(!TextUtils.isEmpty(url)){
+            mWebView.loadUrl(url);
+        }else {
+            String url_ = getUrlStrBySelect(query);
+            mWebView.loadUrl(url_);
+        }
+
+    }
+
+    private String getUrlStrBySelect(String query) {
+        String url = "";
+        switch (SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0)){
+            case 0:
+                url = "https://m.baidu.com/s?word=";
+                break;
+            case 1:
+                url ="https://www.google.com/search?q=";
+                break;
+            case 2:
+                url ="http://www.so.com/s?q=";
+                break;
+            case 3:
+                url="https://www.bing.com/search?q=";
+                break;
+            case 4:
+                url="https://s.m.taobao.com/h5?event_submit_do_new_search_auction=1&_input_charset=utf-8&topSearch=1&atype=b&searchfrom=1&action=home%3Aredirect_app_action&from=1&sst=1&n=20&buying=buyitnow&q=";
+                break;
+        }
+
+        try {
+            return url +  URLEncoder.encode(query, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+
+        }
+        return url + query;
     }
 
 
@@ -144,14 +205,13 @@ public class WebActivity
         setFinishOnTouchOutside(true);
         setContentView(R.layout.activity_web);
         this.mUrl = getIntent().getStringExtra("url");
-        if (this.mUrl == null) {
-            finish();
-        }
+        this.mQuery = getIntent().getStringExtra("query");
         initWindow();
         initViews();
         initAnim();
         this.mEnterAnim.start();
-        this.mWebView.loadUrl(this.mUrl);
+
+        toLoadUrl(mUrl,mQuery);
         setConfigCallback((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
     }
 

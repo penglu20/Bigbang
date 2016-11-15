@@ -50,6 +50,8 @@ public class ConstantUtil {
     public static final String WEIXIN_SELECTION="weixin_selection";
     public static final String OTHER_SELECTION="other_selection";
 
+    public static final String BROWSER_SELECTION="browser_selection";
+
 
     public static final String Setting_content_Changes ="tencent_contents_change";
     public static final String SHOW_TENCENT_SETTINGS = "tencent_settings";

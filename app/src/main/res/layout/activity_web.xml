@@ -19,7 +19,7 @@
             android:layout_height="@dimen/tab_indicator_long_width"
             android:padding="@dimen/ic_close_width"/>
 
-        <android.support.v7.widget.AppCompatTextView
+        <android.support.v7.widget.AppCompatSpinner
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,6 +27,8 @@
             android:layout_centerVertical="true"
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/text_size_normal"
+            style="@style/ThemeOverlay.AppCompat"
+            app:theme="@style/MonthDropTheme"
             android:layout_gravity="center|center_horizontal"
             android:text="@string/stringValue8" />
 
