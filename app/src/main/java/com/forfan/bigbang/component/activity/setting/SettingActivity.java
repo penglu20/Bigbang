@@ -115,11 +115,7 @@ public class SettingActivity extends BaseActivity {
                 .subscribe(s -> {
                     if (s.equals("")){
                         try {
-                            boolean isopen=Boolean.valueOf(
-                                    OnlineConfigAgent.getInstance().getConfigParams(getApplicationContext(), ConstantUtil.ONLINE_CONFIG_OPEN_UPDATE));
-                            if (isopen || ChanelUtil.isForTest(getApplicationContext())) {
-                                UpdateUtil.autoCheckUpdate();
-                            }
+                            UpdateUtil.autoCheckUpdate();
                         } catch (Throwable e) {
                             e.printStackTrace();
                         }

@@ -241,6 +241,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         view.setTextSize(mTextSize);
         view.setGravity(Gravity.CENTER);
         addView(view);
+        mBottom.setVisibility(VISIBLE);
     }
 
     public void reset() {
@@ -249,6 +250,10 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             View child = getChildAt(i);
             if (mHeader == child) {
                 mHeader.setVisibility(View.GONE);
+                continue;
+            }
+            if (mBottom == child){
+                mBottom.setVisibility(View.GONE);
                 continue;
             }
             removeView(child);

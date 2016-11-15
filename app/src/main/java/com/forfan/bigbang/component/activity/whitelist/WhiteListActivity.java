@@ -28,6 +28,7 @@ import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.StatusBarCompat;
+import com.forfan.bigbang.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -62,6 +63,8 @@ public class WhiteListActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initView();
+
+        ToastUtil.show(R.string.white_list_tip);
     }
 
     @Override

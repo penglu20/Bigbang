@@ -104,4 +104,6 @@
 
     <string name="double_click_intercal">double click interval #ms， click to modify</string>
     <string name="double_click_intercal_hint">Both too long or too short may cause mistake.</string>
+
+    <string name="white_list_tip">This setting do not include clipboard monitor.</string>
 </resources>

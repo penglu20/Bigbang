@@ -84,13 +84,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
                     SnackBarUtil.show(v,R.string.snackbar_net_error);
                     return;
                 }
-                boolean isopen=Boolean.valueOf(
-                        OnlineConfigAgent.getInstance().getConfigParams(mContext.getApplicationContext(), ConstantUtil.ONLINE_CONFIG_OPEN_UPDATE));
-                if (isopen || ChanelUtil.isForTest(mContext.getApplicationContext())) {
-                    UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
-                }else {
-                    SnackBarUtil.show(v,R.string.check_update_close);
-                }
+                UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
                 break;
             case R.id.feedback:
                 startFeedBack();

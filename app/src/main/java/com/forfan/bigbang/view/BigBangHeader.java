@@ -190,6 +190,8 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
             mActionListener.onShare();
         } else if (v == mCopy) {
             mActionListener.onCopy();
+        }else if (v==mTrans){
+            mActionListener.onTrans();
 //        }else if (v==mDrag){
 //            dragMode=!dragMode;
 //            if (dragMode) {
@@ -208,8 +210,6 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
 //                mSelectOther.setVisibility(GONE);
 //            }
 //            mActionListener.onDrag();
-//        }else if (v==mTrans){
-//            mActionListener.onTrans();
 //        }else if (v==mSelectAll){
 //            mActionListener.onSelectAll();
 //        }else if (v==mSelectOther){

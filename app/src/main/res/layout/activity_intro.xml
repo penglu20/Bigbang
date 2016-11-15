@@ -43,6 +43,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/margin_double"
+                    app:lineSpace="3dp"
                     app:textSize="@dimen/text_size_small" />
             </android.support.v7.widget.CardView>
 
