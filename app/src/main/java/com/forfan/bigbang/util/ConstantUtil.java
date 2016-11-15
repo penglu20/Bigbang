@@ -71,6 +71,12 @@ public class ConstantUtil {
     public static final int DEFAULT_ITEM_MARGIN=0;
 
 
+    //whiteListActivity
+    public static final String WHITE_LIST_COUNT ="white_list_count";
+    public static final String WHITE_LIST ="white_list";
+    public static final String REFRESH_WHITE_LIST_BROADCAST ="refresh_white_list_broadcast";
+
+    public static final String HAS_ADDED_LAUNCHER_AS_WHITE_LIST="has_added_launcher_as_white_list";
 
 
 }

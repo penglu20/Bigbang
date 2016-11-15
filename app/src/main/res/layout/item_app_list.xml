@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/card_detail_line_height"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/white_list_margin"
+    android:paddingTop="@dimen/white_list_margin"
+    android:paddingBottom="@dimen/white_list_margin"
+    style="@style/selectableItemBackgrond">
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/app_check"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        app:theme="@style/CheckBoxTheme"
+        android:focusable="false"
+        android:layout_height="wrap_content" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/app_icon"
+        android:layout_width="@dimen/card_detail_line_height"
+        android:layout_height="@dimen/card_detail_line_height"
+        android:layout_toRightOf="@id/app_check"
+        android:layout_marginLeft="@dimen/white_list_margin"
+        android:scaleType="fitXY"
+        android:background="@null"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_name"
+        android:layout_toRightOf="@id/app_icon"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/white_list_name_height"
+        android:layout_alignParentTop="true"
+        android:background="@null"
+        android:textColor="@color/primary_text"
+        android:paddingLeft="@dimen/card_padding_width"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_title"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/app_name_describe"
+        android:layout_toRightOf="@id/app_icon"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_height="@dimen/white_list_describe_height"
+        android:background="@null"
+        android:textColor="@color/secondary_text"
+        android:paddingLeft="@dimen/card_padding_width"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/text_size_small" />
+
+</RelativeLayout>

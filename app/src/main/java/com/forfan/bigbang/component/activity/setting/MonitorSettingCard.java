@@ -9,12 +9,16 @@ import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.component.activity.whitelist.WhiteListActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
+
+import okhttp3.Call;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
 
@@ -27,6 +31,7 @@ public class MonitorSettingCard extends AbsCard {
 
     public static final int SPINNER_ARRAY=R.array.click_or_long_click;
     private RelativeLayout onlyTextRL;
+    private TextView whiteList;
 
     private SwitchCompat onlyTextSwitch;
 
@@ -57,6 +62,8 @@ public class MonitorSettingCard extends AbsCard {
 
         onlyTextRL = (RelativeLayout) findViewById(R.id.text_only_rl);
         onlyTextSwitch = (SwitchCompat) findViewById(R.id.text_only_switch);
+
+        whiteList = (TextView) findViewById(R.id.white_list);
 
         onlyTextSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -115,6 +122,7 @@ public class MonitorSettingCard extends AbsCard {
         });
 
         onlyTextRL.setOnClickListener(myOnClickListerner);
+        whiteList.setOnClickListener(myOnClickListerner);
 
         refresh();
     }
@@ -127,6 +135,9 @@ public class MonitorSettingCard extends AbsCard {
             switch (id) {
                 case R.id.text_only_rl:
                     onlyTextSwitch.setChecked(!onlyTextSwitch.isChecked());
+                    break;
+                case R.id.white_list:
+                    mContext.startActivity(new Intent(mContext, WhiteListActivity.class));
                     break;
                 default:
                     break;

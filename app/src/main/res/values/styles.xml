@@ -43,6 +43,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
     </style>
     <!-- 启动页 引导页设置StatusBar为透明色 -->
     <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme" />

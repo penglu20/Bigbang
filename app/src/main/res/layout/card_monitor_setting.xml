@@ -71,4 +71,15 @@
             android:id="@+id/text_only_switch"
             style="@style/switchStyle"/>
     </RelativeLayout>
+
+
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/white_list"
+        android:layout_width="match_parent"
+        style="@style/cardViewTextViewInLayoutLeft"
+        android:paddingLeft="@dimen/card_padding_width"
+        android:text="@string/white_list" />
+
+
 </LinearLayout>

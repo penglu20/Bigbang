@@ -92,4 +92,12 @@
     <string name="white_list_settings">White list settings</string>
 
 
+    <string name="title_white_list">WhiteList</string>
+    <string name="select_monitor_list">Choose:</string>
+    <string name="select_list">Click to select:</string>
+    <string name="system_app">System App</string>
+    <string name="user_app">User App</string>
+    <string name="search">Search</string>
+    <string name="wait_until_loaded">Please try later</string>
+    <string name="white_list">set white list</string>
 </resources>

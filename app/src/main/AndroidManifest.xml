@@ -135,6 +135,10 @@
             android:noHistory="true"
             android:theme="@style/WebActivityTheme" />
         <activity android:name=".component.activity.SettingQueryActivity"></activity>
+
+        <activity android:name=".component.activity.whitelist.WhiteListActivity"
+            android:theme="@style/BaseAppTheme"
+            />
     </application>
 
 </manifest>

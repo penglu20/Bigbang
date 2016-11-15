@@ -26,13 +26,11 @@ import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Set;
 
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_CLICKED;
-import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
 import static com.forfan.bigbang.component.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
 
 
@@ -58,7 +56,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private boolean hasShowTipToast;
     private Handler handler;
-    private HashSet<String> launcherSet;
+    private HashSet<String> whiteList;
 
     @Override
     public void onCreate() {
@@ -68,6 +66,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
+        intentFilter.addAction(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST);
         registerReceiver(bigBangBroadcastReceiver,intentFilter);
 
         readSettingFromSp();
@@ -78,6 +77,9 @@ public class BigBangMonitorService extends AccessibilityService {
             public void run() {
                 try {
                     startService(new Intent(BigBangMonitorService.this,ListenClipboardService.class));
+                    if (showFloatView){
+                        tipViewController.show();
+                    }
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
@@ -85,9 +87,15 @@ public class BigBangMonitorService extends AccessibilityService {
             }
         });
 
-        launcherSet=new HashSet<>();
-        launcherSet.addAll(getLauncherAsWhiteList());
-        launcherSet.addAll(getInputMethodAsWhiteList());
+
+        whiteList =new HashSet<>();
+        if (!SPHelper.getBoolean(ConstantUtil.HAS_ADDED_LAUNCHER_AS_WHITE_LIST,false)){
+            whiteList.addAll(getLauncherAsWhiteList());
+            whiteList.addAll(getInputMethodAsWhiteList());
+            saveSelectedApp();
+        }
+
+        readWhiteList();
     }
 
     @Override
@@ -141,6 +149,22 @@ public class BigBangMonitorService extends AccessibilityService {
 
 
 
+    private void saveSelectedApp(){
+        if (whiteList!=null) {
+            SPHelper.save(ConstantUtil.WHITE_LIST_COUNT, whiteList.size());
+//            HashMap<String, String> map = new HashMap<>();
+            List<String> list=new ArrayList<>();
+            list.addAll(whiteList);
+            for (int i = 0; i < list.size(); i++) {
+                String value = list.get(i);
+                SPHelper.save(ConstantUtil.WHITE_LIST + "_" + i, value);
+//                map.put(UrlCountUtil.VALUE_MONITOR_WHITE_LIST_CLASS + "_" + i, value);
+            }
+            sendBroadcast(new Intent(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST));
+//            UrlCountUtil.onEvent(UrlCountUtil.VALUE_MONITOR_WHITE_LIST_CLASS, map);
+        }
+    }
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         LogUtil.e(TAG,"onAccessibilityEvent:"+event);
@@ -171,7 +195,7 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         int type=event.getEventType();
         CharSequence className = event.getClassName();
-        if (mWindowClassName==null || launcherSet.contains(event.getPackageName())|| launcherSet.contains(mWindowClassName)){
+        if (mWindowClassName==null || whiteList.contains(event.getPackageName())|| whiteList.contains(mWindowClassName)){
             return;
         }
         if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
@@ -293,10 +317,24 @@ public class BigBangMonitorService extends AccessibilityService {
         return 2;
     }
 
+
+    public synchronized void readWhiteList(){
+        whiteList.clear();
+        int size = SPHelper.getInt(ConstantUtil.WHITE_LIST_COUNT, 0);
+        for (int i = 0; i < size; i++) {
+            String packageName = SPHelper.getString(ConstantUtil.WHITE_LIST + "_" + i, "");
+            whiteList.add(packageName);
+        }
+    }
+
     private BroadcastReceiver bigBangBroadcastReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            readSettingFromSp();
+            if (intent.getAction().equals(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST)){
+                readWhiteList();
+            }else {
+                readSettingFromSp();
+            }
         }
     };
 }
