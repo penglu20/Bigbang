@@ -19,6 +19,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -76,6 +77,10 @@ public class WebActivity
 
             }
         });
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.browser_list, R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        mTitleSpinner.setAdapter(adapter);
         browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0);
         mTitleSpinner.setSelection(browserSelection);
         this.mFrameLayout = ((FrameLayout) findViewById(android.R.id.content));
@@ -151,7 +156,7 @@ public class WebActivity
                 url ="https://www.google.com/search?q=";
                 break;
             case 2:
-                url ="http://www.so.com/s?q=";
+                url ="http://m.so.com/s?q=";
                 break;
             case 3:
                 url="https://www.bing.com/search?q=";

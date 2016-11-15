@@ -27,8 +27,8 @@
             android:layout_centerVertical="true"
             android:textColor="@color/secondary_text"
             android:textSize="@dimen/text_size_normal"
-            style="@style/ThemeOverlay.AppCompat"
-            app:theme="@style/MonthDropTheme"
+            style="@style/spinnerBrowserStyle"
+            app:theme="@style/BrowserMonthDropTheme"
             android:layout_gravity="center|center_horizontal"
             android:text="@string/stringValue8" />
 
