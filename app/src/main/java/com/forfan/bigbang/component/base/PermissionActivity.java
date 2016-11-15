@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 
 
 import com.forfan.bigbang.R;
@@ -43,7 +44,8 @@ public class PermissionActivity extends RxAppCompatActivity implements
             if (mListener != null)
                 mListener.superPermission();
         } else {
-            EasyPermissions.requestPermissions(this, getString(resString),
+            CharSequence text= Html.fromHtml("<font color=\"#000000\">"+getString(resString)+"</font>");
+            EasyPermissions.requestPermissions(this, text,
                     RC_PERM, mPerms);
         }
     }
