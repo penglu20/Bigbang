@@ -29,6 +29,9 @@ import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public final class ListenClipboardService extends Service  {
     private static final String TAG="ListenClipboardService";
@@ -38,6 +41,7 @@ public final class ListenClipboardService extends Service  {
     private ClipboardManagerCompat mClipboardWatcher;
     private Handler handler;
     private boolean isGrayGuardOn;
+    private Pattern wordPattern;
 
     private ClipboardManagerCompat.OnPrimaryClipChangedListener mOnPrimaryClipChangedListener = new ClipboardManagerCompat.OnPrimaryClipChangedListener() {
         public void onPrimaryClipChanged() {
@@ -120,6 +124,8 @@ public final class ListenClipboardService extends Service  {
                 handler.postDelayed(this,3000);
             }
         });
+
+        wordPattern=Pattern.compile("\\w");
     }
 
     @Override
@@ -172,6 +178,10 @@ public final class ListenClipboardService extends Service  {
         if (TextUtils.isEmpty(content) || (sLastContent != null && sLastContent.toString().trim().equals(content))  ) {
 //        if ( content == null) {
             sLastContent=null;
+            return;
+        }
+        Matcher matcher=wordPattern.matcher(content);
+        if (!matcher.find()){
             return;
         }
         LogUtil.d(TAG,"sLastContent:"+content);

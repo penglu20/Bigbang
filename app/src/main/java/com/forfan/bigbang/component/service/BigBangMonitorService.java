@@ -97,6 +97,7 @@ public class BigBangMonitorService extends AccessibilityService {
             whiteList.addAll(getLauncherAsWhiteList());
             whiteList.addAll(getInputMethodAsWhiteList());
             saveSelectedApp();
+            SPHelper.save(ConstantUtil.HAS_ADDED_LAUNCHER_AS_WHITE_LIST,true);
         }
 
         readWhiteList();
