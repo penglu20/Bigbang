@@ -67,13 +67,13 @@ public class WebActivity
         mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SPHelper.save(ConstantUtil.BROWSER_SELECTION,position);
-                toLoadUrl("",mQuery);
+                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
+                toLoadUrl("", mQuery);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                LogUtil.d(TAG,"onNothingSelected:");
+                LogUtil.d(TAG, "onNothingSelected:");
 
             }
         });
@@ -81,7 +81,7 @@ public class WebActivity
                 R.array.browser_list, R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         mTitleSpinner.setAdapter(adapter);
-        browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0);
+        browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0);
         mTitleSpinner.setSelection(browserSelection);
         this.mFrameLayout = ((FrameLayout) findViewById(android.R.id.content));
         this.mContentLayout = ((LinearLayout) findViewById(R.id.content_view));
@@ -100,9 +100,13 @@ public class WebActivity
         findViewById(R.id.open_chrome).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                Uri uri = getUri();
+                if (uri != null) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }
+
             }
         });
         LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.mWebView.getLayoutParams();
@@ -133,13 +137,23 @@ public class WebActivity
         this.mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
     }
 
+    private Uri getUri() {
+        if (!TextUtils.isEmpty(mUrl)) {
+            return Uri.parse(mUrl);
+        } else {
+            if (!TextUtils.isEmpty(mQuery))
+                return Uri.parse(getUrlStrBySelect(mQuery));
+        }
+        return null;
+    }
+
     /**
      *
      */
-    private void toLoadUrl(String url,String query) {
-        if(!TextUtils.isEmpty(url)){
+    private void toLoadUrl(String url, String query) {
+        if (!TextUtils.isEmpty(url)) {
             mWebView.loadUrl(url);
-        }else {
+        } else {
             String url_ = getUrlStrBySelect(query);
             mWebView.loadUrl(url_);
         }
@@ -148,26 +162,26 @@ public class WebActivity
 
     private String getUrlStrBySelect(String query) {
         String url = "";
-        switch (SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0)){
+        switch (SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)) {
             case 0:
                 url = "https://m.baidu.com/s?word=";
                 break;
             case 1:
-                url ="https://www.google.com/search?q=";
+                url = "https://www.google.com/search?q=";
                 break;
 //            case 2:
 //                url ="http://m.so.com/s?q=";
 //                break;
             case 2:
-                url="https://www.bing.com/search?q=";
+                url = "https://www.bing.com/search?q=";
                 break;
             case 3:
-                url="https://s.m.taobao.com/h5?event_submit_do_new_search_auction=1&_input_charset=utf-8&topSearch=1&atype=b&searchfrom=1&action=home%3Aredirect_app_action&from=1&sst=1&n=20&buying=buyitnow&q=";
+                url = "https://s.m.taobao.com/h5?event_submit_do_new_search_auction=1&_input_charset=utf-8&topSearch=1&atype=b&searchfrom=1&action=home%3Aredirect_app_action&from=1&sst=1&n=20&buying=buyitnow&q=";
                 break;
         }
 
         try {
-            return url +  URLEncoder.encode(query, "utf-8");
+            return url + URLEncoder.encode(query, "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
 
@@ -216,7 +230,7 @@ public class WebActivity
         initAnim();
         this.mEnterAnim.start();
 
-        toLoadUrl(mUrl,mQuery);
+        toLoadUrl(mUrl, mQuery);
         setConfigCallback((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
     }
 
