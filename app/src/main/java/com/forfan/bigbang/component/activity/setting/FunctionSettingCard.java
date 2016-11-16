@@ -115,11 +115,10 @@ public class FunctionSettingCard extends AbsCard {
                 sendTencentSettingsBroadcast(isChecked);
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
+                    mContext.startService(new Intent(context,BigBangMonitorService.class));
                     if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
                         handler.removeCallbacks(showAccess);
                         handler.postDelayed(showAccess, 1000);
-                    }else {
-                        mContext.startService(new Intent(context,BigBangMonitorService.class));
                     }
                 }
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
@@ -197,7 +196,9 @@ public class FunctionSettingCard extends AbsCard {
             if (monitorClick) {
 
                 try {
-                    showOpenAccessibilityDialog();
+                    if(!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
+                        showOpenAccessibilityDialog();
+                    }
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }

@@ -106,4 +106,6 @@
     <string name="double_click_intercal_hint">Both too long or too short may cause mistake.</string>
 
     <string name="white_list_tip">This setting do not include clipboard monitor.</string>
+
+    <string name="join_qq">"Please join our QQ club（290017771）"</string>
 </resources>

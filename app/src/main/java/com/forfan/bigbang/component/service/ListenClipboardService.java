@@ -37,6 +37,8 @@ public final class ListenClipboardService extends Service  {
     private static CharSequence sLastContent = null;
     private ClipboardManagerCompat mClipboardWatcher;
     private Handler handler;
+    private boolean isGrayGuardOn;
+
     private ClipboardManagerCompat.OnPrimaryClipChangedListener mOnPrimaryClipChangedListener = new ClipboardManagerCompat.OnPrimaryClipChangedListener() {
         public void onPrimaryClipChanged() {
             performClipboardCheck();
@@ -126,17 +128,21 @@ public final class ListenClipboardService extends Service  {
         tipViewController.removeActionListener(actionListener);
         tipViewController.remove();
 //        sLastContent = null;
+        isGrayGuardOn=false;
         super.onDestroy();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (Build.VERSION.SDK_INT < 18) {
-            startForeground(GRAY_SERVICE_ID, new Notification());
-        } else {
-            Intent innerIntent = new Intent(ListenClipboardService.this, GrayInnerService.class);
-            startService(innerIntent);
-            startForeground(GRAY_SERVICE_ID, new Notification());
+        if (!isGrayGuardOn) {
+            if (Build.VERSION.SDK_INT < 18) {
+                startForeground(GRAY_SERVICE_ID, new Notification());
+            } else {
+                Intent innerIntent = new Intent(ListenClipboardService.this, GrayInnerService.class);
+                startService(innerIntent);
+                startForeground(GRAY_SERVICE_ID, new Notification());
+            }
+            isGrayGuardOn=true;
         }
         return START_STICKY;
     }
