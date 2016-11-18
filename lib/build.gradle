@@ -1,0 +1,30 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 21
+    }
+}
+
+dependencies {
+    compile files('supportlibs/commons-io-2.4.jar')
+    compile 'com.google.code.gson:gson:2.3.1'
+}
+
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+signing {
+    sign configurations.archives
+}
+
+// Group ID is the project name
+group = "com.microsoft.projectoxford"
+// Artifact name is the name of the technology
+archivesBaseName = "vision"
+// Update your version
+version = "1.0.354"

@@ -1,6 +1,7 @@
 package com.forfan.bigbang.network;
 
 import com.forfan.bigbang.BigBangApp;
+import com.forfan.bigbang.network.api.MicSoftOcrService;
 import com.forfan.bigbang.network.api.OcrService;
 import com.forfan.bigbang.network.api.TranslationService;
 import com.forfan.bigbang.network.api.WordSegmentService;
@@ -29,6 +30,7 @@ public class RetrofitHelper {
     private static final String BASE_URL = "http://api.bosonnlp.com/";
     private static final String YOUDAO_URL = "http://fanyi.youdao.com/";
     private static final String OCR_URL = "https://api.ocr.space/";
+    private static final String MICSOFT_OCR_URL = "https://api.projectoxford.ai/";
     static {
         initOkHttpClient();
     }
@@ -96,6 +98,15 @@ public class RetrofitHelper {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit.create(OcrService.class);
+    }
+    public static MicSoftOcrService getMicsoftOcrService(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(MICSOFT_OCR_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(MicSoftOcrService.class);
     }
 
     /**

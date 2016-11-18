@@ -1,6 +1,10 @@
 package com.forfan.bigbang.test;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.view.View;
 
@@ -8,11 +12,23 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.util.LogUtil;
+import com.microsoft.projectoxford.vision.VisionServiceRestClient;
+import com.microsoft.projectoxford.vision.contract.LanguageCodes;
+import com.microsoft.projectoxford.vision.contract.OCR;
+import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 
+import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 
 import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,10 +39,12 @@ import rx.schedulers.Schedulers;
 
 public class TestActivity extends BaseActivity {
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        new PngConverter().convertToJpg("/storage/emulated/0/share.png","/storage/emulated/0/share.jpeg");
     }
     public void onRetrofit(View view){
         ArrayList<String> arrayList = new ArrayList<>();
@@ -59,12 +77,34 @@ public class TestActivity extends BaseActivity {
                 });
     }
     public void onOcr(View view){
+        VisionServiceRestClient client = new VisionServiceRestClient("56c87e179c084cfaae9b70a2f58fa8d3");
+        new  Thread(new Runnable() {
+            @Override
+            public void run() {
+                File file = new File("/storage/emulated/0/share.jpeg");
+                try {
+                    FileInputStream fileInputStream = new FileInputStream(file);
+                    OCR ocr = client.recognizeText(fileInputStream, LanguageCodes.AutoDetect,true);
+                } catch (VisionServiceException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+
         String descriptionString = "hello, this is description speaking";
-        File file = new File("/storage/emulated/0/share.png");
-        RequestBody requestBody =
+
+        File file = new File("/storage/emulated/0/4.jpg");
+//        RequestBody requestBody =
+//                RequestBody.create(MediaType.parse("image/*"), file);
+        RequestBody requestFile =
                 RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        RetrofitHelper.getOcrService()
-                .uploadImage("e02e6b613488957",descriptionString,requestBody)
+
+        MultipartBody.Part body = MultipartBody.Part.createFormData("data", file.getName(), requestFile);
+        RetrofitHelper.getMicsoftOcrService()
+                .uploadImage4recognize(descriptionString,body)
                 .compose(this.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -86,6 +126,36 @@ public class TestActivity extends BaseActivity {
 //                });
 
     }
+    public class PngConverter {
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        public  void convertToJpg(String pngFilePath, String jpgFilePath) {
+            Bitmap bitmap = BitmapFactory.decodeFile(pngFilePath);
+            try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(jpgFilePath))) {
+                if (bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bos)) {
+                    bos.flush();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    //    public void onOcr(View view){
+//        String descriptionString = "hello, this is description speaking";
+//        File file = new File("/storage/emulated/0/share.png");
+//        RequestBody requestBody =
+//                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        RetrofitHelper.getOcrService()
+//                .uploadImage("e02e6b613488957",descriptionString,requestBody)
+//                .compose(this.bindToLifecycle())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(recommendInfo -> {
+//                    LogUtil.d(recommendInfo.toString());
+//                }, throwable -> {
+//                    LogUtil.d(throwable.toString());
+//                });
+//
+//    }
     public static void upload(String path){
 
 //        String descriptionString = "hello, this is description speaking";
