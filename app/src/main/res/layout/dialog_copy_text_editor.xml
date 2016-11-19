@@ -39,5 +39,5 @@
         android:layout_marginRight="@dimen/margin_double"
         android:layout_marginTop="@dimen/margin_double"
         android:contentDescription="@string/action_copy"
-        android:src="@mipmap/ic_content_copy_white_24dp" />
+        android:src="@mipmap/ic_float_copy" />
 </FrameLayout>

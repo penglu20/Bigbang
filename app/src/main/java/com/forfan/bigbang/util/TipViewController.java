@@ -17,6 +17,7 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
@@ -45,7 +46,10 @@ public class TipViewController implements  View.OnTouchListener {
     private View mWholeView;
     private BigBangLayout bigBangLayout;
     private FrameLayout bangWrap;
-    private CheckBox floagImage;
+    private CheckBox floatSwitch;
+    private ImageView floatImageView,floatScreen,floatCopy,floatBack;
+
+
     private Handler mainHandler;
     private WindowManager.LayoutParams layoutParams;
     private float mTouchStartX,mTouchStartY;
@@ -115,9 +119,44 @@ public class TipViewController implements  View.OnTouchListener {
 
         mWholeView = View.inflate(mContext, R.layout.view_float, null);
 
-        floagImage = (CheckBox) mWholeView.findViewById(R.id.image);
+        floatImageView = (ImageView) mWholeView.findViewById(R.id.float_image);
         bigBangLayout= (BigBangLayout) mWholeView.findViewById(R.id.bang_ll);
         bangWrap= (FrameLayout) mWholeView.findViewById(R.id.bang_wrap);
+
+        floatSwitch= (CheckBox) mWholeView.findViewById(R.id.float_switch);
+        floatScreen= (ImageView) mWholeView.findViewById(R.id.float_screen);
+        floatCopy= (ImageView) mWholeView.findViewById(R.id.float_copy);
+        floatBack= (ImageView) mWholeView.findViewById(R.id.float_back);
+
+//        floatImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                refreshViewState(true);
+//            }
+//        });
+
+        floatScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshViewState(false);
+
+            }
+        });
+
+        floatCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshViewState(false);
+
+            }
+        });
+
+        floatBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshViewState(false);
+            }
+        });
 
 
         DisplayMetrics displayMetrics=new DisplayMetrics();
@@ -127,7 +166,8 @@ public class TipViewController implements  View.OnTouchListener {
         // event listeners
         mWholeView.setOnTouchListener(this);
 
-        floagImage.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        floatSwitch.setChecked(true);
+        floatSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 showBigBang=isChecked;
@@ -136,9 +176,9 @@ public class TipViewController implements  View.OnTouchListener {
                         listener.isShow(showBigBang);
                     }
                 }
+                refreshViewState(false);
             }
         });
-        floagImage.setChecked(true);
 
         int w = WindowManager.LayoutParams.WRAP_CONTENT;
         int h = WindowManager.LayoutParams.WRAP_CONTENT;
@@ -157,6 +197,7 @@ public class TipViewController implements  View.OnTouchListener {
         layoutParams.y=0;
 
         addViewInternal();
+        refreshViewState(false);
     }
 
     private void addViewInternal() {
@@ -168,6 +209,40 @@ public class TipViewController implements  View.OnTouchListener {
         });
         isRemoved=false;
     }
+
+    private void refreshViewState(boolean showFun){
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                if (showFun){
+                    floatImageView.setVisibility(View.GONE);
+                    floatSwitch.setVisibility(View.VISIBLE);
+                    floatCopy.setVisibility(View.VISIBLE);
+                    floatScreen.setVisibility(View.VISIBLE);
+                    floatBack.setVisibility(View.VISIBLE);
+                    mWholeView.setOnTouchListener(null);
+                }else {
+                    floatImageView.setVisibility(View.VISIBLE);
+                    floatSwitch.setVisibility(View.GONE);
+                    floatCopy.setVisibility(View.GONE);
+                    floatScreen.setVisibility(View.GONE);
+                    floatBack.setVisibility(View.GONE);
+                    mWholeView.setOnTouchListener(TipViewController.this);
+                }
+                if (showBigBang){
+                    floatImageView.setImageLevel(0);
+                    floatImageView.setAlpha(0.8f);
+                    floatSwitch.setAlpha(0.8f);
+                }else {
+                    floatImageView.setImageLevel(1);
+                    floatImageView.setAlpha(0.3f);
+                    floatSwitch.setAlpha(0.3f);
+                }
+                mWindowManager.updateViewLayout(mWholeView, layoutParams);
+            }
+        });
+    }
+
 
     public synchronized void hide(){
         mainHandler.post(new Runnable() {
@@ -194,7 +269,7 @@ public class TipViewController implements  View.OnTouchListener {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                floagImage.setVisibility(View.VISIBLE);
+                floatImageView.setVisibility(View.VISIBLE);
                 bangWrap.setVisibility(View.GONE);
                 mWindowManager.updateViewLayout(mWholeView, layoutParams);
             }
@@ -215,7 +290,7 @@ public class TipViewController implements  View.OnTouchListener {
                 for (String txt: txts){
                     bigBangLayout.addTextItem(txt);
                 }
-                floagImage.setVisibility(View.GONE);
+                floatImageView.setVisibility(View.GONE);
                 bangWrap.setVisibility(View.VISIBLE);
                 mWindowManager.updateViewLayout(mWholeView, layoutParams);
             }
@@ -262,7 +337,8 @@ public class TipViewController implements  View.OnTouchListener {
                 }else {
                     if (!isLongPressed) {
                         mainHandler.removeCallbacks(longPressRunnable);
-                        floagImage.setChecked(!floagImage.isChecked());
+//                        floatSwitch.setChecked(!floatSwitch.isChecked());
+                        refreshViewState(true);
                     }
                 }
                 updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());

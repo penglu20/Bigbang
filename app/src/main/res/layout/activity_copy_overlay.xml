@@ -19,7 +19,7 @@
         android:visibility="invisible"
         android:layout_width="56.0dip"
         android:layout_height="56.0dip"
-        android:src="@mipmap/ic_content_copy_white_24dp"
+        android:src="@mipmap/ic_float_copy"
         android:layout_marginBottom="@dimen/margin_four"
         android:layout_marginRight="@dimen/margin_four"
         android:contentDescription="@string/action_copy"

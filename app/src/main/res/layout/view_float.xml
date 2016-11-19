@@ -4,12 +4,54 @@
     android:layout_height="wrap_content">
 
 
-        <android.support.v7.widget.AppCompatCheckBox
-            android:id="@+id/image"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/float_image"
             android:layout_width="40dp"
-            android:button="@null"
-            android:background="@drawable/float_image_bg"
+            android:src="@drawable/float_view_bg"
             android:layout_height="40dp" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/float_switch"
+            android:layout_width="40dp"
+            android:background="@drawable/float_view_switch_bg"
+            android:visibility="gone"
+            android:button="@null"
+            android:clickable="true"
+            android:layout_height="40dp" />
+
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:id="@+id/float_copy"
+            android:background="@drawable/float_view_image_bg"
+            android:padding="8dp"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:src="@mipmap/ic_float_copy"
+            android:layout_height="40dp" />
+
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:id="@+id/float_screen"
+            android:src="@mipmap/ic_float_screen"
+            android:padding="3dp"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/float_view_image_bg"
+            android:layout_height="40dp" />
+
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="40dp"
+            android:id="@+id/float_back"
+            android:src="@mipmap/ic_arrow_back_white_24dp"
+            android:padding="6dp"
+            android:visibility="gone"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/float_view_image_bg"
+            android:layout_height="40dp" />
+
         <FrameLayout
             android:layout_width="wrap_content"
             android:padding="10dp"
