@@ -59,6 +59,15 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:theme="@style/BigBangTheme" />
+
+        <activity
+            android:name=".copy.CopyActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:theme="@style/OverlayTheme"
+            android:noHistory="true" />
+
         <activity
             android:name="com.umeng.fb.ConversationActivity"
             android:label="@string/app_name"

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/transparent"
+    android:fitsSystemWindows="true">
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="44.0dip"
+        android:background="@android:color/background_light"
+        app:elevation="12.0dip">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:focusable="true"
+            android:isScrollContainer="true"
+            android:paddingBottom="44.0dip"
+            android:paddingLeft="20.0dip"
+            android:paddingRight="20.0dip"
+            android:paddingTop="44.0dip"
+            android:scrollbars="vertical"
+            android:singleLine="false"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColorHighlight="@color/primary_text"
+            android:textIsSelectable="true" />
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_copy"
+        android:layout_width="56.0dip"
+        android:layout_height="56.0dip"
+        android:layout_gravity="top|right|center"
+        android:layout_marginRight="@dimen/margin_double"
+        android:layout_marginTop="@dimen/margin_double"
+        android:contentDescription="@string/action_copy"
+        android:src="@mipmap/ic_content_copy_white_24dp" />
+</FrameLayout>

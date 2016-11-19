@@ -3,12 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:accessibilityEventTypes="typeViewClicked|typeViewLongClicked|typeWindowStateChanged"
     android:accessibilityFeedbackType="feedbackGeneric"
-    android:accessibilityFlags="flagIncludeNotImportantViews|flagRequestEnhancedWebAccessibility|flagRetrieveInteractiveWindows"
+    android:accessibilityFlags="flagIncludeNotImportantViews|flagRetrieveInteractiveWindows"
     android:canRetrieveWindowContent="true"
-    android:canRequestEnhancedWebAccessibility="true"
     android:notificationTimeout="10"
     android:packageNames="@null"
     android:description="@string/accessibility_des"
     android:settingsActivity="com.forfun.bigbang.SettingActivity"
 />
+    <!--android:accessibilityFlags="flagIncludeNotImportantViews|flagRequestEnhancedWebAccessibility|flagRetrieveInteractiveWindows"-->
+    <!--android:canRequestEnhancedWebAccessibility="true"-->
     <!--android:canRequestTouchExplorationMode="true"-->

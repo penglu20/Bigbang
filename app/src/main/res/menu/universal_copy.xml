@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:icon="@mipmap/ic_fullscreen_white_24dp"
+        android:id="@+id/action_full_screen"
+        android:visible="true"
+        android:title="@string/action_full_screen"
+        app:showAsAction="always" />
+
+    <group android:id="@+id/copy_actions" android:visible="false">
+        <item android:icon="@mipmap/ic_edit_white_24dp"
+            android:id="@+id/action_select_mode"
+            android:title="@string/action_select_mode"
+            app:showAsAction="always" />
+
+        <item android:icon="@mipmap/ic_content_copy_white_24dp"
+            android:id="@+id/action_copy"
+            android:title="@string/action_copy"
+            app:showAsAction="always" />
+    </group>
+</menu>

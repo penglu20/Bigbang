@@ -108,4 +108,12 @@
     <string name="white_list_tip">This setting do not include clipboard monitor.</string>
 
     <string name="join_qq">"Please join our QQ club（290017771）"</string>
+    <string name="action_copy">"Copy"</string>
+    <string name="action_full_screen">"Full Screen"</string>
+    <string name="action_select_mode">"Edit"</string>
+
+    <string name="error_in_copy">Oops,try again</string>
+
+    <string name="copy_title">Universal copy</string>
+    <string name="copy_subtitle">Click to choose</string>
 </resources>

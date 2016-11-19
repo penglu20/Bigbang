@@ -106,5 +106,11 @@
 
     <string name="white_list_tip">此处设置不影响复制触发功能</string>
 
+    <string name="action_copy">"复制"</string>
+    <string name="action_full_screen">"全屏选择"</string>
+    <string name="action_select_mode">"查看已选"</string>
 
+    <string name="error_in_copy">出现错误，请重试</string>
+    <string name="copy_title">全局复制</string>
+    <string name="copy_subtitle">请点击想要复制的区域</string>
 </resources>

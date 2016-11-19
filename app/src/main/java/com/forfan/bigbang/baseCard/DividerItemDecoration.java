@@ -12,6 +12,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -89,7 +90,6 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     public void drawHorizontal(Canvas c, RecyclerView parent) {
         final int top = parent.getPaddingTop();
         final int bottom = parent.getHeight() - parent.getPaddingBottom();
-
         final int childCount = parent.getChildCount();
         for (int i = 0; i < childCount-1; i++) {
             final View child = parent.getChildAt(i);
@@ -110,6 +110,14 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         } else if (mOrientation==HORIZONTAL_LIST){
             outRect.set(0, 0, mDivider.getIntrinsicWidth(), 0);
         }else {
+            if (mOrientation==GRID_LIST){
+                int span=((GridLayoutManager)parent.getLayoutManager()).getSpanCount();
+                if (mOrientation==GRID_LIST && ((itemPosition+1)%span==0 )){
+                    //每行的最后一个不画
+                    outRect.set(0,0,0,mDivider.getIntrinsicHeight());
+                    return;
+                }
+            }
             outRect.set(0, 0, mDivider.getIntrinsicHeight(), mDivider.getIntrinsicHeight());
         }
     }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout android:orientation="vertical"
+    android:id="@+id/overlay_root"
+    android:background="@drawable/borders"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:background="?colorPrimary"
+        android:layout_width="fill_parent"
+        android:layout_height="?actionBarSize"
+        app:elevation="4.0dip"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_gravity="bottom|right|center"
+        android:id="@+id/fab_copy_main"
+        android:visibility="invisible"
+        android:layout_width="56.0dip"
+        android:layout_height="56.0dip"
+        android:src="@mipmap/ic_content_copy_white_24dp"
+        android:layout_marginBottom="@dimen/margin_four"
+        android:layout_marginRight="@dimen/margin_four"
+        android:contentDescription="@string/action_copy"
+         />
+    <android.support.design.widget.FloatingActionButton
+        android:layout_gravity="bottom|right|center"
+        android:id="@+id/exit_button"
+        android:visibility="invisible"
+        android:layout_width="36.0dip"
+        android:layout_height="36.0dip"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:src="@mipmap/ic_close_white_24dp"
+        android:contentDescription="@android:string/cancel"
+        app:fabSize="mini"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_gravity="bottom|right|center"
+        android:id="@+id/exit_full_screen_button"
+        android:visibility="invisible"
+        android:layout_width="36.0dip"
+        android:layout_height="36.0dip"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginRight="@dimen/margin_normal"
+        android:src="@mipmap/ic_arrow_back_white_24dp"
+        android:contentDescription="@android:string/cancel"
+        app:fabSize="mini"
+        />
+</FrameLayout>

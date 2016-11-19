@@ -1,16 +1,21 @@
 package com.forfan.bigbang.component.service;
 
 import android.accessibilityservice.AccessibilityService;
+import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.inputmethod.InputMethodInfo;
@@ -21,6 +26,8 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.forfan.bigbang.copy.CopyActivity;
+import com.forfan.bigbang.copy.CopyNode;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
@@ -115,8 +122,11 @@ public class BigBangMonitorService extends AccessibilityService {
         @Override
         public void isShow(boolean isShow) {
             showBigBang=isShow;
-            int text = isShow ? R.string.bigbang_open: R.string.bigbang_close;
-            ToastUtil.show(text);
+//            int text = isShow ? R.string.bigbang_open: R.string.bigbang_close;
+//            ToastUtil.show(text);
+            if (isShow && handler!=null) {
+                UniversalCopy();
+            }
         }
 
         @Override
@@ -305,10 +315,114 @@ public class BigBangMonitorService extends AccessibilityService {
 
 
 
+    private int universalCopyDepth = 0;
+    private void UniversalCopy() {
+        boolean isSuccess=false;
+        label37: {
+            AccessibilityNodeInfo rootInActiveWindow = this.getRootInActiveWindow();
+            if(this.universalCopyDepth < 10) {
+                String packageName;
+                if(rootInActiveWindow != null) {
+                    packageName = String.valueOf(rootInActiveWindow.getPackageName());
+                } else {
+                    packageName = null;
+                }
+
+                if(rootInActiveWindow == null || packageName != null && packageName.contains("com.android.systemui")) {
+                    ++this.universalCopyDepth;
+                    this.handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            UniversalCopy();
+                        }
+                    }, 100);
+                    return;
+                }
+
+                WindowManager var5 = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
+
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                var5.getDefaultDisplay().getMetrics(displayMetrics);
+                int var1 = displayMetrics.heightPixels;
+                int var2 = displayMetrics.widthPixels;
+                ArrayList nodeList = traverseNode(new AccessibilityNodeInfoCompat(rootInActiveWindow), var2, var1);
+                if(nodeList.size() > 0) {
+                    Intent intent = new Intent(this, CopyActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if(!getPackageName().equals(packageName)) {
+                        // TODO: 2016/11/17 研究下这里的逻辑
+//                        intent.addFlags('耀');
+                    }
+
+                    intent.putParcelableArrayListExtra("copy_nodes", nodeList);
+                    intent.putExtra("source_package", packageName);
+                    this.startActivity(intent, ActivityOptions.makeCustomAnimation(this.getBaseContext(), android.R.anim.fade_in, android.R.anim.fade_out).toBundle());
+                    isSuccess = true;
+                    break label37;
+                }
+
+//                ae.a(this.getApplication(), "APP_DATA", "UC_MODE_FAILED", packageName);
+            }
+
+            isSuccess = false;
+        }
+
+        if(!isSuccess) {
+//            Toast.makeText(this, 2131230759, toas).show();
+
+        }
+
+        this.universalCopyDepth = 0;
+    }
+
+    private ArrayList<CopyNode> traverseNode(AccessibilityNodeInfoCompat nodeInfo, int var2, int var3) {
+        ArrayList nodeList = new ArrayList();
+        if(nodeInfo != null && nodeInfo.getInfo() != null) {
+            nodeInfo.refresh();
+
+            for(int var4 = 0; var4 < nodeInfo.getChildCount(); ++var4) {
+                nodeList.addAll(this.traverseNode(nodeInfo.getChild(var4), var2, var3));
+            }
+
+            if(nodeInfo.getClassName() != null && nodeInfo.getClassName().equals("android.webkit.WebView")) {
+                return nodeList;
+            } else {
+                String content = null;
+                String description = content;
+                if(nodeInfo.getContentDescription() != null) {
+                    description = content;
+                    if(!"".equals(nodeInfo.getContentDescription())) {
+                        description = nodeInfo.getContentDescription().toString();
+                    }
+                }
+
+                content = description;
+                if(nodeInfo.getText() != null) {
+                    content = description;
+                    if(!"".equals(nodeInfo.getText())) {
+                        content = nodeInfo.getText().toString();
+                    }
+                }
+
+                if(content != null) {
+                    Rect var8 = new Rect();
+                    nodeInfo.getBoundsInScreen(var8);
+                    if(this.checkBound(var8, var2, var3)) {
+                        nodeList.add(new CopyNode(var8, content));
+                    }
+                }
+
+                return nodeList;
+            }
+        } else {
+            return nodeList;
+        }
+    }
 
 
-
-
+    private boolean checkBound(Rect var1, int var2, int var3) {
+        return var1.bottom >= 0 && var1.right >= 0 && var1.top <= var3 && var1.left <= var2;
+    }
 
     // To check if service is enabled
     public static boolean isAccessibilitySettingsOn(Context mContext) {
