@@ -2,8 +2,8 @@ package com.forfan.bigbang.component.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +18,13 @@ import com.forfan.bigbang.cropper.CropHandler;
 import com.forfan.bigbang.cropper.CropHelper;
 import com.forfan.bigbang.cropper.CropParams;
 import com.forfan.bigbang.cropper.ImageUriUtil;
-import com.forfan.bigbang.entity.OcrItem;
-import com.forfan.bigbang.util.IOUtil;
-import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.StatusBarCompat;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import com.microsoft.projectoxford.vision.VisionServiceRestClient;
-import com.microsoft.projectoxford.vision.contract.LanguageCodes;
 import com.microsoft.projectoxford.vision.contract.Line;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
-import com.microsoft.projectoxford.vision.rest.VisionServiceException;
-
-import java.io.IOException;
-
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by wangyan-pd on 2016/11/9.
@@ -56,7 +42,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orc);
-        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(),true,R.color.colorPrimary);
+        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
         mCropParams = new CropParams(this);
         mImageView = (ImageView) findViewById(R.id.image);
         mResultTextView = (TextView) findViewById(R.id.result);
@@ -64,6 +50,44 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         findViewById(R.id.take_pic).setOnClickListener(this);
         findViewById(R.id.select_pic).setOnClickListener(this);
         findViewById(R.id.re_ocr).setOnClickListener(this);
+        parseIntent(getIntent());
+
+        mResultTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OcrActivity.this, BigBangActivity.class);
+                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(BigBangActivity.TO_SPLIT_STR, mResultTextView.getText());
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void parseIntent(Intent intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (intent.getClipData() != null && intent.getClipData().getItemAt(0) != null && intent.getClipData().getItemAt(0).getUri() != null) {
+                Uri uri = intent.getClipData().getItemAt(0).getUri();
+                showBitmapandOcr(uri);
+            }
+        } else {
+            Uri uri = intent.getData();
+            showBitmapandOcr(uri);
+        }
+
+    }
+
+    private void showBitmapandOcr(Uri uri) {
+        mImageView.setVisibility(View.VISIBLE);
+        mImageView.setImageBitmap(BitmapUtil.decodeUriAsBitmap(this, uri));
+        uploadImage4Ocr(uri);
+        mCurrentUri = uri;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        parseIntent(intent);
+
     }
 
     @Override
@@ -117,11 +141,9 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     public void onPhotoCropped(Uri uri) {
         // Original or Cropped uri
         Log.d(TAG, "Crop Uri in path: " + uri.getPath());
-        mImageView.setVisibility(View.VISIBLE);
+
         if (!mCropParams.compress) {
-            mImageView.setImageBitmap(BitmapUtil.decodeUriAsBitmap(this, uri));
-            uploadImage4Ocr(uri);
-            mCurrentUri = uri;
+            showBitmapandOcr(uri);
 
         }
 
@@ -130,39 +152,19 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
     private void uploadImage4Ocr(Uri uri) {
         String img_path = ImageUriUtil.getImageAbsolutePath(this, uri);
-        VisionServiceRestClient client = new VisionServiceRestClient("56c87e179c084cfaae9b70a2f58fa8d3");
-        Observable.OnSubscribe<OCR> mOnSubscrube = new Observable.OnSubscribe<OCR>() {
+        // VisionServiceRestClient client = new VisionServiceRestClient("00b0e581e4124a2583ea7dba57aaf281");
+        OcrAnalsyser.getInstance().analyse(this, img_path, new OcrAnalsyser.CallBack() {
             @Override
-            public void call(Subscriber<? super OCR> subscriber) {
-                byte[] data = IOUtil.getBytes(img_path);
-                try {
-                    String ocr = client.recognizeText(data, LanguageCodes.AutoDetect, true);
-                    if (!TextUtils.isEmpty(ocr)) {
-                        OCR ocrItem = new Gson().fromJson(ocr, new TypeToken<OCR>() {
-                        }.getType());
-                        subscriber.onNext(ocrItem);
-                    }
-                } catch (VisionServiceException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    subscriber.onError(e);
-                }
+            public void onSucess(OCR ocr) {
+                mResultTextView.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
             }
-        };
 
-        Observable.create(mOnSubscrube)
-                .subscribeOn(Schedulers.io())
-                .compose(bindToLifecycle())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s ->
-                                mResultTextView.setText(getPasedMiscSoftText(s)),
-                        throwable -> {
-                            LogUtil.d(throwable.toString());
-                            mResultTextView.setText(R.string.sorry_for_parse_fail);
-                            mPicReOcr.setVisibility(View.VISIBLE);
-                        });
+            @Override
+            public void onFail() {
+                mResultTextView.setText(R.string.sorry_for_parse_fail);
+                mPicReOcr.setVisibility(View.VISIBLE);
+            }
+        });
 //        RequestBody requestBody =
 //                RequestBody.create(MediaType.parse("multipart/form-data"), file);
 //        RetrofitHelper.getOcrService()
@@ -193,24 +195,6 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             result += "\n\n";
         }
         return result;
-    }
-
-    private CharSequence getPasedText(OcrItem recommendInfo) {
-        if (recommendInfo != null && recommendInfo.getParsedResults() != null) {
-            StringBuffer stringBuffer = new StringBuffer();
-            for (OcrItem.ParsedResultsBean bean : recommendInfo.getParsedResults()) {
-                if (!TextUtils.isEmpty(bean.getParsedText())) {
-                    stringBuffer.append(bean.getParsedText() + "\n");
-                }
-            }
-
-            String result = stringBuffer.toString();
-            if (!TextUtils.isEmpty(result)) {
-                showBigBang(result);
-                return result;
-            }
-        }
-        return getResources().getString(R.string.sorry_for_no_text);
     }
 
     private void showBigBang(String result) {

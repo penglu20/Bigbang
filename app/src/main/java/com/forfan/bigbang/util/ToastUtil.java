@@ -15,4 +15,7 @@ public class ToastUtil {
     public static void show(int rid){
         Toast.makeText(BigBangApp.getInstance(), rid, Toast.LENGTH_SHORT).show();
     }
+    public static void showLong(int rid){
+        Toast.makeText(BigBangApp.getInstance(), rid, Toast.LENGTH_LONG).show();
+    }
 }

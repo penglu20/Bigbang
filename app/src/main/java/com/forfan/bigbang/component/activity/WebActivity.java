@@ -61,13 +61,17 @@ public class WebActivity
             }
         });
     }
-
+    private  boolean isFistIn = true;
     private void initViews() {
         this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
         mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
+                if(isFistIn){
+                    isFistIn = false;
+                    return;
+                }
                 toLoadUrl("", mQuery);
             }
 
@@ -159,6 +163,7 @@ public class WebActivity
         }
 
     }
+
 
     private String getUrlStrBySelect(String query) {
         String url = "";

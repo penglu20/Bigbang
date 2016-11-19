@@ -145,6 +145,8 @@ public class BigBangActivity extends BaseActivity {
                         isUrl = false;
                     }else {
                         uri=Uri.parse(text);
+                        if(!text.startsWith("http"))
+                            text = "http://"+text;
                         isUrl = true;
                     }
 
@@ -153,7 +155,7 @@ public class BigBangActivity extends BaseActivity {
                     if (t){
                         intent = new Intent();
                         if(isUrl){
-                            intent.putExtra("url",uri.toString());
+                            intent.putExtra("url",text);
                         }else {
                             intent.putExtra("query",text);
                         }

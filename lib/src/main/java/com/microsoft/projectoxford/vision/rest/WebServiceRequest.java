@@ -40,6 +40,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreConnectionPNames;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -96,6 +97,10 @@ public class WebServiceRequest {
         try {
 
             request.setEntity(new ByteArrayEntity((byte[]) data.get("data")));
+            //
+            client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 20000);
+            //读取超时
+            client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000);
             HttpResponse response = this.client.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode == 200) {

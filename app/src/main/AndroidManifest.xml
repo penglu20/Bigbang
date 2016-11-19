@@ -43,14 +43,14 @@
         <activity
             android:name=".component.activity.setting.SettingActivity"
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".test.TestActivity">
 
-             <!--<intent-filter>-->
-             <!--<action android:name="android.intent.action.MAIN" />-->
-             <!--<category android:name="android.intent.category.LAUNCHER" />-->
-             <!--</intent-filter>-->
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".component.activity.BigBangActivity"
@@ -133,7 +133,12 @@
             android:theme="@style/ColorTranslucentTheme" />
         <activity
             android:name=".component.activity.OcrActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND"/>
+                <data android:mimeType="image/*"/>
+            </intent-filter>
+        </activity>
         <activity
             android:name=".component.activity.SettingBigBangActivity"
             android:theme="@style/AppTheme" />
@@ -146,9 +151,17 @@
             android:theme="@style/WebActivityTheme" />
         <activity android:name=".component.activity.SettingQueryActivity"></activity>
 
-        <activity android:name=".component.activity.whitelist.WhiteListActivity"
-            android:theme="@style/BaseAppTheme"
-            />
+        <activity
+            android:name=".component.activity.whitelist.WhiteListActivity"
+            android:theme="@style/BaseAppTheme" />
+        <activity android:name=".component.activity.screen.ScreenCaptureActivity"
+           android:theme="@style/ScreenCaptureTheme" >
+
+        </activity>
+        <service android:name=".component.activity.screen.ScreenCaptureService"
+            >
+
+        </service>
     </application>
 
 </manifest>

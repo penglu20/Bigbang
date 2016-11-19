@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.projection.MediaProjectionManager;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,6 +57,7 @@ public class SettingActivity extends BaseActivity {
     };
     private MonitorSettingCard settingCard;
     private CardListAdapter newAdapter;
+    private MediaProjectionManager mMediaProjectionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

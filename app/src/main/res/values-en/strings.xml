@@ -116,4 +116,6 @@
 
     <string name="copy_title">Universal copy</string>
     <string name="copy_subtitle">Click to choose</string>
+    <string name="sorry_for_ocr_parse_fail">sorry for Ocr picture fail</string>
+    <string name="ocr_recognize">Ocr  recognizing</string>
 </resources>
