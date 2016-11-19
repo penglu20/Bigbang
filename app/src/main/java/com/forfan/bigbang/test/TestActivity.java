@@ -5,35 +5,23 @@ import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.view.View;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.network.RetrofitHelper;
+import com.forfan.bigbang.util.IOUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;
 import com.microsoft.projectoxford.vision.contract.LanguageCodes;
-import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 
 import java.io.BufferedOutputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -83,8 +71,9 @@ public class TestActivity extends BaseActivity {
             public void run() {
                 File file = new File("/storage/emulated/0/share.jpeg");
                 try {
-                    FileInputStream fileInputStream = new FileInputStream(file);
-                    OCR ocr = client.recognizeText(fileInputStream, LanguageCodes.AutoDetect,true);
+                    byte[] data = IOUtil.getBytes("/storage/emulated/0/share.jpeg");
+                    String ocr = client.recognizeText(data, LanguageCodes.AutoDetect,true);
+                    LogUtil.e(ocr);
                 } catch (VisionServiceException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -96,23 +85,26 @@ public class TestActivity extends BaseActivity {
 
         String descriptionString = "hello, this is description speaking";
 
-        File file = new File("/storage/emulated/0/4.jpg");
-//        RequestBody requestBody =
-//                RequestBody.create(MediaType.parse("image/*"), file);
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+////        RequestBody requestBody =
+////                RequestBody.create(MediaType.parse("image/*"), file);
+//        File file = new File("/storage/emulated/0/4.jpg");
+//        RequestBody requestFile =
+//                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//
+//        MultipartBody.Part body = MultipartBody.Part.createFormData("data", file.getName(), requestFile);
 
-        MultipartBody.Part body = MultipartBody.Part.createFormData("data", file.getName(), requestFile);
-        RetrofitHelper.getMicsoftOcrService()
-                .uploadImage4recognize(descriptionString,body)
-                .compose(this.bindToLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(recommendInfo -> {
-                    LogUtil.d(recommendInfo.toString());
-                }, throwable -> {
-                    LogUtil.d(throwable.toString());
-                });
+//        UploadBody uploadBody = new UploadBody();
+//        uploadBody.data = IOUtil.getBytes("/storage/emulated/0/share.jpeg");
+//        RetrofitHelper.getMicsoftOcrService()
+//                .uploadImage4recognize(uploadBody)
+//                .compose(this.bindToLifecycle())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(recommendInfo -> {
+//                    LogUtil.d(recommendInfo.toString());
+//                }, throwable -> {
+//                    LogUtil.d(throwable.toString());
+//                });
 //                .enqueue(new Callback<String>() {
 //                    @Override
 //                    public void onResponse(Call<String> call, Response<String> response) {

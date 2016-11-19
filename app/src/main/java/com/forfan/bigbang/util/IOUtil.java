@@ -351,5 +351,30 @@ public class IOUtil {
         outputStream.flush();
         outputStream.close();
     }
+    /**
+     * 获得指定文件的byte数组
+     */
+    public static byte[] getBytes(String filePath){
+        byte[] buffer = null;
+        try {
+            File file = new File(filePath);
+            FileInputStream fis = new FileInputStream(file);
+            ByteArrayOutputStream bos = new ByteArrayOutputStream((int) file.length());
+            byte[] b = new byte[(int) file.length()];
+            int n;
+            while ((n = fis.read(b)) != -1) {
+                bos.write(b, 0, n);
+            }
+            fis.close();
+            bos.close();
+            buffer = bos.toByteArray();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return buffer;
+    }
+
 
 }

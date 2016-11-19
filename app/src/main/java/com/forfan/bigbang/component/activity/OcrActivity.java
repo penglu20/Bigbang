@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,14 +19,24 @@ import com.forfan.bigbang.cropper.CropHelper;
 import com.forfan.bigbang.cropper.CropParams;
 import com.forfan.bigbang.cropper.ImageUriUtil;
 import com.forfan.bigbang.entity.OcrItem;
-import com.forfan.bigbang.network.RetrofitHelper;
+import com.forfan.bigbang.util.IOUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
+import com.forfan.bigbang.util.StatusBarCompat;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.microsoft.projectoxford.vision.VisionServiceRestClient;
+import com.microsoft.projectoxford.vision.contract.LanguageCodes;
+import com.microsoft.projectoxford.vision.contract.Line;
+import com.microsoft.projectoxford.vision.contract.OCR;
+import com.microsoft.projectoxford.vision.contract.Region;
+import com.microsoft.projectoxford.vision.contract.Word;
+import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 
-import java.io.File;
+import java.io.IOException;
 
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
+import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -45,6 +56,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orc);
+        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(),true,R.color.colorPrimary);
         mCropParams = new CropParams(this);
         mImageView = (ImageView) findViewById(R.id.image);
         mResultTextView = (TextView) findViewById(R.id.result);
@@ -75,7 +87,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 mPicReOcr.setVisibility(View.GONE);
                 break;
             case R.id.re_ocr:
-                if(mCurrentUri != null)
+                if (mCurrentUri != null)
                     uploadImage4Ocr(mCurrentUri);
                 break;
 
@@ -115,26 +127,72 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
     }
 
+
     private void uploadImage4Ocr(Uri uri) {
         String img_path = ImageUriUtil.getImageAbsolutePath(this, uri);
-        File file = new File(img_path);
-        String descriptionString = "hello, this is description speaking";
-        RequestBody requestBody =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        RetrofitHelper.getOcrService()
-                .uploadImage("e02e6b613488957", descriptionString, requestBody)
-                .compose(this.bindToLifecycle())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(recommendInfo -> {
-                    LogUtil.d(recommendInfo.toString());
-                    mResultTextView.setText(getPasedText(recommendInfo));
-                }, throwable -> {
-                    LogUtil.d(throwable.toString());
-                    mResultTextView.setText(R.string.sorry_for_parse_fail);
-                    mPicReOcr.setVisibility(View.VISIBLE);
-                });
+        VisionServiceRestClient client = new VisionServiceRestClient("56c87e179c084cfaae9b70a2f58fa8d3");
+        Observable.OnSubscribe<OCR> mOnSubscrube = new Observable.OnSubscribe<OCR>() {
+            @Override
+            public void call(Subscriber<? super OCR> subscriber) {
+                byte[] data = IOUtil.getBytes(img_path);
+                try {
+                    String ocr = client.recognizeText(data, LanguageCodes.AutoDetect, true);
+                    if (!TextUtils.isEmpty(ocr)) {
+                        OCR ocrItem = new Gson().fromJson(ocr, new TypeToken<OCR>() {
+                        }.getType());
+                        subscriber.onNext(ocrItem);
+                    }
+                } catch (VisionServiceException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    subscriber.onError(e);
+                }
+            }
+        };
 
+        Observable.create(mOnSubscrube)
+                .subscribeOn(Schedulers.io())
+                .compose(bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s ->
+                                mResultTextView.setText(getPasedMiscSoftText(s)),
+                        throwable -> {
+                            LogUtil.d(throwable.toString());
+                            mResultTextView.setText(R.string.sorry_for_parse_fail);
+                            mPicReOcr.setVisibility(View.VISIBLE);
+                        });
+//        RequestBody requestBody =
+//                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//        RetrofitHelper.getOcrService()
+//                .uploadImage("e02e6b613488957", descriptionString, requestBody)
+//                .compose(this.bindToLifecycle())
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(recommendInfo -> {
+//                    LogUtil.d(recommendInfo.toString());
+//                    mResultTextView.setText(getPasedText(recommendInfo));
+//                }, throwable -> {
+//                    LogUtil.d(throwable.toString());
+//                    mResultTextView.setText(R.string.sorry_for_parse_fail);
+//                    mPicReOcr.setVisibility(View.VISIBLE);
+//                });
+
+    }
+
+    private String getPasedMiscSoftText(OCR r) {
+        String result = "";
+        for (Region reg : r.regions) {
+            for (Line line : reg.lines) {
+                for (Word word : line.words) {
+                    result += word.text + " ";
+                }
+                result += "\n";
+            }
+            result += "\n\n";
+        }
+        return result;
     }
 
     private CharSequence getPasedText(OcrItem recommendInfo) {

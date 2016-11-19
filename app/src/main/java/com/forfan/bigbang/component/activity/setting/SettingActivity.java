@@ -67,7 +67,7 @@ public class SettingActivity extends BaseActivity {
 
         cardList.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));
-//        cardViews.add(new OcrCard(this));
+        cardViews.add(new OcrCard(this));
         settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
         cardViews.add(new ChoiceCard(this));

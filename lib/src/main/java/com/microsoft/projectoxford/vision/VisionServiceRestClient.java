@@ -32,29 +32,17 @@
 //
 package com.microsoft.projectoxford.vision;
 
-import android.text.TextUtils;
-
-import com.google.gson.Gson;
-import com.microsoft.projectoxford.vision.contract.AnalysisInDomainResult;
-import com.microsoft.projectoxford.vision.contract.AnalysisResult;
-import com.microsoft.projectoxford.vision.contract.Model;
-import com.microsoft.projectoxford.vision.contract.ModelResult;
-import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import com.microsoft.projectoxford.vision.rest.WebServiceRequest;
 
-import org.apache.commons.io.IOUtils;
-
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VisionServiceRestClient implements VisionServiceClient {
+public class VisionServiceRestClient {
     private static final String DEFAULT_API_ROOT = "https://api.projectoxford.ai/vision/v1.0";
     private final String apiRoot;
     private final WebServiceRequest restCall;
-    private Gson gson = new Gson();
 
     public VisionServiceRestClient(String subscriptKey) {
         this(subscriptKey, DEFAULT_API_ROOT);
@@ -65,130 +53,7 @@ public class VisionServiceRestClient implements VisionServiceClient {
         this.apiRoot = apiRoot.replaceAll("/$", "");
     }
 
-    @Override
-    public AnalysisResult analyzeImage(String url, String[] visualFeatures, String[] details) throws VisionServiceException {
-        Map<String, Object> params = new HashMap<>();
-        AppendParams(params, "visualFeatures", visualFeatures);
-        AppendParams(params, "details", details);
-
-        String path = apiRoot + "/analyze";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        params.clear();
-        params.put("url", url);
-
-        String json = (String) this.restCall.request(uri, "POST", params, null, false);
-        AnalysisResult visualFeature = this.gson.fromJson(json, AnalysisResult.class);
-
-        return visualFeature;
-    }
-
-    @Override
-    public AnalysisResult analyzeImage(InputStream stream, String[] visualFeatures, String[] details) throws VisionServiceException, IOException {
-        Map<String, Object> params = new HashMap<>();
-        AppendParams(params, "visualFeatures", visualFeatures);
-        AppendParams(params, "details", details);
-        String path = apiRoot + "/analyze";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        params.clear();
-        byte[] data = IOUtils.toByteArray(stream);
-        params.put("data", data);
-
-        String json = (String) this.restCall.request(uri, "POST", params, "application/octet-stream", false);
-        AnalysisResult visualFeature = this.gson.fromJson(json, AnalysisResult.class);
-
-        return visualFeature;
-    }
-
-    @Override
-    public AnalysisInDomainResult analyzeImageInDomain(String url, Model model) throws VisionServiceException {
-        return  analyzeImageInDomain(url, model.name);
-    }
-
-    @Override
-    public AnalysisInDomainResult analyzeImageInDomain(String url, String model) throws VisionServiceException {
-        Map<String, Object> params = new HashMap<>();
-        String path = apiRoot + "/models/" + model + "/analyze";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        params.clear();
-        params.put("url", url);
-
-        String json = (String) this.restCall.request(uri, "POST", params, null, false);
-        AnalysisInDomainResult visualFeature = this.gson.fromJson(json, AnalysisInDomainResult.class);
-
-        return visualFeature;
-    }
-
-    @Override
-    public AnalysisInDomainResult analyzeImageInDomain(InputStream stream, Model model) throws VisionServiceException, IOException {
-        return analyzeImageInDomain(stream, model.name);
-    }
-
-    @Override
-    public AnalysisInDomainResult analyzeImageInDomain(InputStream stream, String model) throws VisionServiceException, IOException {
-        Map<String, Object> params = new HashMap<>();
-        String path = apiRoot + "/models/" + model + "/analyze";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        params.clear();
-        byte[] data = IOUtils.toByteArray(stream);
-        params.put("data", data);
-
-        String json = (String) this.restCall.request(uri, "POST", params, "application/octet-stream", false);
-        AnalysisInDomainResult visualFeature = this.gson.fromJson(json, AnalysisInDomainResult.class);
-
-        return visualFeature;
-    }
-
-    @Override
-    public AnalysisResult describe(String url, int maxCandidates) throws VisionServiceException{
-        Map<String, Object> params = new HashMap<>();
-        params.put("maxCandidates", maxCandidates);
-        String path = apiRoot + "/describe";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        params.clear();
-        params.put("url", url);
-
-        String json = (String) this.restCall.request(uri, "POST", params, null, false);
-        AnalysisResult visualFeature = this.gson.fromJson(json, AnalysisResult.class);
-
-        return visualFeature;
-    }
-
-    @Override
-    public AnalysisResult describe(InputStream stream, int maxCandidates) throws VisionServiceException, IOException{
-        Map<String, Object> params = new HashMap<>();
-        params.put("maxCandidates", maxCandidates);
-        String path = apiRoot + "/describe";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        params.clear();
-        byte[] data = IOUtils.toByteArray(stream);
-        params.put("data", data);
-
-        String json = (String) this.restCall.request(uri, "POST", params, "application/octet-stream", false);
-        AnalysisResult visualFeature = this.gson.fromJson(json, AnalysisResult.class);
-
-        return visualFeature;
-    }
-
-    @Override
-    public ModelResult listModels() throws VisionServiceException{
-        Map<String, Object> params = new HashMap<>();
-        String path = apiRoot + "/models";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        String json = (String) this.restCall.request(uri, "GET", params, null, false);
-        ModelResult models = this.gson.fromJson(json, ModelResult.class);
-
-        return models;
-    }
-
-    @Override
-    public OCR recognizeText(String url, String languageCode, boolean detectOrientation) throws VisionServiceException {
+    public String recognizeText(String url, String languageCode, boolean detectOrientation) throws VisionServiceException {
         Map<String, Object> params = new HashMap<>();
         params.put("language", languageCode);
         params.put("detectOrientation", detectOrientation);
@@ -198,74 +63,19 @@ public class VisionServiceRestClient implements VisionServiceClient {
         params.clear();
         params.put("url", url);
         String json = (String) this.restCall.request(uri, "POST", params, null, false);
-        OCR ocr = this.gson.fromJson(json, OCR.class);
-
-        return ocr;
+        return json;
     }
 
-    @Override
-    public OCR recognizeText(InputStream stream, String languageCode, boolean detectOrientation) throws VisionServiceException, IOException {
+    public String recognizeText(byte[] stream, String languageCode, boolean detectOrientation) throws VisionServiceException, IOException {
         Map<String, Object> params = new HashMap<>();
         params.put("language", languageCode);
         params.put("detectOrientation", detectOrientation);
         String path = apiRoot + "/ocr";
         String uri = WebServiceRequest.getUrl(path, params);
-
-        byte[] data = IOUtils.toByteArray(stream);
-        params.put("data", data);
+        params.put("data", stream);
         String json = (String) this.restCall.request(uri, "POST", params, "application/octet-stream", false);
-        OCR ocr = this.gson.fromJson(json, OCR.class);
-
-        return ocr;
+        return json;
     }
 
-    @Override
-    public byte[] getThumbnail(int width, int height, boolean smartCropping, String url) throws VisionServiceException, IOException {
-        Map<String, Object> params = new HashMap<>();
-        params.put("width", width);
-        params.put("height", height);
-        params.put("smartCropping", smartCropping);
-        String path = apiRoot + "/generateThumbnails";
-        String uri = WebServiceRequest.getUrl(path, params);
 
-        params.clear();
-        params.put("url", url);
-
-        InputStream is = (InputStream) this.restCall.request(uri, "POST", params, null, true);
-        byte[] image = IOUtils.toByteArray(is);
-        if (is != null) {
-            is.close();
-        }
-
-        return image;
-    }
-
-    @Override
-    public byte[] getThumbnail(int width, int height, boolean smartCropping, InputStream stream) throws VisionServiceException, IOException {
-        Map<String, Object> params = new HashMap<>();
-        params.put("width", width);
-        params.put("height", height);
-        params.put("smartCropping", smartCropping);
-        String path = apiRoot + "/generateThumbnails";
-        String uri = WebServiceRequest.getUrl(path, params);
-
-        params.clear();
-        byte[] data = IOUtils.toByteArray(stream);
-        params.put("data", data);
-
-        InputStream is = (InputStream) this.restCall.request(uri, "POST", params, "application/octet-stream", true);
-        byte[] image = IOUtils.toByteArray(is);
-        if (is != null) {
-            is.close();
-        }
-
-        return image;
-    }
-
-    private void AppendParams(Map<String, Object> params, String name, String[] args) {
-        if(args != null && args.length > 0) {
-            String features = TextUtils.join(",", args);
-            params.put(name, features);
-        }
-    }
 }

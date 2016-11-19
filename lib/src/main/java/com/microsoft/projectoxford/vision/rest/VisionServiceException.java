@@ -32,7 +32,6 @@
 //
 package com.microsoft.projectoxford.vision.rest;
 
-import com.google.gson.Gson;
 
 public class VisionServiceException extends Exception {
 
@@ -40,7 +39,4 @@ public class VisionServiceException extends Exception {
         super(message);
     }
 
-    public VisionServiceException(Gson errorObject) {
-        super(errorObject.toString());
-    }
 }
