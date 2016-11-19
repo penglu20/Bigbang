@@ -8,9 +8,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.Layout;
+import android.text.Selection;
+import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -81,6 +86,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
         int id=v.getId();
         switch (id){
             case R.id.check_update:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_CHECK_FOR_UPDATE);
                 if (!NetWorkUtil.isConnected(mContext)){
                     SnackBarUtil.show(v,R.string.snackbar_net_error);
                     return;
@@ -88,17 +94,19 @@ public class FeedBackAndUpdateCard extends AbsCard {
                 UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
                 break;
             case R.id.feedback:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_FEEDBACK);
                 startFeedBack();
                 break;
             case R.id.about:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_ABOUT);
                 showAboutDialog();
                 break;
             case R.id.introduction:
-                // TODO: 2016/10/29
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_HOW_TO_USE);
                 showIntro();
                 break;
             case R.id.problems:
-                // TODO: 2016/10/29
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_PROBLEM);
                 showProblemDialog();
                 break;
             default:
@@ -118,7 +126,47 @@ public class FeedBackAndUpdateCard extends AbsCard {
         FeedbackAgent agent = new FeedbackAgent(mContext);
         agent.startFeedbackActivity();
     }
+    public class ScrollLinkMovementMethod extends LinkMovementMethod{
+        @Override
+        public boolean onTouchEvent(TextView widget, Spannable buffer,
+                                    MotionEvent event) {
+            int action = event.getAction();
 
+            if (action == MotionEvent.ACTION_UP ||
+                    action == MotionEvent.ACTION_DOWN) {
+                int x = (int) event.getX();
+                int y = (int) event.getY();
+
+                x -= widget.getTotalPaddingLeft();
+                y -= widget.getTotalPaddingTop();
+
+                x += widget.getScrollX();
+                y += widget.getScrollY();
+
+                Layout layout = widget.getLayout();
+                int line = layout.getLineForVertical(y);
+                int off = layout.getOffsetForHorizontal(line, x);
+
+                ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
+
+                if (link.length != 0) {
+                    if (action == MotionEvent.ACTION_UP) {
+                        link[0].onClick(widget);
+                    } else if (action == MotionEvent.ACTION_DOWN) {
+                        Selection.setSelection(buffer,
+                                buffer.getSpanStart(link[0]),
+                                buffer.getSpanEnd(link[0]));
+                    }
+
+                    return true;
+                } else {
+                    Selection.removeSelection(buffer);
+                }
+            }
+
+            return super.onTouchEvent(widget, buffer, event);
+        }
+    }
     private void showAboutDialog(){
         PackageManager manager = mContext.getPackageManager();
         PackageInfo info = null;
@@ -132,7 +180,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
         Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
             @Override
             protected void onBuildDone(Dialog dialog) {
-                ((SimpleDialog)dialog).getMessageTextView().setMovementMethod(LinkMovementMethod.getInstance());
+                ((SimpleDialog)dialog).getMessageTextView().setMovementMethod(ScrollLinkMovementMethod.getInstance());
                 super.onBuildDone(dialog);
             }
         };

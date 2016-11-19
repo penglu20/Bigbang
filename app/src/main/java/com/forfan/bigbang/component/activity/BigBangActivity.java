@@ -102,7 +102,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setLineSpace(line);
         bigBangLayout.setItemSpace(item);
 
-        str=str.replaceAll(" ","");
+
         if (!remainSymbol){
             str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
         }

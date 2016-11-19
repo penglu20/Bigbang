@@ -14,6 +14,15 @@ public class UrlCountUtil {
 
     //打点的点的定义统一在这里
     public static final String CLICK_STATISTICS_CHOOSE_DATE ="click_statistics_choose_date";
+    public static final String CLICK_SETTINGS_OPEN_OCR ="CLICK_SETTINGS_OPEN_OCR";
+    public static final String CLICK_SETTINGS_FEEDBACK ="CLICK_SETTINGS_FEEDBACK";
+    public static final String CLICK_SETTINGS_SET_STYLE_BIGBANG ="CLICK_SETTINGS_SET_STYLE_BIGBANG";
+    public static final String CLICK_SETTINGS_CHECK_FOR_UPDATE ="CLICK_SETTINGS_CHECK_FOR_UPDATE";
+    public static final String CLICK_SETTINGS_HOW_TO_USE ="CLICK_SETTINGS_HOW_TO_USE";
+    public static final String CLICK_SETTINGS_ABOUT ="CLICK_SETTINGS_HOW_TO_USE";
+    public static final String CLICK_SETTINGS_JOIN_QQ ="CLICK_SETTINGS_JOIN_QQ";
+    public static final String CLICK_SETTINGS_DONATE ="CLICK_SETTINGS_DONATE";
+    public static final String CLICK_SETTINGS_PROBLEM = "CLICK_SETTINGS_PROBLEM";
 
     public static Context mContext= BigBangApp.getInstance();
     /*

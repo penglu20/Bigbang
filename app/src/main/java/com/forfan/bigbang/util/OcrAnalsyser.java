@@ -108,9 +108,10 @@ public class OcrAnalsyser {
     }
 
 
-    public String getPasedMiscSoftText(OCR r) {
+    public String getPasedMiscSoftText(OCR ocr) {
+
         String result = "";
-        for (Region reg : r.regions) {
+        for (Region reg : ocr.regions) {
             for (Line line : reg.lines) {
                 for (Word word : line.words) {
                     result += word.text + " ";
@@ -118,6 +119,9 @@ public class OcrAnalsyser {
                 result += "\n";
             }
             result += "\n\n";
+        }
+        if( ocr.language.equalsIgnoreCase(LanguageCodes.ChineseSimplified ) || ocr.language.equalsIgnoreCase(LanguageCodes.ChineseTraditional)){
+            result=result.replaceAll(" ","");
         }
         return result;
     }

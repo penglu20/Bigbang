@@ -27,6 +27,7 @@ import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.ToastUtil;
+import com.microsoft.projectoxford.vision.contract.LanguageCodes;
 import com.microsoft.projectoxford.vision.contract.OCR;
 
 import java.io.ByteArrayOutputStream;
@@ -179,10 +180,12 @@ public class ScreenCaptureService extends Service {
                 @Override
                 public void onSucess(OCR ocr) {
                     LogUtil.e(TAG, "ocr--success");
-                    String s = OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr);
+
+
+                    String str = OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr);
                     Intent intent = new Intent(ScreenCaptureService.this, BigBangActivity.class);
                     intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, s);
+                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, str);
                     startActivity(intent);
 
                 }
