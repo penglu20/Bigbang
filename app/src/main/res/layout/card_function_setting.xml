@@ -59,6 +59,13 @@
             style="@style/switchStyle" />
     </RelativeLayout>
 
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/show_float_view_request"
+        style="@style/cardViewTextViewInLayoutLeft"
+        android:textColor="@color/secondary_text"
+        android:textSize="@dimen/text_size_tiny"
+        android:paddingLeft="@dimen/margin_double"
+        android:text="@string/show_float_view_request" />
 
     <RelativeLayout
         android:id="@+id/remain_symbol_rl"

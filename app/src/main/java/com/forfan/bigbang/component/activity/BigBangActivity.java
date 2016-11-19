@@ -2,6 +2,7 @@ package com.forfan.bigbang.component.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -68,10 +69,20 @@ public class BigBangActivity extends BaseActivity {
         String str=intent.getStringExtra(TO_SPLIT_STR);
 
         if (TextUtils.isEmpty(str)){
+            String action = intent.getAction();
+            String type = intent.getType();
+            if (Intent.ACTION_SEND.equals(action) && type != null) {
+                if ("text/plain".equals(type)) {
+                    String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+                    str=sharedText;
+                }
+            }
+        }
+
+        if (TextUtils.isEmpty(str)){
             finish();
             return;
         }
-
         remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true);
 
 
@@ -91,6 +102,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setLineSpace(line);
         bigBangLayout.setItemSpace(item);
 
+        str=str.replaceAll(" ","");
         if (!remainSymbol){
             str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
         }

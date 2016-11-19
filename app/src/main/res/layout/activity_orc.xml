@@ -21,6 +21,12 @@
             android:id="@+id/select_pic"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginTop="@dimen/margin_double"
+            android:background="@drawable/button_white_stroke_green"
+            android:layout_marginLeft="@dimen/margin_double"
+            android:layout_marginRight="@dimen/margin_double"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_normal"
             android:gravity="center"
             android:text="@string/stringValue3" />
 
@@ -28,19 +34,33 @@
             android:id="@+id/take_pic"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
+            android:layout_marginTop="@dimen/margin_double"
+            android:background="@drawable/button_white_stroke_green"
+            android:layout_marginLeft="@dimen/margin_double"
+            android:layout_marginRight="@dimen/margin_double"
             android:gravity="center"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_normal"
             android:text="@string/stringValue4" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/result"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_double"
+            android:layout_marginRight="@dimen/margin_double"
             android:gravity="center" />
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/re_ocr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_double"
+            android:background="@drawable/button_white_stroke_green"
+            android:layout_marginLeft="@dimen/margin_double"
+            android:layout_marginRight="@dimen/margin_double"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_normal"
             android:text="@string/stringValue5"
             android:visibility="gone" />
     </LinearLayout>

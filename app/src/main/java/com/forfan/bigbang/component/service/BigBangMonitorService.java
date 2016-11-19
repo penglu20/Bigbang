@@ -9,8 +9,10 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
+import android.support.annotation.RequiresApi;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -78,6 +80,7 @@ public class BigBangMonitorService extends AccessibilityService {
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
         intentFilter.addAction(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST);
+        intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST);
         registerReceiver(bigBangBroadcastReceiver,intentFilter);
 
         readSettingFromSp();
@@ -124,9 +127,6 @@ public class BigBangMonitorService extends AccessibilityService {
             showBigBang=isShow;
 //            int text = isShow ? R.string.bigbang_open: R.string.bigbang_close;
 //            ToastUtil.show(text);
-            if (isShow && handler!=null) {
-                UniversalCopy();
-            }
         }
 
         @Override
@@ -316,6 +316,8 @@ public class BigBangMonitorService extends AccessibilityService {
 
 
     private int universalCopyDepth = 0;
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void UniversalCopy() {
         boolean isSuccess=false;
         label37: {
@@ -510,7 +512,11 @@ public class BigBangMonitorService extends AccessibilityService {
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST)){
                 readWhiteList();
-            }else {
+            }else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST)){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    UniversalCopy();
+                }
+            } else {
                 readSettingFromSp();
             }
         }

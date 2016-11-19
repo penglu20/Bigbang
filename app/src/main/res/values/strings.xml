@@ -72,6 +72,7 @@
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
     <string name="check_update">检测更新</string>
     <string name="show_float_view">显示悬浮窗</string>
+    <string name="show_float_view_request">使用悬浮窗可以快捷切换Bigbang开关、全局复制、全屏截图OCR识别</string>
     <string name="check_update_close">已是最新版本</string>
     <string name="default_setting">恢复默认设置</string>
 

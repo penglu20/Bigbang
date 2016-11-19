@@ -16,6 +16,7 @@
             android:background="@drawable/float_view_switch_bg"
             android:visibility="gone"
             android:button="@null"
+
             android:clickable="true"
             android:layout_height="40dp" />
 

@@ -2,9 +2,9 @@
 <level-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:maxLevel="1">
-        <bitmap android:src="@drawable/ic_monitor_on" android:alpha="0.3"/>
+        <bitmap android:src="@drawable/ic_monitor_on" />
     </item>
     <item android:maxLevel="0">
-        <bitmap android:src="@drawable/ic_monitor_on" android:alpha="0.8"/>
+        <bitmap android:src="@drawable/ic_monitor_on" />
     </item>
 </level-list>

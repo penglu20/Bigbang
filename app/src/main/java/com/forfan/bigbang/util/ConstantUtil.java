@@ -83,4 +83,5 @@ public class ConstantUtil {
     public static final String HAS_ADDED_LAUNCHER_AS_WHITE_LIST="has_added_launcher_as_white_list";
 
 
+    public static final String UNIVERSAL_COPY_BROADCAST="universal_copy_broadcast";
 }

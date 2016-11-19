@@ -58,7 +58,7 @@ public class TipViewController implements  View.OnTouchListener {
     private int rotation;
     private boolean isMovingToEdge=false;
     private float density=0;
-    private boolean showBigBang=false;
+    private boolean showBigBang=true;
     private boolean isMoving=false;
     private boolean isLongPressed=false;
     private int mScaledTouchSlop;
@@ -153,7 +153,7 @@ public class TipViewController implements  View.OnTouchListener {
             @Override
             public void onClick(View v) {
                 refreshViewState(false);
-
+                mContext.sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
             }
         });
 
@@ -172,7 +172,7 @@ public class TipViewController implements  View.OnTouchListener {
         // event listeners
         mWholeView.setOnTouchListener(this);
 
-        floatSwitch.setChecked(true);
+        floatSwitch.setChecked(showBigBang);
         floatSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -223,7 +223,7 @@ public class TipViewController implements  View.OnTouchListener {
                 if (showFun){
                     floatImageView.setVisibility(View.GONE);
                     floatSwitch.setVisibility(View.VISIBLE);
-                    floatCopy.setVisibility(View.VISIBLE);
+                    floatCopy.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ? View.GONE :View.VISIBLE);
                     floatScreen.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE :View.VISIBLE);
                     floatBack.setVisibility(View.VISIBLE);
                     mWholeView.setOnTouchListener(null);

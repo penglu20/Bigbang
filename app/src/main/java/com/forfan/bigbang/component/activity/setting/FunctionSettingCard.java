@@ -45,6 +45,7 @@ public class FunctionSettingCard extends AbsCard {
 //    private TextView showFloatViewTV;
 //    private TextView remainSymbolTV;
     private TextView defaultSettingTV;
+    private TextView requestFloatViewTv;
 
     private SwitchCompat monitorClipBoardSwitch;
     private SwitchCompat monitorClickSwitch;
@@ -93,6 +94,7 @@ public class FunctionSettingCard extends AbsCard {
 //        showFloatViewTV= (TextView) findViewById(R.id.show_float_view_tv);
 //        remainSymbolTV= (TextView) findViewById(R.id.remain_symbol_tv);
         defaultSettingTV= (TextView) findViewById(R.id.default_setting);
+        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
 
         monitorClipBoardSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -165,6 +167,11 @@ public class FunctionSettingCard extends AbsCard {
                             });
                 }
                 isInFirst = false;
+                if (showFloatView){
+                    requestFloatViewTv.setVisibility(GONE);
+                }else {
+                    requestFloatViewTv.setVisibility(VISIBLE);
+                }
             }
         });
 

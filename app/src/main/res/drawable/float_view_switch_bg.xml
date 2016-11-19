@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="false">
-        <bitmap android:src="@drawable/ic_switch_on" android:alpha="0.3"/>
+        <bitmap android:src="@drawable/ic_switch_on" />
     </item>
     <item android:state_checked="true">
-        <bitmap android:src="@drawable/ic_switch_on" android:alpha="0.8"/>
+        <bitmap android:src="@drawable/ic_switch_on" />
     </item>
 </selector>
