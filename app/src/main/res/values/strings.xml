@@ -105,7 +105,7 @@
     <string name="wait_until_loaded">加载中，请稍后再操作</string>
 
     <string name="white_list_tip">此处设置不影响复制触发功能</string>
-    <string name="sorry_for_ocr_parse_fail">抱歉，抓取图片识别失败，请选用更清晰地图片</string>
+    <string name="sorry_for_ocr_parse_fail">抱歉,识别失败，请选用更清晰地图片</string>
     <string name="ocr_recognize">Ocr识别中</string>
 
     <string name="action_copy">"复制"</string>

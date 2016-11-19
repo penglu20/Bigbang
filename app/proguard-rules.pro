@@ -127,6 +127,7 @@ public static final int *;
 -keep class com.google.gson.stream.** { *; }
 -keepattributes EnclosingMethod
 -keep class com.forfan.bigbang.entity.**{*;}
+-keep class com.microsoft.projectoxford.vision.contract.**{*;}
 
 
 # Platform calls Class.forName on types which do not exist on Android to determine platform.

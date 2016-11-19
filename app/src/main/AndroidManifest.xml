@@ -65,8 +65,8 @@
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:theme="@style/OverlayTheme"
-            android:noHistory="true" />
+            android:noHistory="true"
+            android:theme="@style/OverlayTheme" />
 
         <activity
             android:name="com.umeng.fb.ConversationActivity"
@@ -133,10 +133,26 @@
             android:theme="@style/ColorTranslucentTheme" />
         <activity
             android:name=".component.activity.OcrActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
-                <data android:mimeType="image/*"/>
+                <action android:name="android.intent.action.SEND" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.INSERT_OR_EDIT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <data android:mimeType="image/*" />
             </intent-filter>
         </activity>
         <activity
@@ -154,12 +170,13 @@
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />
-        <activity android:name=".component.activity.screen.ScreenCaptureActivity"
-           android:theme="@style/ScreenCaptureTheme" >
+        <activity
+            android:name=".component.activity.screen.ScreenCaptureActivity"
+            android:theme="@style/ScreenCaptureTheme">
 
         </activity>
-        <service android:name=".component.activity.screen.ScreenCaptureService"
-            >
+
+        <service android:name=".component.activity.screen.ScreenCaptureService">
 
         </service>
     </application>

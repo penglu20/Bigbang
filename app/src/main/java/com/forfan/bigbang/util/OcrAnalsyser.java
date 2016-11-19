@@ -96,11 +96,15 @@ public class OcrAnalsyser {
         if(callback == null)
             return;
         this.img = img;
-        Observable.create(mOnSubscrube1)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s ->callback.onSucess(s),
-                        throwable ->callback.onFail());
+        try {
+            Observable.create(mOnSubscrube1)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(s ->callback.onSucess(s),
+                            throwable ->callback.onFail());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

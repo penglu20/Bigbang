@@ -1,6 +1,7 @@
 package com.forfan.bigbang.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
 import com.forfan.bigbang.view.BigBangLayout;
 
 import java.util.ArrayList;
@@ -139,6 +141,10 @@ public class TipViewController implements  View.OnTouchListener {
             @Override
             public void onClick(View v) {
                 refreshViewState(false);
+                Intent intent = new Intent();
+                intent.setClass(mContext,ScreenCaptureActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(intent);
 
             }
         });
@@ -218,7 +224,7 @@ public class TipViewController implements  View.OnTouchListener {
                     floatImageView.setVisibility(View.GONE);
                     floatSwitch.setVisibility(View.VISIBLE);
                     floatCopy.setVisibility(View.VISIBLE);
-                    floatScreen.setVisibility(View.VISIBLE);
+                    floatScreen.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE :View.VISIBLE);
                     floatBack.setVisibility(View.VISIBLE);
                     mWholeView.setOnTouchListener(null);
                 }else {
