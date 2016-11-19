@@ -134,25 +134,14 @@
         <activity
             android:name=".component.activity.OcrActivity"
             android:theme="@style/AppTheme">
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.GET_CONTENT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.INSERT_OR_EDIT" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <data android:mimeType="image/*" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="application/*" />
                 <data android:mimeType="image/*" />
+                <data android:mimeType="multipart/*" />
             </intent-filter>
         </activity>
         <activity
