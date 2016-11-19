@@ -29,6 +29,7 @@ import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.DensityUtils;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -63,10 +64,12 @@ public class WebActivity
     }
     private  boolean isFistIn = true;
     private void initViews() {
+        String[] engines = getResources().getStringArray(R.array.browser_list);
         this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
         mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_Engines,engines[position]);
                 SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
                 if(isFistIn){
                     isFistIn = false;
@@ -98,12 +101,14 @@ public class WebActivity
         findViewById(R.id.finish).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BROWSER_EXIT);
                 finish();
             }
         });
         findViewById(R.id.open_chrome).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BROWSER_TO_SYS_BROWSER);
                 Uri uri = getUri();
                 if (uri != null) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);

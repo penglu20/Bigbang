@@ -23,6 +23,7 @@ import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
 
@@ -101,6 +102,8 @@ public class FunctionSettingCard extends AbsCard {
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 monitorClipBoard = isChecked;
                 SPHelper.save(ConstantUtil.MONITOR_CLIP_BOARD, monitorClipBoard);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_CLIPBOARD,isChecked);
+
                 if (monitorClipBoard) {
                     mContext.startService(new Intent(context,ListenClipboardService.class));
                 }
@@ -113,6 +116,8 @@ public class FunctionSettingCard extends AbsCard {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 // TODO: 2016/10/29 关闭的时候，应该把MonitorSettingCard隐藏起来
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ACCESSABILITY,isChecked);
+
                 monitorClick = isChecked;
                 sendTencentSettingsBroadcast(isChecked);
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
@@ -138,6 +143,8 @@ public class FunctionSettingCard extends AbsCard {
         showFloarViewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_FLOAT_WINDOW,isChecked);
+
                 showFloatView = isChecked;
                 SPHelper.save(ConstantUtil.SHOW_FLOAT_VIEW, showFloatView);
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
@@ -178,6 +185,7 @@ public class FunctionSettingCard extends AbsCard {
         remainSymbolSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_PUNCTUATION,isChecked);
                 remainSymbol = isChecked;
                 SPHelper.save(ConstantUtil.REMAIN_SYMBOL, remainSymbol);
             }

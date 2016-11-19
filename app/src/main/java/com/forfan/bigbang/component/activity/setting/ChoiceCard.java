@@ -14,6 +14,7 @@ import com.forfan.bigbang.component.activity.OcrActivity;
 import com.forfan.bigbang.component.activity.SettingBigBangActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
 
@@ -40,6 +41,7 @@ public class ChoiceCard extends AbsCard {
         findViewById(R.id.setting_bigbang).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
                 Intent intent=new Intent(mContext,SettingBigBangActivity.class);
                 mContext.startActivity(intent);
             }
@@ -50,6 +52,7 @@ public class ChoiceCard extends AbsCard {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 SPHelper.save(ConstantUtil.USE_LOCAL_WEBVIEW, isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_USE_BUILTIN_BROWSER,isChecked);
             }
         });
 

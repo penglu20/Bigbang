@@ -10,6 +10,7 @@ import android.view.View;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.OcrActivity;
+import com.forfan.bigbang.util.UrlCountUtil;
 
 /**
  * Created by wangyan-pd on 2016/11/9.
@@ -27,6 +28,7 @@ public class OcrCard extends AbsCard {
         findViewById(R.id.orc).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_OPEN_OCR);
                 Intent intent = new Intent();
                 intent.setClass(mContext, OcrActivity.class);
                 mContext.startActivity(intent);

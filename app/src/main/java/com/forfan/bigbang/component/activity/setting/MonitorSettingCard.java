@@ -22,6 +22,7 @@ import com.forfan.bigbang.component.activity.whitelist.WhiteListActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 
 import okhttp3.Call;
@@ -85,6 +86,7 @@ public class MonitorSettingCard extends AbsCard {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 onlyText = isChecked;
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ONLY_TEXT_MONITOR,isChecked);
                 SPHelper.save(ConstantUtil.TEXT_ONLY, onlyText);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
@@ -93,6 +95,7 @@ public class MonitorSettingCard extends AbsCard {
         qqSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_QQ,spinnerArray[position]);
                 LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
                 SPHelper.save(ConstantUtil.QQ_SELECTION,spinnerArray[position]);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
@@ -109,6 +112,7 @@ public class MonitorSettingCard extends AbsCard {
         weixinSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_WEIXIN,spinnerArray[position]);
                 LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
                 SPHelper.save(ConstantUtil.WEIXIN_SELECTION,spinnerArray[position]);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
@@ -125,6 +129,7 @@ public class MonitorSettingCard extends AbsCard {
         otherSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_OTHER,spinnerArray[position]);
                 LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
                 SPHelper.save(ConstantUtil.OTHER_SELECTION,spinnerArray[position]);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
@@ -155,9 +160,11 @@ public class MonitorSettingCard extends AbsCard {
                     onlyTextSwitch.setChecked(!onlyTextSwitch.isChecked());
                     break;
                 case R.id.white_list:
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_WHITELIST);
                     mContext.startActivity(new Intent(mContext, WhiteListActivity.class));
                     break;
                 case R.id.double_click_setting:
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING);
                     doubleClickIntervalRl.setVisibility(VISIBLE);
                     mDoubleClick.setVisibility(GONE);
                     int t= SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL,ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
@@ -165,6 +172,7 @@ public class MonitorSettingCard extends AbsCard {
                     doubleClickEditText.requestFocus();
                     break;
                 case R.id.double_click_confirm:
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM);
                     int time=Integer.parseInt(doubleClickEditText.getText().toString());
                     SPHelper.save(ConstantUtil.DOUBLE_CLICK_INTERVAL,time);
                     String text=mContext.getString(R.string.double_click_intercal);

@@ -21,10 +21,12 @@ import com.forfan.bigbang.cropper.ImageUriUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.StatusBarCompat;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.microsoft.projectoxford.vision.contract.Line;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
+
 
 /**
  * Created by wangyan-pd on 2016/11/9.
@@ -55,6 +57,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         mResultTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TO_BIGBANG_ACTIVITY);
                 Intent intent = new Intent(OcrActivity.this, BigBangActivity.class);
                 intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                 intent.putExtra(BigBangActivity.TO_SPLIT_STR, mResultTextView.getText());
@@ -68,10 +71,12 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             if (intent.getClipData() != null && intent.getClipData().getItemAt(0) != null && intent.getClipData().getItemAt(0).getUri() != null) {
                 Uri uri = intent.getClipData().getItemAt(0).getUri();
                 showBitmapandOcr(uri);
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_FROM_SHARE);
             }
-        } else {
+        } else if(intent.getData() != null){
             Uri uri = intent.getData();
             showBitmapandOcr(uri);
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_FROM_SHARE);
         }
 
     }
@@ -96,6 +101,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
         switch (v.getId()) {
             case R.id.take_pic:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TAKEPICTURE);
                 mCropParams.enable = true;
                 mCropParams.compress = false;
                 Intent intent = CropHelper.buildCameraIntent(mCropParams);
@@ -104,6 +110,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
                 break;
             case R.id.select_pic:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_PICK_FROM_GALLERY);
                 mCropParams.enable = true;
                 mCropParams.compress = false;
                 Intent intent1 = CropHelper.buildGalleryIntent(mCropParams);
@@ -111,6 +118,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 mPicReOcr.setVisibility(View.GONE);
                 break;
             case R.id.re_ocr:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_REOCR);
                 if (mCurrentUri != null)
                     uploadImage4Ocr(mCurrentUri);
                 break;

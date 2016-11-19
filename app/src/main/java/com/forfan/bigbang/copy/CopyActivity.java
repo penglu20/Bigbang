@@ -24,6 +24,7 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.StatusBarCompat;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 
 import java.util.ArrayList;
@@ -270,6 +271,7 @@ public class CopyActivity extends BaseActivity {
         this.copyFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_COPY_FAB);
                 setSelectTextToClipboard(null);
                 finish();
             }
@@ -278,6 +280,7 @@ public class CopyActivity extends BaseActivity {
         this.exitFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT_FAB);
                 finish();
             }
         });
@@ -285,6 +288,7 @@ public class CopyActivity extends BaseActivity {
         exitFullScreenFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT_FULLSCREEN_FAB);
                 fullScreenMode(false);
             }
         });
@@ -337,12 +341,14 @@ public class CopyActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem var1) {
         switch(var1.getItemId()) {
             case android.R.id.home:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT);
                 // TODO: 2016/11/19  
                 if(this.selectedNodes.size() <= 0) {
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT);
                     this.finish();
                     return true;
                 }
-
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT_RETUN);
                 Iterator var2 = this.selectedNodes.iterator();
 
                 while(var2.hasNext()) {
@@ -353,12 +359,15 @@ public class CopyActivity extends BaseActivity {
                 this.adjustActionBarWrap();
                 return true;
             case R.id.action_full_screen:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT_FULLSCREEN_ACTION);
                 this.fullScreenMode(true);
                 return true;
             case R.id.action_select_mode:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EDIT);
                 showSelectedText();
                 return true;
             case R.id.action_copy:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_COPY_ACTION);
                 setSelectTextToClipboard((TextView)null);
                 finish();
                 return true;
@@ -397,6 +406,7 @@ public class CopyActivity extends BaseActivity {
         public boolean onActionItemClicked(ActionMode var1, MenuItem var2) {
             switch(var2.getItemId()) {
                 case R.id.fab_copy:
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_COPY_FAB);
                     setSelectTextToClipboard(this.b);
                     finish();
                     return true;

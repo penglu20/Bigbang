@@ -12,6 +12,7 @@ import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.text.method.MovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
 import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.CountLinkMovementMethod;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
@@ -126,47 +128,9 @@ public class FeedBackAndUpdateCard extends AbsCard {
         FeedbackAgent agent = new FeedbackAgent(mContext);
         agent.startFeedbackActivity();
     }
-    public class ScrollLinkMovementMethod extends LinkMovementMethod{
-        @Override
-        public boolean onTouchEvent(TextView widget, Spannable buffer,
-                                    MotionEvent event) {
-            int action = event.getAction();
+    public  static String zhifubao="https://mobilecodec.alipay.com/client_download.htm?qrcode=ap13zwff7wggcfdn80";
+    public  static String qqJump= Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + "Ruk-hM-hLlIBoODmgTUpymQcrXjCPXqV").toString();
 
-            if (action == MotionEvent.ACTION_UP ||
-                    action == MotionEvent.ACTION_DOWN) {
-                int x = (int) event.getX();
-                int y = (int) event.getY();
-
-                x -= widget.getTotalPaddingLeft();
-                y -= widget.getTotalPaddingTop();
-
-                x += widget.getScrollX();
-                y += widget.getScrollY();
-
-                Layout layout = widget.getLayout();
-                int line = layout.getLineForVertical(y);
-                int off = layout.getOffsetForHorizontal(line, x);
-
-                ClickableSpan[] link = buffer.getSpans(off, off, ClickableSpan.class);
-
-                if (link.length != 0) {
-                    if (action == MotionEvent.ACTION_UP) {
-                        link[0].onClick(widget);
-                    } else if (action == MotionEvent.ACTION_DOWN) {
-                        Selection.setSelection(buffer,
-                                buffer.getSpanStart(link[0]),
-                                buffer.getSpanEnd(link[0]));
-                    }
-
-                    return true;
-                } else {
-                    Selection.removeSelection(buffer);
-                }
-            }
-
-            return super.onTouchEvent(widget, buffer, event);
-        }
-    }
     private void showAboutDialog(){
         PackageManager manager = mContext.getPackageManager();
         PackageInfo info = null;
@@ -180,15 +144,13 @@ public class FeedBackAndUpdateCard extends AbsCard {
         Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
             @Override
             protected void onBuildDone(Dialog dialog) {
-                ((SimpleDialog)dialog).getMessageTextView().setMovementMethod(ScrollLinkMovementMethod.getInstance());
+                ((SimpleDialog)dialog).getMessageTextView().setMovementMethod(CountLinkMovementMethod.getInstance());
                 super.onBuildDone(dialog);
             }
         };
-        String zhifubao="https://mobilecodec.alipay.com/client_download.htm?qrcode=ap13zwff7wggcfdn80";
         String donate=mContext.getString(R.string.donate);
 
 
-        String qqJump= Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + "Ruk-hM-hLlIBoODmgTUpymQcrXjCPXqV").toString();
         String qq=mContext.getString(R.string.join_qq);
         ((SimpleDialog.Builder) builder).
                 message( Html.fromHtml(

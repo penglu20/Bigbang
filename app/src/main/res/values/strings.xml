@@ -116,4 +116,5 @@
     <string name="error_in_copy">出现错误，请重试</string>
     <string name="copy_title">全局复制</string>
     <string name="copy_subtitle">请点击想要复制的区域</string>
+    <string name="not_foud_qq">未找到QQ</string>
 </resources>

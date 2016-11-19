@@ -140,6 +140,7 @@ public class TipViewController implements  View.OnTouchListener {
         floatScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
                 refreshViewState(false);
                 Intent intent = new Intent();
                 intent.setClass(mContext,ScreenCaptureActivity.class);
@@ -152,6 +153,7 @@ public class TipViewController implements  View.OnTouchListener {
         floatCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_COPY);
                 refreshViewState(false);
                 mContext.sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
             }
@@ -160,6 +162,7 @@ public class TipViewController implements  View.OnTouchListener {
         floatBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_BACK);
                 refreshViewState(false);
             }
         });
@@ -176,6 +179,7 @@ public class TipViewController implements  View.OnTouchListener {
         floatSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SWITCH);
                 showBigBang=isChecked;
                 if (mActionListener!=null){
                     for (ActionListener listener:mActionListener) {
@@ -344,6 +348,7 @@ public class TipViewController implements  View.OnTouchListener {
                     if (!isLongPressed) {
                         mainHandler.removeCallbacks(longPressRunnable);
 //                        floatSwitch.setChecked(!floatSwitch.isChecked());
+                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_IMAAGEVIEW);
                         refreshViewState(true);
                     }
                 }
@@ -425,6 +430,7 @@ public class TipViewController implements  View.OnTouchListener {
                 vibrator.vibrate(10);
                 for (ActionListener listener:mActionListener) {
                     if (listener.longPressed()){
+                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SETTING_ACTICITY);
                         break;
                     }
                 }
