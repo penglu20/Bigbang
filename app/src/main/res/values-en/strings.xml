@@ -120,4 +120,9 @@
     <string name="sorry_for_ocr_parse_fail">sorry for Ocr picture fail</string>
     <string name="ocr_recognize">Ocr  recognizing</string>
     <string name="not_foud_qq">not found QQ</string>
+    <string name="my_zhifubao">My AliPay QRCode</string>
+    <string name="my_weixin">My WeChat QRCode</string>
+    <string name="thinks_for_donate">Thank for your donation ，welcome to join our QQ club，and wish you can provide us some suggestions .</string>
+    <string name="picture_saved">QRCode is alreay saved</string>
+    <string name="click_to_save_qrcord">click QRCode to save</string>
 </resources>

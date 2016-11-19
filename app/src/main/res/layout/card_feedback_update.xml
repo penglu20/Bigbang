@@ -38,6 +38,11 @@
         style="@style/cardViewTextView"
         android:layout_below="@id/introduction"
         android:text="@string/about"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/donate"
+        style="@style/cardViewTextView"
+        android:layout_below="@id/about"
+        android:text="@string/donate"/>
 
 
 </RelativeLayout>

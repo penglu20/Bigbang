@@ -178,6 +178,9 @@
         <service android:name=".component.activity.screen.ScreenCaptureService">
 
         </service>
+        <activity android:name=".component.activity.DonateActivity">
+
+        </activity>
     </application>
 
 </manifest>

@@ -351,6 +351,20 @@ public class IOUtil {
         outputStream.flush();
         outputStream.close();
     }
+    public static void saveToFile(InputStream in, File file) throws IOException {
+        File outputFile= file;
+        outputFile.deleteOnExit();
+        outputFile.getParentFile().mkdirs();
+        BufferedOutputStream outputStream=new BufferedOutputStream(new FileOutputStream(outputFile));
+        byte[] buffer=new byte[2048];
+        int length=in.read(buffer);
+        while (length!=-1){
+            outputStream.write(buffer,0,length);
+            length=in.read(buffer);
+        }
+        outputStream.flush();
+        outputStream.close();
+    }
     /**
      * 获得指定文件的byte数组
      */

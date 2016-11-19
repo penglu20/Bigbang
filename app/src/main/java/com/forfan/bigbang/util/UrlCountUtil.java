@@ -21,11 +21,12 @@ public class UrlCountUtil {
     public static final String CLICK_SETTINGS_HOW_TO_USE ="click_settings_how_to_use";
     public static final String CLICK_SETTINGS_ABOUT ="click_settings_about";
     public static final String CLICK_SETTINGS_JOIN_QQ ="click_settings_join_qq";
-    public static final String CLICK_SETTINGS_DONATE ="click_settings_donate";
+    public static final String CLICK_SETTINGS_ABOUT_DONATE ="click_settings_about_donate";
     public static final String CLICK_SETTINGS_PROBLEM = "click_settings_problem";
     public static final String CLICK_SETTINGS_WHITELIST = "click_settings_whitelist";
     public static final String CLICK_SETTINGS_DOUBLECLICK_SETTING = "click_settings_doubleclick_setting";
     public static final String CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM = "click_settings_doubleclick_setting_conform";
+    public static final String CLICK_SETTINGS_DONATE = "click_settings_donate";
 
     public static final String STATUS_ACCESSABILITY = "status_accessability";
     public static final String STATUS_CLIPBOARD = "status_clipboard";
@@ -63,6 +64,9 @@ public class UrlCountUtil {
     public static final String CLICK_UNIVERSAL_COPY_EXIT_FULLSCREEN_FAB= "click_universal_copy_exit_fullscreen_fab";
     public static final String CLICK_UNIVERSAL_COPY_COPY_FAB= "click_universal_copy_copy_fab";
     public static final String CLICK_UNIVERSAL_COPY_COPY_ACTION= "click_universal_copy_copy_action";
+
+    public static final String CLICK_DONATE_WECHAT_SAVE= "click_donate_wechat_save";
+    public static final String CLICK_DONATE_ALIPAY_SAVE= "click_donate_alipay_save";
 
 
 

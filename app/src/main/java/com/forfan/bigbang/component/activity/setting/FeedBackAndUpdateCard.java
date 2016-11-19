@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.component.activity.DonateActivity;
 import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
 import com.forfan.bigbang.util.ChanelUtil;
@@ -80,6 +81,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
 //        if (ChanelHandler.is360SDK(context)){
 //            feedback.setVisibility(View.GONE);
 //        }
+        findViewById(R.id.donate).setOnClickListener(myOnClickListener);
     }
 
     private View.OnClickListener myOnClickListener =new View.OnClickListener() {
@@ -111,11 +113,21 @@ public class FeedBackAndUpdateCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_PROBLEM);
                 showProblemDialog();
                 break;
+            case R.id.donate:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DONATE);
+                toDonate();
+                break;
             default:
                 break;
         }
         }
     };
+
+    private void toDonate() {
+        Intent intent = new Intent();
+        intent.setClass(mContext, DonateActivity.class);
+        mContext.startActivity(intent);
+    }
 
     private void showIntro() {
         Intent intent = new Intent();

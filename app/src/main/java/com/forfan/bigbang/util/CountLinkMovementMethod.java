@@ -228,7 +228,7 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
                     }
                     if(((URLSpan) link[0]).getURL() != null){
                         if(FeedBackAndUpdateCard.zhifubao.startsWith(((URLSpan) link[0]).getURL())){
-                            UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DONATE);
+                            UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_ABOUT_DONATE);
                         }else if(FeedBackAndUpdateCard.qqJump.startsWith(((URLSpan) link[0]).getURL())){
                             UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_JOIN_QQ);
                         }

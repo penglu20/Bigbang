@@ -117,4 +117,9 @@
     <string name="copy_title">全局复制</string>
     <string name="copy_subtitle">请点击想要复制的区域</string>
     <string name="not_foud_qq">未找到QQ</string>
+    <string name="my_zhifubao">我的支付宝二维码</string>
+    <string name="my_weixin">我的微信二维码</string>
+    <string name="thinks_for_donate">感谢土豪，欢迎加群，给我们提建议</string>
+    <string name="picture_saved">二维码已保存到本地相册</string>
+    <string name="click_to_save_qrcord">点击二维码保存到相册</string>
 </resources>
