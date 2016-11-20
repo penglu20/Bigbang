@@ -72,7 +72,7 @@
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
     <string name="check_update">检测更新</string>
     <string name="show_float_view">显示悬浮窗</string>
-    <string name="show_float_view_request">使用悬浮窗可以快捷切换Bigbang开关、全局复制、全屏截图OCR识别</string>
+    <string name="show_float_view_request">使用悬浮窗可以快捷切换Bigbang开关、全局复制、全屏截图OCR识别，更加高效！建议开启！</string>
     <string name="check_update_close">已是最新版本</string>
     <string name="default_setting">恢复默认设置</string>
 
@@ -114,12 +114,13 @@
     <string name="action_select_mode">"查看已选"</string>
 
     <string name="error_in_copy">出现错误，请重试</string>
+    <string name="error_in_permission">请给开启辅助模式，长按悬浮球设置</string>
     <string name="copy_title">全局复制</string>
     <string name="copy_subtitle">请点击想要复制的区域</string>
     <string name="not_foud_qq">未找到QQ</string>
     <string name="my_zhifubao">我的支付宝二维码</string>
     <string name="my_weixin">我的微信二维码</string>
-    <string name="thinks_for_donate">感谢土豪，欢迎加群，给我们提建议</string>
+    <string name="thinks_for_donate">感谢土豪，欢迎加群(290017771)，给我们提建议</string>
     <string name="picture_saved">二维码已保存到本地相册</string>
     <string name="click_to_save_qrcord">点击二维码保存到相册</string>
 </resources>

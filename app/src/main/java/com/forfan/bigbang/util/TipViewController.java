@@ -1,5 +1,6 @@
 package com.forfan.bigbang.util;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -14,7 +15,9 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
@@ -146,7 +149,7 @@ public class TipViewController implements  View.OnTouchListener {
                 intent.setClass(mContext,ScreenCaptureActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
-
+                showLoadingAnim();
             }
         });
 
@@ -282,6 +285,44 @@ public class TipViewController implements  View.OnTouchListener {
                 floatImageView.setVisibility(View.VISIBLE);
                 bangWrap.setVisibility(View.GONE);
                 mWindowManager.updateViewLayout(mWholeView, layoutParams);
+            }
+        });
+    }
+
+    private boolean showAnimator=false;
+    public synchronized void showLoadingAnim(){
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                showAnimator=true;
+                floatImageView.setVisibility(View.VISIBLE);
+                floatImageView.animate().
+                        rotationBy(360).
+                        setDuration(1000).
+                        setInterpolator(new AccelerateDecelerateInterpolator()).
+                        withEndAction(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (showAnimator){
+                                    floatImageView.animate().
+                                            rotationBy(360).
+                                            setDuration(1000).
+                                            setInterpolator(new AccelerateDecelerateInterpolator()).
+                                            withEndAction(this).start();
+                                }
+                            }
+                        }).start();
+
+            }
+        });
+    }
+
+    public synchronized void stopLoadingAnim(){
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                floatImageView.clearAnimation();
+                showAnimator=false;
             }
         });
     }

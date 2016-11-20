@@ -83,6 +83,9 @@ public class BigBangActivity extends BaseActivity {
             finish();
             return;
         }
+
+        str=str.replaceAll("@","");
+
         remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true);
 
 

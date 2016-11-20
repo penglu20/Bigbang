@@ -173,18 +173,31 @@ public final class ListenClipboardService extends Service  {
         if (showFloatView && !showBigBang) {
            return;
         }
+        boolean isValidString=true;
         String content = contentc.toString().trim();
         LogUtil.d(TAG,"showContent:"+content);
+        LogUtil.d(TAG,"sLastContent:"+sLastContent);
         if (TextUtils.isEmpty(content) || (sLastContent != null && sLastContent.toString().trim().equals(content))  ) {
 //        if ( content == null) {
+            LogUtil.d(TAG,"TextUtils.isEmpty(content) || (sLastContent != null && sLastContent.toString().trim().equals(content)): "+true);
             sLastContent=null;
-            return;
+            isValidString=false;
         }
         Matcher matcher=wordPattern.matcher(content);
-        if (!matcher.find()){
+        if (sLastContent!=null) {
+            Matcher matcher2 = wordPattern.matcher(sLastContent);
+            if (!matcher2.find()){
+                isValidString=false;
+            }
+            LogUtil.d(TAG,"sLastContent isValidString="+isValidString);
+        }
+        if (!isValidString || !matcher.find()){
+            sLastContent=mClipboardWatcher.getText();
+            handler.removeCallbacks(cleanLaseContent);
+            handler.postDelayed(cleanLaseContent, 2000);
+            LogUtil.d(TAG,"!isValidString || !matcher.find()"+content);
             return;
         }
-        LogUtil.d(TAG,"sLastContent:"+content);
 //        sLastContent = content;
         Intent intent=new Intent(this, BigBangActivity.class);
         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
@@ -192,7 +205,13 @@ public final class ListenClipboardService extends Service  {
         intent.putExtra(BigBangActivity.TO_SPLIT_STR,content);
         startActivity(intent);
     }
-
+    Runnable cleanLaseContent = new Runnable() {
+        @Override
+        public void run () {
+            LogUtil.d(TAG, "sLastContent=null," + sLastContent);
+            sLastContent = null;
+        }
+    };
     private void readSettingFromSp(){
         monitorClipborad= SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
         showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);

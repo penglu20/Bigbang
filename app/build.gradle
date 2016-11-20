@@ -27,8 +27,8 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 8
-        versionName "1.4.2"
+        versionCode 9
+        versionName "1.5.0"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -118,4 +118,5 @@ dependencies {
     // explicitly depend on RxJava's latest version for bug fixes and new features.
     compile files('libs/AndroidScreenCap.jar')
     compile project(':lib')
+    compile files('libs/copy.jar')
 }

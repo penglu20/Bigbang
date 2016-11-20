@@ -2,6 +2,7 @@
 package com.forfan.bigbang.copy;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
@@ -20,6 +21,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.StatusBarCompat;
@@ -97,7 +99,12 @@ public class CopyActivity extends BaseActivity {
     }
 
     private void setSelectTextToClipboard(TextView var1) {
-        ClipboardUtils.setText(this,this.getSelectedTextViewText(var1));
+//        ClipboardUtils.setText(this,this.getSelectedTextViewText(var1));
+
+        Intent intent=new Intent(this, BigBangActivity.class);
+        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(BigBangActivity.TO_SPLIT_STR, getSelectedTextViewText(var1));
+        startActivity(intent);
     }
 
     private void b(boolean var1) {

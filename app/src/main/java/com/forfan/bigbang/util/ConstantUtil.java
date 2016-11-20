@@ -84,4 +84,5 @@ public class ConstantUtil {
 
 
     public static final String UNIVERSAL_COPY_BROADCAST="universal_copy_broadcast";
+    public static final String SCREEN_CAPTURE_OVER_BROADCAST="screen_capture_over_broadcast";
 }

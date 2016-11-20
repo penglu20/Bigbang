@@ -114,6 +114,7 @@
     <string name="action_select_mode">"Edit"</string>
 
     <string name="error_in_copy">Oops,try again</string>
+    <string name="error_in_permission">Please enable accessibility, long click float view to setting</string>
 
     <string name="copy_title">Universal copy</string>
     <string name="copy_subtitle">Click to choose</string>
@@ -122,7 +123,7 @@
     <string name="not_foud_qq">not found QQ</string>
     <string name="my_zhifubao">My AliPay QRCode</string>
     <string name="my_weixin">My WeChat QRCode</string>
-    <string name="thinks_for_donate">Thank for your donation ，welcome to join our QQ club，and wish you can provide us some suggestions .</string>
+    <string name="thinks_for_donate">Thank for your donation ，welcome to join our QQ club(290017771)，and wish you can provide us some suggestions .</string>
     <string name="picture_saved">QRCode is alreay saved</string>
     <string name="click_to_save_qrcord">click QRCode to save</string>
 </resources>

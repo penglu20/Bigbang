@@ -21,6 +21,7 @@ import com.forfan.bigbang.cropper.ImageUriUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.StatusBarCompat;
+import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.microsoft.projectoxford.vision.contract.Line;
 import com.microsoft.projectoxford.vision.contract.OCR;
@@ -101,21 +102,30 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
         switch (v.getId()) {
             case R.id.take_pic:
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TAKEPICTURE);
-                mCropParams.enable = true;
-                mCropParams.compress = false;
-                Intent intent = CropHelper.buildCameraIntent(mCropParams);
-                startActivityForResult(intent, CropHelper.REQUEST_CAMERA);
-                mPicReOcr.setVisibility(View.GONE);
+                try {
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TAKEPICTURE);
+                    mCropParams.enable = true;
+                    mCropParams.compress = false;
+                    Intent intent = CropHelper.buildCameraIntent(mCropParams);
+                    startActivityForResult(intent, CropHelper.REQUEST_CAMERA);
+                    mPicReOcr.setVisibility(View.GONE);
+                } catch (Throwable e) {
+                    ToastUtil.show(R.string.error_in_copy);
+                }
 
                 break;
             case R.id.select_pic:
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_PICK_FROM_GALLERY);
-                mCropParams.enable = true;
-                mCropParams.compress = false;
-                Intent intent1 = CropHelper.buildGalleryIntent(mCropParams);
-                startActivityForResult(intent1, CropHelper.REQUEST_CROP);
-                mPicReOcr.setVisibility(View.GONE);
+
+                try {
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_PICK_FROM_GALLERY);
+                    mCropParams.enable = true;
+                    mCropParams.compress = false;
+                    Intent intent1 = CropHelper.buildGalleryIntent(mCropParams);
+                    startActivityForResult(intent1, CropHelper.REQUEST_CROP);
+                    mPicReOcr.setVisibility(View.GONE);
+                } catch (Throwable e) {
+                    ToastUtil.show(R.string.error_in_copy);
+                }
                 break;
             case R.id.re_ocr:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_REOCR);

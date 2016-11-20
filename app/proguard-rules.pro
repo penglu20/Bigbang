@@ -68,6 +68,10 @@
 -keep class * implements android.os.Parcelable { # 保持 Parcelable 不被混淆
     public static final android.os.Parcelable$Creator *;
 }
+-keepclassmembers class * implements android.os.Parcelable {
+ public <fields>;
+ private <fields>;
+}
 
 -keep public class cn.waps.** {*;}
 -keep public interface cn.waps.** {*;}

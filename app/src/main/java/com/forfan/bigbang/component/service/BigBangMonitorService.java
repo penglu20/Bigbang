@@ -1,6 +1,7 @@
 package com.forfan.bigbang.component.service;
 
 import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -42,6 +43,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_GENERIC;
 import static com.forfan.bigbang.component.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
 
 
@@ -71,6 +73,8 @@ public class BigBangMonitorService extends AccessibilityService {
     private Handler handler;
     private HashSet<String> whiteList;
 
+    private AccessibilityServiceInfo mAccessibilityServiceInfo;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -81,6 +85,7 @@ public class BigBangMonitorService extends AccessibilityService {
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
         intentFilter.addAction(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST);
         intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST);
+        intentFilter.addAction(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
         registerReceiver(bigBangBroadcastReceiver,intentFilter);
 
         readSettingFromSp();
@@ -100,7 +105,12 @@ public class BigBangMonitorService extends AccessibilityService {
                 handler.postDelayed(this,3000);
             }
         });
-
+        mAccessibilityServiceInfo=new AccessibilityServiceInfo();
+        mAccessibilityServiceInfo.feedbackType=FEEDBACK_GENERIC;
+        mAccessibilityServiceInfo.eventTypes=AccessibilityEvent.TYPE_VIEW_CLICKED|AccessibilityEvent.TYPE_VIEW_LONG_CLICKED|AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
+        mAccessibilityServiceInfo.flags=AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
+        mAccessibilityServiceInfo.notificationTimeout=100;
+        setServiceInfo(mAccessibilityServiceInfo);
 
         whiteList =new HashSet<>();
         if (!SPHelper.getBoolean(ConstantUtil.HAS_ADDED_LAUNCHER_AS_WHITE_LIST,false)){
@@ -187,12 +197,28 @@ public class BigBangMonitorService extends AccessibilityService {
         switch (type){
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
                 mWindowClassName = event.getClassName();
+                if ("com.tencent.mm.plugin.sns.ui.SnsTimeLineUI".equals(mWindowClassName)){
+                    setCapabilities(true);
+                }else {
+                    setCapabilities(false);
+                }
                 break;
             case TYPE_VIEW_CLICKED:
             case TYPE_VIEW_LONG_CLICKED:
                 getText(event);
                 break;
         }
+    }
+
+    private void setCapabilities(boolean isPengYouQuan) {
+        int flag= 0;
+        flag = mAccessibilityServiceInfo.flags;
+        if (isPengYouQuan) {
+            mAccessibilityServiceInfo.flags=flag | (AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS);
+        }else {
+            mAccessibilityServiceInfo.flags=flag & (~AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS);
+        }
+        this.setServiceInfo(mAccessibilityServiceInfo);
     }
 
     @Override
@@ -213,11 +239,13 @@ public class BigBangMonitorService extends AccessibilityService {
         if (mWindowClassName==null || whiteList.contains(event.getPackageName())|| whiteList.contains(mWindowClassName)){
             return;
         }
-        if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
+//        if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
+        if ("com.tencent.mm".equals(event.getPackageName())){
             if (type!=weixinSelection){
                 return;
             }
-        }else if ("com.tencent.mobileqq.activity.SplashActivity".equals(mWindowClassName)){
+//        }else if ("com.tencent.mobileqq.activity.SplashActivity".equals(mWindowClassName)){
+        }else if ("com.tencent.mobileqq".equals(event.getPackageName())){
             if (type!=qqSelection){
                 return;
             }
@@ -315,14 +343,14 @@ public class BigBangMonitorService extends AccessibilityService {
 
 
 
-    private int universalCopyDepth = 0;
+    private int retryTimes = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void UniversalCopy() {
         boolean isSuccess=false;
         label37: {
             AccessibilityNodeInfo rootInActiveWindow = this.getRootInActiveWindow();
-            if(this.universalCopyDepth < 10) {
+            if(this.retryTimes < 10) {
                 String packageName;
                 if(rootInActiveWindow != null) {
                     packageName = String.valueOf(rootInActiveWindow.getPackageName());
@@ -331,7 +359,7 @@ public class BigBangMonitorService extends AccessibilityService {
                 }
 
                 if(rootInActiveWindow == null || packageName != null && packageName.contains("com.android.systemui")) {
-                    ++this.universalCopyDepth;
+                    ++this.retryTimes;
                     this.handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -370,17 +398,21 @@ public class BigBangMonitorService extends AccessibilityService {
         }
 
         if(!isSuccess) {
-//            Toast.makeText(this, 2131230759, toas).show();
+            if (!BigBangMonitorService.isAccessibilitySettingsOn(this)){
+                ToastUtil.show(R.string.error_in_permission);
+            }else {
+                ToastUtil.show(R.string.error_in_copy);
+            }
 
         }
 
-        this.universalCopyDepth = 0;
+        this.retryTimes = 0;
     }
 
     private ArrayList<CopyNode> traverseNode(AccessibilityNodeInfoCompat nodeInfo, int var2, int var3) {
         ArrayList nodeList = new ArrayList();
         if(nodeInfo != null && nodeInfo.getInfo() != null) {
-            nodeInfo.refresh();
+                 nodeInfo.refresh();
 
             for(int var4 = 0; var4 < nodeInfo.getChildCount(); ++var4) {
                 nodeList.addAll(this.traverseNode(nodeInfo.getChild(var4), var2, var3));
@@ -516,6 +548,8 @@ public class BigBangMonitorService extends AccessibilityService {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     UniversalCopy();
                 }
+            }else if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
+                tipViewController.stopLoadingAnim();
             } else {
                 readSettingFromSp();
             }

@@ -24,6 +24,7 @@ import android.view.WindowManager;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.ToastUtil;
@@ -164,9 +165,8 @@ public class ScreenCaptureService extends Service {
         int pixelStride = planes[0].getPixelStride();
         int rowStride = planes[0].getRowStride();
         int rowPadding = rowStride - pixelStride * width;
-        Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_4444);
         bitmap.copyPixelsFromBuffer(buffer);
-        bitmap = Bitmap.createBitmap(bitmap, 0, 0, width, height);
         image.close();
          LogUtil.e(TAG, "image data captured");
         ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
@@ -174,6 +174,7 @@ public class ScreenCaptureService extends Service {
         bitmap.recycle();//自由选择是否进行回收
         byte[] result = output.toByteArray();//转换成功了
         try {
+            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
             ToastUtil.showLong(R.string.ocr_recognize);
             output.close();
             OcrAnalsyser.getInstance().analyse(result, new OcrAnalsyser.CallBack() {
@@ -187,13 +188,14 @@ public class ScreenCaptureService extends Service {
                     intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.putExtra(BigBangActivity.TO_SPLIT_STR, str);
                     startActivity(intent);
-
+                    stopSelf();
                 }
 
                 @Override
                 public void onFail() {
                     LogUtil.e(TAG, "ocr--fail");
                     ToastUtil.show(R.string.sorry_for_ocr_parse_fail);
+                    stopSelf();
                 }
             });
         } catch (Exception e) {
