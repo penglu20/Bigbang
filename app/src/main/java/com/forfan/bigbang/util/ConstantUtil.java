@@ -34,6 +34,7 @@ public class ConstantUtil {
 
     //shareCard
     public static final String HAD_SHARED="had_shared";
+    public static final String SETTING_OPEN_TIMES="setting_open_times";
 
     //FunctionSettingCard
     public static final String MONITOR_CLIP_BOARD="monitor_clip_board";

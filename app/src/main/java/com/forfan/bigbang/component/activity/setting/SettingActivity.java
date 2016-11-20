@@ -84,25 +84,27 @@ public class SettingActivity extends BaseActivity {
         cardList.setItemAnimator(new SlideInRightAnimator());
         cardList.setAdapter(newAdapter);
 
-//        Observable.timer(3, TimeUnit.SECONDS)
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(AndroidSchedulers.mainThread())
-//                .flatMap(new Func1<Long,Observable<String>>(){
-//                    @Override
-//                    public Observable<String> call(Long aLong){
-//                        return Observable.just("");
-//                    }
-//                })
-//                .subscribe(s -> {
-//                    if (s.equals("")){
-//                        boolean hasShared=SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
-//                        //// TODO: 2016/11/1 第一期先不上分享功能了
-//                        // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
-//                        if (!hasShared){
-//                            newAdapter.addView(new ShareCard(this),0);
-//                        }
-//                    }
-//                });
+        Observable.timer(3, TimeUnit.SECONDS)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Func1<Long,Observable<String>>(){
+                    @Override
+                    public Observable<String> call(Long aLong){
+                        return Observable.just("");
+                    }
+                })
+                .subscribe(s -> {
+                    if (s.equals("")){
+                        boolean hasShared=SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
+                        int openTimes=SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES,0);
+
+                        //// TODO: 2016/11/1 第一期先不上分享功能了
+                        // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
+                        if (!hasShared && openTimes>=3 && openTimes%3==0){
+                            newAdapter.addView(new ShareCard(this),0);
+                        }
+                    }
+                });
 
 
         Observable.timer(3, TimeUnit.SECONDS)
@@ -126,6 +128,8 @@ public class SettingActivity extends BaseActivity {
 
         initLocalBroadcast();
         checkPermission();
+        int openTimes=SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES,0);
+        SPHelper.save(ConstantUtil.SETTING_OPEN_TIMES,openTimes+1);
     }
 
 

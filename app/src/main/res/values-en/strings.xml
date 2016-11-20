@@ -126,4 +126,7 @@
     <string name="thinks_for_donate">Thank for your donation ，welcome to join our QQ club(290017771)，and wish you can provide us some suggestions .</string>
     <string name="picture_saved">QRCode is alreay saved</string>
     <string name="click_to_save_qrcord">click QRCode to save</string>
+    <string name="share">Share To WeChat</string><string name="share_content">BigBang！Your efficient way of life！</string>
+
+    <string name="share_no_wechat">You did not have WeChat installed</string>
 </resources>

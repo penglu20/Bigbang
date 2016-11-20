@@ -47,6 +47,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
     private TextView problems;
     private TextView about;
     private TextView introduction;
+    private TextView share;
 
     public FeedBackAndUpdateCard(Context context) {
         super(context);
@@ -72,12 +73,14 @@ public class FeedBackAndUpdateCard extends AbsCard {
         problems = (TextView) findViewById(R.id.problems);
         about = (TextView) findViewById(R.id.about);
         introduction = (TextView) findViewById(R.id.introduction);
+        share = (TextView) findViewById(R.id.share);
 
         checkUpdate.setOnClickListener(myOnClickListener);
         feedback.setOnClickListener(myOnClickListener);
         problems.setOnClickListener(myOnClickListener);
         about.setOnClickListener(myOnClickListener);
         introduction.setOnClickListener(myOnClickListener);
+        share.setOnClickListener(myOnClickListener);
 //        if (ChanelHandler.is360SDK(context)){
 //            feedback.setVisibility(View.GONE);
 //        }
@@ -112,6 +115,10 @@ public class FeedBackAndUpdateCard extends AbsCard {
             case R.id.problems:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_PROBLEM);
                 showProblemDialog();
+                break;
+            case R.id.share:
+                ShareCard.shareToWeChat(v,mContext);
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SHARE);
                 break;
             case R.id.donate:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DONATE);

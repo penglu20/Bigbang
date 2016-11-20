@@ -23,10 +23,20 @@ public class UrlCountUtil {
     public static final String CLICK_SETTINGS_JOIN_QQ ="click_settings_join_qq";
     public static final String CLICK_SETTINGS_ABOUT_DONATE ="click_settings_about_donate";
     public static final String CLICK_SETTINGS_PROBLEM = "click_settings_problem";
+    public static final String CLICK_SETTINGS_SHARE = "click_settings_share";
     public static final String CLICK_SETTINGS_WHITELIST = "click_settings_whitelist";
     public static final String CLICK_SETTINGS_DOUBLECLICK_SETTING = "click_settings_doubleclick_setting";
     public static final String CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM = "click_settings_doubleclick_setting_conform";
     public static final String CLICK_SETTINGS_DONATE = "click_settings_donate";
+
+
+
+    public static final String CLICK_SHARE_CARD_LIKE = "click_share_card_like";
+    public static final String CLICK_SHARE_CARD_SHARE = "click_share_card_share";
+    public static final String CLICK_SHARE_CARD_CANCEL = "click_share_card_cancel";
+
+    public static final String CLICK_SHARE_CARD_DISLIKE = "click_share_card_dislike";
+    public static final String CLICK_SHARE_CARD_FEEDBACK = "click_share_card_feedback";
 
     public static final String STATUS_ACCESSABILITY = "status_accessability";
     public static final String STATUS_CLIPBOARD = "status_clipboard";

@@ -123,4 +123,9 @@
     <string name="thinks_for_donate">感谢土豪，欢迎加群(290017771)，给我们提建议</string>
     <string name="picture_saved">二维码已保存到本地相册</string>
     <string name="click_to_save_qrcord">点击二维码保存到相册</string>
+
+
+    <string name="share">分享到朋友圈</string>
+    <string name="share_content">BigBang，不止是分词！更是您的高效助手！单击、双击、长按、复制等多种触发方式随心选！更有全局复制，图片识别等黑科技加持，给你的手机插上翅膀！</string>
+    <string name="share_no_wechat">你还没有安装微信</string>
 </resources>
