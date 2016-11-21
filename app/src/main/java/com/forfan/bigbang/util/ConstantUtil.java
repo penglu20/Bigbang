@@ -42,6 +42,8 @@ public class ConstantUtil {
     public static final String SHOW_FLOAT_VIEW="show_float_view";
     public static final String REMAIN_SYMBOL="remain_symbol";
 
+    //floatview
+    public static final String FLOAT_SWITCH_STATE="float_switch_state";
 
     //FeedBackAndUpdateCard
 

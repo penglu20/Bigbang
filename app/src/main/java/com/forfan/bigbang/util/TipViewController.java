@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
+import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.view.BigBangLayout;
 
 import java.util.ArrayList;
@@ -178,6 +179,7 @@ public class TipViewController implements  View.OnTouchListener {
         // event listeners
         mWholeView.setOnTouchListener(this);
 
+        showBigBang= SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE,true);
         floatSwitch.setChecked(showBigBang);
         floatSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -188,6 +190,7 @@ public class TipViewController implements  View.OnTouchListener {
                     for (ActionListener listener:mActionListener) {
                         listener.isShow(showBigBang);
                     }
+                    SPHelper.save(ConstantUtil.FLOAT_SWITCH_STATE,showBigBang);
                 }
                 refreshViewState(false);
             }
@@ -225,6 +228,7 @@ public class TipViewController implements  View.OnTouchListener {
 
     private void refreshViewState(boolean showFun){
         mainHandler.post(new Runnable() {
+            long delay=0;
             @Override
             public void run() {
                 if (showFun){
@@ -256,6 +260,10 @@ public class TipViewController implements  View.OnTouchListener {
         });
     }
 
+//    private void showInAnimation(View view,long delay){
+//        view.
+//        view.animate().
+//    }
 
     public synchronized void hide(){
         mainHandler.post(new Runnable() {
@@ -292,6 +300,7 @@ public class TipViewController implements  View.OnTouchListener {
     private boolean showAnimator=false;
     public synchronized void showLoadingAnim(){
         mainHandler.post(new Runnable() {
+            int times=0;
             @Override
             public void run() {
                 showAnimator=true;
@@ -303,7 +312,8 @@ public class TipViewController implements  View.OnTouchListener {
                         withEndAction(new Runnable() {
                             @Override
                             public void run() {
-                                if (showAnimator){
+                                times++;
+                                if (showAnimator && times < 5){
                                     floatImageView.animate().
                                             rotationBy(360).
                                             setDuration(1000).

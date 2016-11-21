@@ -246,8 +246,11 @@ public class FunctionSettingCard extends AbsCard {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
-                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                mContext.startActivity(intent);
+                try {
+                    Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                    mContext.startActivity(intent);
+                } catch (Throwable e) {
+                }
                 isPositive=true;
                 super.onPositiveActionClicked(fragment);
             }
