@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -37,6 +38,10 @@ public class TipViewController implements  View.OnTouchListener {
     private static final String TAG="TipViewController";
 
     private static final int MOVETOEDGE=10010;
+    private static final int HIDETOEDGE=10011;
+
+
+    private static final long DELAY_STEP=100;
 
 
     private static class InnerClass{
@@ -49,7 +54,7 @@ public class TipViewController implements  View.OnTouchListener {
 
     private WindowManager mWindowManager;
     private Context mContext;
-    private View mWholeView;
+    private ViewGroup mWholeView;
     private BigBangLayout bigBangLayout;
     private FrameLayout bangWrap;
     private CheckBox floatSwitch;
@@ -96,7 +101,17 @@ public class TipViewController implements  View.OnTouchListener {
                             mainHandler.sendMessageDelayed(mainHandler.obtainMessage(MOVETOEDGE, desX),10);
                         }else {
                             isMovingToEdge = false;
+                            // TODO: 2016/11/21
+                            setFloatViewToDefault();
                         }
+                        break;
+                    case HIDETOEDGE:
+                        if (layoutParams.x==0 && ((layoutParams.gravity&( Gravity.TOP| Gravity.LEFT))==( Gravity.TOP| Gravity.LEFT))){
+                            floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_left));
+                        }else {
+                            floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_right));
+                        }
+
                         break;
                 }
             }
@@ -123,7 +138,7 @@ public class TipViewController implements  View.OnTouchListener {
             return;
         }
 
-        mWholeView = View.inflate(mContext, R.layout.view_float, null);
+        mWholeView = (ViewGroup) View.inflate(mContext, R.layout.view_float, null);
 
         floatImageView = (ImageView) mWholeView.findViewById(R.id.float_image);
         bigBangLayout= (BigBangLayout) mWholeView.findViewById(R.id.bang_ll);
@@ -214,6 +229,7 @@ public class TipViewController implements  View.OnTouchListener {
 
         addViewInternal();
         refreshViewState(false);
+
     }
 
     private void addViewInternal() {
@@ -237,6 +253,18 @@ public class TipViewController implements  View.OnTouchListener {
                     floatCopy.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ? View.GONE :View.VISIBLE);
                     floatScreen.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE :View.VISIBLE);
                     floatBack.setVisibility(View.VISIBLE);
+
+                    floatBack.animate().alpha(0.8f).setStartDelay(delay).start();
+                    delay+=DELAY_STEP;
+                    showInAnimation(floatSwitch,delay,showBigBang?0.8f:0.3f);
+                    delay+=DELAY_STEP;
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        showInAnimation(floatCopy, delay);
+                        delay += DELAY_STEP;
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        showInAnimation(floatScreen, delay);
+                    }
                     mWholeView.setOnTouchListener(null);
                 }else {
                     floatImageView.setVisibility(View.VISIBLE);
@@ -245,25 +273,45 @@ public class TipViewController implements  View.OnTouchListener {
                     floatScreen.setVisibility(View.GONE);
                     floatBack.setVisibility(View.GONE);
                     mWholeView.setOnTouchListener(TipViewController.this);
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        hideInAnimation(floatScreen, delay);
+                        delay+=DELAY_STEP;
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        hideInAnimation(floatCopy, delay);
+                        delay += DELAY_STEP;
+                    }
+                    hideInAnimation(floatSwitch,delay);
+                    delay+=DELAY_STEP;
+                    hideInAnimation(floatBack,delay);
                 }
                 if (showBigBang){
                     floatImageView.setImageLevel(0);
                     floatImageView.setAlpha(0.8f);
-                    floatSwitch.setAlpha(0.8f);
                 }else {
                     floatImageView.setImageLevel(1);
                     floatImageView.setAlpha(0.3f);
-                    floatSwitch.setAlpha(0.3f);
                 }
                 mWindowManager.updateViewLayout(mWholeView, layoutParams);
+                setFloatViewToDefault();
             }
         });
     }
 
-//    private void showInAnimation(View view,long delay){
-//        view.
-//        view.animate().
-//    }
+    private void showInAnimation(View view,long delay){
+        showInAnimation(view, delay,0.8f);
+    }
+
+    private void showInAnimation(View view,long delay,float toAlpha){
+        view.setAlpha(0);
+        int y= (int) view.getHeight();
+        view.setY(view.getY()-view.getHeight());
+        view.animate().alpha(toAlpha).translationYBy(y).setDuration(DELAY_STEP+50).setStartDelay(delay).start();
+    }
+    private void hideInAnimation(View view,long delay){
+        view.animate().alpha(0).setStartDelay(delay).start();
+    }
 
     public synchronized void hide(){
         mainHandler.post(new Runnable() {
@@ -373,6 +421,7 @@ public class TipViewController implements  View.OnTouchListener {
         mWholeView.getGlobalVisibleRect(rect);
         if (!rect.contains((int)x, (int)y)) {
             showImage();
+            setFloatViewToDefault();
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -412,6 +461,12 @@ public class TipViewController implements  View.OnTouchListener {
                 break;
         }
         return true;
+    }
+
+    private void setFloatViewToDefault() {
+        mainHandler.removeMessages(HIDETOEDGE);
+        floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
+        mainHandler.sendEmptyMessageDelayed(HIDETOEDGE,3000);
     }
 
 

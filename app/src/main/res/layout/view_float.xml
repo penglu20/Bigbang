@@ -10,7 +10,6 @@
             android:src="@drawable/float_view_bg"
             android:layout_height="40dp" />
 
-
         <android.support.v7.widget.AppCompatImageView
             android:layout_width="40dp"
             android:id="@+id/float_back"
