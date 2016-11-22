@@ -24,12 +24,16 @@
                 android:layout_marginLeft="@dimen/default_grow_margin"
                 android:layout_marginRight="@dimen/default_grow_margin"
                 android:layout_height="wrap_content">
-                  <com.forfan.bigbang.view.BigBangLayout
-                      android:id="@+id/bigbang"
+                  <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
                       android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:padding="@dimen/margin_double"
-                      app:textSize="@dimen/text_size_small" />
+                      android:orientation="vertical">
+                        <com.forfan.bigbang.view.BigBangLayoutWrapper
+                            android:id="@+id/bigbang_wrap"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:textSize="@dimen/text_size_small" />
+                  </RelativeLayout>
             </android.support.v7.widget.CardView>
 
             <TextView

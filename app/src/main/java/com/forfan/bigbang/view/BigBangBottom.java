@@ -1,13 +1,9 @@
 package com.forfan.bigbang.view;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +15,7 @@ import com.forfan.bigbang.util.ViewUtil;
 class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
     ImageView mDrag;
-    ImageView mSelectAll;
+    ImageView mType;
     ImageView mSelectOther;
 
 
@@ -27,6 +23,7 @@ class BigBangBottom extends ViewGroup implements View.OnClickListener {
     private int mContentPadding;
     private ActionListener mActionListener;
     private boolean dragMode=false;
+    private boolean isLocal=false;
 
     public BigBangBottom(Context context) {
         this(context, null);
@@ -56,16 +53,16 @@ class BigBangBottom extends ViewGroup implements View.OnClickListener {
         mDrag.setOnClickListener(this);
 
 
-        mSelectAll=new ImageView(context);
-        mSelectAll.setImageResource(R.mipmap.bigbang_action_select_all);
-        mSelectAll.setOnClickListener(this);
+        mType=new ImageView(context);
+        mType.setImageResource(R.mipmap.bigbang_action_cloud);
+        mType.setOnClickListener(this);
 
         mSelectOther=new ImageView(context);
         mSelectOther.setImageResource(R.mipmap.bigbang_action_select_other);
         mSelectOther.setOnClickListener(this);
 
         addView(mDrag, createLayoutParams());
-        addView(mSelectAll, createLayoutParams());
+        addView(mType, createLayoutParams());
         addView(mSelectOther, createLayoutParams());
 
         setWillNotDraw(false);
@@ -96,16 +93,16 @@ class BigBangBottom extends ViewGroup implements View.OnClickListener {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
-        setMeasuredDimension(width, height + mContentPadding + mDrag.getMeasuredHeight());
+        setMeasuredDimension(width,  mContentPadding*2 + mDrag.getMeasuredHeight());
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-        layoutSubView(mSelectAll, width - mActionGap * 3 - mDrag.getMeasuredWidth()*2 - mDrag.getMeasuredWidth() , 0);
-        layoutSubView(mSelectOther, width - mActionGap * 2 - mDrag.getMeasuredWidth() - mDrag.getMeasuredWidth(), 0);
-        layoutSubView(mDrag, width - mActionGap - mDrag.getMeasuredWidth(), 0);
+        layoutSubView(mType, width - mActionGap * 3 - mDrag.getMeasuredWidth()*2 - mDrag.getMeasuredWidth() , mContentPadding);
+        layoutSubView(mSelectOther, width - mActionGap * 2 - mDrag.getMeasuredWidth() - mDrag.getMeasuredWidth(), mContentPadding);
+        layoutSubView(mDrag, width - mActionGap - mDrag.getMeasuredWidth(), mContentPadding);
 
     }
 
@@ -140,16 +137,27 @@ class BigBangBottom extends ViewGroup implements View.OnClickListener {
                 mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
             }
             mActionListener.onDrag();
-        }else if (v==mSelectAll){
-            mActionListener.onSelectAll();
+        }else if (v==mType){
+            isLocal= !isLocal;
+            setIsLocal(isLocal);
         }else if (v==mSelectOther){
             mActionListener.onSelectOther();
         }
     }
 
+    public void setIsLocal(boolean isLocal){
+        this.isLocal=isLocal;
+        mActionListener.onSwitchType(isLocal);
+        if (isLocal) {
+            mType.setImageResource(R.mipmap.bigbang_action_local);
+        }else {
+            mType.setImageResource(R.mipmap.bigbang_action_cloud);
+        }
+    }
+
     interface ActionListener {
         void onDrag();
-        void onSelectAll();
+        void onSwitchType(boolean isLocal);
         void onSelectOther();
     }
 }

@@ -19,16 +19,20 @@ import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
 import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.view.BigBangLayout;
+import com.forfan.bigbang.view.BigBangLayoutWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +59,7 @@ public class TipViewController implements  View.OnTouchListener {
     private WindowManager mWindowManager;
     private Context mContext;
     private ViewGroup mWholeView;
-    private BigBangLayout bigBangLayout;
+    private BigBangLayoutWrapper bigBangLayout;
     private FrameLayout bangWrap;
     private CheckBox floatSwitch;
     private ImageView floatImageView,floatScreen,floatCopy,floatBack;
@@ -73,6 +77,7 @@ public class TipViewController implements  View.OnTouchListener {
     private int mScaledTouchSlop;
 
     private boolean isRemoved=false;
+    private boolean isTempAdd=false;
 
     private List<ActionListener> mActionListener;
 
@@ -111,7 +116,15 @@ public class TipViewController implements  View.OnTouchListener {
                         }else {
                             floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_right));
                         }
-
+                        floatImageView.setVisibility(View.VISIBLE);
+                        floatSwitch.setVisibility(View.GONE);
+                        floatCopy.setVisibility(View.GONE);
+                        floatScreen.setVisibility(View.GONE);
+                        floatBack.setVisibility(View.GONE);
+                        mWholeView.setOnTouchListener(TipViewController.this);
+                        LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
+                        layoutParams.width=(int) ViewUtil.dp2px(20);
+                        floatImageView.setLayoutParams(layoutParams);
                         break;
                 }
             }
@@ -141,7 +154,7 @@ public class TipViewController implements  View.OnTouchListener {
         mWholeView = (ViewGroup) View.inflate(mContext, R.layout.view_float, null);
 
         floatImageView = (ImageView) mWholeView.findViewById(R.id.float_image);
-        bigBangLayout= (BigBangLayout) mWholeView.findViewById(R.id.bang_ll);
+        bigBangLayout= (BigBangLayoutWrapper) mWholeView.findViewById(R.id.bang_ll);
         bangWrap= (FrameLayout) mWholeView.findViewById(R.id.bang_wrap);
 
         floatSwitch= (CheckBox) mWholeView.findViewById(R.id.float_switch);
@@ -361,7 +374,7 @@ public class TipViewController implements  View.OnTouchListener {
                             @Override
                             public void run() {
                                 times++;
-                                if (showAnimator && times < 5){
+                                if (showAnimator && times < 4){
                                     floatImageView.animate().
                                             rotationBy(360).
                                             setDuration(1000).
@@ -406,6 +419,48 @@ public class TipViewController implements  View.OnTouchListener {
         });
 
     }
+
+    public void showTipViewForStartActivity(Intent intent){
+        if (mWholeView==null || isRemoved || isTempAdd){
+            isTempAdd=true;
+            //没显示悬浮窗的情况下，用户点击才打开Bigbang
+            show();
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    setFloatViewToDefault();
+                    mWholeView.setAlpha(0);
+                    mWholeView.setScaleX(0);
+                    mWholeView.setScaleY(0);
+                    mWholeView.animate().alpha(1).scaleX(1).scaleY(1).setDuration(1000).setInterpolator(new AnticipateOvershootInterpolator()).start();
+                    floatImageView.setOnClickListener(new View.OnClickListener() {
+                              @Override
+                              public void onClick(View v) {
+                                  mContext.startActivity(intent);
+                                  remove();
+                                  isTempAdd=false;
+                              }
+                          }
+                    );
+                }
+            });
+            mainHandler.removeCallbacks(removeViewRunnanble);
+            mainHandler.postDelayed(removeViewRunnanble, 3000);
+        }else {
+            //直接打开bigbang
+            try {
+                mContext.startActivity(intent);
+            } catch (Throwable e) {
+            }
+        }
+    }
+    Runnable removeViewRunnanble=new Runnable() {
+        @Override
+        public void run() {
+            remove();
+            isTempAdd=false;
+        }
+    };
 
     /**
      * touch the outside of the content view, remove the popped view
@@ -466,7 +521,13 @@ public class TipViewController implements  View.OnTouchListener {
     private void setFloatViewToDefault() {
         mainHandler.removeMessages(HIDETOEDGE);
         floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
-        mainHandler.sendEmptyMessageDelayed(HIDETOEDGE,3000);
+
+        LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
+        layoutParams.width=(int) ViewUtil.dp2px(40);
+        floatImageView.setLayoutParams(layoutParams);
+
+
+        mainHandler.sendEmptyMessageDelayed(HIDETOEDGE,5000);
     }
 
 

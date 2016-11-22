@@ -286,7 +286,9 @@ public class BigBangMonitorService extends AccessibilityService {
             Intent intent=new Intent(this, BigBangActivity.class);
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BigBangActivity.TO_SPLIT_STR,txt.toString());
-            startActivity(intent);
+//            startActivity(intent);
+            //放到TipViewController中触发试试
+            tipViewController.showTipViewForStartActivity(intent);
         }
     }
 

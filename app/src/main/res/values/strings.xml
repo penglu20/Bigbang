@@ -2,7 +2,7 @@
 <resources>
     <string name="cancel">取消</string>
     <string name="toast_tip_content">如果触发BigBang异常，可以切换"只监控文本"设置查看效果。</string>
-    <string name="no_internet_for_fenci">无网络，使用本地分词</string>
+    <string name="no_internet_for_fenci">网络异常，使用本地分词</string>
     <string name="try_long_click_text">请试着长按上方文字</string>
     <string name="go_set">打开设置</string>
     <string name="request_accessibility_confirm">前往设置</string>

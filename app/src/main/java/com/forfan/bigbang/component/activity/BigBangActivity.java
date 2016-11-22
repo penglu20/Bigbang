@@ -26,12 +26,14 @@ import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
+import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,11 +47,15 @@ import rx.schedulers.Schedulers;
 public class BigBangActivity extends BaseActivity {
     public static final String TO_SPLIT_STR="to_split_str";
     private BigBangLayout bigBangLayout;
+    private BigBangLayoutWrapper bigBangLayoutWrapper;
     private ContentLoadingProgressBar loading;
     private boolean remainSymbol=true;
     private EditText toTrans;
     private EditText transResult;
     private RelativeLayout transRl;
+    private String originString;
+
+    private List<String> netWordSegments;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +90,7 @@ public class BigBangActivity extends BaseActivity {
             return;
         }
 
-        str=str.replaceAll("@","");
+        str=str.replaceAll("@"," @ ");
 
         remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true);
 
@@ -97,9 +103,12 @@ public class BigBangActivity extends BaseActivity {
 
         bigBangLayout= (BigBangLayout) findViewById(R.id.bigbang);
         loading= (ContentLoadingProgressBar) findViewById(R.id.loading);
+        bigBangLayoutWrapper= (BigBangLayoutWrapper) findViewById(R.id.bigbang_wrap);
+
 
         loading.show();
         bigBangLayout.reset();
+        bigBangLayoutWrapper.setVisibility(View.GONE);
 
         bigBangLayout.setTextSize(text);
         bigBangLayout.setLineSpace(line);
@@ -109,37 +118,42 @@ public class BigBangActivity extends BaseActivity {
         if (!remainSymbol){
             str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
         }
+        originString=str;
         String finalStr = str;
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
                 .compose(this.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .timeout(5, TimeUnit.SECONDS)
                 .subscribe(recommendInfo -> {
                     LogUtil.d(recommendInfo.toString());
                     List<String> txts=recommendInfo.get(0).getWord();
+                    netWordSegments=txts;
+
                     for (String t:txts) {
                         bigBangLayout.addTextItem(t);
                     }
                     loading.hide();
+                    bigBangLayoutWrapper.setVisibility(View.VISIBLE);
                 }, throwable -> {
                     LogUtil.d(throwable.toString());
                     ToastUtil.show(R.string.no_internet_for_fenci);
-                    List<String> txts= new ArrayList<String>();
-                    for(int index = 0; index < finalStr.length() ; index++){
-                        txts.add(finalStr.charAt(index)+"");
-                    }
-                    for (String t:txts) {
-                        bigBangLayout.addTextItem(t);
-                    }
-                    loading.hide();
+//                    List<String> txts= new ArrayList<String>();
+//                    for(int index = 0; index < finalStr.length() ; index++){
+//                        txts.add(finalStr.charAt(index)+"");
+//                    }
+//                    for (String t:txts) {
+//                        bigBangLayout.addTextItem(t);
+//                    }
+//                    loading.hide();
+//                    bigBangLayoutWrapper.setBottomVibility(View.VISIBLE);
+                    bigBangLayoutWrapper.onSwitchType(true);
                 });
-        bigBangLayout.setActionListener(bigBangActionListener);
-
-
+        bigBangLayoutWrapper.setActionListener(bigBangActionListener);
     }
 
-    BigBangLayout.ActionListener bigBangActionListener=new BigBangLayout.ActionListener() {
+    BigBangLayoutWrapper.ActionListener bigBangActionListener=new BigBangLayoutWrapper.ActionListener() {
 
         @Override
         public void onSelected(String text) {
@@ -244,6 +258,29 @@ public class BigBangActivity extends BaseActivity {
         public void onDrag() {
 
         }
+
+        @Override
+        public void onSwitchType(boolean isLocal) {
+            //
+            bigBangLayout.reset();
+            if (!isLocal) {
+                for (String t : netWordSegments) {
+                    bigBangLayout.addTextItem(t);
+                }
+                loading.hide();
+                bigBangLayoutWrapper.setVisibility(View.VISIBLE);
+            } else {
+                List<String> txts = new ArrayList<String>();
+                for (int index = 0; index < originString.length(); index++) {
+                    txts.add(originString.charAt(index) + "");
+                }
+                for (String t : txts) {
+                    bigBangLayout.addTextItem(t);
+                }
+                loading.hide();
+                bigBangLayoutWrapper.setVisibility(View.VISIBLE);
+            }
+        }
     };
 
     private void translate(String text) {
@@ -251,7 +288,7 @@ public class BigBangActivity extends BaseActivity {
             transResult.setText("");
             return;
         }
-        bigBangLayout.setVisibility(View.GONE);
+        bigBangLayoutWrapper.setVisibility(View.GONE);
         transRl.setVisibility(View.VISIBLE);
         toTrans.setText(text);
         transResult.setText("正在翻译");
@@ -274,8 +311,8 @@ public class BigBangActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (bigBangLayout.getVisibility()==View.GONE){
-            bigBangLayout.setVisibility(View.VISIBLE);
+        if (bigBangLayoutWrapper.getVisibility()==View.GONE){
+            bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             transRl.setVisibility(View.GONE);
         }else {
             super.onBackPressed();

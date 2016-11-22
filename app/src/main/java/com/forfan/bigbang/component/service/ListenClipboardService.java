@@ -203,7 +203,9 @@ public final class ListenClipboardService extends Service  {
         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
 //        intent.putExtra(BigBangActivity.TO_SPLIT_STR,sLastContent);
         intent.putExtra(BigBangActivity.TO_SPLIT_STR,content);
-        startActivity(intent);
+//        startActivity(intent);
+        //放到TipViewController中触发试试
+        tipViewController.showTipViewForStartActivity(intent);
     }
     Runnable cleanLaseContent = new Runnable() {
         @Override

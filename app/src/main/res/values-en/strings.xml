@@ -2,7 +2,7 @@
 <resources>
     <string name="cancel">cancel</string>
     <string name="toast_tip_content">if you have any exception in bigbang，you can switch mode "Monitoring the text "to see the effect。</string>
-    <string name="no_internet_for_fenci">No network, using local segmentation</string>
+    <string name="no_internet_for_fenci">Network erroe, using local segmentation</string>
     <string name="try_long_click_text">Please try to long press above words</string>
     <string name="go_set">Open the Settings</string>
     <string name="request_accessibility_confirm">go to set accessibility</string>

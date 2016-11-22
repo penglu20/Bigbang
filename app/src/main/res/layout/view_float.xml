@@ -61,7 +61,7 @@
             android:background="@color/colorAccent"
             android:layout_height="wrap_content">
 
-                <com.forfan.bigbang.view.BigBangLayout
+                <com.forfan.bigbang.view.BigBangLayoutWrapper
                     android:id="@+id/bang_ll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
