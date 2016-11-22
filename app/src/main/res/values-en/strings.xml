@@ -68,7 +68,7 @@
     <string name="share_request_cancel_dislike">Let\'s forget it ...</string>
     <string name="snackbar_net_error">To connect to the Internet failure, please try again later</string>
     <string name="check_update">check for updates</string>
-    <string name="show_float_view">show floating window</string>
+    <string name="show_float_view">Always show floating window(Auto Hide)</string>
     <string name="show_float_view_request">With float view ,you can quickly switch Bigbang switch, global replication, full screen capture OCR recognition</string>
     <string name="check_update_close">Is the latest version</string>
     <string name="default_setting">restore defaults</string>
@@ -132,4 +132,8 @@
     <string name="xposed_whitelist">Xposed White List</string>
     <string name="screen_capture_fail">Sorry for capturing screen fail</string>
     <string name="need_capture_perssion">Screenshots need to get this permission, please check no longer prompted,and click OK, click the screenshot button again</string>
+
+
+    <string name="word_type_cloud">Cloud word segmentation \ n Combine common word words together, enabled by default</string>
+    <string name="word_type_local">Local word segmentation \ n splits each word apart, without the network</string>
 </resources>

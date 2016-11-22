@@ -338,6 +338,7 @@ public class TipViewController implements  View.OnTouchListener {
     }
 
     public synchronized void remove(){
+        mainHandler.removeMessages(HIDETOEDGE);
         if (mWindowManager!=null && mWholeView!=null && !isRemoved) {
             mWindowManager.removeView(mWholeView);
             isRemoved=true;
@@ -457,7 +458,9 @@ public class TipViewController implements  View.OnTouchListener {
     Runnable removeViewRunnanble=new Runnable() {
         @Override
         public void run() {
+            floatImageView.setOnClickListener(null);
             remove();
+            mWholeView=null;
             isTempAdd=false;
         }
     };

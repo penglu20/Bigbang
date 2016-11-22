@@ -15,12 +15,14 @@
     <com.forfan.bigbang.view.BigBangLayoutWrapper
         android:id="@+id/bigbang_wrap"
         android:layout_width="match_parent"
+        android:layout_centerInParent="true"
         android:layout_height="wrap_content"/>
 
     <ViewStub
         android:id="@+id/trans_view_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout="@layout/items_translate"
         />
 

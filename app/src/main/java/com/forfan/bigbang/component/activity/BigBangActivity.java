@@ -279,8 +279,9 @@ public class BigBangActivity extends BaseActivity {
                 bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             } else {
                 List<String> txts = new ArrayList<String>();
-                for (int index = 0; index < originString.length(); index++) {
-                    txts.add(originString.charAt(index) + "");
+                String str=originString.replaceAll("\n","");
+                for (int index = 0; index < str.length(); index++) {
+                    txts.add(str.charAt(index) + "");
                 }
                 for (String t : txts) {
                     bigBangLayout.addTextItem(t);

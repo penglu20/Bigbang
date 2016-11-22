@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.util.ViewUtil;
 
-class BigBangBottom extends ViewGroup implements View.OnClickListener {
+public class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
     ImageView mDrag;
     ImageView mType;

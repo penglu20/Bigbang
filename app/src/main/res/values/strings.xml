@@ -71,7 +71,7 @@
     <string name="share_request_cancel_dislike">算了吧...</string>
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
     <string name="check_update">检测更新</string>
-    <string name="show_float_view">显示悬浮窗</string>
+    <string name="show_float_view">悬浮窗常驻(自动靠边隐藏)</string>
     <string name="show_float_view_request">使用悬浮窗可以快捷切换Bigbang开关、全局复制、全屏截图OCR识别，更加高效！建议开启！</string>
     <string name="check_update_close">已是最新版本</string>
     <string name="default_setting">恢复默认设置</string>
@@ -132,4 +132,7 @@
     <string name="xposed_whitelist">Xposed 应用白名单</string>
     <string name="screen_capture_fail">抱歉，截屏失败</string>
     <string name="need_capture_perssion">截屏需要获取权限，请勾选不再提示，确定后，再次点击截屏按钮</string>
+
+    <string name="word_type_cloud">云端分词\n把常见的词字组合在一起，有网络时默认启用</string>
+    <string name="word_type_local">本地分词\n把每一个字都拆分开，无网络时备选</string>
 </resources>

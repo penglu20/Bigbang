@@ -22,6 +22,7 @@ import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.view.BigBangLayout;
+import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.forfan.bigbang.view.GuideView;
 
 import java.io.UnsupportedEncodingException;
@@ -32,7 +33,7 @@ public class IntroActivity extends BaseActivity {
     private TextView mIntro;
     private TextView mFunctionIntroTV;
     private GuideView guideView;
-    private BigBangLayout mBigBangLayout;
+    private BigBangLayoutWrapper mBigBangLayout;
     private CardView mBigBangWraper;
     private Button mEnterBtn;
     private Handler handler;
@@ -143,7 +144,7 @@ public class IntroActivity extends BaseActivity {
     private void initView() {
         mIntro = (TextView)findViewById(R.id.intro);
         mFunctionIntroTV= (TextView) findViewById(R.id.enter_bigbang_intro);
-        mBigBangLayout= (BigBangLayout) findViewById(R.id.bigbang);
+        mBigBangLayout= (BigBangLayoutWrapper) findViewById(R.id.bigbang_wrap);
         mBigBangLayout.setActionListener(bigBangActionListener);
 
         mBigBangWraper= (CardView) findViewById(R.id.bigbang_wraper);
@@ -240,7 +241,7 @@ public class IntroActivity extends BaseActivity {
         guideView.show();
     }
 
-    BigBangLayout.ActionListener bigBangActionListener=new BigBangLayout.ActionListener() {
+    BigBangLayoutWrapper.ActionListener bigBangActionListener=new BigBangLayoutWrapper.ActionListener() {
 
         private boolean firstSelected=true,firstSearch=true,firstShare=true,firstCopy=true,firstTrans=true,firstDrag=true;
         @Override
@@ -326,6 +327,19 @@ public class IntroActivity extends BaseActivity {
                 mFunctionIntroTV.setText(R.string.sort_mode_help);
             }else {
                 mFunctionIntroTV.setText(R.string.choose_sentences_mode);
+            }
+            firstDrag=!firstDrag;
+            mFunctionIntroTV.setScaleY(0);
+            mFunctionIntroTV.setScaleX(0);
+            mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+        }
+
+        @Override
+        public void onSwitchType(boolean isLocal) {
+            if (isLocal){
+                mFunctionIntroTV.setText(R.string.word_type_local);
+            }else {
+                mFunctionIntroTV.setText(R.string.word_type_cloud);
             }
             firstDrag=!firstDrag;
             mFunctionIntroTV.setScaleY(0);
