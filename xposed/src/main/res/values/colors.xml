@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="text_color">@color/white</color>
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
+    <color name="text_color_grey">#dddddd</color>
+
+    <color name="trans">#00000000</color>
+    <color name="primary">#FF03A9F4</color>
+    <color name="primary_dark">#FF0288D1</color>
+    <color name="colorPrimaryDarkTransparent">@color/primary</color>
+    <color name="status_bar_color">@color/primary_dark</color>
+    <color name="half_trans">#bc1e1e1e</color>
+    <color name="divider">#cee9e9e9</color>
+    <color name="quarter_transparent">#40000000</color>
+    <color name="shadow">#aa000000</color>
+    <color name="transparent">#00000000</color>
+
+    <color name="colorPrimary">#03A9F4</color>
+    <color name="colorPrimaryDark">#0288D1</color>
+    <color name="lightPrimaryColor">#B3E5FC</color>
+    <color name="colorAccent">#009688</color>
+    <color name="colorControlNormal">#FF78909C</color>
+    <color name="colorControlActivated">#3F51B5</color>
+    <color name="colorSwitchThumbNormal">#FF78909C</color>
+
+    <color name="colorPrimaryQuarter">#3303A9F4</color>
+    <color name="colorPrimaryHalf">#9003A9F4</color>
+    <color name="colorControlNormalHalf">#9078909C</color>
+    <color name="colorControlActivatedHalf">#009688</color>
+    <color name="colorAccentQuarter">#3300E5FF</color>
+    <color name="colorAccentHalf">#9000E5FF</color>
+    <color name="intro_bg">#3d85c0</color>
+
+</resources>

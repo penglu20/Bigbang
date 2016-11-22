@@ -2,8 +2,6 @@ package com.forfan.bigbang.component.activity.setting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -23,8 +21,8 @@ public class OcrCard extends AbsCard {
     }
 
     private void initView(Context context) {
-        mContext=context;
-        LayoutInflater.from(context).inflate(R.layout.card_ocr,this);
+        mContext = context;
+        LayoutInflater.from(context).inflate(R.layout.card_ocr, this);
         findViewById(R.id.orc).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,6 +32,18 @@ public class OcrCard extends AbsCard {
                 mContext.startActivity(intent);
             }
         });
+//        if(!XposedEnable.isEnable()){
+//            findViewById(R.id.xposed_whiteList).setVisibility(GONE);
+//        }
+//        findViewById(R.id.xposed_whiteList).setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_OPEN_OCR);
+//                Intent intent = new Intent();
+//                intent.setClass(mContext, XposedAppManagerActivity.class);
+//                mContext.startActivity(intent);
+//            }
+//        });
     }
 
 }

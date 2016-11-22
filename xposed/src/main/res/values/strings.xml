@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">xposed</string>
+    <string name="search">search</string>
+</resources>

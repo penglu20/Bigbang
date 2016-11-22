@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">@color/colorAccent</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+</resources>

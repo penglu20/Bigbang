@@ -5,6 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.Image;
@@ -137,11 +138,16 @@ public class ScreenCaptureService extends Service {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setUpMediaProjection() {
-        mResultData = ((BigBangApp) getApplication()).getIntent();
-        mResultCode = ((BigBangApp) getApplication()).getResult();
-        mMediaProjectionManager1 = ((BigBangApp) getApplication()).getMediaProjectionManager();
-        mMediaProjection = mMediaProjectionManager1.getMediaProjection(mResultCode, mResultData);
-         LogUtil.e(TAG, "mMediaProjection defined");
+        try {
+            mResultData = ((BigBangApp) getApplication()).getIntent();
+            mResultCode = ((BigBangApp) getApplication()).getResult();
+            mMediaProjectionManager1 = ((BigBangApp) getApplication()).getMediaProjectionManager();
+            mMediaProjection = mMediaProjectionManager1.getMediaProjection(mResultCode, mResultData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LogUtil.e(TAG, "mMediaProjection defined");
+        }
+
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -150,6 +156,15 @@ public class ScreenCaptureService extends Service {
                 windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                 mImageReader.getSurface(), null, null);
          LogUtil.e(TAG, "virtual displayed");
+    }
+    //获取状态栏高度
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -170,7 +185,7 @@ public class ScreenCaptureService extends Service {
         image.close();
          LogUtil.e(TAG, "image data captured");
         ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, output);//把bitmap100%高质量压缩 到 output对象里
         bitmap.recycle();//自由选择是否进行回收
         byte[] result = output.toByteArray();//转换成功了
         try {

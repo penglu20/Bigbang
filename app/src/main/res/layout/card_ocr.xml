@@ -21,4 +21,21 @@
             android:textColor="@color/primary_text" />
 
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/xposed_whiteList"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_line_height"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/xposed_whitelist"
+            android:textColor="@color/primary_text" />
+
+    </RelativeLayout>
 </LinearLayout>

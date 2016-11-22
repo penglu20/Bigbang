@@ -1,6 +1,7 @@
 package com.forfan.bigbang;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.media.projection.MediaProjectionManager;
 
@@ -41,6 +42,8 @@ public class BigBangApp extends Application {
     }
 
     public MediaProjectionManager getMediaProjectionManager(){
+        if(mMediaProjectionManager == null)
+            mMediaProjectionManager = (MediaProjectionManager)getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         return mMediaProjectionManager;
     }
 
