@@ -27,13 +27,13 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
     private static final String TAG = "XposedBigBang";
 
-    private final TouchHandler mTouchHandler = new TouchHandler();
+    private final TouchEventHandler mTouchHandler = new TouchEventHandler();
     private final List<Filter> mFilters = new ArrayList<>();
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         setXpoedEnable(loadPackageParam);
-        L.d(TAG,loadPackageParam.packageName);
+        Logger.d(TAG,loadPackageParam.packageName);
         XSharedPreferences appXSP = new XSharedPreferences(PACKAGE_NAME, SP_NAME);
         appXSP.makeWorldReadable();
         Set<String> disAppSet = appXSP.getStringSet(SP_DISABLE_KEY, null);
@@ -86,7 +86,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
                     long currentTimeMillis = System.currentTimeMillis();
                     if (preClickTimeMillis != 0) {
                         long interval = currentTimeMillis - preClickTimeMillis;
-                        if (interval < TouchHandler.BIG_BANG_RESPONSE_TIME) {
+                        if (interval < TouchEventHandler.BIG_BANG_RESPONSE_TIME) {
                             intercept = true;
                         } else {
                             intercept = false;
@@ -113,7 +113,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             Activity activity = (Activity) param.thisObject;
             View view = activity.findViewById(android.R.id.content);
             MotionEvent event = (MotionEvent) param.args[0];
-            L.d(TAG, "activityTouchEvent: " + event.getAction());
+            Logger.d(TAG, "activityTouchEvent: " + event.getAction());
             mTouchHandler.hookTouchEvent(view, event, mFilters, false);
         }
     }
@@ -128,8 +128,8 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             if ((Boolean) param.getResult()) {
                 View view = (View) param.thisObject;
                 MotionEvent event = (MotionEvent) param.args[0];
-                L.d(TAG, view.getClass().getSimpleName());
-                L.d(TAG, "viewTouchEvent: " + event.getAction());
+                Logger.d(TAG, view.getClass().getSimpleName());
+                Logger.d(TAG, "viewTouchEvent: " + event.getAction());
                 mTouchHandler.hookTouchEvent(view, event, mFilters, false);
             }
         }

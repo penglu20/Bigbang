@@ -5,7 +5,7 @@ import android.util.Log;
 import de.robv.android.xposed.XposedBridge;
 
 
-public class L {
+public class Logger {
 
     private static boolean sEnable = BuildConfig.DEBUG;
     private static final String TAG = "XposedBigBang";

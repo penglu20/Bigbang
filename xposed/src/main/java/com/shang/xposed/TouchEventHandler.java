@@ -22,7 +22,7 @@ import java.util.List;
  * Created by dim on 16/10/23.
  */
 
-public class TouchHandler {
+public class TouchEventHandler {
 
     static {
 
@@ -36,7 +36,7 @@ public class TouchHandler {
     public static int BIG_BANG_RESPONSE_TIME = 400;
     public static int INVALID_INTERVAL = 60;
 
-    private static final String TAG = "TouchHandler";
+    private static final String TAG = "TouchEventHandler";
     private static final Comparator<View> TOP_SORTED_CHILDREN_COMPARATOR;
 
     private final List<View> topmostChildList = new ArrayList<>();
@@ -47,7 +47,7 @@ public class TouchHandler {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             View targetTextView = getTargetTextView(v, event, filters);
             if (targetTextView != null) {
-                L.logClass(TAG, targetTextView.getClass());
+                Logger.logClass(TAG, targetTextView.getClass());
                 long preClickTimeMillis = getClickTimeMillis(targetTextView);
                 long currentTimeMillis = System.currentTimeMillis();
                 if (preClickTimeMillis != 0) {

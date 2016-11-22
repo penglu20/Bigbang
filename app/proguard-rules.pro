@@ -155,3 +155,5 @@ public static final int *;
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+-keep class com.shang.xposed.* { *; }
+-keep class com.shang.xposed.** { *; }
