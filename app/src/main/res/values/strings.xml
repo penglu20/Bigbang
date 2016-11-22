@@ -130,4 +130,6 @@
     <string name="share_no_wechat">你还没有安装微信</string>
 
     <string name="xposed_whitelist">Xposed 应用白名单</string>
+    <string name="screen_capture_fail">抱歉，截屏失败</string>
+    <string name="need_capture_perssion">截屏需要获取权限，请勾选不再提示，确定后，再次点击截屏按钮</string>
 </resources>

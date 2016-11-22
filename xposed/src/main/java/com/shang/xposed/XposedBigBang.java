@@ -46,7 +46,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             //朋友圈内容拦截。
             mFilters.add(new Filter.WeChatValidFilter(loadPackageParam.classLoader));
             //聊天详情中的文字点击事件优化
-            findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.base.MMTextureView"), "onTouchEvent",
+            findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.widget.MMTextView"), "onTouchEvent",
                     MotionEvent.class, new MMTextViewTouchEvent());
         }
 
@@ -68,7 +68,6 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             });
         }
     }
-
 
     private class MMTextViewTouchEvent extends XC_MethodHook {
 

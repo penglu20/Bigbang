@@ -70,6 +70,7 @@ public class ScreenCaptureService extends Service {
     private void toCapture() {
         try {
             createVirtualEnvironment();
+
             handler.postDelayed(new Runnable() {
                 public void run() {
                     //start virtual
@@ -173,6 +174,12 @@ public class ScreenCaptureService extends Service {
         nameImage = pathImage + strDate + ".png";
 
         Image image = mImageReader.acquireLatestImage();
+        if(image == null){
+            ToastUtil.show(R.string.screen_capture_fail);
+            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
+            return;
+        }
+
         int width = image.getWidth();
         int height = image.getHeight();
         final Image.Plane[] planes = image.getPlanes();

@@ -119,4 +119,5 @@ dependencies {
     compile files('libs/AndroidScreenCap.jar')
     compile project(':lib')
     compile files('libs/copy.jar')
+    compile project(':xposed')
 }

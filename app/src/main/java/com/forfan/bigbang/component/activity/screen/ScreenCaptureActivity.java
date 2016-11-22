@@ -14,6 +14,8 @@ import android.view.WindowManager;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.forfan.bigbang.util.ToastUtil;
 
 public class ScreenCaptureActivity extends BaseActivity {
     private String TAG = "Service";
@@ -28,6 +30,10 @@ public class ScreenCaptureActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         initWindow();
         mMediaProjectionManager = (MediaProjectionManager) getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
+        boolean isFirst = SPHelper.getBoolean("is_fist",true);
+        if(isFirst){
+            ToastUtil.show(R.string.copy_mode_help);
+        }
         startIntent();
     }
     private void initWindow() {
