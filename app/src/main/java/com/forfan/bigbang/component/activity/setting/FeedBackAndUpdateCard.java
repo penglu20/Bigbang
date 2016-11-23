@@ -188,26 +188,26 @@ public class FeedBackAndUpdateCard extends AbsCard {
         Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
             @Override
             public void onNegativeActionClicked(DialogFragment fragment) {
-//                if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
-//                    try {
-//                        mContext.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-//    //                    mContext.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-//                    } catch (Throwable e){
-//                        SnackBarUtil.show(FeedBackAndUpdateCard.this,R.string.open_setting_failed);
-//                    }
-//                }else {
+                if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
+                    try {
+                        mContext.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
+    //                    mContext.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
+                    } catch (Throwable e){
+                        SnackBarUtil.show(FeedBackAndUpdateCard.this,R.string.open_setting_failed);
+                    }
+                }else {
                     startFeedBack();
-//                }
+                }
                 super.onNegativeActionClicked(fragment);
             }
         };
         String msg=mContext.getString(R.string.problem_content);
-//        if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
-//            builder.negativeAction(mContext.getString(R.string.go_set));
-//            msg=msg+"\n"+mContext.getString(R.string.go_set_msg);
-//        }else {
+        if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
+            builder.negativeAction(mContext.getString(R.string.go_set));
+            msg=msg+"\n"+mContext.getString(R.string.go_set_msg);
+        }else {
             builder.negativeAction(mContext.getString(R.string.feed_back));
-//        }
+        }
         ((SimpleDialog.Builder) builder)
                 .message(msg)
                 .title(mContext.getString(R.string.problems))

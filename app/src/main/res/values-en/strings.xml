@@ -136,4 +136,7 @@
 
     <string name="word_type_cloud">Cloud word segmentation \ n Combine common word words together, enabled by default</string>
     <string name="word_type_local">Local word segmentation \ n splits each word apart, without the network</string>
+
+
+    <string name="open_setting_failed">open system setting failed</string>
 </resources>

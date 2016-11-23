@@ -135,4 +135,8 @@
 
     <string name="word_type_cloud">云端分词\n把常见的词字组合在一起，有网络时默认启用</string>
     <string name="word_type_local">本地分词\n把每一个字都拆分开，无网络时备选</string>
+
+
+
+    <string name="open_setting_failed">无法打开系统设置</string>
 </resources>

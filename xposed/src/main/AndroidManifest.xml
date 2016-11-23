@@ -13,7 +13,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="支持点击文字进行分词功能，您无需担心辅助服务总是'掉线'的问题啦" />
+            android:value="支持点击文字进行分词功能，您无需担心辅助服务总是'掉线'的问题啦，暂时只支持微信，不断完善中！" />
         <meta-data
             android:name="xposedminversion"
             android:value="30" />

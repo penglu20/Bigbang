@@ -32,7 +32,7 @@ public class ScreenCaptureActivity extends BaseActivity {
         mMediaProjectionManager = (MediaProjectionManager) getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         boolean isFirst = SPHelper.getBoolean("is_fist",true);
         if(isFirst){
-            ToastUtil.show(R.string.copy_mode_help);
+            ToastUtil.show(R.string.need_capture_perssion);
         }
         startIntent();
     }
@@ -75,6 +75,7 @@ public class ScreenCaptureActivity extends BaseActivity {
                 startService(intent);
                 Log.i(TAG, "start service ScreenCaptureService");
 
+                SPHelper.save("is_fist",false);
                 finish();
             }
         }

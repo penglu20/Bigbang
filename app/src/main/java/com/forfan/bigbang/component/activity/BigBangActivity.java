@@ -133,7 +133,7 @@ public class BigBangActivity extends BaseActivity {
                 .compose(this.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .timeout(5, TimeUnit.SECONDS)
+                .timeout(5000, TimeUnit.MILLISECONDS)
                 .subscribe(recommendInfo -> {
                     LogUtil.d(recommendInfo.toString());
                     List<String> txts=recommendInfo.get(0).getWord();
@@ -145,8 +145,11 @@ public class BigBangActivity extends BaseActivity {
                     loading.hide();
                     bigBangLayoutWrapper.setVisibility(View.VISIBLE);
                 }, throwable -> {
-                    LogUtil.d(throwable.toString());
-                    ToastUtil.show(R.string.no_internet_for_fenci);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            LogUtil.d(throwable.toString());
+                            ToastUtil.show(R.string.no_internet_for_fenci);
 //                    List<String> txts= new ArrayList<String>();
 //                    for(int index = 0; index < finalStr.length() ; index++){
 //                        txts.add(finalStr.charAt(index)+"");
@@ -156,7 +159,10 @@ public class BigBangActivity extends BaseActivity {
 //                    }
 //                    loading.hide();
 //                    bigBangLayoutWrapper.setBottomVibility(View.VISIBLE);
-                    bigBangLayoutWrapper.onSwitchType(true);
+                            bigBangLayoutWrapper.onSwitchType(true);
+                        }
+                    });
+
                 });
         bigBangLayoutWrapper.setActionListener(bigBangActionListener);
     }

@@ -342,6 +342,7 @@ public class TipViewController implements  View.OnTouchListener {
         if (mWindowManager!=null && mWholeView!=null && !isRemoved) {
             mWindowManager.removeView(mWholeView);
             isRemoved=true;
+            mWholeView=null;
         }
     }
 
