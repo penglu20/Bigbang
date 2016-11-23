@@ -1,6 +1,9 @@
 package com.shang.xposed;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -33,6 +36,23 @@ public class XposedBigBang implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         setXpoedEnable(loadPackageParam);
+        findAndHookMethod("android.app.Application", loadPackageParam.classLoader, "onCreate", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                Context context = (Context) param.thisObject;
+//                IntentFilter filter = new IntentFilter();
+//                filter.addAction("com.shang.bigbang.wake");
+//                filter.addCategory(Intent.CATEGORY_DEFAULT);
+                Intent intent = new Intent();
+                intent.setAction("com.shang.bigbang.wake");
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                context.sendBroadcast(intent);
+            }
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                super.afterHookedMethod(param);
+            }
+        });
         Logger.d(TAG,loadPackageParam.packageName);
         XSharedPreferences appXSP = new XSharedPreferences(PACKAGE_NAME, SP_NAME);
         appXSP.makeWorldReadable();
@@ -46,8 +66,18 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             //朋友圈内容拦截。
             mFilters.add(new Filter.WeChatValidFilter(loadPackageParam.classLoader));
             //聊天详情中的文字点击事件优化
-            findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.widget.MMTextView"), "onTouchEvent",
-                    MotionEvent.class, new MMTextViewTouchEvent());
+            try {
+                findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.widget.MMTextView"), "onTouchEvent",
+                        MotionEvent.class, new MMTextViewTouchEvent());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            try {
+                findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.base.MMTextView"), "onTouchEvent",
+                        MotionEvent.class, new MMTextViewTouchEvent());
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
         }
 
         // installer  不注入。 防止代码出错。进不去installer 中。

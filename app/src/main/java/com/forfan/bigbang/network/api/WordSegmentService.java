@@ -19,6 +19,6 @@ public interface WordSegmentService {
             "Accept: application/json",
             "X-Token: IZGVLxjs.10189.fkzlXn0jsUBp"
     })
-    @POST("tag/analysis?space_mode=0&oov_level=3&t2s=0")
+    @POST("tag/analysis?space_mode=1&oov_level=3&t2s=0&special_char_conv=1")
     Observable<ArrayList<WordSegs>> getWordSegsList(@Body String string);
 }
