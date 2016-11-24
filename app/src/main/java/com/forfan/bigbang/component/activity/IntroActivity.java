@@ -346,6 +346,16 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
         }
+
+        @Override
+        public void onSwitchSymbol(boolean isShow) {
+
+        }
+
+        @Override
+        public void onSwitchSection(boolean isShow) {
+
+        }
     };
     @Override
     public void onBackPressed() {

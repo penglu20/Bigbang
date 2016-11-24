@@ -104,6 +104,8 @@ public class BigBangActivity extends BaseActivity {
 
 
 
+
+
         int text=SPHelper.getInt(ConstantUtil.TEXT_SIZE,ConstantUtil.DEFAULT_TEXT_SIZE);
         int line=SPHelper.getInt(ConstantUtil.LINE_MARGIN,ConstantUtil.DEFAULT_LINE_MARGIN);
         int item=SPHelper.getInt(ConstantUtil.ITEM_MARGIN,ConstantUtil.DEFAULT_ITEM_MARGIN);
@@ -123,11 +125,18 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setItemSpace(item);
 
 
-        if (!remainSymbol){
-            str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
-        }
+//        if (!remainSymbol){
+//            str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
+//        }
+        bigBangLayoutWrapper.setShowSymbol(remainSymbol);
+        bigBangLayoutWrapper.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION,false));
         originString=str;
         String finalStr = str;
+        getSegment(str);
+        bigBangLayoutWrapper.setActionListener(bigBangActionListener);
+    }
+
+    private void getSegment(String str) {
         RetrofitHelper.getWordSegmentService()
                 .getWordSegsList(str)
                 .compose(this.bindToLifecycle())
@@ -164,7 +173,6 @@ public class BigBangActivity extends BaseActivity {
                     });
 
                 });
-        bigBangLayoutWrapper.setActionListener(bigBangActionListener);
     }
 
     BigBangLayoutWrapper.ActionListener bigBangActionListener=new BigBangLayoutWrapper.ActionListener() {
@@ -278,14 +286,18 @@ public class BigBangActivity extends BaseActivity {
             //
             bigBangLayout.reset();
             if (!isLocal) {
-                for (String t : netWordSegments) {
-                    bigBangLayout.addTextItem(t);
+                if (netWordSegments==null){
+                    getSegment(originString);
+                }else {
+                    for (String t : netWordSegments) {
+                        bigBangLayout.addTextItem(t);
+                    }
+                    loading.hide();
+                    bigBangLayoutWrapper.setVisibility(View.VISIBLE);
                 }
-                loading.hide();
-                bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             } else {
                 List<String> txts = new ArrayList<String>();
-                String str=originString.replaceAll("\n","");
+                String str=originString;
                 for (int index = 0; index < str.length(); index++) {
                     txts.add(str.charAt(index) + "");
                 }
@@ -295,6 +307,16 @@ public class BigBangActivity extends BaseActivity {
                 loading.hide();
                 bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             }
+        }
+
+        @Override
+        public void onSwitchSymbol(boolean isShow) {
+            SPHelper.save(ConstantUtil.REMAIN_SYMBOL,isShow);
+        }
+
+        @Override
+        public void onSwitchSection(boolean isShow) {
+            SPHelper.save(ConstantUtil.REMAIN_SECTION,isShow);
         }
     };
 

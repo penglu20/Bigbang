@@ -116,12 +116,37 @@ public class BigBangLayoutWrapper extends FrameLayout  {
             public void onSelectOther() {
                 mBigBangLayout.onSelectOther();
             }
+
+            @Override
+            public void onSwitchSymbol(boolean isShow) {
+                mBigBangLayout.setShowSymbol(isShow);
+                if (mActionListener!=null){
+                    mActionListener.onSwitchSymbol(isShow);
+                }
+            }
+
+            @Override
+            public void onSwitchSection(boolean isShow) {
+                mBigBangLayout.setShowSection(isShow);
+                if (mActionListener!=null){
+                    mActionListener.onSwitchSection(isShow);
+                }
+            }
         });
 
     }
 
     public void onSwitchType(boolean isLocal) {
         mBottom.setIsLocal(isLocal);
+    }
+
+
+    public void setShowSymbol(boolean showSymbol) {
+        mBottom.setShowSymbol(showSymbol);
+    }
+
+    public void setShowSection(boolean showSection) {
+        mBottom.setShowSection(showSection);
     }
 
     @Override
@@ -167,5 +192,9 @@ public class BigBangLayoutWrapper extends FrameLayout  {
         void onDrag();
 
         void onSwitchType(boolean isLocal);
+
+        void onSwitchSymbol(boolean isShow);
+
+        void onSwitchSection(boolean isShow);
     }
 }

@@ -7,12 +7,9 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.NestedScrollingChild;
@@ -35,6 +32,10 @@ import java.util.List;
 
 public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionListener, NestedScrollingChild {
 
+    public static final String ENTER="_Enter_";
+    public static final String ENTER_SYMBOL="\n";
+    public static final String ENTERENTER="_Enter__Enter_";
+    public static final String TAB="_Tab_";
 
     private static final int DEFAULT_TEXT_SIZE=14;//sp
     private static final int DEFAULT_TEXT_COLOR_RES=R.color.bigbang_item_text;
@@ -47,6 +48,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     private Item mTargetItem;
     private List<Line> mLines;
+    private List<Integer> mSectionIndex;
     private int mActionBarTopHeight;
     private int mActionBarBottomHeight;
     private BigBangHeader mHeader;
@@ -73,6 +75,10 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private int mScaledTouchSlop;
     private float mDownX;
     private boolean mDisallowedParentIntercept;
+
+
+    private boolean showSymbol=false;
+    private boolean showSection = false;
 
     public BigBangLayout(Context context) {
         super(context);
@@ -169,6 +175,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 return true;
             }
         });
+        mSectionIndex=new ArrayList<>();
     }
 
     public int getLineSpace() {
@@ -227,6 +234,9 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         if (TextUtils.isEmpty(text)){
             return;
         }
+        if (text.equals(TAB)){
+            return;
+        }
         TextView view = new TextView(getContext());
         view.setText(text);
         view.setBackgroundResource(mTextBgRes);
@@ -252,6 +262,24 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         }
     }
 
+    public boolean isShowSymbol() {
+        return showSymbol;
+    }
+
+    public void setShowSymbol(boolean showSymbol) {
+        this.showSymbol = showSymbol;
+        requestLayout();
+    }
+
+    public boolean isShowSection() {
+        return showSection;
+    }
+
+    public void setShowSection(boolean showSection) {
+        this.showSection = showSection;
+        requestLayout();
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
@@ -264,23 +292,41 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
 
         mLines = new ArrayList<>();
+        mSectionIndex.clear();
         Line currentLine = null;
         int currentLineWidth = contentWidthSize;
+        boolean isEnter=false;
         for (int i = 0; i < childCount; i++) {
 
-            View child = getChildAt(i);
+            View v = getChildAt(i);
 
-            if (mHeader == child ) {
+            if (mHeader == v ) {
                 continue;
             }
 
+            TextView child = (TextView) v;
+            String content=child.getText().toString();
+
+            child.setVisibility(VISIBLE);
+            if (!showSymbol){
+                if(content.matches("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]")){
+                    child.setVisibility(GONE);
+                    continue;
+                }
+            }
+            if (content.equals(ENTER)||content.equals(ENTERENTER)||content.equals(ENTER_SYMBOL)){
+                child.setVisibility(GONE);
+                mSectionIndex.add(i);
+                isEnter=true;
+                continue;
+            }
             child.measure(measureSpec, measureSpec);
 
             if (currentLineWidth > 0) {
                 currentLineWidth += mItemSpace;
             }
             currentLineWidth += child.getMeasuredWidth();
-            if (mLines.size() == 0 || currentLineWidth > contentWidthSize) {
+            if (mLines.size() == 0 || currentLineWidth > contentWidthSize || (isEnter && showSection)) {
                 heightSize += child.getMeasuredHeight();
                 currentLineWidth = child.getMeasuredWidth();
                 currentLine = new Line(mLines.size());
@@ -292,6 +338,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             item.width = child.getMeasuredWidth();
             item.height = child.getMeasuredHeight();
             currentLine.addItem(item);
+            isEnter=false;
         }
 
         Line firstSelectedLine = findFirstSelectedLine();
@@ -566,8 +613,24 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     private String makeSelectedText() {
         StringBuilder builder = new StringBuilder();
-        for (Line line : mLines) {
+        int length= mLines.size();
+        for ( int i=0;i<length;i++) {
+            Line line = mLines.get(i);
+            boolean containEnter=false;
+            if (i<length-1) {
+                Line nextLine = mLines.get(i + 1);
+                int thisLineLastIndex=line.getItems().get(line.getItems().size()-1).index;
+                int nextLineFirstIndex=nextLine.getItems().get(nextLine.getItems().size()-1).index;
+                for (int j=thisLineLastIndex;j<nextLineFirstIndex;j++){
+                    if (mSectionIndex.contains(j)){
+                        containEnter=true;
+                    }
+                }
+            }
             builder.append(line.getSelectedText());
+            if (containEnter){
+                builder.append("\n");
+            }
         }
         return builder.toString();
     }
@@ -638,7 +701,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         mActionListener = actionListener;
     }
 
-    static class Line {
+    class Line {
         int maxIndex;
         List<Item> items;
 

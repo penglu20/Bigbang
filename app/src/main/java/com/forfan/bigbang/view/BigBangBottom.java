@@ -1,5 +1,6 @@
 package com.forfan.bigbang.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.os.Build;
@@ -18,12 +19,17 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
     ImageView mType;
     ImageView mSelectOther;
 
+    ImageView mSection;
+    ImageView mSymbol;
+
 
     private int mActionGap;
     private int mContentPadding;
     private ActionListener mActionListener;
     private boolean dragMode=false;
     private boolean isLocal=false;
+    private boolean showSymbol=false;
+    private boolean showSection = false;
 
     public BigBangBottom(Context context) {
         this(context, null);
@@ -38,7 +44,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         initSubViews();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BigBangBottom(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initSubViews();
@@ -61,9 +67,19 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         mSelectOther.setImageResource(R.mipmap.bigbang_action_select_other);
         mSelectOther.setOnClickListener(this);
 
+        mSymbol=new ImageView(context);
+        mSymbol.setImageResource(R.mipmap.bigbang_action_symbol);
+        mSymbol.setOnClickListener(this);
+
+        mSection=new ImageView(context);
+        mSection.setImageResource(R.mipmap.bigbang_action_enter);
+        mSection.setOnClickListener(this);
+
         addView(mDrag, createLayoutParams());
         addView(mType, createLayoutParams());
         addView(mSelectOther, createLayoutParams());
+        addView(mSection, createLayoutParams());
+        addView(mSymbol, createLayoutParams());
 
         setWillNotDraw(false);
 
@@ -100,6 +116,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
+        layoutSubView(mSymbol,  mActionGap , mContentPadding);
+        layoutSubView(mSection,  mActionGap * 2 + mSymbol.getMeasuredWidth() , mContentPadding);
+
+
         layoutSubView(mType, width - mActionGap * 3 - mDrag.getMeasuredWidth()*2 - mDrag.getMeasuredWidth() , mContentPadding);
         layoutSubView(mSelectOther, width - mActionGap * 2 - mDrag.getMeasuredWidth() - mDrag.getMeasuredWidth(), mContentPadding);
         layoutSubView(mDrag, width - mActionGap - mDrag.getMeasuredWidth(), mContentPadding);
@@ -142,6 +162,16 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
             setIsLocal(isLocal);
         }else if (v==mSelectOther){
             mActionListener.onSelectOther();
+        }else if (v==mSection){
+            showSection= !showSection;
+            if (mActionListener!=null){
+                mActionListener.onSwitchSection(showSection);
+            }
+        }else if (v==mSymbol){
+            showSymbol=!showSymbol;
+            if (mActionListener!=null){
+                mActionListener.onSwitchSymbol(showSymbol);
+            }
         }
     }
 
@@ -155,9 +185,25 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         }
     }
 
+    public void setShowSymbol(boolean showSymbol) {
+        this.showSymbol = showSymbol;
+        if (mActionListener!=null){
+            mActionListener.onSwitchSymbol(showSymbol);
+        }
+    }
+
+    public void setShowSection(boolean showSection) {
+        this.showSection = showSection;
+        if (mActionListener!=null){
+            mActionListener.onSwitchSection(showSection);
+        }
+    }
+
     interface ActionListener {
         void onDrag();
         void onSwitchType(boolean isLocal);
         void onSelectOther();
+        void onSwitchSymbol(boolean isShow);
+        void onSwitchSection(boolean isShow);
     }
 }
