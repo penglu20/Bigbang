@@ -134,8 +134,11 @@
     <string name="need_capture_perssion">Screenshots need to get this permission, please check no longer prompted,and click OK, click the screenshot button again</string>
 
 
-    <string name="word_type_cloud">Cloud word segmentation \ n Combine common word words together, enabled by default</string>
-    <string name="word_type_local">Local word segmentation \ n splits each word apart, without the network</string>
+    <string name="word_type_cloud">Cloud word segmentation \n Combine common word words together, enabled by default</string>
+    <string name="word_type_local">Local word segmentation \n splits each word apart, without the network</string>
+
+    <string name="show_symbol">Weather Keep punctuation</string>
+    <string name="show_section">Whether to keep the original paragraph \n If open, the first paragraph of the text color to deepen the time to keep fragmented state</string>
 
 
     <string name="open_setting_failed">open system setting failed</string>

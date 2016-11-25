@@ -349,12 +349,18 @@ public class IntroActivity extends BaseActivity {
 
         @Override
         public void onSwitchSymbol(boolean isShow) {
-
+            mFunctionIntroTV.setText(R.string.show_symbol);
+            mFunctionIntroTV.setScaleY(0);
+            mFunctionIntroTV.setScaleX(0);
+            mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
         }
 
         @Override
         public void onSwitchSection(boolean isShow) {
-
+            mFunctionIntroTV.setText(R.string.show_section);
+            mFunctionIntroTV.setScaleY(0);
+            mFunctionIntroTV.setScaleX(0);
+            mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
         }
     };
     @Override

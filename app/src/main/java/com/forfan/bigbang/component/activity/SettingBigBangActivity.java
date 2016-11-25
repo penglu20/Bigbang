@@ -145,8 +145,8 @@ public class SettingBigBangActivity extends BaseActivity {
         mItemMarginSeekBar.setProgress((int) ((item-MIN_ITEM_MARGIN)));
 
 
-        String[] txts=new String[]{"BigBang","可以","对","文字","进行","编辑","，",
-                "包括","分词","，","翻译","，","复制","以及","动态","调整","。"};
+        String[] txts=new String[]{"BigBang","可以","对","文字","进行","编辑",
+                "包括","分词","翻译","复制","以及","动态","调整"};
 
         for (String t:txts) {
             mBigBangLayout.addTextItem(t);

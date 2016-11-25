@@ -510,13 +510,14 @@ public class TipViewController implements  View.OnTouchListener {
         Rect rect = new Rect();
         mWholeView.getGlobalVisibleRect(rect);
         if (!rect.contains((int)x, (int)y)) {
-            showImage();
-            setFloatViewToDefault();
+//            showImage();
+//            setFloatViewToDefault();
         }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mTouchStartX = x;
                 mTouchStartY = y;
+                setFloatViewToDefault();
                 isMoving=false;
                 isLongPressed=false;
                 LogUtil.e(TAG,"ACTION_DOWN time="+System.currentTimeMillis());
