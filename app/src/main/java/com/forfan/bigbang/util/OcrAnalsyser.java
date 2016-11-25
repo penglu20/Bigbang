@@ -123,6 +123,8 @@ public class OcrAnalsyser {
         if( ocr.language.equalsIgnoreCase(LanguageCodes.ChineseSimplified ) || ocr.language.equalsIgnoreCase(LanguageCodes.ChineseTraditional)){
             result=result.replaceAll(" ","");
         }
+        if(TextUtils.isEmpty(result))
+            result = "no text found";
         return result;
     }
 

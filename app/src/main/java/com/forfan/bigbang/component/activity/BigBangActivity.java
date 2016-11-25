@@ -2,10 +2,10 @@ package com.forfan.bigbang.component.activity;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
@@ -23,7 +23,9 @@ import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.RegexUtil;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
@@ -45,11 +47,11 @@ import rx.schedulers.Schedulers;
  */
 
 public class BigBangActivity extends BaseActivity {
-    public static final String TO_SPLIT_STR="to_split_str";
+    public static final String TO_SPLIT_STR = "to_split_str";
     private BigBangLayout bigBangLayout;
     private BigBangLayoutWrapper bigBangLayoutWrapper;
     private ContentLoadingProgressBar loading;
-    private boolean remainSymbol=true;
+    private boolean remainSymbol = true;
     private EditText toTrans;
     private EditText transResult;
     private RelativeLayout transRl;
@@ -62,8 +64,8 @@ public class BigBangActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
-        CardView cardView=new CardView(this);
-        View view= LayoutInflater.from(this).inflate(R.layout.activity_big_bang,null,false);
+        CardView cardView = new CardView(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
         cardView.setRadius(ViewUtil.dp2px(10));
         cardView.setCardBackgroundColor(getResources().getColor(R.color.bigbang_bg));
         cardView.addView(view);
@@ -71,49 +73,46 @@ public class BigBangActivity extends BaseActivity {
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
         setContentView(cardView);
 
-        Intent intent=getIntent();
-        String str=intent.getStringExtra(TO_SPLIT_STR);
+        Intent intent = getIntent();
+        String str = intent.getStringExtra(TO_SPLIT_STR);
 
-        if (TextUtils.isEmpty(str)){
+        if (TextUtils.isEmpty(str)) {
             String action = intent.getAction();
             String type = intent.getType();
             if (Intent.ACTION_SEND.equals(action) && type != null) {
                 if ("text/plain".equals(type)) {
                     String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-                    str=sharedText;
+                    str = sharedText;
                 }
             }
         }
         //xposed uri进入
-        if(getIntent().getData() != null){
-            String query =  getIntent().getData().getQuery();
-            if(!TextUtils.isEmpty(query) && query.startsWith("extra_text=")){
-                str = query.replace("extra_text=","");
+        if (getIntent().getData() != null) {
+            String query = getIntent().getData().getQuery();
+            if (!TextUtils.isEmpty(query) && query.startsWith("extra_text=")) {
+                str = query.replace("extra_text=", "");
             }
         }
 
 
-        if (TextUtils.isEmpty(str)){
+        if (TextUtils.isEmpty(str)) {
             finish();
             return;
         }
 
-        str=str.replaceAll("@"," @ ");
+        str = str.replaceAll("@", " @ ");
 
-        remainSymbol= SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true);
-
-
+        remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL, true);
 
 
+        int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
+        int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
+        int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
 
-        int text=SPHelper.getInt(ConstantUtil.TEXT_SIZE,ConstantUtil.DEFAULT_TEXT_SIZE);
-        int line=SPHelper.getInt(ConstantUtil.LINE_MARGIN,ConstantUtil.DEFAULT_LINE_MARGIN);
-        int item=SPHelper.getInt(ConstantUtil.ITEM_MARGIN,ConstantUtil.DEFAULT_ITEM_MARGIN);
 
-
-        bigBangLayout= (BigBangLayout) findViewById(R.id.bigbang);
-        loading= (ContentLoadingProgressBar) findViewById(R.id.loading);
-        bigBangLayoutWrapper= (BigBangLayoutWrapper) findViewById(R.id.bigbang_wrap);
+        bigBangLayout = (BigBangLayout) findViewById(R.id.bigbang);
+        loading = (ContentLoadingProgressBar) findViewById(R.id.loading);
+        bigBangLayoutWrapper = (BigBangLayoutWrapper) findViewById(R.id.bigbang_wrap);
 
 
         loading.show();
@@ -129,8 +128,8 @@ public class BigBangActivity extends BaseActivity {
 //            str = str.replaceAll("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]","");
 //        }
         bigBangLayoutWrapper.setShowSymbol(remainSymbol);
-        bigBangLayoutWrapper.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION,false));
-        originString=str;
+        bigBangLayoutWrapper.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION, false));
+        originString = str;
         String finalStr = str;
         getSegment(str);
         bigBangLayoutWrapper.setActionListener(bigBangActionListener);
@@ -145,10 +144,10 @@ public class BigBangActivity extends BaseActivity {
                 .timeout(5000, TimeUnit.MILLISECONDS)
                 .subscribe(recommendInfo -> {
                     LogUtil.d(recommendInfo.toString());
-                    List<String> txts=recommendInfo.get(0).getWord();
-                    netWordSegments=txts;
+                    List<String> txts = recommendInfo.get(0).getWord();
+                    netWordSegments = txts;
 
-                    for (String t:txts) {
+                    for (String t : txts) {
                         bigBangLayout.addTextItem(t);
                     }
                     loading.hide();
@@ -175,43 +174,44 @@ public class BigBangActivity extends BaseActivity {
                 });
     }
 
-    BigBangLayoutWrapper.ActionListener bigBangActionListener=new BigBangLayoutWrapper.ActionListener() {
+    BigBangLayoutWrapper.ActionListener bigBangActionListener = new BigBangLayoutWrapper.ActionListener() {
 
         @Override
         public void onSelected(String text) {
-
         }
 
         @Override
         public void onSearch(String text) {
             if (!TextUtils.isEmpty(text)) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SEARCH);
+
                 try {
-                    Uri uri=null;
+                    Uri uri = null;
 //                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
-                    Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE );
-                    Matcher matcher=p.matcher(text);
+                    Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = p.matcher(text);
                     boolean isUrl;
-                    if (!matcher.matches()){
-                        uri=Uri.parse("https://m.baidu.com/s?word=" + URLEncoder.encode(text, "utf-8"));
+                    if (!matcher.matches()) {
+                        uri = Uri.parse("https://m.baidu.com/s?word=" + URLEncoder.encode(text, "utf-8"));
                         isUrl = false;
-                    }else {
-                        uri=Uri.parse(text);
-                        if(!text.startsWith("http"))
-                            text = "http://"+text;
+                    } else {
+                        uri = Uri.parse(text);
+                        if (!text.startsWith("http"))
+                            text = "http://" + text;
                         isUrl = true;
                     }
 
-                    boolean t=SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW,true);
+                    boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
                     Intent intent;
-                    if (t){
+                    if (t) {
                         intent = new Intent();
-                        if(isUrl){
-                            intent.putExtra("url",text);
-                        }else {
-                            intent.putExtra("query",text);
+                        if (isUrl) {
+                            intent.putExtra("url", text);
+                        } else {
+                            intent.putExtra("query", text);
                         }
-                        intent.setClass(BigBangActivity.this,WebActivity.class);
-                    }else {
+                        intent.setClass(BigBangActivity.this, WebActivity.class);
+                    } else {
                         intent = new Intent(Intent.ACTION_VIEW, uri);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     }
@@ -226,6 +226,8 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onShare(String text) {
             if (!TextUtils.isEmpty(text)) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SHARAE);
+
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 sharingIntent.setType("text/plain");
@@ -238,13 +240,15 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onCopy(String text) {
             if (!TextUtils.isEmpty(text)) {
-                Intent intent=new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
-                intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG,text);
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_COPY);
+
+                Intent intent = new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
+                intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG, text);
                 sendBroadcast(intent);
                 new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        ClipboardUtils.setText(getApplicationContext(),text);
+                        ClipboardUtils.setText(getApplicationContext(), text);
                         ToastUtil.show("已复制");
                         finish();
                     }
@@ -256,13 +260,15 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onTrans(String text) {
             if (!TextUtils.isEmpty(text)) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_TRANSLATE);
+
 //                loading.show();
-                if (transRl==null){
-                    ViewStub viewStub= (ViewStub) findViewById(R.id.trans_view_stub);
+                if (transRl == null) {
+                    ViewStub viewStub = (ViewStub) findViewById(R.id.trans_view_stub);
                     viewStub.inflate();
-                    transRl= (RelativeLayout) findViewById(R.id.trans_rl);
-                    toTrans= (EditText) findViewById(R.id.to_translate);
-                    transResult= (EditText) findViewById(R.id.translate_result);
+                    transRl = (RelativeLayout) findViewById(R.id.trans_rl);
+                    toTrans = (EditText) findViewById(R.id.to_translate);
+                    transResult = (EditText) findViewById(R.id.translate_result);
                     ImageView transAgain = (ImageView) findViewById(R.id.trans_again);
                     transAgain.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -278,17 +284,18 @@ public class BigBangActivity extends BaseActivity {
 
         @Override
         public void onDrag() {
-
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_DRAG);
         }
 
         @Override
         public void onSwitchType(boolean isLocal) {
             //
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SWITCH_TYPE);
             bigBangLayout.reset();
             if (!isLocal) {
-                if (netWordSegments==null){
+                if (netWordSegments == null) {
                     getSegment(originString);
-                }else {
+                } else {
                     for (String t : netWordSegments) {
                         bigBangLayout.addTextItem(t);
                     }
@@ -296,11 +303,7 @@ public class BigBangActivity extends BaseActivity {
                     bigBangLayoutWrapper.setVisibility(View.VISIBLE);
                 }
             } else {
-                List<String> txts = new ArrayList<String>();
-                String str=originString;
-                for (int index = 0; index < str.length(); index++) {
-                    txts.add(str.charAt(index) + "");
-                }
+                List<String> txts = getLocalSegments(originString);
                 for (String t : txts) {
                     bigBangLayout.addTextItem(t);
                 }
@@ -311,14 +314,36 @@ public class BigBangActivity extends BaseActivity {
 
         @Override
         public void onSwitchSymbol(boolean isShow) {
-            SPHelper.save(ConstantUtil.REMAIN_SYMBOL,isShow);
+            SPHelper.save(ConstantUtil.REMAIN_SYMBOL, isShow);
         }
 
         @Override
         public void onSwitchSection(boolean isShow) {
-            SPHelper.save(ConstantUtil.REMAIN_SECTION,isShow);
+            SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
         }
     };
+
+    @NonNull
+    private List<String> getLocalSegments(String str) {
+        List<String> txts = new ArrayList<String>();
+        str = str.replace("\n"," \n");
+        String[] texts = str.split(" ");
+        for (String text : texts) {
+            //当首字母是英文字母时，默认该字符为英文
+            if (RegexUtil.isEnglish(text)) {
+                txts.add(text);
+                continue;
+            }
+            if(RegexUtil.isNumber(text)){
+                txts.add(text);
+                continue;
+            }
+            for (int i = 0; i < text.length(); i++) {
+                txts.add(text.charAt(i)+"");
+            }
+        }
+        return txts;
+    }
 
     private void translate(String text) {
         if (TextUtils.isEmpty(text)) {
@@ -335,9 +360,9 @@ public class BigBangActivity extends BaseActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(recommendInfo -> {
-                    List<String> transes=recommendInfo.getTranslation();
-                    if (transes.size()>0){
-                        String trans=transes.get(0);
+                    List<String> transes = recommendInfo.getTranslation();
+                    if (transes.size() > 0) {
+                        String trans = transes.get(0);
                         transResult.setText(trans);
                     }
                     LogUtil.d(recommendInfo.toString());
@@ -348,10 +373,10 @@ public class BigBangActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (bigBangLayoutWrapper.getVisibility()==View.GONE){
+        if (bigBangLayoutWrapper.getVisibility() == View.GONE) {
             bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             transRl.setVisibility(View.GONE);
-        }else {
+        } else {
             super.onBackPressed();
         }
     }

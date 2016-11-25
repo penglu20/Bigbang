@@ -78,6 +78,13 @@ public class UrlCountUtil {
     public static final String CLICK_DONATE_WECHAT_SAVE= "click_donate_wechat_save";
     public static final String CLICK_DONATE_ALIPAY_SAVE= "click_donate_alipay_save";
 
+    public static final String CLICK_BIGBANG_COPY= "click_bigbang_copy";
+    public static final String CLICK_BIGBANG_SHARAE= "click_bigbang_sharae";
+    public static final String CLICK_BIGBANG_TRANSLATE= "click_bigbang_translate";
+    public static final String CLICK_BIGBANG_DRAG= "click_bigbang_drag";
+    public static final String CLICK_BIGBANG_SEARCH= "click_bigbang_search";
+    public static final String CLICK_BIGBANG_SWITCH_TYPE= "click_bigbang_switch_type";
+
 
 
     public static Context mContext= BigBangApp.getInstance();

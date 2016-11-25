@@ -139,4 +139,6 @@
 
 
     <string name="open_setting_failed">open system setting failed</string>
+    <string name="recognize">recognizing...</string>
+    <string name="click_show_bigbang">force-touch the texts belw to show bigbang</string>
 </resources>
