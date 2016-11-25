@@ -85,8 +85,9 @@ public class MonitorSettingCard extends AbsCard {
         onlyTextSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
-                onlyText = isChecked;
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ONLY_TEXT_MONITOR,isChecked);
+                //这里由于文案从“只监控文本”改成了“增强型监控”,所以意思完全相反了，为了防止改动太多，就在这里做一个反置
+                onlyText = !isChecked;
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ONLY_TEXT_MONITOR,!isChecked);
                 SPHelper.save(ConstantUtil.TEXT_ONLY, onlyText);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
@@ -195,7 +196,7 @@ public class MonitorSettingCard extends AbsCard {
         weixinSelection = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[1]);
         otherSelection= SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[1]);
 
-        onlyTextSwitch.setChecked(onlyText);
+        onlyTextSwitch.setChecked(!onlyText);
 
         qqSpinner.setSelection(spinnerArrayIndex(qqSelection));
         weixinSpinner.setSelection(spinnerArrayIndex(weixinSelection));

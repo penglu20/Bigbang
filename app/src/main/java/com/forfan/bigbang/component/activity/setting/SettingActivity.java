@@ -17,11 +17,9 @@ import com.forfan.bigbang.baseCard.CardListAdapter;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.component.contentProvider.SPHelper;
-import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.StatusBarCompat;
 import com.forfan.bigbang.util.UpdateUtil;
-import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,11 +70,12 @@ public class SettingActivity extends BaseActivity {
         cardViews.add(new OcrCard(this));
         settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
-        cardViews.add(new ChoiceCard(this));
+        cardViews.add(new BigBangSettingCard(this));
         if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true)) {
             cardViews.add(settingCard);
         }
         cardViews.add(new FeedBackAndUpdateCard(this));
+        cardViews.add(new AboudCard(this));
 
 
         newAdapter = new CardListAdapter(this, false);

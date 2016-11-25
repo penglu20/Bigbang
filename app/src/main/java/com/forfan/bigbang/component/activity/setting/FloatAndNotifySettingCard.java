@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
@@ -34,31 +33,35 @@ import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SE
 /**
  * Created by penglu on 2015/11/23.
  */
-public class FunctionSettingCard extends AbsCard {
+public class FloatAndNotifySettingCard extends AbsCard {
     private static final String IS_LONG_PREESS_TIPS_SHOW = "show_long_pressed_tips";
 
     private RelativeLayout monitorClipBoardRl;
     private RelativeLayout monitorClickRl;
-    private RelativeLayout totalSwitchRL;
+    private RelativeLayout showFloatViewRL;
+    private RelativeLayout remainSymbolRL;
 
 //    private TextView monitorClipBoardTV;
 //    private TextView showFloatViewTV;
 //    private TextView remainSymbolTV;
     private TextView defaultSettingTV;
+    private TextView requestFloatViewTv;
 
     private SwitchCompat monitorClipBoardSwitch;
     private SwitchCompat monitorClickSwitch;
-    private SwitchCompat totalSwitchSwitch;
+    private SwitchCompat showFloarViewSwitch;
+    private SwitchCompat remainSymbolSwitch;
 
     private boolean monitorClipBoard =true;
     private boolean monitorClick =true;
-    private boolean totalSwitch =true;
+    private boolean showFloatView =true;
+    private boolean remainSymbol =false;
     private boolean isInFirst = true;
-    private boolean isClickTotalSwitch = false;
+    private boolean isClickFloat = false;
 
     private Handler handler;
 
-    public FunctionSettingCard(Context context) {
+    public FloatAndNotifySettingCard(Context context) {
         super(context);
         initView(context);
     }
@@ -78,17 +81,20 @@ public class FunctionSettingCard extends AbsCard {
 
         monitorClipBoardRl = (RelativeLayout) findViewById(R.id.monitor_clipboard_rl);
         monitorClickRl = (RelativeLayout) findViewById(R.id.monitor_click_rl);
-        totalSwitchRL = (RelativeLayout) findViewById(R.id.total_switch_rl);
+        showFloatViewRL = (RelativeLayout) findViewById(R.id.show_float_view_rl);
+        remainSymbolRL = (RelativeLayout) findViewById(R.id.remain_symbol_rl);
 
         monitorClipBoardSwitch = (SwitchCompat) findViewById(R.id.monitor_clipboard_switch);
         monitorClickSwitch = (SwitchCompat) findViewById(R.id.monitor_click_switch);
-        totalSwitchSwitch = (SwitchCompat) findViewById(R.id.total_switch_switch);
+        showFloarViewSwitch = (SwitchCompat) findViewById(R.id.show_float_view_switch);
+        remainSymbolSwitch = (SwitchCompat) findViewById(R.id.remain_symbol_switch);
 
 
 //        monitorClipBoardTV= (TextView) findViewById(R.id.monitor_clipboard_tv);
 //        showFloatViewTV= (TextView) findViewById(R.id.show_float_view_tv);
 //        remainSymbolTV= (TextView) findViewById(R.id.remain_symbol_tv);
         defaultSettingTV= (TextView) findViewById(R.id.default_setting);
+        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
 
         monitorClipBoardSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -133,13 +139,13 @@ public class FunctionSettingCard extends AbsCard {
             }
         });
 
-        totalSwitchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        showFloarViewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_TOTAL_SWITCH,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_FLOAT_WINDOW,isChecked);
 
-                totalSwitch = isChecked;
-                SPHelper.save(ConstantUtil.TOTAL_SWITCH, totalSwitch);
+                showFloatView = isChecked;
+                SPHelper.save(ConstantUtil.SHOW_FLOAT_VIEW, showFloatView);
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                 if(!SPHelper.getBoolean(IS_LONG_PREESS_TIPS_SHOW,false) && isChecked){
@@ -147,47 +153,47 @@ public class FunctionSettingCard extends AbsCard {
                         showLongClickDialog();
                         SPHelper.save(IS_LONG_PREESS_TIPS_SHOW,true);
                     }
+
                 }
-                if (isClickTotalSwitch && isChecked){
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(mContext)) {
-                        SnackBarUtil.show(buttonView,
-                                mContext.getString(R.string.punish_float_problem),
-                                mContext.getString(R.string.punish_float_action),
-                                new OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-//                                            Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
-//                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
-//                                        mContext.startActivity(intent);
-
-                                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                                    Uri.parse("package:" + mContext.getPackageName()));
-                                            mContext.startActivity(intent);
-
-                                        }catch (Throwable e){
-                                            SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
-                                        }
+                if (isClickFloat && isChecked){
+                    SnackBarUtil.show(buttonView,
+                            mContext.getString(R.string.punish_float_problem),
+                            mContext.getString(R.string.punish_float_action),
+                            new OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    try {
+                                        Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
+                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+                                        mContext.startActivity(intent);
+                                    }catch (Throwable e){
+                                        SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
                                     }
-                                });
-                    }else {
-                        SnackBarUtil.show(buttonView, mContext.getString(R.string.punish_float_problem) );
-                    }
-
+                                }
+                            });
                 }
                 isInFirst = false;
-//                if (totalSwitch){
-//                    requestFloatViewTv.setVisibility(GONE);
-//                }else {
-//                    requestFloatViewTv.setVisibility(VISIBLE);
-//                }
+                if (showFloatView){
+                    requestFloatViewTv.setVisibility(GONE);
+                }else {
+                    requestFloatViewTv.setVisibility(VISIBLE);
+                }
+            }
+        });
+
+        remainSymbolSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_PUNCTUATION,isChecked);
+                remainSymbol = isChecked;
+                SPHelper.save(ConstantUtil.REMAIN_SYMBOL, remainSymbol);
             }
         });
 
 
-
-        totalSwitchRL.setOnClickListener(myOnClickListerner);
         monitorClipBoardRl.setOnClickListener(myOnClickListerner);
+        showFloatViewRL.setOnClickListener(myOnClickListerner);
+        remainSymbolRL.setOnClickListener(myOnClickListerner);
         monitorClickRl.setOnClickListener(myOnClickListerner);
 
 //        monitorClipBoardTV.setOnClickListener(myOnClickListerner);
@@ -281,9 +287,12 @@ public class FunctionSettingCard extends AbsCard {
                 case R.id.monitor_click_rl:
                     monitorClickSwitch.setChecked(!monitorClickSwitch.isChecked());
                     break;
-                case R.id.total_switch_switch:
-                    isClickTotalSwitch =true;
-                    totalSwitchSwitch.setChecked(!totalSwitchSwitch.isChecked());
+                case R.id.show_float_view_rl:
+                    isClickFloat=true;
+                    showFloarViewSwitch.setChecked(!showFloarViewSwitch.isChecked());
+                    break;
+                case R.id.remain_symbol_rl:
+                    remainSymbolSwitch.setChecked(!remainSymbolSwitch.isChecked());
                     break;
                 case R.id.default_setting:
                     // TODO: 2016/10/29  恢复默认设置
@@ -296,13 +305,15 @@ public class FunctionSettingCard extends AbsCard {
 
 
     private void refresh(){
-        totalSwitch = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         monitorClipBoard = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
         monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
+        showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
+        remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL,true) ;
 
         monitorClipBoardSwitch.setChecked(monitorClipBoard);
         monitorClickSwitch.setChecked(monitorClick);
-        totalSwitchSwitch.setChecked(totalSwitch);
+        showFloarViewSwitch.setChecked(showFloatView);
+        remainSymbolSwitch.setChecked(remainSymbol);
     }
 
 }

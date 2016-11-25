@@ -45,9 +45,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
     private TextView feedback;
     private TextView checkUpdate;
     private TextView problems;
-    private TextView about;
     private TextView introduction;
-    private TextView share;
 
     public FeedBackAndUpdateCard(Context context) {
         super(context);
@@ -71,20 +69,15 @@ public class FeedBackAndUpdateCard extends AbsCard {
         checkUpdate= (TextView) findViewById(R.id.check_update);
         feedback = (TextView) findViewById(R.id.feedback);
         problems = (TextView) findViewById(R.id.problems);
-        about = (TextView) findViewById(R.id.about);
         introduction = (TextView) findViewById(R.id.introduction);
-        share = (TextView) findViewById(R.id.share);
 
         checkUpdate.setOnClickListener(myOnClickListener);
         feedback.setOnClickListener(myOnClickListener);
         problems.setOnClickListener(myOnClickListener);
-        about.setOnClickListener(myOnClickListener);
         introduction.setOnClickListener(myOnClickListener);
-        share.setOnClickListener(myOnClickListener);
 //        if (ChanelHandler.is360SDK(context)){
 //            feedback.setVisibility(View.GONE);
 //        }
-        findViewById(R.id.donate).setOnClickListener(myOnClickListener);
     }
 
     private View.OnClickListener myOnClickListener =new View.OnClickListener() {
@@ -104,10 +97,6 @@ public class FeedBackAndUpdateCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_FEEDBACK);
                 startFeedBack();
                 break;
-            case R.id.about:
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_ABOUT);
-                showAboutDialog();
-                break;
             case R.id.introduction:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_HOW_TO_USE);
                 showIntro();
@@ -116,25 +105,12 @@ public class FeedBackAndUpdateCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_PROBLEM);
                 showProblemDialog();
                 break;
-            case R.id.share:
-                ShareCard.shareToWeChat(v,mContext);
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SHARE);
-                break;
-            case R.id.donate:
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DONATE);
-                toDonate();
-                break;
             default:
                 break;
         }
         }
     };
 
-    private void toDonate() {
-        Intent intent = new Intent();
-        intent.setClass(mContext, DonateActivity.class);
-        mContext.startActivity(intent);
-    }
 
     private void showIntro() {
         Intent intent = new Intent();
@@ -146,40 +122,6 @@ public class FeedBackAndUpdateCard extends AbsCard {
         com.umeng.fb.util.Res.setPackageName(R.class.getPackage().getName());
         FeedbackAgent agent = new FeedbackAgent(mContext);
         agent.startFeedbackActivity();
-    }
-    public  static String zhifubao="https://mobilecodec.alipay.com/client_download.htm?qrcode=ap13zwff7wggcfdn80";
-    public  static String qqJump= Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + "Ruk-hM-hLlIBoODmgTUpymQcrXjCPXqV").toString();
-
-    private void showAboutDialog(){
-        PackageManager manager = mContext.getPackageManager();
-        PackageInfo info = null;
-        String version="1.3.0";
-        try {
-            info = manager.getPackageInfo(mContext.getPackageName(), 0);
-            version = info.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
-            @Override
-            protected void onBuildDone(Dialog dialog) {
-                ((SimpleDialog)dialog).getMessageTextView().setMovementMethod(CountLinkMovementMethod.getInstance());
-                super.onBuildDone(dialog);
-            }
-        };
-        String donate=mContext.getString(R.string.donate);
-
-
-        String qq=mContext.getString(R.string.join_qq);
-        ((SimpleDialog.Builder) builder).
-                message( Html.fromHtml(
-                        String.format(mContext.getString(R.string.about_content),version).replaceAll("\n","<br />")
-                                +"<br /><a href='"+zhifubao+"'>"+donate+"</a>"
-                                +"<br /><br /><a href='"+qqJump+"'>"+qq+"</a>"))
-                .title(mContext.getString(R.string.about))
-                .positiveAction(mContext.getString(R.string.confirm));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
     private void showProblemDialog(){

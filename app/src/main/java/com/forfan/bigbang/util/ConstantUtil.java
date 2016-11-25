@@ -39,6 +39,7 @@ public class ConstantUtil {
     //FunctionSettingCard
     public static final String MONITOR_CLIP_BOARD="monitor_clip_board";
     public static final String MONITOR_CLICK="monitor_click";
+    public static final String TOTAL_SWITCH="total_switch";
     public static final String SHOW_FLOAT_VIEW="show_float_view";
     public static final String REMAIN_SYMBOL="remain_symbol";
     public static final String REMAIN_SECTION="remain_section";
