@@ -222,6 +222,9 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private void setCapabilities(boolean isPengYouQuan) {
+        if (mAccessibilityServiceInfo==null){
+            return;
+        }
         int flag= 0;
         flag = mAccessibilityServiceInfo.flags;
         if (isPengYouQuan) {
@@ -239,6 +242,9 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private synchronized void getText(AccessibilityEvent event){
         LogUtil.e(TAG,"getText:"+event);
+        if (mAccessibilityServiceInfo==null){
+            return;
+        }
         if (!monitorClick || event==null ) {
             return;
         }
