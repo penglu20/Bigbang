@@ -77,7 +77,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
         handler=new Handler();
 
-        LayoutInflater.from(context).inflate(R.layout.card_function_setting,this);
+        LayoutInflater.from(context).inflate(R.layout.card_float_notify_setting,this);
 
         monitorClipBoardRl = (RelativeLayout) findViewById(R.id.monitor_clipboard_rl);
         monitorClickRl = (RelativeLayout) findViewById(R.id.monitor_click_rl);

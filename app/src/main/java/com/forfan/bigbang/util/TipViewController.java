@@ -375,7 +375,11 @@ public class TipViewController implements  View.OnTouchListener {
     public synchronized void remove(){
         mainHandler.removeMessages(HIDETOEDGE);
         if (mWindowManager!=null && mWholeView!=null && !isRemoved) {
-            mWindowManager.removeView(mWholeView);
+            try {
+                mWindowManager.removeView(mWholeView);
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
             isRemoved=true;
             mWholeView=null;
         }

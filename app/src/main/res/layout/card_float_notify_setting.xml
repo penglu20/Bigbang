@@ -14,6 +14,7 @@
     <RelativeLayout
         android:id="@+id/monitor_click_rl"
         android:duplicateParentState="false"
+        android:visibility="gone"
         style="@style/cardViewRelativeLayoutSelector">
 
         <android.support.v7.widget.AppCompatTextView
@@ -30,6 +31,7 @@
     <RelativeLayout
         android:id="@+id/monitor_clipboard_rl"
         android:duplicateParentState="false"
+        android:visibility="gone"
         style="@style/cardViewRelativeLayoutSelector">
 
         <android.support.v7.widget.AppCompatTextView
@@ -70,6 +72,7 @@
     <RelativeLayout
         android:id="@+id/remain_symbol_rl"
         android:duplicateParentState="false"
+        android:visibility="gone"
         style="@style/cardViewRelativeLayoutSelector">
 
         <android.support.v7.widget.AppCompatTextView
