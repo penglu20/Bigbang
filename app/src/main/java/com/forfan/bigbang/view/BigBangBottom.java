@@ -118,9 +118,9 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         int height = getMeasuredHeight();
         layoutSubView(mSymbol,  mActionGap , mContentPadding);
         layoutSubView(mSection,  mActionGap * 2 + mSymbol.getMeasuredWidth() , mContentPadding);
+        layoutSubView(mType,  mActionGap * 3 + mSymbol.getMeasuredWidth()*2  , mContentPadding);
 
 
-        layoutSubView(mType, width - mActionGap * 3 - mDrag.getMeasuredWidth()*2 - mDrag.getMeasuredWidth() , mContentPadding);
         layoutSubView(mSelectOther, width - mActionGap * 2 - mDrag.getMeasuredWidth() - mDrag.getMeasuredWidth(), mContentPadding);
         layoutSubView(mDrag, width - mActionGap - mDrag.getMeasuredWidth(), mContentPadding);
 
@@ -164,14 +164,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
             mActionListener.onSelectOther();
         }else if (v==mSection){
             showSection= !showSection;
-            if (mActionListener!=null){
-                mActionListener.onSwitchSection(showSection);
-            }
+            setShowSection(showSection);
         }else if (v==mSymbol){
             showSymbol=!showSymbol;
-            if (mActionListener!=null){
-                mActionListener.onSwitchSymbol(showSymbol);
-            }
+            setShowSymbol(showSymbol);
         }
     }
 
@@ -190,12 +186,22 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         if (mActionListener!=null){
             mActionListener.onSwitchSymbol(showSymbol);
         }
+        if (showSymbol){
+            mSymbol.setImageResource(R.mipmap.bigbang_action_symbol);
+        }else {
+            mSymbol.setImageResource(R.mipmap.bigbang_action_no_symbol);
+        }
     }
 
     public void setShowSection(boolean showSection) {
         this.showSection = showSection;
         if (mActionListener!=null){
             mActionListener.onSwitchSection(showSection);
+        }
+        if (showSection){
+            mSection.setImageResource(R.mipmap.bigbang_action_enter);
+        }else {
+            mSection.setImageResource(R.mipmap.bigbang_action_no_enter);
         }
     }
 

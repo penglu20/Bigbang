@@ -6,5 +6,6 @@
         <attr name="textSize" format="dimension"/>
         <attr name="textColor" format="reference"/>
         <attr name="textBackground" format="reference"/>
+        <attr name="sectionTextBackground" format="reference"/>
     </declare-styleable>
 </resources>

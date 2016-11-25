@@ -34,15 +34,16 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     public static final String ENTER="_Enter_";
     public static final String ENTER_SYMBOL="\n";
-    public static final String ENTERENTER="_Enter__Enter_";
     public static final String TAB="_Tab_";
 
     private static final int DEFAULT_TEXT_SIZE=14;//sp
     private static final int DEFAULT_TEXT_COLOR_RES=R.color.bigbang_item_text;
     private static final int DEFAULT_TEXT_BG_RES=R.drawable.item_background;
+    private static final int DEFAULT_SECTION_TEXT_BG_RES=R.drawable.item_background_section;
     private int mLineSpace;
     private int mItemSpace;
     private int mTextColorRes;
+    private int mSectionTextBgRes;
     private int mTextSize;
     private int mTextBgRes;
 
@@ -110,6 +111,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             mTextColorRes = typedArray.getResourceId(R.styleable.BigBangLayout_textColor,DEFAULT_TEXT_COLOR_RES);
             mTextSize  = (int) ViewUtil.px2sp(typedArray.getDimension(R.styleable.BigBangLayout_textSize, ViewUtil.sp2px(DEFAULT_TEXT_SIZE)));
             mTextBgRes = typedArray.getResourceId(R.styleable.BigBangLayout_textBackground,DEFAULT_TEXT_BG_RES);
+            mSectionTextBgRes = typedArray.getResourceId(R.styleable.BigBangLayout_sectionTextBackground,DEFAULT_SECTION_TEXT_BG_RES);
             typedArray.recycle();
             mActionBarBottomHeight = mLineSpace;
             mActionBarTopHeight = getResources().getDimensionPixelSize(R.dimen.big_bang_action_bar_height);
@@ -231,7 +233,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     }
 
     public void addTextItem(String text) {
-        if (TextUtils.isEmpty(text)){
+        if (TextUtils.isEmpty(text)||text.equals(" ")){
             return;
         }
         if (text.equals(TAB)){
@@ -295,7 +297,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         mSectionIndex.clear();
         Line currentLine = null;
         int currentLineWidth = contentWidthSize;
-        boolean isEnter=false;
+        boolean isEnter=true;
         for (int i = 0; i < childCount; i++) {
 
             View v = getChildAt(i);
@@ -314,7 +316,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                     continue;
                 }
             }
-            if (content.equals(ENTER)||content.equals(ENTERENTER)||content.equals(ENTER_SYMBOL)){
+            if (content.contains(ENTER)||content.equals(ENTER_SYMBOL)){
                 child.setVisibility(GONE);
                 mSectionIndex.add(i);
                 isEnter=true;
@@ -337,6 +339,11 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             item.index = i;
             item.width = child.getMeasuredWidth();
             item.height = child.getMeasuredHeight();
+            if (currentLine.getItems()==null && (isEnter && showSection)){
+                child.setBackgroundResource(mSectionTextBgRes);
+            }else {
+                child.setBackgroundResource(mTextBgRes);
+            }
             currentLine.addItem(item);
             isEnter=false;
         }
@@ -745,7 +752,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                     if (item.isSelected()) {
                         String txt=item.getText().toString();
                         builder.append(txt);
-                        if (txt.matches("[a-zA-Z]*")){
+                        if (txt.matches("[a-zA-Z0-9]*")){
                             builder.append(" ");
                         }
                     }
