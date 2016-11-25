@@ -139,4 +139,6 @@
 
 
     <string name="open_setting_failed">无法打开系统设置</string>
+    <string name="recognize">识别中...</string>
+    <string name="click_show_bigbang">用力长按下方识别结果炸开文字</string>
 </resources>

@@ -186,6 +186,12 @@
         <activity android:name=".component.activity.DonateActivity">
 
         </activity>
+        <receiver android:name=".component.WakeUpBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.shang.bigbang.wake"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
