@@ -3,6 +3,7 @@ package com.forfan.bigbang.util;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -14,6 +15,7 @@ import android.os.Vibrator;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewPropertyAnimator;
@@ -108,6 +110,14 @@ public class TipViewController implements  View.OnTouchListener {
                             isMovingToEdge = false;
                             // TODO: 2016/11/21
                             setFloatViewToDefault();
+
+                            if(rotation == Surface.ROTATION_0 || rotation ==Surface.ROTATION_180){
+                                SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_X,layoutParams.x);
+                                SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_Y,layoutParams.y);
+                            }else {
+                                SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_X,layoutParams.x);
+                                SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_Y,layoutParams.y);
+                            }
                         }
                         break;
                     case HIDETOEDGE:
@@ -235,10 +245,31 @@ public class TipViewController implements  View.OnTouchListener {
             type = WindowManager.LayoutParams.TYPE_PHONE;
         }
 
+        int width,height;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+            Point point=new Point();
+            mWindowManager.getDefaultDisplay().getSize(point);
+            width=point.x;
+            height=point.y;
+        }else {
+            width= mWindowManager.getDefaultDisplay().getWidth();
+            height= mWindowManager.getDefaultDisplay().getHeight();
+        }
+        rotation = mWindowManager.getDefaultDisplay().getRotation();
+        int x=0,y=0;
+        if(rotation == Surface.ROTATION_0 || rotation ==Surface.ROTATION_180){
+            x=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_X,width);
+            y=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_Y,height/2);
+        }else {
+            x=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_X,width);
+            y=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_Y,height/2);
+        }
+
+
         layoutParams = new WindowManager.LayoutParams(w, h, type, flags, PixelFormat.TRANSLUCENT);
-        layoutParams.gravity = Gravity.CENTER_VERTICAL| Gravity.RIGHT;
-        layoutParams.x=0;
-        layoutParams.y=0;
+        layoutParams.gravity= Gravity.TOP| Gravity.LEFT;
+        layoutParams.x=x;
+        layoutParams.y=y;
 
         addViewInternal();
         refreshViewState(false);
@@ -513,6 +544,13 @@ public class TipViewController implements  View.OnTouchListener {
                 }
                 updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());
                 mTouchStartX = mTouchStartY = 0;
+                if(rotation == Surface.ROTATION_0 || rotation ==Surface.ROTATION_180){
+                    SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_X,layoutParams.x);
+                    SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_Y,layoutParams.y);
+                }else {
+                    SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_X,layoutParams.x);
+                    SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_Y,layoutParams.y);
+                }
                 moveToEdge();
                 break;
             case MotionEvent.ACTION_OUTSIDE:
@@ -557,7 +595,9 @@ public class TipViewController implements  View.OnTouchListener {
             public void run() {
                 isMovingToEdge=true;
                 rotation=mWindowManager.getDefaultDisplay().getRotation();
+
                 int width=0,height=0;
+                int x=0,y=0;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
                     Point point=new Point();
                     mWindowManager.getDefaultDisplay().getSize(point);
@@ -567,6 +607,16 @@ public class TipViewController implements  View.OnTouchListener {
                     width= mWindowManager.getDefaultDisplay().getWidth();
                     height= mWindowManager.getDefaultDisplay().getHeight();
                 }
+
+                if(rotation == Surface.ROTATION_0 || rotation ==Surface.ROTATION_180){
+                    x=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_X,layoutParams.x);
+                    y=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_Y,layoutParams.y);
+                }else {
+                    x=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_X,layoutParams.x);
+                    y=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_Y,layoutParams.y);
+                }
+                layoutParams.x=x;
+                layoutParams.y=y;
                 int desX=0;
                 if (layoutParams.x>width/2){
                     desX=width;
@@ -574,6 +624,7 @@ public class TipViewController implements  View.OnTouchListener {
                     desX=0;
                 }
                 mainHandler.sendMessage(mainHandler.obtainMessage(MOVETOEDGE,desX));
+
             }
         });
     }

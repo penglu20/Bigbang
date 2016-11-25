@@ -45,6 +45,10 @@ public class ConstantUtil {
 
     //floatview
     public static final String FLOAT_SWITCH_STATE="float_switch_state";
+    public static final String FLOAT_VIEW_LAND_X="float_view_land_x";
+    public static final String FLOAT_VIEW_LAND_Y="float_view_land_Y";
+    public static final String FLOAT_VIEW_PORT_X="float_view_port_x";
+    public static final String FLOAT_VIEW_PORT_Y="float_view_port_y";
 
     //FeedBackAndUpdateCard
 
