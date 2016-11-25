@@ -22,10 +22,10 @@ import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SER
  * Created by wangyan-pd on 2016/11/9.
  */
 
-public class ChoiceCard extends AbsCard {
+public class BigBangSettingCard extends AbsCard {
     private SwitchCompat browserSwitch;
 
-    public ChoiceCard(Context context) {
+    public BigBangSettingCard(Context context) {
         super(context);
         initView(context);
         refresh();

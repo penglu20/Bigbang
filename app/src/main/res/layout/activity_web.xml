@@ -30,7 +30,7 @@
             style="@style/spinnerBrowserStyle"
             app:theme="@style/BrowserMonthDropTheme"
             android:layout_gravity="center|center_horizontal"
-            android:text="@string/stringValue8" />
+            android:text="@string/ocr_picture" />
 
         <ImageView
             android:id="@+id/open_chrome"

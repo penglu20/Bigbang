@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="cancel">取消</string>
-    <string name="toast_tip_content">如果触发BigBang异常，可以切换"只监控文本"设置查看效果。</string>
+    <string name="toast_tip_content">如果触发BigBang异常，可以切换"增强型监控"设置查看效果。</string>
     <string name="no_internet_for_fenci">网络异常，使用本地分词</string>
     <string name="try_long_click_text">请试着长按上方文字</string>
     <string name="go_set">打开设置</string>
@@ -16,7 +16,7 @@
     <string name="feed_back">反馈</string>
     <string name="click_to_see_function">在您选择文本后，可点击文本上方的按钮进行体验</string>
     <string name="share_request_confirm_dislike">当然！</string>
-    <string name="only_text">只监控文本</string>
+    <string name="only_text">增强型监控(可能误触)</string>
     <string name="white_list">不监听的应用</string>
     <string name="share_mode_help">分享\n将选择的词句分享到其他APP</string>
     <string name="monitor_clipboard">监控剪贴板</string>
@@ -37,7 +37,7 @@
     <string name="stringValue9">翻译结果：</string>
     <string name="sorry_for_parse_fail">抱歉，解析失败</string>
     <string name="sorry_for_no_text">抱歉，未获取到文本。"</string>
-    <string name="stringValue8">打开OCR</string>
+    <string name="ocr_picture">从图片中识别</string>
     <string name="problems">程序工作不正常？</string>
     <string name="other_monitor">在其他应用中监控</string>
     <string name="perm_tip">缺少运行所需权限。\n请点击"设置"-"权限"-打开权限。\n再点击两次后退按钮返回本页。</string>
@@ -57,7 +57,7 @@
     <string name="introduction">如何使用</string>
     <string name="weixin_monitor">在微信中监控</string>
     <string name="double_click_intercal">双击间隔#毫秒\t\t\t\t\t\t\t\t\t点击修改</string>
-    <string name="double_click_intercal_hint">太长易误触，太短会于微信自身冲突</string>
+    <string name="double_click_intercal_hint">太长易误触，太短会与微信自身冲突</string>
     <string name="request_accessibility_msg">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
     <string name="share_request_confirm">喜欢！</string>
     <string name="ask_again">请给予应用必要权限，让程序可正常工作。</string>
@@ -120,7 +120,7 @@
     <string name="not_foud_qq">未找到QQ</string>
     <string name="my_zhifubao">我的支付宝二维码</string>
     <string name="my_weixin">我的微信二维码</string>
-    <string name="thinks_for_donate">感谢土豪，欢迎加群(290017771)，给我们提建议</string>
+    <string name="thinks_for_donate">有您的支持，我们会越做越好的，欢迎加群(290017771)，给我们提建议</string>
     <string name="picture_saved">二维码已保存到本地相册</string>
     <string name="click_to_save_qrcord">点击二维码保存到相册</string>
 
@@ -144,4 +144,10 @@
     <string name="open_setting_failed">无法打开系统设置</string>
     <string name="recognize">识别中...</string>
     <string name="click_show_bigbang">用力长按下方识别结果炸开文字</string>
+
+    <string name="monitor_setting_card">辅助模式相关设置</string>
+    <string name="donate_title">一分也是情</string>
+
+
+    <string name="total_switch">使用服务</string>
 </resources>

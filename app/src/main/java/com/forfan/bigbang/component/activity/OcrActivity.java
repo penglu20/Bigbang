@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,14 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_orc);
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.ocr_picture);
+
+
         mCropParams = new CropParams(this);
         mImageView = (ImageView) findViewById(R.id.image);
         editText = (AppCompatEditText) findViewById(R.id.result);

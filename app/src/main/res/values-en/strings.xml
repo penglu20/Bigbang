@@ -16,7 +16,7 @@
     <string name="feed_back">feedback</string>
     <string name="click_to_see_function">After you select the text,you can click on the button above the text to experience</string>
     <string name="share_request_confirm_dislike">of course！</string>
-    <string name="only_text">Only text is monitoring</string>
+    <string name="only_text">Enhanced monitoring(may be mis-triggering)</string>
     <string name="share_mode_help">Share \n will choose words share to other apps</string>
     <string name="monitor_clipboard">Monitoring the clipboard</string>
     <string name="problem_content">\t\t\tIf this product have some use abnormalities, including monitor does not work, or program is often-cleaned, please ensure that you have to add this product to a list of phone housekeeping clean white-lists, and allows it starts\n\t\t\tSince this product is made by some technical means to obtain you click or copy the words, and some of the application is not fully in conformity with the standards, so I can\'t get right to the text, switch monitoring text could only a partial solution。\n\t\t\tIf you find any problems, please use feedback function to contact us, we will solve your problem as soon as possible！</string>
@@ -36,7 +36,7 @@
     <string name="stringValue9">Translation result：</string>
     <string name="sorry_for_parse_fail">I\'m sorry,resolution fail</string>
     <string name="sorry_for_no_text">I\'m sorry,but did not get to the text</string>
-    <string name="stringValue8">Open OCR</string>
+    <string name="ocr_picture">Open OCR</string>
     <string name="problems">Programs don\'t work properly?</string>
     <string name="other_monitor">Monitoring in other applications </string>
     <string name="perm_tip">Lack of running the required permissions \n please click on the "Settings" - "authority" - open access \n then click the back button to return to this page。</string>
@@ -144,4 +144,10 @@
     <string name="open_setting_failed">open system setting failed</string>
     <string name="recognize">recognizing...</string>
     <string name="click_show_bigbang">force-touch the texts belw to show bigbang</string>
+
+    <string name="monitor_setting_card">Accessibility Settings</string>
+    <string name="donate_title">We can use any coin</string>
+
+
+    <string name="total_switch">Enable Service</string>
 </resources>

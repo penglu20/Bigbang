@@ -144,7 +144,7 @@
             android:theme="@style/ColorTranslucentTheme" />
         <activity
             android:name=".component.activity.OcrActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/BaseAppTheme">
 
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -157,7 +157,7 @@
         </activity>
         <activity
             android:name=".component.activity.SettingBigBangActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/BaseAppTheme"/>
         <activity
             android:name=".component.activity.WebActivity"
             android:autoRemoveFromRecents="true"
@@ -183,9 +183,9 @@
         <service android:name=".component.activity.screen.ScreenCaptureService">
 
         </service>
-        <activity android:name=".component.activity.DonateActivity">
+        <activity android:name=".component.activity.DonateActivity"
+            android:theme="@style/BaseAppTheme"/>
 
-        </activity>
         <receiver android:name=".component.WakeUpBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.shang.bigbang.wake"/>

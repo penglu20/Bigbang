@@ -17,7 +17,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:text="@string/stringValue8"
+            android:text="@string/ocr_picture"
             android:textColor="@color/primary_text" />
 
     </RelativeLayout>

@@ -1,15 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingTop="@dimen/setting_activity_top_margin">
+    >
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        app:subtitleTextColor="@color/white"
+        app:titleTextColor="@color/white"
+        android:gravity="center"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:title="@string/title_white_list" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="30dp"
         android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_double"
+            android:layout_marginRight="@dimen/margin_double"
+            android:layout_marginTop="@dimen/margin_double"
+            android:gravity="center"
+            android:text="@string/thinks_for_donate"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+
         <android.support.v7.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimen_50dp"
@@ -55,17 +87,8 @@
             android:textColor="@color/primary_text"
             android:textSize="@dimen/text_size_normal" />
 
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_double"
-            android:layout_marginRight="@dimen/margin_double"
-            android:layout_marginTop="@dimen/margin_double"
-            android:gravity="center"
-            android:text="@string/thinks_for_donate"
-            android:textColor="@color/primary_text"
-            android:textSize="@dimen/text_size_normal" />
-
 
     </LinearLayout>
 </ScrollView>
+
+</LinearLayout>

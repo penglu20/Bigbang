@@ -89,5 +89,5 @@
     <dimen name="white_list_describe_height">@dimen/height_small</dimen>
     <dimen name="white_list_margin">@dimen/margin_normal</dimen>
 
-    <dimen name="toolbar_height_statistics">@dimen/height_title</dimen>
+    <dimen name="toolbar_height">@dimen/height_title</dimen>
 </resources>

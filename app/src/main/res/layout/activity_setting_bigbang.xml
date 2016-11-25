@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="match_parent"
+      android:orientation="vertical">
+
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="@dimen/toolbar_height"
+          android:background="?attr/colorPrimary"
+          android:fitsSystemWindows="true"
+          app:subtitleTextColor="@color/white"
+          app:titleTextColor="@color/white"
+          android:gravity="center"
+          app:popupTheme="@style/Theme.AppCompat.Light"
+          app:title="@string/title_white_list" />
+
+
+
+<ScrollView
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="@color/white"
@@ -11,7 +31,6 @@
           android:layout_width="match_parent"
           android:orientation="vertical"
           android:layout_height="match_parent"
-          android:paddingTop="@dimen/setting_activity_top_margin"
           tools:context="com.forfan.bigbang.component.activity.IntroActivity">
 
             <android.support.v7.widget.CardView
@@ -96,3 +115,5 @@
       </LinearLayout>
 </ScrollView>
 
+
+</LinearLayout>
