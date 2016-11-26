@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -18,60 +19,34 @@
 
     <RelativeLayout
         android:id="@+id/xposed_touch_setting"
-        style="@style/cardViewRelativeLayoutSelector"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/tv"
-            style="@style/cardViewTextView"
-            android:layout_height="20dp"
-            android:paddingLeft="0dp"
+        <com.forfan.bigbang.view.HintTextView
 
-            android:text="@string/xposed_forcetouch"
-            android:textColor="@color/primary_text" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_below="@+id/tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:gravity="start"
-            android:paddingRight="5dp"
-            android:text="@string/xposed_forcetouch_intro"
-            android:textColor="@color/secondary_text" />
+            style="@style/hintTextViewInLayoutLeft"
+            app:hint="@string/xposed_forcetouch_intro"
+            app:msg="@string/xposed_forcetouch" />
 
     </RelativeLayout>
+
     <View
         android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
     <RelativeLayout
         android:id="@+id/xposed_whiteList"
-        style="@style/cardViewRelativeLayoutSelector"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/wite"
-            style="@style/cardViewTextView"
-            android:layout_height="20dp"
-            android:paddingLeft="0dp"
-
-            android:text="@string/xposed_whitelist"
-            android:textColor="@color/primary_text" />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_below="@+id/wite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingRight="5dp"
-            android:text="@string/xposed_whiteIntro"
-            android:textColor="@color/secondary_text" />
+        <com.forfan.bigbang.view.HintTextView
+            android:id="@+id/show_float_view_tv"
+            style="@style/hintTextViewInLayoutLeft"
+            app:hint="@string/xposed_whiteIntro"
+            app:msg="@string/xposed_whitelist" />
 
     </RelativeLayout>
 

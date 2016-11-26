@@ -2,6 +2,7 @@ package com.forfan.bigbang.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -40,6 +41,10 @@ public class BigBangLayoutWrapper extends FrameLayout  {
         init();
     }
 
+    public void setBackgroundColorAlpha(int value) {
+        value = (int) ((value / 100.0f) * 255);
+        setBackgroundColor(Color.argb(value, 00, 00, 00));
+    }
 
     public void addTextItem(String text) {
         mBigBangLayout.addTextItem(text);

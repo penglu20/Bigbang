@@ -107,14 +107,13 @@ public class TouchEventHandler {
                     }
                     if (msg != null && (needVerify || verifyText(msg))) {
                         Context context = targetTextView.getContext();
-                        Intent intent = null;
                         try {
-                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + URLEncoder.encode(msg, "utf-8")));
-                        } catch (UnsupportedEncodingException e) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + msg));
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            context.startActivity(intent);
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
                     }
                     handle[0] = true;
                 }

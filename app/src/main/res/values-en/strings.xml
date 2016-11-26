@@ -144,7 +144,7 @@
 
     <string name="open_setting_failed">open system setting failed</string>
     <string name="recognize">recognizing...</string>
-    <string name="click_show_bigbang">force-touch the texts belw to show bigbang</string>
+    <string name="click_show_bigbang">click to show bigbang</string>
 
     <string name="monitor_setting_card">Accessibility Settings</string>
     <string name="donate_title">We can use any coin</string>

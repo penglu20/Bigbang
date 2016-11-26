@@ -66,41 +66,41 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         findViewById(R.id.select_pic).setOnClickListener(this);
         findViewById(R.id.re_ocr).setOnClickListener(this);
         parseIntent(getIntent());
-//
-//        findViewById(R.id.hint).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TO_BIGBANG_ACTIVITY);
-//                Intent intent = new Intent(OcrActivity.this, BigBangActivity.class);
-//                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtra(BigBangActivity.TO_SPLIT_STR, editText.getText());
-//                startActivity(intent);
-//            }
-//        });
-        editText.setOnTouchListener(forceTouchListener);
+
+        findViewById(R.id.hint).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TO_BIGBANG_ACTIVITY);
+                Intent intent = new Intent(OcrActivity.this, BigBangActivity.class);
+                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.putExtra(BigBangActivity.TO_SPLIT_STR, editText.getText().toString());
+                startActivity(intent);
+            }
+        });
+       // editText.setOnTouchListener(forceTouchListener);
     }
 
-    final ForceTouchListener forceTouchListener = new ForceTouchListener(this, 70, 0.27f, true, true, new Callback() {
-        @Override
-        public void onForceTouch() {
-            //functionToInvokeOnForceTouch();
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TO_BIGBANG_ACTIVITY);
-            Intent intent = new Intent(OcrActivity.this, BigBangActivity.class);
-            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.putExtra(BigBangActivity.TO_SPLIT_STR, editText.getText().toString());
-            startActivity(intent);
-        }
-
-        @Override
-        public void onNormalTouch() {
-            //functionToInvokeOnNormalTouch();
+//    final ForceTouchListener forceTouchListener = new ForceTouchListener(this, 70, 0.27f, true, true, new Callback() {
+//        @Override
+//        public void onForceTouch() {
+//            //functionToInvokeOnForceTouch();
 //            UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TO_BIGBANG_ACTIVITY);
 //            Intent intent = new Intent(OcrActivity.this, BigBangActivity.class);
 //            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-//            intent.putExtra(BigBangActivity.TO_SPLIT_STR, editText.getText());
+//            intent.putExtra(BigBangActivity.TO_SPLIT_STR, editText.getText().toString());
 //            startActivity(intent);
-        }
-    });
+//        }
+//
+//        @Override
+//        public void onNormalTouch() {
+//            //functionToInvokeOnNormalTouch();
+////            UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_TO_BIGBANG_ACTIVITY);
+////            Intent intent = new Intent(OcrActivity.this, BigBangActivity.class);
+////            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+////            intent.putExtra(BigBangActivity.TO_SPLIT_STR, editText.getText());
+////            startActivity(intent);
+//        }
+//    });
 
     private void parseIntent(Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {

@@ -21,7 +21,7 @@
 
     <color name="pressed_color">#50808080</color>
     <color name="ripple_color">#40000000</color>
-    <color name="bigbang_bg">#2c2c2c</color>
+    <color name="bigbang_bg">#20000000</color>
 
     <color name="float_image_bg">#ccd4d4d4</color>
     <color name="float_image_bg_p">#ccb9b9b9</color>

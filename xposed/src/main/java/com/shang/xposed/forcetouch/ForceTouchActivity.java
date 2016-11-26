@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -35,13 +36,15 @@ public class ForceTouchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forcetouch_setting);
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.primary_dark);
-        hideKeyboard();
 
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.xposed_forcetouch);
         pressureText = (TextView) findViewById(R.id.pressureText);
+        pressureText.setText("Last Pressure: " + SPHelper.getFloat(PRESSURE,0.0f)+"");
         editText = (EditText) findViewById(R.id.edit_text);
         editText.setText(SPHelper.getFloat(PRESSURE,0.0f)+"");
         editText.setSelection(editText.getText().toString().length());
@@ -58,7 +61,12 @@ public class ForceTouchActivity extends AppCompatActivity {
 
             }
         });
-
+        editText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showKeyboard();
+            }
+        });
         final ForceTouchListener forceTouchListener = new ForceTouchListener(getApplicationContext(), 70, 0.27f, false, true, new Callback() {
             @Override
             public void onForceTouch() {
@@ -70,7 +78,7 @@ public class ForceTouchActivity extends AppCompatActivity {
                 functionToInvokeOnNormalTouch();
             }
         });
-        getWindow().getDecorView().getRootView().setOnTouchListener(forceTouchListener);
+      findViewById(R.id.info).setOnTouchListener(forceTouchListener);
 
 //        isProgressive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 //            @Override
@@ -143,14 +151,19 @@ public class ForceTouchActivity extends AppCompatActivity {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+    private void showKeyboard() {
+        if (editText != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(editText, 0);
+        }
+    }
 
     private void schedule(final ForceTouchListener forceTouchListener) {
-        pressureText.setText("" + forceTouchListener.getPressureLimit());
         TaskScheduler timer = new TaskScheduler();
         timer.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-                pressureText.setText("Pressure: " + forceTouchListener.getPressure());
+
                 editText.setText(forceTouchListener.getPressure() + "");
                 editText.setSelection(editText.getText().toString().length());
 
@@ -158,7 +171,15 @@ public class ForceTouchActivity extends AppCompatActivity {
         }, 1);
 
     }
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+        return (super.onOptionsItemSelected(item));
+    }
     /**
      * Method invoked on ForceTouch detected
      */

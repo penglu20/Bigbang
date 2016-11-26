@@ -108,6 +108,7 @@ public class BigBangActivity extends BaseActivity {
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
+        int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
 
 
         bigBangLayout = (BigBangLayout) findViewById(R.id.bigbang);
@@ -122,6 +123,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setTextSize(text);
         bigBangLayout.setLineSpace(line);
         bigBangLayout.setItemSpace(item);
+        bigBangLayoutWrapper.setBackgroundColorAlpha(alpha);
 
 
 //        if (!remainSymbol){

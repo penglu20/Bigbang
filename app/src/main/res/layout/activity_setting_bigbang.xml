@@ -2,118 +2,135 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
-      android:orientation="vertical">
-
-      <android.support.v7.widget.Toolbar
-          android:id="@+id/toolbar"
-          android:layout_width="match_parent"
-          android:layout_height="@dimen/toolbar_height"
-          android:background="?attr/colorPrimary"
-          android:fitsSystemWindows="true"
-          app:subtitleTextColor="@color/white"
-          app:titleTextColor="@color/white"
-          android:gravity="center"
-          app:popupTheme="@style/Theme.AppCompat.Light"
-          app:title="@string/title_white_list" />
-
-
-
-<ScrollView
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:background="@color/white"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-      <LinearLayout
-          android:id="@+id/activity_intro"
-          android:layout_width="match_parent"
-          android:orientation="vertical"
-          android:layout_height="match_parent"
-          tools:context="com.forfan.bigbang.component.activity.IntroActivity">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:subtitleTextColor="@color/white"
+        app:title="@string/title_white_list"
+        app:titleTextColor="@color/white" />
+
+
+    <ScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:id="@+id/activity_intro"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context="com.forfan.bigbang.component.activity.IntroActivity">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/bigbang_wraper"
                 android:layout_width="match_parent"
-                app:cardCornerRadius="@dimen/bigbang_card_corner"
+                android:layout_height="wrap_content"
                 android:layout_below="@id/intro"
                 android:layout_gravity="center"
-                app:cardBackgroundColor="@color/bigbang_bg"
                 android:layout_marginLeft="@dimen/default_grow_margin"
                 android:layout_marginRight="@dimen/default_grow_margin"
-                android:layout_height="wrap_content">
-                  <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-                      android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
-                        <com.forfan.bigbang.view.BigBangLayoutWrapper
-                            android:id="@+id/bigbang_wrap"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:textSize="@dimen/text_size_small" />
-                  </RelativeLayout>
+                app:cardBackgroundColor="@color/bigbang_bg"
+                app:cardCornerRadius="@dimen/bigbang_card_corner">
+
+                <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.forfan.bigbang.view.BigBangLayoutWrapper
+                        android:id="@+id/bigbang_wrap"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:textSize="@dimen/text_size_small" />
+                </RelativeLayout>
             </android.support.v7.widget.CardView>
 
             <TextView
                 android:id="@+id/text_size"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_bigbang_activity_text_height"
                 android:layout_marginTop="@dimen/margin_double"
-                android:textColor="@color/black"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_height="@dimen/setting_bigbang_activity_text_height" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_normal" />
 
             <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/set_text_size"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/margin_double"
-                android:paddingRight="@dimen/margin_double"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height"
                 android:max="100"
-                android:layout_height="@dimen/setting_bigbang_activity_line_height" />
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double" />
 
             <TextView
                 android:id="@+id/line_margin"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_bigbang_activity_text_height"
                 android:layout_marginTop="@dimen/margin_double"
-                android:textColor="@color/black"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_height="@dimen/setting_bigbang_activity_text_height" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_normal" />
 
             <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/set_line_margin"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/margin_double"
-                android:paddingRight="@dimen/margin_double"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height"
                 android:max="100"
-                android:layout_height="@dimen/setting_bigbang_activity_line_height" />
-
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double" />
 
 
             <TextView
                 android:id="@+id/item_margin"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_bigbang_activity_text_height"
                 android:layout_marginTop="@dimen/margin_double"
-                android:textColor="@color/black"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="@dimen/margin_double"
-                android:textSize="@dimen/text_size_normal"
-                android:layout_height="@dimen/setting_bigbang_activity_text_height" />
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_normal" />
 
             <android.support.v7.widget.AppCompatSeekBar
                 android:id="@+id/set_item_margin"
                 android:layout_width="match_parent"
-                android:paddingLeft="@dimen/margin_double"
-                android:paddingRight="@dimen/margin_double"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height"
                 android:max="100"
-                android:layout_height="@dimen/setting_bigbang_activity_line_height" />
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double" />
+
+            <TextView
+                android:id="@+id/bigbang_alpha"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_bigbang_activity_text_height"
+                android:layout_marginTop="@dimen/margin_double"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="@dimen/margin_double"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_normal" />
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:id="@+id/set_bigbang_alpha"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height"
+                android:max="100"
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double" />
 
 
-      </LinearLayout>
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

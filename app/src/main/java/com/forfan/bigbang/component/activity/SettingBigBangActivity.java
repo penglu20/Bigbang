@@ -11,6 +11,7 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
+import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
@@ -31,12 +32,15 @@ public class SettingBigBangActivity extends BaseActivity {
     private static final int MAX_ITEM_MARGIN = (int) ViewUtil.dp2px(20);
 
 
+    private BigBangLayoutWrapper mBigBangLayoutWrap;
     private BigBangLayout mBigBangLayout;
     private SeekBar mTextSizeSeekBar;
     private SeekBar mLineMarginSeekBar;
     private SeekBar mItemMarginSeekBar;
 
     private TextView textSize, lineMargin, itemMargin;
+    private TextView bigbangAlpha;
+    private SeekBar mBigbangAlphaSeekBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,19 +57,23 @@ public class SettingBigBangActivity extends BaseActivity {
 
 
         mBigBangLayout = (BigBangLayout) findViewById(R.id.bigbang);
+        mBigBangLayoutWrap = (BigBangLayoutWrapper) findViewById(R.id.bigbang_wrap);
 
         mTextSizeSeekBar = (SeekBar) findViewById(R.id.set_text_size);
         mLineMarginSeekBar = (SeekBar) findViewById(R.id.set_line_margin);
         mItemMarginSeekBar = (SeekBar) findViewById(R.id.set_item_margin);
+        mBigbangAlphaSeekBar = (SeekBar) findViewById(R.id.set_bigbang_alpha);
 
         textSize = (TextView) findViewById(R.id.text_size);
         lineMargin = (TextView) findViewById(R.id.line_margin);
         itemMargin = (TextView) findViewById(R.id.item_margin);
+        bigbangAlpha = (TextView) findViewById(R.id.bigbang_alpha);
 
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
         mLineMarginSeekBar.setMax(MAX_LINE_MARGIN - MIN_LINE_MARGIN);
         mItemMarginSeekBar.setMax(MAX_ITEM_MARGIN - MIN_ITEM_MARGIN);
+        mItemMarginSeekBar.setMax(100);
 
 
         mTextSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -126,11 +134,31 @@ public class SettingBigBangActivity extends BaseActivity {
 
             }
         });
+        mBigbangAlphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int value = (int) (  progress);
+                mBigBangLayoutWrap.setBackgroundColorAlpha(value);
+                bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + value +"%");
+                SPHelper.save(ConstantUtil.BIGBANG_ALPHA, value);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
+        int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
 
 
         mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
@@ -144,6 +172,11 @@ public class SettingBigBangActivity extends BaseActivity {
         mTextSizeSeekBar.setProgress((int) ((text - MIN_TEXT_SIZE)));
         mLineMarginSeekBar.setProgress((int) ((line - MIN_LINE_MARGIN)));
         mItemMarginSeekBar.setProgress((int) ((item - MIN_ITEM_MARGIN)));
+
+        itemMargin.setText(getString(R.string.setting_alpha_percent) + alpha +"%");
+        mBigbangAlphaSeekBar.setProgress(alpha);
+
+
 
 
         String[] txts = new String[]{"BigBang", "可以", "对", "文字", "进行", "编辑",
