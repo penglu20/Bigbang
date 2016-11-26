@@ -75,9 +75,9 @@ public class SettingActivity extends BaseActivity {
         cardViews.add(new FunctionSettingCard(this));
         settingCard = new MonitorSettingCard(this);
       //  cardViews.add(new OcrCard(this));
-       if(XposedEnable.isEnable()){
+//       if(XposedEnable.isEnable()){
             cardViews.add(new XposedCard(this));
-       }
+//       }
         cardViews.add(new FloatAndNotifySettingCard(this));
         cardViews.add(new BigBangSettingCard(this));
         if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true)) {

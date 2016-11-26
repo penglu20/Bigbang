@@ -7,11 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -119,7 +117,7 @@ public class ForceTouchActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-               currentPressureText.setText("Current Pressure: "+ forceTouchListener.getPressure());
+                currentPressureText.setText("Current Pressure: " + forceTouchListener.getPressure());
                 currentPressure = forceTouchListener.getPressure();
             }
         }, 10);
