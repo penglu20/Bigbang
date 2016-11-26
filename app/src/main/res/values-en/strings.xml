@@ -21,7 +21,7 @@
     <string name="monitor_clipboard">Monitoring the clipboard</string>
     <string name="problem_content">\t\t\tIf this product have some use abnormalities, including monitor does not work, or program is often-cleaned, please ensure that you have to add this product to a list of phone housekeeping clean white-lists, and allows it starts\n\t\t\tSince this product is made by some technical means to obtain you click or copy the words, and some of the application is not fully in conformity with the standards, so I can\'t get right to the text, switch monitoring text could only a partial solution。\n\t\t\tIf you find any problems, please use feedback function to contact us, we will solve your problem as soon as possible！</string>
     <string name="loading">loading...</string>
-    <string name="stringValue1">BigBang 是您的快捷助手，您只需在设置中开启BigBang的辅助功能，便可以在任意app中对文字进行进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
+    <string name="stringValue1">BigBang 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
     <string name="recover_tips">To display using tips</string>
     <string name="stringValue3">Select the image  from the gallery for Ocr</string>
     <string name="stringValue2">Open the trip of BigBang</string>
@@ -185,4 +185,5 @@
     <string name="show_notify_request">With notification ,you can quickly switch Bigbang switch, global replication, full screen capture OCR recognition</string>
 
     <string name="can_not_capture_under_5_0">System under 5.0 does not support screenshots</string>
+    <string name="double_click">double click trigger</string>
 </resources>

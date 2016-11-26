@@ -36,24 +36,24 @@ import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_RELOAD_SETTING;
 
 public class SettingActivity extends BaseActivity {
 
-    private static final String TAG="SettingActivity";
+    private static final String TAG = "SettingActivity";
 
 
     protected RecyclerView cardList;
-    protected List<AbsCard> cardViews=new ArrayList<>();
+    protected List<AbsCard> cardViews = new ArrayList<>();
     private BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS,true);
-            if(isChecked){
+            boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS, true);
+            if (isChecked) {
                 int index = 0;
-                if(!newAdapter.containsView(settingCard))
+                if (!newAdapter.containsView(settingCard))
                     index = cardViews.size() - 4;
-                    if(XposedEnable.isEnable())
-                        index = index -1;
-                   newAdapter.addView(settingCard, index);
-            }else {
-                if(newAdapter.containsView(settingCard))
+                if (XposedEnable.isEnable())
+                    index = index - 1;
+                newAdapter.addView(settingCard, index);
+            } else {
+                if (newAdapter.containsView(settingCard))
                     newAdapter.deleteView(settingCard);
             }
         }
@@ -66,7 +66,7 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(),true,R.color.colorPrimary);
+        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
         cardList = (RecyclerView) findViewById(R.id.card_list);
 
@@ -74,13 +74,13 @@ public class SettingActivity extends BaseActivity {
                 DividerItemDecoration.VERTICAL_LIST));
         cardViews.add(new FunctionSettingCard(this));
         settingCard = new MonitorSettingCard(this);
-      //  cardViews.add(new OcrCard(this));
-//       if(XposedEnable.isEnable()){
+        //  cardViews.add(new OcrCard(this));
+        if (XposedEnable.isEnable()) {
             cardViews.add(new XposedCard(this));
-//       }
+        }
         cardViews.add(new FloatAndNotifySettingCard(this));
         cardViews.add(new BigBangSettingCard(this));
-        if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true)) {
+        if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true)) {
             cardViews.add(settingCard);
         }
         cardViews.add(new FeedBackAndUpdateCard(this));
@@ -95,21 +95,21 @@ public class SettingActivity extends BaseActivity {
         Observable.timer(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<Long,Observable<String>>(){
+                .flatMap(new Func1<Long, Observable<String>>() {
                     @Override
-                    public Observable<String> call(Long aLong){
+                    public Observable<String> call(Long aLong) {
                         return Observable.just("");
                     }
                 })
                 .subscribe(s -> {
-                    if (s.equals("")){
-                        boolean hasShared= SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
-                        int openTimes=SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES,0);
+                    if (s.equals("")) {
+                        boolean hasShared = SPHelper.getBoolean(ConstantUtil.HAD_SHARED, false);
+                        int openTimes = SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES, 0);
 
                         //// TODO: 2016/11/1 第一期先不上分享功能了
                         // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
-                        if (!hasShared && openTimes>=3 && openTimes%3==0){
-                            newAdapter.addView(new ShareCard(this),0);
+                        if (!hasShared && openTimes >= 3 && openTimes % 3 == 0) {
+                            newAdapter.addView(new ShareCard(this), 0);
                         }
                     }
                 });
@@ -118,14 +118,14 @@ public class SettingActivity extends BaseActivity {
         Observable.timer(3, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .flatMap(new Func1<Long,Observable<String>>(){
+                .flatMap(new Func1<Long, Observable<String>>() {
                     @Override
-                    public Observable<String> call(Long aLong){
+                    public Observable<String> call(Long aLong) {
                         return Observable.just("");
                     }
                 })
                 .subscribe(s -> {
-                    if (s.equals("")){
+                    if (s.equals("")) {
                         try {
                             UpdateUtil.autoCheckUpdate();
                         } catch (Throwable e) {
@@ -136,17 +136,17 @@ public class SettingActivity extends BaseActivity {
 
         initLocalBroadcast();
         checkPermission();
-        int openTimes=SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES,0);
-        SPHelper.save(ConstantUtil.SETTING_OPEN_TIMES,openTimes+1);
+        int openTimes = SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES, 0);
+        SPHelper.save(ConstantUtil.SETTING_OPEN_TIMES, openTimes + 1);
     }
 
 
-    private void checkPermission(){
+    private void checkPermission() {
         checkPermission(new CheckPermListener() {
                             @Override
                             public void superPermission() {
                             }
-                        },R.string.ask_again,
+                        }, R.string.ask_again,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
@@ -154,7 +154,7 @@ public class SettingActivity extends BaseActivity {
     private void initLocalBroadcast() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConstantUtil.Setting_content_Changes);
-        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver,intentFilter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, intentFilter);
     }
 
     @Override

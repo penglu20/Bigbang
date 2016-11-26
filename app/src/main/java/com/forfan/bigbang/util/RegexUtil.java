@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class RegexUtil {
 
     public static boolean isEnglish(String charaString){
-        return charaString.matches("^[a-zA-Z]*");
+        return charaString.matches("^[a-zA-Z]*-*[a-zA-Z]*");
     }
 
     public static boolean isPositiveInteger(String orginal) {

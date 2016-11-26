@@ -22,7 +22,7 @@
     <string name="monitor_clipboard">监控剪贴板</string>
     <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。\n\t\t\t由于本产品是通过一些技术手段获取您点击或复制的文字，而有些应用并不是完全符合标准的，所以无法正确获取到文字,切换“只监控文本”可能可以解决部分问题。\n\t\t\t如果发现任何问题，麻烦通过反馈功能与我们联系，我们会尽快解决您的问题！</string>
     <string name="loading">加载中...</string>
-    <string name="stringValue1">BigBang 是您的快捷助手，您只需在设置中开启BigBang的辅助功能，便可以在任意app中对文字进行进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
+    <string name="stringValue1">BigBang 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
     <string name="recover_tips">重新显示使用提示</string>
     <string name="stringValue3">从图库中选取图片识别</string>
     <string name="stringValue2">开启BigBang之旅</string>
@@ -154,7 +154,7 @@
 
 
     <string name="total_switch">使用服务</string>
-    <string name="xposed_setting">Xposed 设置相关</string>
+    <string name="xposed_setting">Xposed 相关设置</string>
     <string name="xposed_forcetouch">ForceTouch 设置</string>
     <string name="xposed_forcetouch_intro">设置按压触发Bigbang的力度</string>
 
@@ -188,5 +188,6 @@
 
 
     <string name="can_not_capture_under_5_0">Screenshots 5.0一下系统暂不支持截屏</string>
+    <string name="double_click">双击分词</string>
 
 </resources>

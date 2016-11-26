@@ -21,7 +21,6 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.ToastUtil;
-import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.forfan.bigbang.view.GuideView;
 
@@ -37,12 +36,14 @@ public class IntroActivity extends BaseActivity {
     private CardView mBigBangWraper;
     private Button mEnterBtn;
     private Handler handler;
+    private String[] txts_cloud;
+    private String[] txts_local;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
-        handler=new Handler();
+        handler = new Handler();
         initView();
         showClickIntro();
     }
@@ -59,7 +60,7 @@ public class IntroActivity extends BaseActivity {
         tv.setTextColor(getResources().getColor(R.color.white));
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(R.mipmap.hand_down);
-        Animation animation = AnimationUtils.loadAnimation(IntroActivity.this,R.anim.click_here_anim);
+        Animation animation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.click_here_anim);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -87,7 +88,7 @@ public class IntroActivity extends BaseActivity {
                 .setCenterView(imageView)
                 .setDirction(GuideView.Direction.BOTTOM)
                 .setShape(GuideView.MyShape.CIRCULAR)   // 设置圆形显示区域，
-                .setOffset(0,mIntro.getMeasuredHeight()+100)
+                .setOffset(0, mIntro.getMeasuredHeight() + 100)
                 .setBgColor(getResources().getColor(R.color.shadow))
                 .setOnclickListener(new GuideView.OnClickCallback() {
                     @Override
@@ -102,31 +103,31 @@ public class IntroActivity extends BaseActivity {
                                 .setInterpolator(new AnticipateOvershootInterpolator())
                                 .setDuration(200)
                                 .setListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                handler.postDelayed(new Runnable() {
                                     @Override
-                                    public void run() {
-                                        showBigBangIntro();
+                                    public void onAnimationStart(Animator animation) {
+
                                     }
-                                }, 300);
-                            }
 
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        handler.postDelayed(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                showBigBangIntro();
+                                            }
+                                        }, 300);
+                                    }
 
-                            }
+                                    @Override
+                                    public void onAnimationCancel(Animator animation) {
 
-                            @Override
-                            public void onAnimationRepeat(Animator animation) {
+                                    }
 
-                            }
-                        }).start();
+                                    @Override
+                                    public void onAnimationRepeat(Animator animation) {
+
+                                    }
+                                }).start();
 
                     }
                 })
@@ -142,17 +143,20 @@ public class IntroActivity extends BaseActivity {
     }
 
     private void initView() {
-        mIntro = (TextView)findViewById(R.id.intro);
-        mFunctionIntroTV= (TextView) findViewById(R.id.enter_bigbang_intro);
-        mBigBangLayout= (BigBangLayoutWrapper) findViewById(R.id.bigbang_wrap);
+        mIntro = (TextView) findViewById(R.id.intro);
+        mFunctionIntroTV = (TextView) findViewById(R.id.enter_bigbang_intro);
+        mBigBangLayout = (BigBangLayoutWrapper) findViewById(R.id.bigbang_wrap);
         mBigBangLayout.setActionListener(bigBangActionListener);
 
-        mBigBangWraper= (CardView) findViewById(R.id.bigbang_wraper);
-        String[] txts=new String[]{"BigBang","是","您","的","快捷","助手","，",
-                "您","只","需","在","设置","中","开启","BigBang","的","辅助","功能","，",
-                "便","可以","在","任意","app","中","对","文字","进行","进行","编辑","，",
-                "包括","分词","，","翻译","，","复制","以及","动态","调整","，","希望","您","能","在","日常","生活","中","获得","便利"};
-        for (String t:txts) {
+        mBigBangWraper = (CardView) findViewById(R.id.bigbang_wraper);
+        txts_cloud = new String[]{"BigBang", "是", "您", "的", "快捷", "助手", "。","\n",
+                "您", "可以", "在", "任意", "app", "中", "对", "文字", "进行", "编辑", "，",
+                "包括", "分词", "，", "翻译", "，", "复制", "以及", "动态", "调整", "。","\n", "希望", "您", "能", "在", "日常", "生活", "中", "获得", "便利"};
+        txts_local = new String[]{"BigBang", "是", "您", "的", "快", "捷", "助", "手", "。","\n",
+                "您", "可", "以", "在", "任", "意", "app", "中", "对", "文", "字", "进", "行", "编", "辑", "，",
+                "包", "括", "分", "词", "，", "翻", "译", "，", "复", "制", "以", "及", "动", "态", "调", "整", "。","\n","希", "望", "您", "能", "在", "日", "常", "生", "活", "中", "获", "得"
+                , "便", "利"};
+        for (String t : txts_cloud) {
             mBigBangLayout.addTextItem(t);
         }
 
@@ -163,7 +167,7 @@ public class IntroActivity extends BaseActivity {
                 return true;
             }
         });
-        mEnterBtn = (Button)findViewById(R.id.enter_bigbang);
+        mEnterBtn = (Button) findViewById(R.id.enter_bigbang);
         mEnterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,7 +186,7 @@ public class IntroActivity extends BaseActivity {
 
         ImageView imageView = new ImageView(this);
         imageView.setImageResource(R.mipmap.hand_swipe);
-        Animation animation = AnimationUtils.loadAnimation(IntroActivity.this,R.anim.swipe_here_anim);
+        Animation animation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.swipe_here_anim);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
@@ -212,7 +216,7 @@ public class IntroActivity extends BaseActivity {
                 .setDirction(GuideView.Direction.BOTTOM)
                 .setShape(GuideView.MyShape.RECTANGULAR)   // 设置圆形显示区域，
                 .setRadius(5)
-                .setOffset(0,mBigBangWraper.getMeasuredHeight()/2+100)
+                .setOffset(0, mBigBangWraper.getMeasuredHeight() / 2 + 100)
                 .setBgColor(getResources().getColor(R.color.shadow))
                 .setOnclickListener(new GuideView.OnClickCallback() {
                     @Override
@@ -241,25 +245,26 @@ public class IntroActivity extends BaseActivity {
         guideView.show();
     }
 
-    BigBangLayoutWrapper.ActionListener bigBangActionListener=new BigBangLayoutWrapper.ActionListener() {
+    BigBangLayoutWrapper.ActionListener bigBangActionListener = new BigBangLayoutWrapper.ActionListener() {
 
-        private boolean firstSelected=true,firstSearch=true,firstShare=true,firstCopy=true,firstTrans=true,firstDrag=true;
+        private boolean firstSelected = true, firstSearch = true, firstShare = true, firstCopy = true, firstTrans = true, firstDrag = true;
+
         @Override
         public void onSelected(String text) {
-            if (firstSelected){
+            if (firstSelected) {
                 guideView.performClick();
-                firstSelected=false;
+                firstSelected = false;
             }
         }
 
         @Override
         public void onSearch(String text) {
-            if (firstSearch){
+            if (firstSearch) {
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
                 mFunctionIntroTV.setText(R.string.search_mode_help);
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
-            }else {
+            } else {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.baidu.com/s?wd=" + URLEncoder.encode(text, "utf-8")));
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -274,12 +279,12 @@ public class IntroActivity extends BaseActivity {
 
         @Override
         public void onShare(String text) {
-            if (firstShare){
+            if (firstShare) {
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
                 mFunctionIntroTV.setText(R.string.share_mode_help);
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
-            }else {
+            } else {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 sharingIntent.setType("text/plain");
@@ -292,12 +297,12 @@ public class IntroActivity extends BaseActivity {
 
         @Override
         public void onCopy(String text) {
-            if (firstCopy){
+            if (firstCopy) {
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
                 mFunctionIntroTV.setText(R.string.copy_mode_help);
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
-            }else {
+            } else {
                 if (!TextUtils.isEmpty(text)) {
                     ClipboardUtils.setText(getApplicationContext(), text);
                     ToastUtil.show(R.string.copyed);
@@ -309,12 +314,12 @@ public class IntroActivity extends BaseActivity {
 
         @Override
         public void onTrans(String text) {
-            if (firstTrans){
+            if (firstTrans) {
                 mFunctionIntroTV.setScaleY(0);
                 mFunctionIntroTV.setScaleX(0);
                 mFunctionIntroTV.setText(R.string.translate_mode_help);
                 mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
-            }else {
+            } else {
                 if (!TextUtils.isEmpty(text)) {
                     SnackBarUtil.show(mIntro, R.string.open_bang_for_translate);
                 }
@@ -323,12 +328,12 @@ public class IntroActivity extends BaseActivity {
 
         @Override
         public void onDrag() {
-            if (firstDrag){
+            if (firstDrag) {
                 mFunctionIntroTV.setText(R.string.sort_mode_help);
-            }else {
+            } else {
                 mFunctionIntroTV.setText(R.string.choose_sentences_mode);
             }
-            firstDrag=!firstDrag;
+            firstDrag = !firstDrag;
             mFunctionIntroTV.setScaleY(0);
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
@@ -336,12 +341,19 @@ public class IntroActivity extends BaseActivity {
 
         @Override
         public void onSwitchType(boolean isLocal) {
-            if (isLocal){
+            mBigBangLayout.reset();
+            if (isLocal) {
+                for(String text : txts_local){
+                    mBigBangLayout.addTextItem(text);
+                }
                 mFunctionIntroTV.setText(R.string.word_type_local);
-            }else {
+            } else {
+                for(String text : txts_cloud){
+                    mBigBangLayout.addTextItem(text);
+                }
                 mFunctionIntroTV.setText(R.string.word_type_cloud);
             }
-            firstDrag=!firstDrag;
+            firstDrag = !firstDrag;
             mFunctionIntroTV.setScaleY(0);
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
@@ -363,9 +375,10 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
         }
     };
+
     @Override
     public void onBackPressed() {
-        if(guideView != null && guideView.isShown()){
+        if (guideView != null && guideView.isShown()) {
             guideView.hide();
         }
         super.onBackPressed();
