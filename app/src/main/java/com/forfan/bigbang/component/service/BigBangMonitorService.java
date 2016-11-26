@@ -78,6 +78,15 @@ public class BigBangMonitorService extends AccessibilityService {
     @Override
     public void onCreate() {
         super.onCreate();
+
+
+        boolean isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        if (!isRun){
+            stopSelf();
+            return;
+        }
+        readSettingFromSp();
+
         tipViewController=TipViewController.getInstance();
         tipViewController.addActionListener(actionListener);
 
@@ -87,9 +96,6 @@ public class BigBangMonitorService extends AccessibilityService {
         intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST);
         intentFilter.addAction(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
         registerReceiver(bigBangBroadcastReceiver,intentFilter);
-
-        readSettingFromSp();
-
         handler=new Handler();
         handler.post(new Runnable() {
             @Override
@@ -125,9 +131,14 @@ public class BigBangMonitorService extends AccessibilityService {
 
     @Override
     public void onDestroy() {
-        tipViewController.removeActionListener(actionListener);
-        tipViewController.remove();
-        unregisterReceiver(bigBangBroadcastReceiver);
+        if (tipViewController!=null) {
+            tipViewController.removeActionListener(actionListener);
+            tipViewController.remove();
+        }
+        try {
+            unregisterReceiver(bigBangBroadcastReceiver);
+        } catch (Throwable e) {
+        }
         super.onDestroy();
     }
 
@@ -211,6 +222,9 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private void setCapabilities(boolean isPengYouQuan) {
+        if (mAccessibilityServiceInfo==null){
+            return;
+        }
         int flag= 0;
         flag = mAccessibilityServiceInfo.flags;
         if (isPengYouQuan) {
@@ -228,6 +242,9 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private synchronized void getText(AccessibilityEvent event){
         LogUtil.e(TAG,"getText:"+event);
+        if (mAccessibilityServiceInfo==null){
+            return;
+        }
         if (!monitorClick || event==null ) {
             return;
         }
@@ -500,6 +517,12 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private synchronized void readSettingFromSp(){
+        boolean isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        if (!isRun){
+            stopSelf();
+            return;
+        }
+
         monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
         showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
         onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY,true) ;
@@ -510,9 +533,9 @@ public class BigBangMonitorService extends AccessibilityService {
         String weixin = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[1]);
         String other = SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[1]);
         if (showFloatView){
-            tipViewController.show();
+            TipViewController.getInstance().show();
         }else {
-            tipViewController.remove();
+            TipViewController.getInstance().remove();
         }
 
         qqSelection=spinnerArrayIndex(spinnerArray, qq)+1;

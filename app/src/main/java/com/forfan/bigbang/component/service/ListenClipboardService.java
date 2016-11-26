@@ -9,6 +9,8 @@ import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Process;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
@@ -91,17 +93,22 @@ public final class ListenClipboardService extends Service {
     public void onCreate() {
         mClipboardWatcher = ClipboardManagerCompat.create(this);
 
-        tipViewController = TipViewController.getInstance();
-        tipViewController.addActionListener(actionListener);
+        boolean isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        if (!isRun){
+            stopSelf();
+            return;
+        }
 
+        readSettingFromSp();
+
+
+        tipViewController=TipViewController.getInstance();
+        tipViewController.addActionListener(actionListener);
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED);
         intentFilter.addAction(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
         registerReceiver(clipboardBroadcastReceiver, intentFilter);
-
-        readSettingFromSp();
-
         handler = new Handler();
         handler.post(new Runnable() {
             @Override
@@ -124,8 +131,10 @@ public final class ListenClipboardService extends Service {
     @Override
     public void onDestroy() {
         mClipboardWatcher.removePrimaryClipChangedListener(mOnPrimaryClipChangedListener);
-        tipViewController.removeActionListener(actionListener);
-        tipViewController.remove();
+        if (tipViewController!=null) {
+            tipViewController.removeActionListener(actionListener);
+            tipViewController.remove();
+        }
 //        sLastContent = null;
         isGrayGuardOn = false;
         super.onDestroy();
@@ -208,14 +217,20 @@ public final class ListenClipboardService extends Service {
             sLastContent = null;
         }
     };
+    private void readSettingFromSp(){
+        boolean isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        if (!isRun){
+            stopSelf();
+            Process.killProcess(Process.myPid());
+            return;
+        }
 
-    private void readSettingFromSp() {
-        monitorClipborad = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD, true);
-        showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW, true);
-        if (showFloatView) {
-            tipViewController.show();
+        monitorClipborad= SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
+        showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
+        if (showFloatView){
+            TipViewController.getInstance().show();
         } else {
-            tipViewController.remove();
+            TipViewController.getInstance().remove();
         }
         if (monitorClipborad) {
             mClipboardWatcher.addPrimaryClipChangedListener(mOnPrimaryClipChangedListener);
