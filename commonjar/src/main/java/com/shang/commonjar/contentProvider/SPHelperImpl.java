@@ -15,9 +15,9 @@ import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_INT;
 import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_LONG;
 import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_STRING;
 
-class SPHelperImpl {
+public class SPHelperImpl {
 
-    private static final String MAINSPNAME="BigBang_sp_main";
+    public static final String MAINSPNAME="BigBang_sp_main";
 
     private static Context mContext= Global.getInstance();
 

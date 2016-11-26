@@ -37,6 +37,7 @@ public class XposedCard extends AbsCard {
                 context.startActivity(intent);
             }
         });
+        findViewById(R.id.xposed_touch_setting).setVisibility(GONE);
     }
 
 }
