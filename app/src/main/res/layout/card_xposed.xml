@@ -3,20 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <RelativeLayout
         style="@style/cardViewRelativeLayoutSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
-    <android.support.v7.widget.AppCompatTextView
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/card_line_height"
-        android:layout_centerVertical="true"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:text="@string/xposed_setting"
-        android:textColor="@color/primary_text" />
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/xposed_setting"
+            android:textColor="@color/primary_text" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -24,58 +21,57 @@
         style="@style/cardViewRelativeLayoutSelector"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/tv"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_line_height"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
+            style="@style/cardViewTextView"
+            android:layout_height="20dp"
+            android:paddingLeft="0dp"
+
             android:text="@string/xposed_forcetouch"
             android:textColor="@color/primary_text" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_line_height"
             android:layout_below="@+id/tv"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="start"
+            android:paddingRight="5dp"
             android:text="@string/xposed_forcetouch_intro"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/secondary_text" />
 
     </RelativeLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
     <RelativeLayout
         android:id="@+id/xposed_whiteList"
         style="@style/cardViewRelativeLayoutSelector"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/wite"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_line_height"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
+            style="@style/cardViewTextView"
+            android:layout_height="20dp"
+            android:paddingLeft="0dp"
+
             android:text="@string/xposed_whitelist"
             android:textColor="@color/primary_text" />
 
         <android.support.v7.widget.AppCompatTextView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/card_line_height"
             android:layout_below="@+id/wite"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="5dp"
             android:text="@string/xposed_whiteIntro"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/secondary_text" />
 
     </RelativeLayout>
 

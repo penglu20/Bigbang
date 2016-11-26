@@ -16,7 +16,7 @@
         app:titleTextColor="@color/white"
         android:gravity="center"
         app:popupTheme="@style/Theme.AppCompat.Light"
-        app:title="白名单管理" />
+        app:title="@string/white_list" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv"

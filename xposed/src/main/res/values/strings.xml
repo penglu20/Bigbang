@@ -6,5 +6,8 @@
     <string name="xposed_forcetouch">ForceTouch 设置</string>
     <string name="xposed_forcetouch_intro">设置按压触发Bigbang的力度</string>
     <string name="save">保存</string>
+    <string name="save_success">保存成功</string>
+    <string name="white_list">白名单管理</string>
+    <string name="presser_hint">上方的Pressure Limit值越小，越灵敏，可能会导致误触，请适当调节</string>
     <string name="tap_screen">用力点击屏幕\n 通过多次点击\n保存压力值来触发BigBang\n 您也可以在上方的编辑框中编辑该值\n最后记得保存哦</string>
 </resources>

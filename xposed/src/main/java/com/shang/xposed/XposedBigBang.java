@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -37,10 +42,11 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        setXpoedEnable(loadPackageParam);
         if(!new File("/data/data/com.forfan.bigbang").exists())
             return;
-      //  wakeup(loadPackageParam);
+        setXpoedEnable(loadPackageParam);
+
+        //  wakeup(loadPackageParam);
         Logger.d(TAG,loadPackageParam.packageName);
         XSharedPreferences appXSP = new XSharedPreferences(PACKAGE_NAME, SP_NAME);
         appXSP.makeWorldReadable();
@@ -51,27 +57,11 @@ public class XposedBigBang implements IXposedHookLoadPackage {
         mFilters.add(new Filter.TextViewValidFilter());
         //优化微信 下的体验。
         mFilters.add(new Filter.WeChatValidFilter(loadPackageParam.classLoader));
-//        if ("com.tencent.mm".equals(loadPackageParam.packageName)) {
-//            //朋友圈内容拦截。
-//            //聊天详情中的文字点击事件优化
-//            try {
-//                findAndHookMethod(loadPackageParam.classLoader.loadClass("android.widget.TextView"), "onTouchEvent",
-//                        MotionEvent.class, new MMTextViewTouchEvent());
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
-////            try {
-////                findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.base.MMTextView"), "onTouchEvent",
-////                        MotionEvent.class, new MMTextViewTouchEvent());
-////            } catch (ClassNotFoundException e) {
-////                e.printStackTrace();
-////            }
-//        }
 
         // installer  不注入。 防止代码出错。进不去installer 中。
         if (!"de.robv.android.xposed.installer".equals(loadPackageParam.packageName)) {
            // findAndHookMethod(Activity.class, "onTouchEvent", MotionEvent.class, new ActivityTouchEvent());
-            findAndHookMethod(TextView.class, "onTouchEvent", MotionEvent.class, new MMTextViewTouchEvent());
+            findAndHookMethod(TextView.class, "onTouchEvent", MotionEvent.class, new MMTextViewTouchEvent(loadPackageParam.packageName));
         }
     }
 
@@ -80,9 +70,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 Context context = (Context) param.thisObject;
-//                IntentFilter filter = new IntentFilter();
-//                filter.addAction("com.shang.bigbang.wake");
-//                filter.addCategory(Intent.CATEGORY_DEFAULT);
+
                 Intent intent = new Intent();
                 intent.setAction("com.shang.bigbang.wake");
                 intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -106,10 +94,37 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             });
         }
     }
+    private Set<String> getLauncherAsWhiteList(Context c){
+        HashSet<String> packages=new HashSet<>();
+        PackageManager packageManager = c.getPackageManager();
+        final Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+//        final ResolveInfo res = context.getPackageManager().resolveActivity(intent, 0);
+        List<ResolveInfo> resolveInfo = packageManager.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        for(ResolveInfo ri : resolveInfo){
+            packages.add(ri.activityInfo.packageName);
+        }
+        return packages;
+    }
 
+    private Set<String> getInputMethodAsWhiteList(Context context){
+        HashSet<String> packages=new HashSet<>();
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        List<InputMethodInfo> methodList = imm.getInputMethodList();
+        for (InputMethodInfo info: methodList) {
+            packages.add(info.getPackageName());
+        }
+        return packages;
+    }
     private class MMTextViewTouchEvent extends XC_MethodHook {
 
-        private boolean intercept = false;
+
+        private final String packageName;
+
+        public MMTextViewTouchEvent(String packageName) {
+            this.packageName = packageName;
+        }
 
         @Override
         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -117,29 +132,30 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             //拦截聊天界面快速点击进入信息详情
             View view = (View) param.thisObject;
             MotionEvent event = (MotionEvent) param.args[0];
+            if(isKeyBoardOrLauncher(view.getContext(),packageName))
+                return;
 
-//            switch (event.getAction()) {
-//                case MotionEvent.ACTION_DOWN:
-//                    long preClickTimeMillis = mTouchHandler.getClickTimeMillis(view);
-//                    long currentTimeMillis = System.currentTimeMillis();
-//                    if (preClickTimeMillis != 0) {
-//                        long interval = currentTimeMillis - preClickTimeMillis;
-//                        if (interval < TouchEventHandler.BIG_BANG_RESPONSE_TIME) {
-//                            intercept = true;
-//                        } else {
-//                            intercept = false;
-//                        }
-//                    } else {
-//                        intercept = false;
-//                    }
-//                    break;
-//            }
             boolean intercept =  mTouchHandler.hookForceTouchEvent(view, event, mFilters, true);
             if (intercept) {
                 param.setResult(true);
             }
 
         }
+    }
+
+    private boolean isKeyBoardOrLauncher(Context context, String packageName) {
+        if(context == null)
+            return true;
+        for(String package_process : getInputMethodAsWhiteList(context)){
+            if(package_process.equals(packageName))
+                return true;
+        }
+        for(String package_process : getLauncherAsWhiteList(context)){
+            if(package_process.equals(packageName))
+                return true;
+        }
+
+        return false;
     }
 
 

@@ -28,6 +28,7 @@
         android:textSize="18sp" />
 
     <LinearLayout
+        android:id="@+id/preeeuse_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pressureText">
@@ -48,6 +49,14 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/textLimit" />
     </LinearLayout>
+    <TextView
+        android:layout_below="@+id/preeeuse_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:text="@string/presser_hint"
+        android:textColor="@android:color/black"
+        android:textSize="13sp" />
 
     <TextView
         android:layout_width="wrap_content"

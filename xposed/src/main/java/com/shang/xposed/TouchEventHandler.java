@@ -10,7 +10,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shang.commonjar.contentProvider.Global;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.xposed.forcetouch.Callback;
+import com.shang.xposed.forcetouch.ForceTouchActivity;
 import com.shang.xposed.forcetouch.ForceTouchListener;
 
 import java.io.UnsupportedEncodingException;
@@ -90,7 +93,8 @@ public class TouchEventHandler {
         final boolean[] handle = {false};
         final View targetTextView = getTargetTextView(v, event, filters);
         if (targetTextView != null) {
-            ForceTouchListener forceTouchListener = new ForceTouchListener(v.getContext(), 70,0.75f, true, true, new Callback() {
+            Global.init(v.getContext());
+            ForceTouchListener forceTouchListener = new ForceTouchListener(v.getContext(), 70, SPHelper.getFloat(ForceTouchActivity.PRESSURE,1.0f) , true, true, new Callback() {
                 @Override
                 public void onForceTouch() {
                     Logger.logClass(TAG, targetTextView.getClass());

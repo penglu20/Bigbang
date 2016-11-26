@@ -9,4 +9,9 @@
     <string name="xposed_forcetouch">ForceTouch Setting</string>
     <string name="xposed_forcetouch_intro">Setting the perssure for the showing of BigBang</string>
     <string name="tap_screen">Tap on Screen</string>
+    <string name="save_success">Save Success!</string>
+    <string name="save">Save  </string>
+    <string name="presser_hint">The smaller the  Pressure Limit value, the more sensitive, may result in inadvertently, please adjust</string>
+    <string name="white_list">White_list Setting</string>
+    <string name="search">Search</string>
 </resources>

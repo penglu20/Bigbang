@@ -315,11 +315,13 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onSwitchSymbol(boolean isShow) {
             SPHelper.save(ConstantUtil.REMAIN_SYMBOL, isShow);
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_REMAIN_SYMBOL);
         }
 
         @Override
         public void onSwitchSection(boolean isShow) {
             SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_REMAIN_SECTION);
         }
     };
 

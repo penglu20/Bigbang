@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 import com.shang.xposed.R;
 
@@ -23,6 +25,7 @@ import com.shang.xposed.R;
 
 public class ForceTouchActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
+    public static final String PRESSURE = "pressure";
     private TextView pressureText;
     private EditText editText;
 
@@ -31,7 +34,7 @@ public class ForceTouchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forcetouch_setting);
-        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
+        StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.primary_dark);
         hideKeyboard();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -39,13 +42,20 @@ public class ForceTouchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.xposed_forcetouch);
         pressureText = (TextView) findViewById(R.id.pressureText);
-        editText  = (EditText) findViewById(R.id.edit_text);
+        editText = (EditText) findViewById(R.id.edit_text);
+        editText.setText(SPHelper.getFloat(PRESSURE,0.0f)+"");
+        editText.setSelection(editText.getText().toString().length());
         findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(editText.getText().toString())){
-
+                if (TextUtils.isEmpty(editText.getText().toString())) {
+                    Toast.makeText(ForceTouchActivity.this, R.string.tap_screen, Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                SPHelper.save(PRESSURE, Float.parseFloat(editText.getText().toString()));
+                Toast.makeText(ForceTouchActivity.this, R.string.save_success, Toast.LENGTH_SHORT).show();
+                finish();
+
             }
         });
 
@@ -141,7 +151,8 @@ public class ForceTouchActivity extends AppCompatActivity {
             @Override
             public void run() {
                 pressureText.setText("Pressure: " + forceTouchListener.getPressure());
-                editText.setText(forceTouchListener.getPressure()+"");
+                editText.setText(forceTouchListener.getPressure() + "");
+                editText.setSelection(editText.getText().toString().length());
 
             }
         }, 1);
