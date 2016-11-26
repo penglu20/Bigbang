@@ -12,14 +12,15 @@
         android:orientation="horizontal">
 
         <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tit"
             style="@style/cardViewTextViewInLayoutLeft"
             android:textSize="@dimen/text_size_title"
             android:textStyle="bold"
             android:text="@string/xposed_setting"
             android:textColor="@color/primary_text" />
         <android.support.v7.widget.AppCompatTextView
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
+            android:layout_toRightOf="@+id/tit"
+            android:layout_marginLeft="5dp"
             android:textColor="@color/secondary_text"
             android:layout_centerVertical="true"
             android:text="@string/double_click"

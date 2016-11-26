@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.shang.xposed.forcetouch.ForceTouchActivity;
 import com.shang.xposed.setting.XposedAppManagerActivity;
 
@@ -24,6 +25,7 @@ public class XposedCard extends AbsCard {
         findViewById(R.id.xposed_whiteList).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_XPOSED_WHITELIST);
                 Intent intent = new Intent();
                 intent.setClass(context, XposedAppManagerActivity.class);
                 context.startActivity(intent);
