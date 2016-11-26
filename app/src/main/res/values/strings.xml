@@ -157,4 +157,9 @@
     <string name="xposed_forcetouch_intro">设置按压触发Bigbang的力度</string>
 
     <string name="too_short_to_split">文字长度小于2，不分词</string>
+
+    <string name="float_tips">单击悬浮窗切换开关，长按悬浮打开设置页。</string>
+    <string name="access_open_tips">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
+
+
 </resources>

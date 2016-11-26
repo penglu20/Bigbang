@@ -8,6 +8,8 @@
 
         </activity>
         <activity android:name=".forcetouch.ForceTouchActivity"
+            android:configChanges="keyboard|keyboardHidden"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/BaseAppTheme">
 
         </activity>

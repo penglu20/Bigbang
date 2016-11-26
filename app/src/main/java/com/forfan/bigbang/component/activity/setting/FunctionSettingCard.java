@@ -205,7 +205,7 @@ public class FunctionSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message("单击悬浮窗切换开关，长按悬浮打开设置页。")
+        builder.message(mContext.getString(R.string.float_tips))
                 .positiveAction(mContext.getString(R.string.ok));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
@@ -235,7 +235,7 @@ public class FunctionSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message("监控单击/长按需要开启辅助功能，请在设置中开启！")
+        builder.message(mContext.getString(R.string.float_tips))
                 .positiveAction(mContext.getString(R.string.request_accessibility_confirm))
                 .negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);

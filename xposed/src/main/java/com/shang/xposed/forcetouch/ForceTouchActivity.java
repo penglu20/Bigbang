@@ -3,14 +3,15 @@ package com.shang.xposed.forcetouch;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 import com.shang.xposed.R;
+
+import java.util.HashMap;
 
 /**
  * Created by wangyan-pd on 2016/11/25.
@@ -29,6 +32,8 @@ public class ForceTouchActivity extends AppCompatActivity {
     public static final String PRESSURE = "pressure";
     private TextView pressureText;
     private EditText editText;
+    private TextView currentPressureText;
+    private float currentPressure;
 
 
     @Override
@@ -44,9 +49,9 @@ public class ForceTouchActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.xposed_forcetouch);
         pressureText = (TextView) findViewById(R.id.pressureText);
-        pressureText.setText("Last Pressure: " + SPHelper.getFloat(PRESSURE,0.0f)+"");
+        currentPressureText = (TextView) findViewById(R.id.current_pressureText);
+        pressureText.setText("Last Pressure: " + SPHelper.getFloat(PRESSURE, 0.0f) + "");
         editText = (EditText) findViewById(R.id.edit_text);
-        editText.setText(SPHelper.getFloat(PRESSURE,0.0f)+"");
         editText.setSelection(editText.getText().toString().length());
         findViewById(R.id.save).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,13 +66,21 @@ public class ForceTouchActivity extends AppCompatActivity {
 
             }
         });
-        editText.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.save_current_pressure).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showKeyboard();
+                if (currentPressure == 0) {
+                    Toast.makeText(ForceTouchActivity.this, R.string.tap_screen, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                SPHelper.save(PRESSURE, currentPressure);
+                Toast.makeText(ForceTouchActivity.this, R.string.save_success, Toast.LENGTH_SHORT).show();
+                finish();
+
             }
         });
-        final ForceTouchListener forceTouchListener = new ForceTouchListener(getApplicationContext(), 70, 0.27f, false, true, new Callback() {
+
+        final ForceTouchListener forceTouchListener = new ForceTouchListener(this, 70, 0.27f, false, true, new Callback() {
             @Override
             public void onForceTouch() {
                 functionToInvokeOnForceTouch();
@@ -78,79 +91,20 @@ public class ForceTouchActivity extends AppCompatActivity {
                 functionToInvokeOnNormalTouch();
             }
         });
-      findViewById(R.id.info).setOnTouchListener(forceTouchListener);
+        getWindow().getDecorView().getRootView().setOnTouchListener(forceTouchListener);
 
-//        isProgressive.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                ForceTouchListener forceTouchListener = new ForceTouchListener(getApplicationContext(), 70, Float.valueOf(pressureLimit.getText().toString()), isChecked, isVibrate.isChecked(), new Callback() {
-//                    @Override
-//                    public void onForceTouch() {
-//                        functionToInvokeOnForceTouch();
-//                    }
-//
-//                    @Override
-//                    public void onNormalTouch() {
-//                        functionToInvokeOnNormalTouch();
-//                    }
-//                });
-//                getWindow().getDecorView().getRootView().setOnTouchListener(forceTouchListener);
-//                schedule(forceTouchListener);
-//            }
-//        });
-//
-//        isVibrate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-//                ForceTouchListener forceTouchListener = new ForceTouchListener(getApplicationContext(), 70, Float.valueOf(pressureLimit.getText().toString()), isProgressive.isChecked(), isChecked, new Callback() {
-//                    @Override
-//                    public void onForceTouch() {
-//                        functionToInvokeOnForceTouch();
-//                    }
-//
-//                    @Override
-//                    public void onNormalTouch() {
-//                        functionToInvokeOnNormalTouch();
-//                    }
-//                });
-//                getWindow().getDecorView().getRootView().setOnTouchListener(forceTouchListener);
-//                schedule(forceTouchListener);
-//            }
-//        });
-//
-//        pressureLimit.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-//                if ((actionId == EditorInfo.IME_ACTION_DONE) || ((keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER) && (keyEvent.getAction() == KeyEvent.ACTION_DOWN))) {
-//                    ForceTouchListener forceTouchListener = new ForceTouchListener(getApplicationContext(), 70, Float.valueOf(pressureLimit.getText().toString()), isProgressive.isChecked(), isVibrate.isChecked(), new Callback() {
-//                        @Override
-//                        public void onForceTouch() {
-//                            functionToInvokeOnForceTouch();
-//                        }
-//
-//                        @Override
-//                        public void onNormalTouch() {
-//                            functionToInvokeOnNormalTouch();
-//                        }
-//                    });
-//                    getWindow().getDecorView().getRootView().setOnTouchListener(forceTouchListener);
-//                    schedule(forceTouchListener);
-//                    hideKeyboard();
-//                }
-//                return true;
-//            }
-//        });
         schedule(forceTouchListener);
 
     }
 
     private void hideKeyboard() {
-        View view = getCurrentFocus();
-        if (view != null) {
+
+        if (editText != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
         }
     }
+
     private void showKeyboard() {
         if (editText != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -158,19 +112,20 @@ public class ForceTouchActivity extends AppCompatActivity {
         }
     }
 
+
     private void schedule(final ForceTouchListener forceTouchListener) {
+
         TaskScheduler timer = new TaskScheduler();
         timer.scheduleAtFixedRate(new Runnable() {
             @Override
             public void run() {
-
-                editText.setText(forceTouchListener.getPressure() + "");
-                editText.setSelection(editText.getText().toString().length());
-
+               currentPressureText.setText("Current Pressure: "+ forceTouchListener.getPressure());
+                currentPressure = forceTouchListener.getPressure();
             }
-        }, 1);
+        }, 10);
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -180,6 +135,7 @@ public class ForceTouchActivity extends AppCompatActivity {
         }
         return (super.onOptionsItemSelected(item));
     }
+
     /**
      * Method invoked on ForceTouch detected
      */
@@ -197,7 +153,7 @@ public class ForceTouchActivity extends AppCompatActivity {
 
 
     class TaskScheduler extends Handler {
-        private ArrayMap<Runnable, Runnable> tasks = new ArrayMap<>();
+        private HashMap<Runnable, Runnable> tasks = new HashMap<>();
 
         public void scheduleAtFixedRate(final Runnable task, long delay, final long period) {
             Runnable runnable = new Runnable() {
@@ -226,6 +182,11 @@ public class ForceTouchActivity extends AppCompatActivity {
         public void stop(Runnable task) {
             Runnable removed = tasks.remove(task);
             if (removed != null) removeCallbacks(removed);
+        }
+
+        public void stopAll() {
+            if (tasks != null)
+                tasks.clear();
         }
     }
 }

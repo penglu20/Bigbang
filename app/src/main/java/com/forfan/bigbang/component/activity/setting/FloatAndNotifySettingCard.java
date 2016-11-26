@@ -135,7 +135,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message("单击悬浮窗切换开关，长按悬浮打开设置页。")
+        builder.message(mContext.getString(R.string.access_open_tips))
                 .positiveAction(mContext.getString(R.string.ok));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);

@@ -10,8 +10,10 @@
     <string name="xposed_forcetouch_intro">Setting the perssure for the showing of BigBang</string>
     <string name="tap_screen">Tap on Screen</string>
     <string name="save_success">Save Success!</string>
-    <string name="save">Save  </string>
+    <string name="save">Save the value in EditText </string>
+    <string name="save_current_pressure">Save the current Pressure</string>
     <string name="presser_hint">The smaller the  Pressure Limit value, the more sensitive, may result in inadvertently, please adjust</string>
     <string name="white_list">White_list Setting</string>
     <string name="search">Search</string>
+    <string name="save_pressure">please enter number for pressure in the editview above</string>
 </resources>

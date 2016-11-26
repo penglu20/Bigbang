@@ -158,4 +158,6 @@
 
 
     <string name="too_short_to_split">too short to split</string>
+    <string name="float_tips">clict to show Menu Switch，Long-click to jump to Settings。</string>
+    <string name="access_open_tips">Please go to open Accessibility for BigBang!</string>
 </resources>

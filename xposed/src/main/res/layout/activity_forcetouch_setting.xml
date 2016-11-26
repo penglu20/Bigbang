@@ -26,12 +26,21 @@
         android:layout_marginLeft="10dp"
         android:textColor="@android:color/black"
         android:textSize="18sp" />
+    <TextView
+        android:id="@+id/current_pressureText"
+        android:layout_below="@+id/pressureText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/preeeuse_ll"
+        android:layout_below="@+id/current_pressureText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pressureText">
+  >
 
         <TextView
             android:id="@+id/textLimit"
@@ -69,13 +78,22 @@
         android:gravity="center"
         android:text="@string/tap_screen"
         android:textSize="25sp" />
-
+    <Button
+        android:id="@+id/save_current_pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:padding="5dp"
+        android:text="@string/save_current_pressure" />
     <Button
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:padding="5dp"
         android:layout_marginBottom="20dp"
         android:text="@string/save" />
 
