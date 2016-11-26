@@ -184,4 +184,5 @@
     <string name="show_notify">Show Notification</string>
     <string name="show_notify_request">With notification ,you can quickly switch Bigbang switch, global replication, full screen capture OCR recognition</string>
 
+    <string name="can_not_capture_under_5_0">System under 5.0 does not support screenshots</string>
 </resources>

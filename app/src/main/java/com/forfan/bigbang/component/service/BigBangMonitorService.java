@@ -60,9 +60,9 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private CharSequence mWindowClassName;
 
-    private boolean showBigBang = false;
-    private boolean monitorClick = false;
-    private boolean showFloatView = false;
+    private boolean showBigBang = true;
+    private boolean monitorClick = true;
+    private boolean showFloatView = true;
     private boolean onlyText = true;
     private boolean isRun;
 

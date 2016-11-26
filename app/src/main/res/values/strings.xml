@@ -186,4 +186,7 @@
     <string name="show_notify">通知栏显示开关</string>
     <string name="show_notify_request">从通知栏可以快捷设置、激活全局复制和全屏截图OCR，点击空白处可以打开设置页。</string>
 
+
+    <string name="can_not_capture_under_5_0">Screenshots 5.0一下系统暂不支持截屏</string>
+
 </resources>

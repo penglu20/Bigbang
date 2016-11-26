@@ -42,6 +42,10 @@ public final class ListenClipboardService extends Service {
 
 
 
+    private boolean showBigBang = true;
+    private boolean monitorClipborad = true;
+    private boolean showFloatView = true;
+
     private boolean isForegroundShow=false;
 
     private ClipboardManagerCompat.OnPrimaryClipChangedListener mOnPrimaryClipChangedListener = new ClipboardManagerCompat.OnPrimaryClipChangedListener() {
@@ -68,10 +72,6 @@ public final class ListenClipboardService extends Service {
         }
     };
 
-
-    private boolean showBigBang = false;
-    private boolean monitorClipborad = false;
-    private boolean showFloatView = false;
 
     public static class GrayInnerService extends Service {
 
@@ -158,6 +158,9 @@ public final class ListenClipboardService extends Service {
 
     private void showContent(CharSequence contentc) {
         if (!monitorClipborad || contentc == null) {
+            return;
+        }
+        if (!isRun){
             return;
         }
         if (showFloatView && !showBigBang) {

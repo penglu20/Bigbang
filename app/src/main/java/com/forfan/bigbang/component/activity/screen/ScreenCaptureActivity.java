@@ -28,6 +28,14 @@ public class ScreenCaptureActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            ToastUtil.show(R.string.can_not_capture_under_5_0);
+            finish();
+            return;
+        }
+
+
         initWindow();
         mMediaProjectionManager = (MediaProjectionManager) getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
         boolean isFirst = SPHelper.getBoolean("is_fist",true);
