@@ -89,6 +89,7 @@ public class BigBangMonitorService extends AccessibilityService {
         intentFilter.addAction(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST);
         intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST);
         intentFilter.addAction(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
+        intentFilter.addAction(ConstantUtil.MONITOR_CLICK_BROADCAST);
         registerReceiver(bigBangBroadcastReceiver,intentFilter);
         handler=new Handler();
         handler.post(new Runnable() {
@@ -571,6 +572,22 @@ public class BigBangMonitorService extends AccessibilityService {
                 }
             }else if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
                 TipViewController.getInstance().stopLoadingAnim();
+            } else if(intent.getAction().equals(ConstantUtil.MONITOR_CLICK_BROADCAST)){
+                if (!isRun){
+                    ToastUtil.show(R.string.open_total_switch_first);
+                    return;
+                }
+                SPHelper.save(ConstantUtil.MONITOR_CLICK,!monitorClick);
+                readSettingFromSp();
+                if (monitorClick){
+                    if (isAccessibilitySettingsOn(context)) {
+                        ToastUtil.show(R.string.monitor_click_open);
+                    }else {
+                        ToastUtil.show(R.string.error_in_permission);
+                    }
+                }else {
+                    ToastUtil.show(R.string.monitor_click_close);
+                }
             } else {
                 readSettingFromSp();
             }

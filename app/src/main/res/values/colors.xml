@@ -20,4 +20,6 @@
 
     <color name="intro_bg">#3d85c0</color>
 
+    <color name="notification_bg_grey">#dc404040</color>
+
 </resources>

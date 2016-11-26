@@ -36,15 +36,16 @@ public class FloatAndNotifySettingCard extends AbsCard {
     private static final String IS_LONG_PREESS_TIPS_SHOW = "show_long_pressed_tips";
 
     private RelativeLayout showFloatViewRL;
+    private RelativeLayout showNotifyRL;
 
-//    private TextView monitorClipBoardTV;
     private HintTextView showFloatViewTV;
-//    private TextView remainSymbolTV;
-//    private TextView requestFloatViewTv;
+    private HintTextView showNotifyTV;
 
     private SwitchCompat showFloarViewSwitch;
+    private SwitchCompat showNotifySwitch;
 
     private boolean showFloatView =true;
+    private boolean showNotify =false;
     private boolean isInFirst = true;
     private boolean isClickFloat = false;
 
@@ -71,6 +72,10 @@ public class FloatAndNotifySettingCard extends AbsCard {
         showFloatViewRL = (RelativeLayout) findViewById(R.id.show_float_view_rl);
         showFloarViewSwitch = (SwitchCompat) findViewById(R.id.show_float_view_switch);
         showFloatViewTV = (HintTextView) findViewById(R.id.show_float_view_tv);
+
+        showNotifyRL = (RelativeLayout) findViewById(R.id.show_notify_rl);
+        showNotifySwitch = (SwitchCompat) findViewById(R.id.show_notify_switch);
+        showNotifyTV = (HintTextView) findViewById(R.id.show_notify_tv);
 
 //        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
 
@@ -117,7 +122,20 @@ public class FloatAndNotifySettingCard extends AbsCard {
             }
         });
 
+        showNotifySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_NOTIFY,isChecked);
+
+                showNotify = isChecked;
+                SPHelper.save(ConstantUtil.IS_SHOW_NOTIFY, showNotify);
+                mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
+                showNotifyTV.setShowHint(!showNotify);
+            }
+        });
+
         showFloatViewRL.setOnClickListener(myOnClickListerner);
+        showNotifyRL.setOnClickListener(myOnClickListerner);
         refresh();
     }
 
@@ -151,6 +169,9 @@ public class FloatAndNotifySettingCard extends AbsCard {
                     isClickFloat=true;
                     showFloarViewSwitch.setChecked(!showFloarViewSwitch.isChecked());
                     break;
+                case R.id.show_notify_rl:
+                    showNotifySwitch.setChecked(!showNotifySwitch.isChecked());
+                    break;
                 case R.id.default_setting:
                     // TODO: 2016/10/29  恢复默认设置
                     break;
@@ -163,7 +184,11 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
     private void refresh(){
         showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
+        showNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
+
+
         showFloarViewSwitch.setChecked(showFloatView);
+        showNotifySwitch.setChecked(showNotify);
     }
 
 }

@@ -131,6 +131,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="notify_universal_copy_broadcast" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".component.activity.IntroActivity"

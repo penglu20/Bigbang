@@ -160,4 +160,26 @@
     <string name="too_short_to_split">too short to split</string>
     <string name="float_tips">clict to show Menu Switch，Long-click to jump to Settings。</string>
     <string name="access_open_tips">Please go to open Accessibility for BigBang!</string>
+
+    <string name="notify_srceen_cap">Screenshots</string>
+    <string name="notify_monitor_click">Monitor \nclick</string>
+
+    <string name="notify_total_switch">Enable \nService</string>
+    <string name="notify_copy_title">Universal \nCopy</string>
+    <string name="notify_monitor_clipboard">Monitor \nclipboard</string>
+
+
+    <string name="open_total_switch_first">Please Enable Service First!</string>
+
+    <string name="monitor_click_open">Start monitor click</string>
+    <string name="monitor_click_close">Stop monitor click</string>
+
+
+    <string name="monitor_clipboard_open">Start monitor clipboard</string>
+    <string name="monitor_clipboard_close">Stop monitor clipboard</string>
+
+
+    <string name="show_notify">Show Notification</string>
+    <string name="show_notify_request">With notification ,you can quickly switch Bigbang switch, global replication, full screen capture OCR recognition</string>
+
 </resources>

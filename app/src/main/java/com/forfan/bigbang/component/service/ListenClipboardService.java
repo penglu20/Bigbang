@@ -31,12 +31,18 @@ public final class ListenClipboardService extends Service {
     private static final String TAG = "ListenClipboardService";
 
     private static final int GRAY_SERVICE_ID = -1001;
+    private static final int NOTIFYID=10010;
     private static CharSequence sLastContent = null;
     private ClipboardManagerCompat mClipboardWatcher;
     private Handler handler;
     private boolean isGrayGuardOn;
     private Pattern wordPattern;
+    BigbangNotification bigbangNotification;
     boolean isRun;
+
+
+
+    private boolean isForegroundShow=false;
 
     private ClipboardManagerCompat.OnPrimaryClipChangedListener mOnPrimaryClipChangedListener = new ClipboardManagerCompat.OnPrimaryClipChangedListener() {
         public void onPrimaryClipChanged() {
@@ -91,7 +97,7 @@ public final class ListenClipboardService extends Service {
     @Override
     public void onCreate() {
         mClipboardWatcher = ClipboardManagerCompat.create(this);
-
+        handler = new Handler();
         readSettingFromSp();
 
 
@@ -100,8 +106,9 @@ public final class ListenClipboardService extends Service {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED);
         intentFilter.addAction(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
+        intentFilter.addAction(ConstantUtil.MONITOR_CLIPBOARD_BROADCAST);
+        intentFilter.addAction(ConstantUtil.TOTAL_SWITCH_BROADCAST);
         registerReceiver(clipboardBroadcastReceiver, intentFilter);
-        handler = new Handler();
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -132,16 +139,7 @@ public final class ListenClipboardService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        if (!isGrayGuardOn) {
-            if (Build.VERSION.SDK_INT < 18) {
-                startForeground(GRAY_SERVICE_ID, new Notification());
-            } else {
-                Intent innerIntent = new Intent(ListenClipboardService.this, GrayInnerService.class);
-                startService(innerIntent);
-                startForeground(GRAY_SERVICE_ID, new Notification());
-            }
-            isGrayGuardOn = true;
-        }
+        adjustService();
         return START_STICKY;
     }
 
@@ -207,6 +205,48 @@ public final class ListenClipboardService extends Service {
             sLastContent = null;
         }
     };
+
+
+
+    private void adjustService() {
+        boolean isForground = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY, false);
+        if (isForground) {
+            if (!isForegroundShow) {
+                if (bigbangNotification == null) {
+                    bigbangNotification = new BigbangNotification(this);
+                }
+                bigbangNotification.setContetView();
+                startForeground(NOTIFYID, bigbangNotification.getNotification());
+                isForegroundShow = true;
+            }
+        } else {
+            stopForeground();
+        }
+    }
+
+
+    private void stopForeground(){
+        if (isForegroundShow) {
+            stopForeground(true);
+            isForegroundShow=false;
+        }
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isGrayGuardOn) {
+                    if (Build.VERSION.SDK_INT < 18) {
+                        startForeground(GRAY_SERVICE_ID, new Notification());
+                    } else {
+                        Intent innerIntent = new Intent(ListenClipboardService.this, GrayInnerService.class);
+                        startService(innerIntent);
+                        startForeground(GRAY_SERVICE_ID, new Notification());
+                    }
+                    isGrayGuardOn=true;
+                }
+            }
+        }, 3000);
+    }
+
     private void readSettingFromSp(){
         isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         if (!isRun){
@@ -220,6 +260,7 @@ public final class ListenClipboardService extends Service {
         showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
         if (showFloatView){
             TipViewController.getInstance().show();
+
         } else {
             TipViewController.getInstance().remove();
         }
@@ -228,6 +269,7 @@ public final class ListenClipboardService extends Service {
         } else {
             mClipboardWatcher.removePrimaryClipChangedListener(mOnPrimaryClipChangedListener);
         }
+        adjustService();
     }
 
     private BroadcastReceiver clipboardBroadcastReceiver = new BroadcastReceiver() {
@@ -236,6 +278,27 @@ public final class ListenClipboardService extends Service {
             if (intent.getAction().equals(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD)) {
                 sLastContent = intent.getStringExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG);
                 LogUtil.d(TAG, "onReceive:" + sLastContent);
+            }else if(intent.getAction().equals(ConstantUtil.MONITOR_CLIPBOARD_BROADCAST)){
+                if (!isRun){
+                    ToastUtil.show(R.string.open_total_switch_first);
+                    return;
+                }
+                SPHelper.save(ConstantUtil.MONITOR_CLIP_BOARD,!monitorClipborad);
+                readSettingFromSp();
+                if (monitorClipborad){
+                    ToastUtil.show(R.string.monitor_clipboard_open);
+                }else {
+                    ToastUtil.show(R.string.monitor_clipboard_close);
+                }
+            } else if(intent.getAction().equals(ConstantUtil.TOTAL_SWITCH_BROADCAST)){
+                SPHelper.save(ConstantUtil.TOTAL_SWITCH,!isRun);
+                readSettingFromSp();
+                if (isRun){
+                    ToastUtil.show(R.string.bigbang_open);
+                }else {
+                    ToastUtil.show(R.string.bigbang_close);
+                }
+                sendBroadcast(new Intent(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             } else {
                 readSettingFromSp();
             }

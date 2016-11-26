@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 
@@ -25,6 +26,15 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent=getIntent();
+        if (intent.getAction().equals(ConstantUtil.NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST)){
+            finish();
+            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
+        }else if(intent.getAction().equals(ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST)){
+            finish();
+            sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
+        }
+
         setContentView(R.layout.activity_splash);
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         setUpSplash();

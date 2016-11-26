@@ -399,26 +399,28 @@ public class TipViewController implements  View.OnTouchListener {
             int times=0;
             @Override
             public void run() {
-                showAnimator=true;
-                floatImageView.setVisibility(View.VISIBLE);
-                floatImageView.animate().
-                        rotationBy(360).
-                        setDuration(1000).
-                        setInterpolator(new AccelerateDecelerateInterpolator()).
-                        withEndAction(new Runnable() {
-                            @Override
-                            public void run() {
-                                times++;
-                                if (showAnimator && times < 4){
-                                    floatImageView.animate().
-                                            rotationBy(360).
-                                            setDuration(1000).
-                                            setInterpolator(new AccelerateDecelerateInterpolator()).
-                                            withEndAction(this).start();
+                showAnimator = true;
+                if (floatImageView != null) {
+                    floatImageView.setVisibility(View.VISIBLE);
+                    floatImageView.animate().
+                            rotationBy(360).
+                            setDuration(1000).
+                            setInterpolator(new AccelerateDecelerateInterpolator()).
+                            withEndAction(new Runnable() {
+                                @Override
+                                public void run() {
+                                    times++;
+                                    if (showAnimator && times < 4) {
+                                        floatImageView.animate().
+                                                rotationBy(360).
+                                                setDuration(1000).
+                                                setInterpolator(new AccelerateDecelerateInterpolator()).
+                                                withEndAction(this).start();
+                                    }
                                 }
-                            }
-                        }).start();
+                            }).start();
 
+                }
             }
         });
     }
@@ -427,7 +429,9 @@ public class TipViewController implements  View.OnTouchListener {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                floatImageView.clearAnimation();
+                if (floatImageView!=null) {
+                    floatImageView.clearAnimation();
+                }
                 showAnimator=false;
             }
         });

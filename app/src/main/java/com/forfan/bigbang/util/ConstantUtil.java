@@ -51,6 +51,12 @@ public class ConstantUtil {
     public static final String FLOAT_VIEW_PORT_X="float_view_port_x";
     public static final String FLOAT_VIEW_PORT_Y="float_view_port_y";
 
+
+
+    public static final String IS_SHOW_NOTIFY="is_show_notify";
+
+
+
     //FeedBackAndUpdateCard
 
     //MonitorSettingCard
@@ -95,4 +101,13 @@ public class ConstantUtil {
 
     public static final String UNIVERSAL_COPY_BROADCAST="universal_copy_broadcast";
     public static final String SCREEN_CAPTURE_OVER_BROADCAST="screen_capture_over_broadcast";
+
+
+    public static final String TOTAL_SWITCH_BROADCAST = "total_switch_broadcast";
+    public static final String MONITOR_CLICK_BROADCAST = "monitor_click_broadcast";
+    public static final String MONITOR_CLIPBOARD_BROADCAST = "monitor_clipboard_broadcast";
+
+    public static final String NOTIFY_UNIVERSAL_COPY_BROADCAST="notify_universal_copy_broadcast";
+    public static final String NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST="notify_screen_capture_over_broadcast";
+
 }

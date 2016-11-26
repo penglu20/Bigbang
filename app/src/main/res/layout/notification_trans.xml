@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Layout_notify_msearch_big"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical" >
+
+    <!-- notification search -->
+    <LinearLayout
+        android:id="@+id/Layout_notify_msearch"
+        android:layout_width="match_parent"
+        android:layout_height="67dp">
+
+        <include layout="@layout/notification_box_trans" />
+    </LinearLayout>
+
+</LinearLayout>

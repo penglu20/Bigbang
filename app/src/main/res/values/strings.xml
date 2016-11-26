@@ -115,7 +115,7 @@
     <string name="action_select_mode">"查看已选"</string>
 
     <string name="error_in_copy">出现错误，请重试</string>
-    <string name="error_in_permission">请给开启辅助模式，长按悬浮球设置</string>
+    <string name="error_in_permission">请给开启辅助模式，可长按悬浮球设置</string>
     <string name="copy_title">全局复制</string>
     <string name="copy_subtitle">请点击想要复制的区域</string>
     <string name="not_foud_qq">未找到QQ</string>
@@ -161,5 +161,27 @@
     <string name="float_tips">单击悬浮窗切换开关，长按悬浮打开设置页。</string>
     <string name="access_open_tips">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
 
+
+
+
+    <string name="notify_total_switch">使用\n服务</string>
+    <string name="notify_monitor_click">监控\n点击</string>
+    <string name="notify_monitor_clipboard">监控\n复制</string>
+    <string name="notify_copy_title">全局\n复制</string>
+    <string name="notify_srceen_cap">全屏\n截图</string>
+
+
+    <string name="open_total_switch_first">请先点击第一项"使用服务"</string>
+
+    <string name="monitor_click_open">开始监控点击</string>
+    <string name="monitor_click_close">停止监控点击</string>
+
+
+    <string name="monitor_clipboard_open">开始监控复制</string>
+    <string name="monitor_clipboard_close">停止监控复制</string>
+
+
+    <string name="show_notify">通知栏显示开关</string>
+    <string name="show_notify_request">从通知栏可以快捷设置、激活全局复制和全屏截图OCR，点击空白处可以打开设置页。</string>
 
 </resources>
