@@ -130,6 +130,7 @@
 
     <string name="share_no_wechat">You did not have WeChat installed</string>
     <string name="xposed_whitelist">Xposed White List</string>
+    <string name="xposed_whiteIntro">Block the Apps you donnot want to be montiored</string>
     <string name="screen_capture_fail">Sorry for capturing screen fail</string>
     <string name="need_capture_perssion">Screenshots need to get this permission, please check no longer prompted,and click OK, click the screenshot button again</string>
 
@@ -150,4 +151,8 @@
 
 
     <string name="total_switch">Enable Service</string>
+
+    <string name="xposed_setting">Xposed Settings</string>
+    <string name="xposed_forcetouch">ForceTouch Setting</string>
+    <string name="xposed_forcetouch_intro">Setting the perssure for the showing of BigBang</string>
 </resources>

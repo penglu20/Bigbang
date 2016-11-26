@@ -16,10 +16,11 @@ import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.baseCard.CardListAdapter;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.StatusBarCompat;
 import com.forfan.bigbang.util.UpdateUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
+import com.shang.utils.StatusBarCompat;
+import com.shang.xposed.XposedEnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,9 @@ public class SettingActivity extends BaseActivity {
         cardList.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));
         cardViews.add(new OcrCard(this));
+        if(XposedEnable.isEnable()){
+            cardViews.add(new XposedCard(this));
+        }
         settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
         cardViews.add(new BigBangSettingCard(this));
@@ -94,7 +98,7 @@ public class SettingActivity extends BaseActivity {
                 })
                 .subscribe(s -> {
                     if (s.equals("")){
-                        boolean hasShared=SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
+                        boolean hasShared= SPHelper.getBoolean(ConstantUtil.HAD_SHARED,false);
                         int openTimes=SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES,0);
 
                         //// TODO: 2016/11/1 第一期先不上分享功能了

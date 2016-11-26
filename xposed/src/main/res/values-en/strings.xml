@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cancel">cancel</string>
+    <string name="xposed_whitelist">Xposed White List</string>
+    <string name="xposed_whiteIntro">Block the Apps you donnot want to be montiored</string>
+
+
+    <string name="xposed_setting">Xposed Settings</string>
+    <string name="xposed_forcetouch">ForceTouch Setting</string>
+    <string name="xposed_forcetouch_intro">Setting the perssure for the showing of BigBang</string>
+    <string name="tap_screen">Tap on Screen</string>
+</resources>

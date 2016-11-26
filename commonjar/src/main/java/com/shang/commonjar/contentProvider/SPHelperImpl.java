@@ -1,27 +1,29 @@
-package com.forfan.bigbang.component.contentProvider;
+package com.shang.commonjar.contentProvider;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
-import com.forfan.bigbang.BigBangApp;
 
 import java.util.Set;
 
-import static com.forfan.bigbang.util.ConstantUtil.TYPE_BOOLEAN;
-import static com.forfan.bigbang.util.ConstantUtil.TYPE_FLOAT;
-import static com.forfan.bigbang.util.ConstantUtil.TYPE_INT;
-import static com.forfan.bigbang.util.ConstantUtil.TYPE_LONG;
-import static com.forfan.bigbang.util.ConstantUtil.TYPE_STRING;
+
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_BOOLEAN;
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_FLOAT;
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_INT;
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_LONG;
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_STRING;
 
 class SPHelperImpl {
 
     private static final String MAINSPNAME="BigBang_sp_main";
 
-    private static Context mContext= BigBangApp.getInstance();
+    private static Context mContext= Global.getInstance();
 
     private static SharedPreferences getSP(String tagName){
         if (mContext==null){
-            mContext= BigBangApp.getInstance();
+            mContext= Global.getInstance();
         }
         if (mContext==null){
             return null;
@@ -29,6 +31,7 @@ class SPHelperImpl {
         return mContext.getSharedPreferences(MAINSPNAME, Context.MODE_PRIVATE );
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public synchronized static <T> void save(String name, T t){
         SharedPreferences sp=getSP(name);
         if (sp==null)return;
@@ -98,6 +101,7 @@ class SPHelperImpl {
         if (sp==null)return defaultValue;
         return sp.getLong(name, defaultValue);
     }
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     public static Set<String> getStringSet(String name, Set<String> defaultValue){
         SharedPreferences sp=getSP(name);
         if (sp==null)return defaultValue;

@@ -1,1 +1,1 @@
-include ':app', ':lib', ':xposed'
+include ':app', ':lib', ':xposed', ':commonjar'

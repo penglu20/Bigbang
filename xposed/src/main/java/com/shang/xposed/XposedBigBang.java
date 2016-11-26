@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +38,44 @@ public class XposedBigBang implements IXposedHookLoadPackage {
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
         setXpoedEnable(loadPackageParam);
+        if(!new File("/data/data/com.forfan.bigbang").exists())
+            return;
+      //  wakeup(loadPackageParam);
+        Logger.d(TAG,loadPackageParam.packageName);
+        XSharedPreferences appXSP = new XSharedPreferences(PACKAGE_NAME, SP_NAME);
+        appXSP.makeWorldReadable();
+        Set<String> disAppSet = appXSP.getStringSet(SP_DISABLE_KEY, null);
+        if (disAppSet != null && disAppSet.contains(loadPackageParam.packageName)) {
+            return;
+        }
+        mFilters.add(new Filter.TextViewValidFilter());
+        //优化微信 下的体验。
+        mFilters.add(new Filter.WeChatValidFilter(loadPackageParam.classLoader));
+//        if ("com.tencent.mm".equals(loadPackageParam.packageName)) {
+//            //朋友圈内容拦截。
+//            //聊天详情中的文字点击事件优化
+//            try {
+//                findAndHookMethod(loadPackageParam.classLoader.loadClass("android.widget.TextView"), "onTouchEvent",
+//                        MotionEvent.class, new MMTextViewTouchEvent());
+//            } catch (ClassNotFoundException e) {
+//                e.printStackTrace();
+//            }
+////            try {
+////                findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.base.MMTextView"), "onTouchEvent",
+////                        MotionEvent.class, new MMTextViewTouchEvent());
+////            } catch (ClassNotFoundException e) {
+////                e.printStackTrace();
+////            }
+//        }
+
+        // installer  不注入。 防止代码出错。进不去installer 中。
+        if (!"de.robv.android.xposed.installer".equals(loadPackageParam.packageName)) {
+           // findAndHookMethod(Activity.class, "onTouchEvent", MotionEvent.class, new ActivityTouchEvent());
+            findAndHookMethod(TextView.class, "onTouchEvent", MotionEvent.class, new MMTextViewTouchEvent());
+        }
+    }
+
+    private void wakeup(XC_LoadPackage.LoadPackageParam loadPackageParam) {
         findAndHookMethod("android.app.Application", loadPackageParam.classLoader, "onCreate", new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
@@ -53,38 +93,6 @@ public class XposedBigBang implements IXposedHookLoadPackage {
                 super.afterHookedMethod(param);
             }
         });
-        Logger.d(TAG,loadPackageParam.packageName);
-        XSharedPreferences appXSP = new XSharedPreferences(PACKAGE_NAME, SP_NAME);
-        appXSP.makeWorldReadable();
-        Set<String> disAppSet = appXSP.getStringSet(SP_DISABLE_KEY, null);
-        if (disAppSet != null && disAppSet.contains(loadPackageParam.packageName)) {
-            return;
-        }
-        mFilters.add(new Filter.TextViewValidFilter());
-        //优化微信 下的体验。
-        if ("com.tencent.mm".equals(loadPackageParam.packageName)) {
-            //朋友圈内容拦截。
-            mFilters.add(new Filter.WeChatValidFilter(loadPackageParam.classLoader));
-            //聊天详情中的文字点击事件优化
-            try {
-                findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.widget.MMTextView"), "onTouchEvent",
-                        MotionEvent.class, new MMTextViewTouchEvent());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            try {
-                findAndHookMethod(loadPackageParam.classLoader.loadClass("com.tencent.mm.ui.base.MMTextView"), "onTouchEvent",
-                        MotionEvent.class, new MMTextViewTouchEvent());
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // installer  不注入。 防止代码出错。进不去installer 中。
-        if (!"de.robv.android.xposed.installer".equals(loadPackageParam.packageName)) {
-            findAndHookMethod(Activity.class, "onTouchEvent", MotionEvent.class, new ActivityTouchEvent());
-            findAndHookMethod(View.class, "onTouchEvent", MotionEvent.class, new ViewTouchEvent());
-        }
     }
 
 
@@ -110,23 +118,23 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             View view = (View) param.thisObject;
             MotionEvent event = (MotionEvent) param.args[0];
 
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    long preClickTimeMillis = mTouchHandler.getClickTimeMillis(view);
-                    long currentTimeMillis = System.currentTimeMillis();
-                    if (preClickTimeMillis != 0) {
-                        long interval = currentTimeMillis - preClickTimeMillis;
-                        if (interval < TouchEventHandler.BIG_BANG_RESPONSE_TIME) {
-                            intercept = true;
-                        } else {
-                            intercept = false;
-                        }
-                    } else {
-                        intercept = false;
-                    }
-                    break;
-            }
-            mTouchHandler.hookTouchEvent(view, event, mFilters, true);
+//            switch (event.getAction()) {
+//                case MotionEvent.ACTION_DOWN:
+//                    long preClickTimeMillis = mTouchHandler.getClickTimeMillis(view);
+//                    long currentTimeMillis = System.currentTimeMillis();
+//                    if (preClickTimeMillis != 0) {
+//                        long interval = currentTimeMillis - preClickTimeMillis;
+//                        if (interval < TouchEventHandler.BIG_BANG_RESPONSE_TIME) {
+//                            intercept = true;
+//                        } else {
+//                            intercept = false;
+//                        }
+//                    } else {
+//                        intercept = false;
+//                    }
+//                    break;
+//            }
+            boolean intercept =  mTouchHandler.hookForceTouchEvent(view, event, mFilters, true);
             if (intercept) {
                 param.setResult(true);
             }

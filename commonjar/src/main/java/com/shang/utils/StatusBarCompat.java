@@ -1,4 +1,4 @@
-package com.forfan.bigbang.util;
+package com.shang.utils;
 
 import android.app.Activity;
 import android.os.Build;

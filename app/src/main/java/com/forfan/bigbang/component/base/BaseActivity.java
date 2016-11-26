@@ -6,11 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 
-import com.forfan.bigbang.R;
-import com.forfan.bigbang.component.base.PermissionActivity;
-import com.forfan.bigbang.util.StatusBarCompat;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.List;

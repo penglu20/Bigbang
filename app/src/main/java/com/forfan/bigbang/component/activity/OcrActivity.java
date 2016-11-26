@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.forfan.bigbang.R;
@@ -20,17 +19,18 @@ import com.forfan.bigbang.cropper.CropHandler;
 import com.forfan.bigbang.cropper.CropHelper;
 import com.forfan.bigbang.cropper.CropParams;
 import com.forfan.bigbang.cropper.ImageUriUtil;
-import com.forfan.bigbang.forcetouch.Callback;
-import com.forfan.bigbang.forcetouch.ForceTouchListener;
+
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.SnackBarUtil;
-import com.forfan.bigbang.util.StatusBarCompat;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.microsoft.projectoxford.vision.contract.Line;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
+import com.shang.utils.StatusBarCompat;
+import com.shang.xposed.forcetouch.Callback;
+import com.shang.xposed.forcetouch.ForceTouchListener;
 
 
 /**
@@ -79,6 +79,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 //        });
         editText.setOnTouchListener(forceTouchListener);
     }
+
     final ForceTouchListener forceTouchListener = new ForceTouchListener(this, 70, 0.27f, true, true, new Callback() {
         @Override
         public void onForceTouch() {
@@ -100,6 +101,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 //            startActivity(intent);
         }
     });
+
     private void parseIntent(Intent intent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (intent.getClipData() != null && intent.getClipData().getItemAt(0) != null && intent.getClipData().getItemAt(0).getUri() != null) {
@@ -107,7 +109,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 showBitmapandOcr(uri);
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_FROM_SHARE);
             }
-        } else if(intent.getData() != null){
+        } else if (intent.getData() != null) {
             Uri uri = intent.getData();
             showBitmapandOcr(uri);
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_FROM_SHARE);

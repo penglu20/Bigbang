@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -25,6 +24,7 @@ import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;

@@ -1,4 +1,4 @@
-package com.forfan.bigbang.component.contentProvider;
+package com.shang.commonjar.contentProvider;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -7,9 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 
-import static com.forfan.bigbang.util.ConstantUtil.SEPARATOR;
-import static com.forfan.bigbang.util.ConstantUtil.TYPE_CONTAIN;
-import static com.forfan.bigbang.util.ConstantUtil.VALUE;
+import static com.shang.commonjar.contentProvider.ConstantUtil.SEPARATOR;
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_CONTAIN;
+import static com.shang.commonjar.contentProvider.ConstantUtil.VALUE;
+
 
 public class BigBangContentProvider extends ContentProvider {
     private static UriMatcher matcher=new UriMatcher(UriMatcher.NO_MATCH);

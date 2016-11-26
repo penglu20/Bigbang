@@ -25,11 +25,11 @@ import android.widget.LinearLayout;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.DensityUtils;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;

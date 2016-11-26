@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">xposed</string>
-    <string name="search">search</string>
+    <string name="search">搜索</string>
+    <string name="total_switch">使用服务</string>
+    <string name="xposed_setting">Xposed 设置相关</string>
+    <string name="xposed_forcetouch">ForceTouch 设置</string>
+    <string name="xposed_forcetouch_intro">设置按压触发Bigbang的力度</string>
+    <string name="save">保存</string>
+    <string name="tap_screen">用力点击屏幕\n 通过多次点击\n保存压力值来触发BigBang\n 您也可以在上方的编辑框中编辑该值\n最后记得保存哦</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.shang.xposed;
 
+import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -22,7 +23,7 @@ public interface Filter {
 
         @Override
         public boolean filter(View view) {
-            return view instanceof TextView && !(view instanceof Button)
+            return (view instanceof TextView || view instanceof AppCompatTextView) && !(view instanceof Button)
                     && !(view instanceof EditText)
                     && !(view instanceof CheckedTextView)
                     && !(view instanceof DigitalClock)

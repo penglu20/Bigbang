@@ -7,6 +7,10 @@
             android:theme="@style/BaseAppTheme">
 
         </activity>
+        <activity android:name=".forcetouch.ForceTouchActivity"
+            android:theme="@style/BaseAppTheme">
+
+        </activity>
 
         <meta-data
             android:name="xposedmodule"

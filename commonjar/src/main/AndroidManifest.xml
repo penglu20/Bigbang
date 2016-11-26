@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.shang.commonjar">
+
+    <application android:allowBackup="true" android:label="@string/app_name"
+        android:supportsRtl="true">
+        <provider
+            android:name=".contentProvider.BigBangContentProvider"
+            android:authorities="com.forfun.bigbang"
+            android:exported="false"
+            android:process=":monitor" />
+    </application>
+
+</manifest>

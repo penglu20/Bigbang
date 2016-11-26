@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/card_line_height"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:text="@string/xposed_setting"
+        android:textColor="@color/primary_text" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/xposed_touch_setting"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_line_height"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/xposed_forcetouch"
+            android:textColor="@color/primary_text" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_line_height"
+            android:layout_below="@+id/tv"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/xposed_forcetouch_intro"
+            android:textColor="@color/primary_text" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/xposed_whiteList"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/wite"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_line_height"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/xposed_whitelist"
+            android:textColor="@color/primary_text" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_line_height"
+            android:layout_below="@+id/wite"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/xposed_whiteIntro"
+            android:textColor="@color/primary_text" />
+
+    </RelativeLayout>
+
+</LinearLayout>

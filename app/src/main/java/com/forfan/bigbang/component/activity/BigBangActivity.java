@@ -18,7 +18,6 @@ import android.widget.RelativeLayout;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -29,6 +28,7 @@ import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.io.UnsupportedEncodingException;
@@ -326,20 +326,40 @@ public class BigBangActivity extends BaseActivity {
     @NonNull
     private List<String> getLocalSegments(String str) {
         List<String> txts = new ArrayList<String>();
-        str = str.replace("\n"," \n");
+        String s = "";
+        for (int i = 0; i < str.length(); i++) {
+            char first = str.charAt(i);
+            //当到达末尾的时候
+            if (i + 1 >= str.length()) {
+                s = s + first;
+                break;
+            }
+            char next = str.charAt(i + 1);
+            if ((RegexUtil.isChinese(first) && !RegexUtil.isChinese(next)) || (!RegexUtil.isChinese(first) && RegexUtil.isChinese(next))) {
+                s = s + first + " ";
+            } else if (RegexUtil.isSymbol(first)) {
+                s = s + " " + first + " ";
+            } else {
+                s = s + first;
+            }
+        }
+        str = s;
+        str.replace("\n", " \n ");
         String[] texts = str.split(" ");
         for (String text : texts) {
+            if (text.equals(" "))
+                continue;
             //当首字母是英文字母时，默认该字符为英文
             if (RegexUtil.isEnglish(text)) {
                 txts.add(text);
                 continue;
             }
-            if(RegexUtil.isNumber(text)){
+            if (RegexUtil.isNumber(text)) {
                 txts.add(text);
                 continue;
             }
             for (int i = 0; i < text.length(); i++) {
-                txts.add(text.charAt(i)+"");
+                txts.add(text.charAt(i) + "");
             }
         }
         return txts;

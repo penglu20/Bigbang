@@ -11,9 +11,9 @@ import android.view.ViewGroup;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.IOUtil;
-import com.forfan.bigbang.util.StatusBarCompat;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.shang.utils.StatusBarCompat;
 
 import java.io.File;
 import java.io.IOException;

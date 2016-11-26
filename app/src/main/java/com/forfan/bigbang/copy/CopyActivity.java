@@ -23,11 +23,10 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
-import com.forfan.bigbang.util.ClipboardUtils;
-import com.forfan.bigbang.util.StatusBarCompat;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
+import com.shang.utils.StatusBarCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -26,6 +25,7 @@ import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED;
@@ -41,7 +41,7 @@ public class FunctionSettingCard extends AbsCard {
     private RelativeLayout monitorClickRl;
     private RelativeLayout totalSwitchRL;
 
-//    private TextView monitorClipBoardTV;
+    //    private TextView monitorClipBoardTV;
 //    private TextView showFloatViewTV;
 //    private TextView remainSymbolTV;
     private TextView defaultSettingTV;
@@ -50,9 +50,9 @@ public class FunctionSettingCard extends AbsCard {
     private SwitchCompat monitorClickSwitch;
     private SwitchCompat totalSwitchSwitch;
 
-    private boolean monitorClipBoard =true;
-    private boolean monitorClick =true;
-    private boolean totalSwitch =true;
+    private boolean monitorClipBoard = true;
+    private boolean monitorClick = true;
+    private boolean totalSwitch = true;
     private boolean isInFirst = true;
     private boolean isClickTotalSwitch = false;
 
@@ -69,12 +69,12 @@ public class FunctionSettingCard extends AbsCard {
         super.onDetachedFromWindow();
     }
 
-    private void initView(Context context){
-        mContext=context;
+    private void initView(Context context) {
+        mContext = context;
 
-        handler=new Handler();
+        handler = new Handler();
 
-        LayoutInflater.from(context).inflate(R.layout.card_function_setting,this);
+        LayoutInflater.from(context).inflate(R.layout.card_function_setting, this);
 
         monitorClipBoardRl = (RelativeLayout) findViewById(R.id.monitor_clipboard_rl);
         monitorClickRl = (RelativeLayout) findViewById(R.id.monitor_click_rl);
@@ -88,17 +88,17 @@ public class FunctionSettingCard extends AbsCard {
 //        monitorClipBoardTV= (TextView) findViewById(R.id.monitor_clipboard_tv);
 //        showFloatViewTV= (TextView) findViewById(R.id.show_float_view_tv);
 //        remainSymbolTV= (TextView) findViewById(R.id.remain_symbol_tv);
-        defaultSettingTV= (TextView) findViewById(R.id.default_setting);
+        defaultSettingTV = (TextView) findViewById(R.id.default_setting);
 
         monitorClipBoardSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 monitorClipBoard = isChecked;
                 SPHelper.save(ConstantUtil.MONITOR_CLIP_BOARD, monitorClipBoard);
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_CLIPBOARD,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_CLIPBOARD, isChecked);
 
                 if (monitorClipBoard) {
-                    mContext.startService(new Intent(context,ListenClipboardService.class));
+                    mContext.startService(new Intent(context, ListenClipboardService.class));
                 }
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
             }
@@ -109,13 +109,13 @@ public class FunctionSettingCard extends AbsCard {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 // TODO: 2016/10/29 关闭的时候，应该把MonitorSettingCard隐藏起来
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ACCESSABILITY,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ACCESSABILITY, isChecked);
 
                 monitorClick = isChecked;
                 sendTencentSettingsBroadcast(isChecked);
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
-                    mContext.startService(new Intent(context,BigBangMonitorService.class));
+                    mContext.startService(new Intent(context, BigBangMonitorService.class));
                     if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
                         handler.removeCallbacks(showAccess);
                         handler.postDelayed(showAccess, 1000);
@@ -136,19 +136,19 @@ public class FunctionSettingCard extends AbsCard {
         totalSwitchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_TOTAL_SWITCH,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_TOTAL_SWITCH, isChecked);
 
                 totalSwitch = isChecked;
                 SPHelper.save(ConstantUtil.TOTAL_SWITCH, totalSwitch);
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
-                if(!SPHelper.getBoolean(IS_LONG_PREESS_TIPS_SHOW,false) && isChecked){
-                    if(!isInFirst){
+                if (!SPHelper.getBoolean(IS_LONG_PREESS_TIPS_SHOW, false) && isChecked) {
+                    if (!isInFirst) {
                         showLongClickDialog();
-                        SPHelper.save(IS_LONG_PREESS_TIPS_SHOW,true);
+                        SPHelper.save(IS_LONG_PREESS_TIPS_SHOW, true);
                     }
                 }
-                if (isClickTotalSwitch && isChecked){
+                if (isClickTotalSwitch && isChecked) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(mContext)) {
                         SnackBarUtil.show(buttonView,
                                 mContext.getString(R.string.punish_float_problem),
@@ -165,13 +165,13 @@ public class FunctionSettingCard extends AbsCard {
                                                     Uri.parse("package:" + mContext.getPackageName()));
                                             mContext.startActivity(intent);
 
-                                        }catch (Throwable e){
-                                            SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
+                                        } catch (Throwable e) {
+                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
                                         }
                                     }
                                 });
-                    }else {
-                        SnackBarUtil.show(buttonView, mContext.getString(R.string.punish_float_problem) );
+                    } else {
+                        SnackBarUtil.show(buttonView, mContext.getString(R.string.punish_float_problem));
                     }
 
                 }
@@ -183,7 +183,6 @@ public class FunctionSettingCard extends AbsCard {
 //                }
             }
         });
-
 
 
         totalSwitchRL.setOnClickListener(myOnClickListerner);
@@ -198,13 +197,13 @@ public class FunctionSettingCard extends AbsCard {
         refresh();
     }
 
-    Runnable showAccess= new Runnable() {
+    Runnable showAccess = new Runnable() {
         @Override
         public void run() {
             if (monitorClick) {
 
                 try {
-                    if(!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
+                    if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
                         showOpenAccessibilityDialog();
                     }
                 } catch (Throwable e) {
@@ -215,13 +214,14 @@ public class FunctionSettingCard extends AbsCard {
     };
 
     private void showLongClickDialog() {
-        SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
                 super.onPositiveActionClicked(fragment);
             }
+
             @Override
             public void onDismiss(DialogInterface dialog) {
                 super.onCancel(dialog);
@@ -230,12 +230,13 @@ public class FunctionSettingCard extends AbsCard {
         builder.message("单击悬浮窗切换开关，长按悬浮打开设置页。")
                 .positiveAction(mContext.getString(R.string.ok));
         DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
+        fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }
 
     private void showOpenAccessibilityDialog() {
-        SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){
-            private boolean isPositive=false;
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+            private boolean isPositive = false;
+
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
@@ -244,12 +245,13 @@ public class FunctionSettingCard extends AbsCard {
                     mContext.startActivity(intent);
                 } catch (Throwable e) {
                 }
-                isPositive=true;
+                isPositive = true;
                 super.onPositiveActionClicked(fragment);
             }
+
             @Override
             public void onDismiss(DialogInterface dialog) {
-                if (!isPositive){
+                if (!isPositive) {
                     monitorClickSwitch.setChecked(false);
                 }
                 super.onCancel(dialog);
@@ -259,21 +261,21 @@ public class FunctionSettingCard extends AbsCard {
                 .positiveAction(mContext.getString(R.string.request_accessibility_confirm))
                 .negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
+        fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }
 
     private void sendTencentSettingsBroadcast(boolean isChecked) {
         Intent intent = new Intent();
         intent.setAction(ConstantUtil.Setting_content_Changes);
-        intent.putExtra(ConstantUtil.SHOW_TENCENT_SETTINGS,isChecked);
+        intent.putExtra(ConstantUtil.SHOW_TENCENT_SETTINGS, isChecked);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
     }
 
-    private OnClickListener myOnClickListerner=new OnClickListener(){
+    private OnClickListener myOnClickListerner = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            int id=v.getId();
+            int id = v.getId();
             switch (id) {
                 case R.id.monitor_clipboard_rl:
                     monitorClipBoardSwitch.setChecked(!monitorClipBoardSwitch.isChecked());
@@ -282,7 +284,7 @@ public class FunctionSettingCard extends AbsCard {
                     monitorClickSwitch.setChecked(!monitorClickSwitch.isChecked());
                     break;
                 case R.id.total_switch_switch:
-                    isClickTotalSwitch =true;
+                    isClickTotalSwitch = true;
                     totalSwitchSwitch.setChecked(!totalSwitchSwitch.isChecked());
                     break;
                 case R.id.default_setting:
@@ -295,10 +297,10 @@ public class FunctionSettingCard extends AbsCard {
     };
 
 
-    private void refresh(){
-        totalSwitch = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
-        monitorClipBoard = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
-        monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
+    private void refresh() {
+        totalSwitch = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
+        monitorClipBoard = SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD, true);
+        monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true);
 
         monitorClipBoardSwitch.setChecked(monitorClipBoard);
         monitorClickSwitch.setChecked(monitorClick);

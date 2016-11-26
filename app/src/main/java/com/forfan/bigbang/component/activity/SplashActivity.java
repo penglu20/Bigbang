@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 
 import java.util.concurrent.TimeUnit;

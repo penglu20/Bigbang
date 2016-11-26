@@ -28,13 +28,13 @@ import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.copy.CopyActivity;
 import com.forfan.bigbang.copy.CopyNode;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

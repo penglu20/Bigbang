@@ -10,6 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.shang.xposed.forcetouch.Callback;
+import com.shang.xposed.forcetouch.ForceTouchListener;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -82,6 +84,45 @@ public class TouchEventHandler {
             }
         }
         return handle;
+    }
+
+    public boolean hookForceTouchEvent(View v, MotionEvent event, final List<Filter> filters, final boolean needVerify) {
+        final boolean[] handle = {false};
+        final View targetTextView = getTargetTextView(v, event, filters);
+        if (targetTextView != null) {
+            ForceTouchListener forceTouchListener = new ForceTouchListener(v.getContext(), 70,0.75f, true, true, new Callback() {
+                @Override
+                public void onForceTouch() {
+                    Logger.logClass(TAG, targetTextView.getClass());
+                    String msg = null;
+                    for (Filter filter : filters) {
+                        msg = filter.getContent(targetTextView);
+                        if (msg != null) {
+                            break;
+                        }
+                    }
+                    if (msg != null && (needVerify || verifyText(msg))) {
+                        Context context = targetTextView.getContext();
+                        Intent intent = null;
+                        try {
+                            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + URLEncoder.encode(msg, "utf-8")));
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                        }
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    }
+                    handle[0] = true;
+                }
+
+                @Override
+                public void onNormalTouch() {
+
+                }
+            });
+            forceTouchListener.onTouch(v, event);
+        }
+        return handle[0];
     }
 
     private boolean verifyText(String msg) {

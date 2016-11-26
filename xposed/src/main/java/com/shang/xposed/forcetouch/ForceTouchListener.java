@@ -1,4 +1,4 @@
-package com.forfan.bigbang.forcetouch;
+package com.shang.xposed.forcetouch;
 
 import android.content.Context;
 import android.os.Handler;

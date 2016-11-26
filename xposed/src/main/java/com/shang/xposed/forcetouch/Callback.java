@@ -1,4 +1,4 @@
-package com.forfan.bigbang.forcetouch;
+package com.shang.xposed.forcetouch;
 
 /**
  * Created by Michele on 22/10/2016.

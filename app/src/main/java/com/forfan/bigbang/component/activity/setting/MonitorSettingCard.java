@@ -2,7 +2,6 @@ package com.forfan.bigbang.component.activity.setting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Html;
@@ -19,13 +18,11 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.whitelist.WhiteListActivity;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
-
-import okhttp3.Call;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
 
@@ -34,15 +31,15 @@ import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SER
  * Created by penglu on 2015/11/23.
  */
 public class MonitorSettingCard extends AbsCard {
-    private static final String TAG="MonitorSettingCard";
+    private static final String TAG = "MonitorSettingCard";
 
-    public static final int SPINNER_ARRAY=R.array.click_or_long_click;
-    private RelativeLayout onlyTextRL ,doubleClickIntervalRl;
-    private TextView whiteList,mDoubleClick;
+    public static final int SPINNER_ARRAY = R.array.click_or_long_click;
+    private RelativeLayout onlyTextRL, doubleClickIntervalRl;
+    private TextView whiteList, mDoubleClick;
 
     private SwitchCompat onlyTextSwitch;
 
-    private Spinner qqSpinner,weixinSpinner,otherSpinner;
+    private Spinner qqSpinner, weixinSpinner, otherSpinner;
     private String qqSelection;
     private String weixinSelection;
     private String otherSelection;
@@ -51,7 +48,7 @@ public class MonitorSettingCard extends AbsCard {
     private EditText doubleClickEditText;
     private Button doubleClickConfirm;
 
-    private boolean onlyText =false;
+    private boolean onlyText = false;
     private String[] spinnerArray;
 
     public MonitorSettingCard(Context context) {
@@ -59,16 +56,16 @@ public class MonitorSettingCard extends AbsCard {
         initView(context);
     }
 
-    private void initView(Context context){
-        mContext=context;
+    private void initView(Context context) {
+        mContext = context;
 
 
-        LayoutInflater.from(context).inflate(R.layout.card_monitor_setting,this);
-        spinnerArray=context.getResources().getStringArray(SPINNER_ARRAY);
+        LayoutInflater.from(context).inflate(R.layout.card_monitor_setting, this);
+        spinnerArray = context.getResources().getStringArray(SPINNER_ARRAY);
 
-        qqSpinner= (Spinner) findViewById(R.id.qq_spinner);
-        weixinSpinner= (Spinner) findViewById(R.id.weixin_spinner);
-        otherSpinner= (Spinner) findViewById(R.id.other_spinner);
+        qqSpinner = (Spinner) findViewById(R.id.qq_spinner);
+        weixinSpinner = (Spinner) findViewById(R.id.weixin_spinner);
+        otherSpinner = (Spinner) findViewById(R.id.other_spinner);
 
 
         onlyTextRL = (RelativeLayout) findViewById(R.id.text_only_rl);
@@ -78,16 +75,16 @@ public class MonitorSettingCard extends AbsCard {
 
         doubleClickIntervalRl = (RelativeLayout) findViewById(R.id.double_click_interval_rl);
         mDoubleClick = (TextView) findViewById(R.id.double_click_setting);
-        doubleClickEditText= (EditText) findViewById(R.id.double_click_interval_edit);
-        doubleClickInputLayout= (TextInputLayout) findViewById(R.id.double_click_interval);
-        doubleClickConfirm= (Button) findViewById(R.id.double_click_confirm);
+        doubleClickEditText = (EditText) findViewById(R.id.double_click_interval_edit);
+        doubleClickInputLayout = (TextInputLayout) findViewById(R.id.double_click_interval);
+        doubleClickConfirm = (Button) findViewById(R.id.double_click_confirm);
 
         onlyTextSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton aSwitch, boolean isChecked) {
                 //这里由于文案从“只监控文本”改成了“增强型监控”,所以意思完全相反了，为了防止改动太多，就在这里做一个反置
                 onlyText = !isChecked;
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ONLY_TEXT_MONITOR,!isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_ONLY_TEXT_MONITOR, !isChecked);
                 SPHelper.save(ConstantUtil.TEXT_ONLY, onlyText);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
@@ -96,15 +93,15 @@ public class MonitorSettingCard extends AbsCard {
         qqSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_QQ,spinnerArray[position]);
-                LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
-                SPHelper.save(ConstantUtil.QQ_SELECTION,spinnerArray[position]);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_QQ, spinnerArray[position]);
+                LogUtil.d(TAG, "onItemSelected:" + spinnerArray[position]);
+                SPHelper.save(ConstantUtil.QQ_SELECTION, spinnerArray[position]);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                LogUtil.d(TAG,"onNothingSelected:");
+                LogUtil.d(TAG, "onNothingSelected:");
 
             }
         });
@@ -113,15 +110,15 @@ public class MonitorSettingCard extends AbsCard {
         weixinSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_WEIXIN,spinnerArray[position]);
-                LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
-                SPHelper.save(ConstantUtil.WEIXIN_SELECTION,spinnerArray[position]);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_WEIXIN, spinnerArray[position]);
+                LogUtil.d(TAG, "onItemSelected:" + spinnerArray[position]);
+                SPHelper.save(ConstantUtil.WEIXIN_SELECTION, spinnerArray[position]);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                LogUtil.d(TAG,"onNothingSelected:");
+                LogUtil.d(TAG, "onNothingSelected:");
 
             }
         });
@@ -130,15 +127,15 @@ public class MonitorSettingCard extends AbsCard {
         otherSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_OTHER,spinnerArray[position]);
-                LogUtil.d(TAG,"onItemSelected:"+spinnerArray[position]);
-                SPHelper.save(ConstantUtil.OTHER_SELECTION,spinnerArray[position]);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SPINNER_OTHER, spinnerArray[position]);
+                LogUtil.d(TAG, "onItemSelected:" + spinnerArray[position]);
+                SPHelper.save(ConstantUtil.OTHER_SELECTION, spinnerArray[position]);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                LogUtil.d(TAG,"onNothingSelected:");
+                LogUtil.d(TAG, "onNothingSelected:");
 
             }
         });
@@ -151,11 +148,11 @@ public class MonitorSettingCard extends AbsCard {
         refresh();
     }
 
-    private OnClickListener myOnClickListerner=new OnClickListener(){
+    private OnClickListener myOnClickListerner = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            int id=v.getId();
+            int id = v.getId();
             switch (id) {
                 case R.id.text_only_rl:
                     onlyTextSwitch.setChecked(!onlyTextSwitch.isChecked());
@@ -168,16 +165,16 @@ public class MonitorSettingCard extends AbsCard {
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING);
                     doubleClickIntervalRl.setVisibility(VISIBLE);
                     mDoubleClick.setVisibility(GONE);
-                    int t= SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL,ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
-                    doubleClickEditText.setText(t+"");
+                    int t = SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL, ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
+                    doubleClickEditText.setText(t + "");
                     doubleClickEditText.requestFocus();
                     break;
                 case R.id.double_click_confirm:
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM);
-                    int time=Integer.parseInt(doubleClickEditText.getText().toString());
-                    SPHelper.save(ConstantUtil.DOUBLE_CLICK_INTERVAL,time);
-                    String text=mContext.getString(R.string.double_click_intercal);
-                    text=text.replace("#","<font color=\"#009688\">"+time+"</font>");
+                    int time = Integer.parseInt(doubleClickEditText.getText().toString());
+                    SPHelper.save(ConstantUtil.DOUBLE_CLICK_INTERVAL, time);
+                    String text = mContext.getString(R.string.double_click_intercal);
+                    text = text.replace("#", "<font color=\"#009688\">" + time + "</font>");
                     mDoubleClick.setText(Html.fromHtml(text));
                     doubleClickIntervalRl.setVisibility(GONE);
                     mDoubleClick.setVisibility(VISIBLE);
@@ -190,11 +187,11 @@ public class MonitorSettingCard extends AbsCard {
         }
     };
 
-    private void refresh(){
-        onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY,true) ;
-        qqSelection= SPHelper.getString(ConstantUtil.QQ_SELECTION,spinnerArray[1]);
-        weixinSelection = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[1]);
-        otherSelection= SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[1]);
+    private void refresh() {
+        onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY, true);
+        qqSelection = SPHelper.getString(ConstantUtil.QQ_SELECTION, spinnerArray[1]);
+        weixinSelection = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION, spinnerArray[1]);
+        otherSelection = SPHelper.getString(ConstantUtil.OTHER_SELECTION, spinnerArray[1]);
 
         onlyTextSwitch.setChecked(!onlyText);
 
@@ -202,17 +199,17 @@ public class MonitorSettingCard extends AbsCard {
         weixinSpinner.setSelection(spinnerArrayIndex(weixinSelection));
         otherSpinner.setSelection(spinnerArrayIndex(otherSelection));
 
-        int t= SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL,ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
-        String text=mContext.getString(R.string.double_click_intercal);
-        text=text.replace("#","<font color=\"#009688\">"+t+"</font>");
+        int t = SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL, ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
+        String text = mContext.getString(R.string.double_click_intercal);
+        text = text.replace("#", "<font color=\"#009688\">" + t + "</font>");
         mDoubleClick.setText(Html.fromHtml(text));
 
     }
 
-    private int spinnerArrayIndex(String txt){
-        int length=spinnerArray.length;
-        for (int i=0;i<length;i++){
-            if (spinnerArray[i].equals(txt)){
+    private int spinnerArrayIndex(String txt) {
+        int length = spinnerArray.length;
+        for (int i = 0; i < length; i++) {
+            if (spinnerArray[i].equals(txt)) {
                 return i;
             }
         }

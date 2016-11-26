@@ -34,9 +34,9 @@ import android.widget.TextView;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
-import com.forfan.bigbang.component.contentProvider.SPHelper;
 import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -263,7 +263,7 @@ public class TipViewController implements  View.OnTouchListener {
         int x=0,y=0;
         if(rotation == Surface.ROTATION_0 || rotation ==Surface.ROTATION_180){
             x=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_X,width);
-            y=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_Y,height/2);
+            y= SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_Y,height/2);
         }else {
             x=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_X,width);
             y=SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_Y,height/2);

@@ -121,11 +121,7 @@
             </intent-filter>
         </service>
 
-        <provider
-            android:name=".component.contentProvider.BigBangContentProvider"
-            android:authorities="com.forfun.bigbang"
-            android:exported="false"
-            android:process=":monitor" />
+
 
         <activity
             android:name=".component.activity.SplashActivity"
