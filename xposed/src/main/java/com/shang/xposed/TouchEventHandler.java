@@ -16,8 +16,6 @@ import com.shang.xposed.forcetouch.Callback;
 import com.shang.xposed.forcetouch.ForceTouchActivity;
 import com.shang.xposed.forcetouch.ForceTouchListener;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -71,14 +69,13 @@ public class TouchEventHandler {
                         if (msg != null && (needVerify || verifyText(msg))) {
                             handle = true;
                             Context context = targetTextView.getContext();
-                            Intent intent = null;
                             try {
-                                intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + URLEncoder.encode(msg, "utf-8")));
-                            } catch (UnsupportedEncodingException e) {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + msg));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                context.startActivity(intent);
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
                         }
                     }
                 }
@@ -94,7 +91,7 @@ public class TouchEventHandler {
         final View targetTextView = getTargetTextView(v, event, filters);
         if (targetTextView != null) {
             Global.init(v.getContext());
-            ForceTouchListener forceTouchListener = new ForceTouchListener(v.getContext(), 70, SPHelper.getFloat(ForceTouchActivity.PRESSURE,1.0f) , true, true, new Callback() {
+            ForceTouchListener forceTouchListener = new ForceTouchListener(v.getContext(), 70, SPHelper.getFloat(ForceTouchActivity.PRESSURE, 1000.0f), true, true, new Callback() {
                 @Override
                 public void onForceTouch() {
                     Logger.logClass(TAG, targetTextView.getClass());
