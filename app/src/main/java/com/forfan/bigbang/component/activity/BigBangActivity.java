@@ -1,6 +1,7 @@
 package com.forfan.bigbang.component.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -64,10 +65,14 @@ public class BigBangActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
+        int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
+
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
         cardView.setRadius(ViewUtil.dp2px(10));
-        cardView.setCardBackgroundColor(getResources().getColor(R.color.bigbang_bg));
+
+        int value = (int) ((alpha / 100.0f) * 255);
+        cardView.setCardBackgroundColor(Color.argb(value, 00, 00, 00));
         cardView.addView(view);
 
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
@@ -108,7 +113,6 @@ public class BigBangActivity extends BaseActivity {
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
-        int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
 
 
         bigBangLayout = (BigBangLayout) findViewById(R.id.bigbang);

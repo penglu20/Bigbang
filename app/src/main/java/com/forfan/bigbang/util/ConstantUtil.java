@@ -81,7 +81,7 @@ public class ConstantUtil {
     public static final String TEXT_SIZE="text_size";
     public static final String LINE_MARGIN="line_margin";
     public static final String ITEM_MARGIN="item_margin";
-    public static final String BIGBANG_ALPHA="item_margin";
+    public static final String BIGBANG_ALPHA="bigbang_alpha";
     public static final String USE_LOCAL_WEBVIEW="use_local_webview";
 
 
