@@ -12,6 +12,7 @@ import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
     private SwitchCompat showFloarViewSwitch;
     private SwitchCompat showNotifySwitch;
+
+    private LinearLayout showFloatRequestLL;
 
     private boolean showFloatView =true;
     private boolean showNotify =false;
@@ -76,6 +79,8 @@ public class FloatAndNotifySettingCard extends AbsCard {
         showNotifyRL = (RelativeLayout) findViewById(R.id.show_notify_rl);
         showNotifySwitch = (SwitchCompat) findViewById(R.id.show_notify_switch);
         showNotifyTV = (HintTextView) findViewById(R.id.show_notify_tv);
+
+        showFloatRequestLL= (LinearLayout) findViewById(R.id.show_float_request_ll);
 
 //        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
 
@@ -119,6 +124,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
 //                    requestFloatViewTv.setVisibility(VISIBLE);
 //                }
                 showFloatViewTV.setShowHint(!showFloatView);
+                showFloatTip();
             }
         });
 
@@ -131,6 +137,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.IS_SHOW_NOTIFY, showNotify);
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 showNotifyTV.setShowHint(!showNotify);
+                showFloatTip();
             }
         });
 
@@ -181,6 +188,19 @@ public class FloatAndNotifySettingCard extends AbsCard {
         }
     };
 
+    private void showFloatTip(){
+        if (!showFloatView && !showNotify) {
+            showFloatRequestLL.setVisibility(VISIBLE);
+        }else {
+            showFloatRequestLL.setVisibility(GONE);
+        }
+        if (showFloatView && !showNotify){
+            showNotifyRL.setVisibility(GONE);
+        }else{
+            showNotifyRL.setVisibility(VISIBLE);
+        }
+    }
+
 
     private void refresh(){
         showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
@@ -189,6 +209,8 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
         showFloarViewSwitch.setChecked(showFloatView);
         showNotifySwitch.setChecked(showNotify);
+
+        showFloatTip();
     }
 
 }

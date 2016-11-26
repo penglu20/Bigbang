@@ -460,7 +460,16 @@ public class TipViewController implements  View.OnTouchListener {
     }
 
     public void showTipViewForStartActivity(Intent intent){
-        if (mWholeView==null || isRemoved || isTempAdd){
+        boolean isNotify=SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
+        if (isNotify){
+            //直接打开bigbang
+            try {
+                mContext.startActivity(intent);
+            } catch (Throwable e) {
+            }
+            return;
+        }
+        if (mWholeView==null || isRemoved || isTempAdd ){
             isTempAdd=true;
             //没显示悬浮窗的情况下，用户点击才打开Bigbang
             show();
@@ -475,7 +484,11 @@ public class TipViewController implements  View.OnTouchListener {
                     floatImageView.setOnClickListener(new View.OnClickListener() {
                               @Override
                               public void onClick(View v) {
-                                  mContext.startActivity(intent);
+                                  try {
+                                      mContext.startActivity(intent);
+                                  } catch (Throwable e) {
+                                      e.printStackTrace();
+                                  }
                                   remove();
                                   isTempAdd=false;
                               }

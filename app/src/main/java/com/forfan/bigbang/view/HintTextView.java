@@ -22,7 +22,7 @@ public class HintTextView extends LinearLayout {
     private static final int DEFAULT_MSG_COLOR= Color.BLACK;
     private static final int DEFAULT_HINT_COLOR = Color.GRAY;
 
-    private static final int DEFAULT_MSG_SIZE = 14;
+    private static final int DEFAULT_MSG_SIZE = 16;
     private static final int DEFAULT_HINT_SIZE = 10;
 
     private String msg;

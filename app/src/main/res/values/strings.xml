@@ -74,7 +74,7 @@
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
     <string name="check_update">检测更新</string>
     <string name="show_float_view">悬浮窗常驻(自动靠边隐藏)</string>
-    <string name="show_float_view_request">使用悬浮窗可以快捷切换Bigbang开关、全局复制、全屏截图OCR识别，更加高效！建议开启！</string>
+    <string name="show_float_view_request">悬浮窗包含多个功能入口，建议开启！</string>
     <string name="check_update_close">已是最新版本</string>
     <string name="default_setting">恢复默认设置</string>
 
@@ -141,7 +141,7 @@
     <string name="word_type_local">本地分词\n把每一个字都拆分开，无网络时备选</string>
 
     <string name="show_symbol">是否显示符号</string>
-    <string name="show_section">是否保持原段落\n开启时，段首的文字颜色加深，复制的时候保持分段状态</string>
+    <string name="show_section">是否保持原段落\n开启时，段首的文字颜色加深，复制时保持分段状态</string>
 
 
 
@@ -183,10 +183,11 @@
     <string name="monitor_clipboard_close">停止监控复制</string>
 
 
-    <string name="show_notify">通知栏显示开关</string>
-    <string name="show_notify_request">从通知栏可以快捷设置、激活全局复制和全屏截图OCR，点击空白处可以打开设置页。</string>
+    <string name="show_notify">显示通知栏</string>
+    <string name="show_notify_request">通知栏包含悬浮窗的所有功能，可作为替代方案。</string>
 
 
+    <string name="show_float_close_tip">通知栏和悬浮窗都关闭时，复制或点击时会暂时显示悬浮窗，通过点击悬浮窗激活Bigbang</string>
     <string name="can_not_capture_under_5_0">Screenshots 5.0一下系统暂不支持截屏</string>
     <string name="double_click">双击分词</string>
 
