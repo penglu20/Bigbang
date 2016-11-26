@@ -173,7 +173,7 @@ public class SettingBigBangActivity extends BaseActivity {
         mLineMarginSeekBar.setProgress((int) ((line - MIN_LINE_MARGIN)));
         mItemMarginSeekBar.setProgress((int) ((item - MIN_ITEM_MARGIN)));
 
-        itemMargin.setText(getString(R.string.setting_alpha_percent) + alpha +"%");
+        bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + alpha +"%");
         mBigbangAlphaSeekBar.setProgress(alpha);
 
 

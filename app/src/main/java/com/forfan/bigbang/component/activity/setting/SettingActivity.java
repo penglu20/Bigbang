@@ -46,8 +46,12 @@ public class SettingActivity extends BaseActivity {
         public void onReceive(Context context, Intent intent) {
             boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS,true);
             if(isChecked){
+                int index = 0;
                 if(!newAdapter.containsView(settingCard))
-                   newAdapter.addView(settingCard,  cardViews.size()-2);
+                    index = cardViews.size() - 4;
+                    if(XposedEnable.isEnable())
+                        index = index -1;
+                   newAdapter.addView(settingCard, index);
             }else {
                 if(newAdapter.containsView(settingCard))
                     newAdapter.deleteView(settingCard);
@@ -68,12 +72,12 @@ public class SettingActivity extends BaseActivity {
 
         cardList.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));
-        cardViews.add(new OcrCard(this));
-//        if(XposedEnable.isEnable()){
-            cardViews.add(new XposedCard(this));
-//        }
-        settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
+        settingCard = new MonitorSettingCard(this);
+      //  cardViews.add(new OcrCard(this));
+       if(XposedEnable.isEnable()){
+            cardViews.add(new XposedCard(this));
+       }
         cardViews.add(new FloatAndNotifySettingCard(this));
         cardViews.add(new BigBangSettingCard(this));
         if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true)) {

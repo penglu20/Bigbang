@@ -42,7 +42,9 @@
     <string name="other_monitor">在其他应用中监控</string>
     <string name="perm_tip">缺少运行所需权限。\n请点击"设置"-"权限"-打开权限。\n再点击两次后退按钮返回本页。</string>
     <string name="monitor_click">监控点击/长按</string>
+    <string name="monitor_click_into">需要开启辅助服务，在一些比较奇葩的应用中可能无法使用</string>
     <string name="setting_bigbang">设置BigBang样式</string>
+    <string name="setting_bigbang_intro">您可以调节爆炸出的文字的间距，大小，背景等</string>
     <string name="confirm_known">我知道了</string>
     <string name="go_set_msg">下面的设置入口有助于提高程序的存活性，但并不是手机管家的清理白名单，可能无法彻底解决问题！</string>
     <string name="share_request_cancel">无感...</string>

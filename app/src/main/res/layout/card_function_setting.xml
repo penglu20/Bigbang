@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_view"
     android:orientation="vertical">
 
@@ -40,12 +41,11 @@
         android:duplicateParentState="false"
         style="@style/cardViewRelativeLayoutSelector">
 
-        <android.support.v7.widget.AppCompatTextView
+        <com.forfan.bigbang.view.HintTextView
             android:id="@+id/monitor_click_tv"
-
-            style="@style/cardViewTextViewInLayoutLeft"
-            android:text="@string/monitor_click" />
-
+            style="@style/hintTextViewInLayoutLeft"
+            app:hint="@string/monitor_click_into"
+            app:msg="@string/monitor_click" />
         <android.support.v7.widget.SwitchCompat
             android:id="@+id/monitor_click_switch"
             style="@style/switchStyle"/>
@@ -70,8 +70,27 @@
             android:id="@+id/monitor_clipboard_switch"
             style="@style/switchStyle"/>
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
 
+    <RelativeLayout
+        android:id="@+id/orc"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
+        <android.support.v7.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/card_line_height"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:text="@string/ocr_picture"
+            android:textColor="@color/primary_text" />
 
+    </RelativeLayout>
 
 </LinearLayout>

@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-
-    <android.support.v7.widget.AppCompatTextView
+    <RelativeLayout
         android:id="@+id/setting_bigbang"
-        style="@style/cardViewTextView"
-        android:text="@string/setting_bigbang"/>
+        android:duplicateParentState="false"
+        style="@style/hintTextViewRelativeLayoutSelector">
+
+        <com.forfan.bigbang.view.HintTextView
+            android:id="@+id/show_float_view_tv"
+            style="@style/hintTextViewInLayoutLeft"
+            app:hint="@string/setting_bigbang_intro"
+            app:msg="@string/setting_bigbang" />
+
+    </RelativeLayout>
+
+
     <!---->
     <!--<RelativeLayout-->
         <!--android:id="@+id/white_list"-->

@@ -41,7 +41,9 @@
     <string name="other_monitor">Monitoring in other applications </string>
     <string name="perm_tip">Lack of running the required permissions \n please click on the "Settings" - "authority" - open access \n then click the back button to return to this page。</string>
     <string name="monitor_click">Monitor  click/long-click</string>
+    <string name="monitor_click_into">need open accessibility,and in some apps can be monitored by us</string>
     <string name="setting_bigbang">Set Style of BigBang</string>
+    <string name="setting_bigbang_intro">You can adjust the Apperance of the boom BigBang</string>
     <string name="confirm_known">I got it</string>
     <string name="go_set_msg">The following Settings entrance to improve viability of the program, but not phone housekeeping clean white-lists, may not be able to thoroughly solve the problem！</string>
     <string name="share_request_cancel"> no felt...</string>

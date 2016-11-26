@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.component.activity.OcrActivity;
 import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -84,7 +85,15 @@ public class FunctionSettingCard extends AbsCard {
         monitorClickSwitch = (SwitchCompat) findViewById(R.id.monitor_click_switch);
         totalSwitchSwitch = (SwitchCompat) findViewById(R.id.total_switch_switch);
 
-
+        findViewById(R.id.orc).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_OPEN_OCR);
+                Intent intent = new Intent();
+                intent.setClass(mContext, OcrActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
 //        monitorClipBoardTV= (TextView) findViewById(R.id.monitor_clipboard_tv);
 //        showFloatViewTV= (TextView) findViewById(R.id.show_float_view_tv);
 //        remainSymbolTV= (TextView) findViewById(R.id.remain_symbol_tv);
@@ -235,7 +244,7 @@ public class FunctionSettingCard extends AbsCard {
                 super.onCancel(dialog);
             }
         };
-        builder.message(mContext.getString(R.string.float_tips))
+        builder.message(mContext.getString(R.string.access_open_tips))
                 .positiveAction(mContext.getString(R.string.request_accessibility_confirm))
                 .negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);

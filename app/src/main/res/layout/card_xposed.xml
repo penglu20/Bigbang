@@ -13,10 +13,15 @@
 
         <android.support.v7.widget.AppCompatTextView
             style="@style/cardViewTextViewInLayoutLeft"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
             android:text="@string/xposed_setting"
             android:textColor="@color/primary_text" />
     </RelativeLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
     <RelativeLayout
         android:id="@+id/xposed_touch_setting"
         style="@style/hintTextViewRelativeLayoutSelector"
