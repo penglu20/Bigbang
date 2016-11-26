@@ -157,3 +157,6 @@ public static final int *;
 }
 -keep class com.shang.xposed.* { *; }
 -keep class com.shang.xposed.** { *; }
+
+-keep class com.shang.* { *; }
+-keep class com.shang.** { *; }

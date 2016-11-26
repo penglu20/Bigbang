@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="HintTextView">
+        <attr name="msg" format="string"/>
+        <attr name="msgTextColor" format="color"/>
+        <attr name="msgTextSize" format="dimension"/>
+
+        <attr name="hint" format="string"/>
+        <attr name="hintTextColor" format="color"/>
+        <attr name="hintTextSize" format="dimension"/>
+
+    </declare-styleable>
+
+</resources>

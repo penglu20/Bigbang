@@ -17,6 +17,10 @@
             android:text="@string/monitor_setting_card"/>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -34,6 +38,10 @@
     </RelativeLayout>
 
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
@@ -50,6 +58,10 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -67,6 +79,10 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
     <RelativeLayout
         android:id="@+id/text_only_rl"
         android:duplicateParentState="false"
@@ -84,6 +100,10 @@
 
 
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/white_list"
         android:layout_width="match_parent"
@@ -91,6 +111,10 @@
         android:paddingLeft="@dimen/card_padding_width"
         android:text="@string/white_list" />
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/double_click_setting"
@@ -98,6 +122,7 @@
         android:layout_height="@dimen/card_detail_line_height"
         style="@style/cardViewTextViewInLayoutLeft"
         android:paddingLeft="@dimen/card_padding_width"/>
+
 
     <RelativeLayout
         android:id="@+id/double_click_interval_rl"

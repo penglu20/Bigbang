@@ -11,22 +11,43 @@
 
         android:text="@string/introduction" />
 
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/introduction"
+        android:layout_height="1px"/>
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/problems"
-        android:layout_below="@id/introduction"
+        android:layout_below="@id/divider1"
         android:text="@string/problems"
         style="@style/cardViewTextView"/>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/problems"
+        android:layout_height="1px"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/feedback"
         style="@style/cardViewTextView"
-        android:layout_below="@id/problems"
+        android:layout_below="@id/divider2"
         android:text="@string/feed_back" />
 
 
+    <View
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/feedback"
+        android:layout_height="1px"/>
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/check_update"
-        android:layout_below="@id/feedback"
+        android:layout_below="@id/divider3"
         style="@style/cardViewTextView"
         android:text="@string/check_update"/>
 

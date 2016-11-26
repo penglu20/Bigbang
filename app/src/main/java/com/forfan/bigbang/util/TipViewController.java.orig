@@ -29,6 +29,11 @@ import android.widget.LinearLayout;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
+<<<<<<< Updated upstream
+import com.forfan.bigbang.view.BigBangLayout;
+=======
+import com.forfan.bigbang.component.contentProvider.SPHelper;
+>>>>>>> Stashed changes
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 

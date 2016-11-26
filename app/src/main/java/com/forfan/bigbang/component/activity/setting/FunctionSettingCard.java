@@ -136,46 +136,24 @@ public class FunctionSettingCard extends AbsCard {
         totalSwitchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_TOTAL_SWITCH, isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_TOTAL_SWITCH,isChecked);
 
                 totalSwitch = isChecked;
                 SPHelper.save(ConstantUtil.TOTAL_SWITCH, totalSwitch);
+                if (isClickTotalSwitch) {
+                    if (totalSwitch){
+                        SnackBarUtil.show(buttonView, mContext.getString(R.string.bigbang_open));
+                        try {
+                            mContext.startService(new Intent(mContext,BigBangMonitorService.class));
+                            mContext.startService(new Intent(mContext,ListenClipboardService.class));
+                        } catch (Throwable e) {
+                        }
+                    }else{
+                        SnackBarUtil.show(buttonView, mContext.getString(R.string.bigbang_close));
+                    }
+                }
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
-                if (!SPHelper.getBoolean(IS_LONG_PREESS_TIPS_SHOW, false) && isChecked) {
-                    if (!isInFirst) {
-                        showLongClickDialog();
-                        SPHelper.save(IS_LONG_PREESS_TIPS_SHOW, true);
-                    }
-                }
-                if (isClickTotalSwitch && isChecked) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(mContext)) {
-                        SnackBarUtil.show(buttonView,
-                                mContext.getString(R.string.punish_float_problem),
-                                mContext.getString(R.string.punish_float_action),
-                                new OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-//                                            Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
-//                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
-//                                        mContext.startActivity(intent);
-
-                                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                                                    Uri.parse("package:" + mContext.getPackageName()));
-                                            mContext.startActivity(intent);
-
-                                        } catch (Throwable e) {
-                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
-                                        }
-                                    }
-                                });
-                    } else {
-                        SnackBarUtil.show(buttonView, mContext.getString(R.string.punish_float_problem));
-                    }
-
-                }
-                isInFirst = false;
 //                if (totalSwitch){
 //                    requestFloatViewTv.setVisibility(GONE);
 //                }else {
@@ -283,8 +261,8 @@ public class FunctionSettingCard extends AbsCard {
                 case R.id.monitor_click_rl:
                     monitorClickSwitch.setChecked(!monitorClickSwitch.isChecked());
                     break;
-                case R.id.total_switch_switch:
-                    isClickTotalSwitch = true;
+                case R.id.total_switch_rl:
+                    isClickTotalSwitch =true;
                     totalSwitchSwitch.setChecked(!totalSwitchSwitch.isChecked());
                     break;
                 case R.id.default_setting:

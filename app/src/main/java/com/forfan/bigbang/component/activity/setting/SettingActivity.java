@@ -47,7 +47,7 @@ public class SettingActivity extends BaseActivity {
             boolean isChecked = intent.getBooleanExtra(ConstantUtil.SHOW_TENCENT_SETTINGS,true);
             if(isChecked){
                 if(!newAdapter.containsView(settingCard))
-                   newAdapter.addView(settingCard,  cardViews.size()-1);
+                   newAdapter.addView(settingCard,  cardViews.size()-2);
             }else {
                 if(newAdapter.containsView(settingCard))
                     newAdapter.deleteView(settingCard);
@@ -69,9 +69,9 @@ public class SettingActivity extends BaseActivity {
         cardList.addItemDecoration(new DividerItemDecoration(this,
                 DividerItemDecoration.VERTICAL_LIST));
         cardViews.add(new OcrCard(this));
-        if(XposedEnable.isEnable()){
+//        if(XposedEnable.isEnable()){
             cardViews.add(new XposedCard(this));
-        }
+//        }
         settingCard = new MonitorSettingCard(this);
         cardViews.add(new FunctionSettingCard(this));
         cardViews.add(new FloatAndNotifySettingCard(this));

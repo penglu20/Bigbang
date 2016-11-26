@@ -78,7 +78,7 @@
 
 
     <string name="punish_float_problem">悬浮窗功能已开启!</string>
-    <string name="punish_float_action">有问题？点击设置</string>
+    <string name="punish_float_action">悬浮窗不显示？点击设置</string>
 
     <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
     <string name="share_to">分享到：</string>
@@ -154,4 +154,6 @@
     <string name="xposed_setting">Xposed 设置相关</string>
     <string name="xposed_forcetouch">ForceTouch 设置</string>
     <string name="xposed_forcetouch_intro">设置按压触发Bigbang的力度</string>
+
+    <string name="too_short_to_split">文字长度小于2，不分词</string>
 </resources>

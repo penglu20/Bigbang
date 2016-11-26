@@ -52,7 +52,7 @@
 
     <dimen name="card_list_margin">@dimen/margin_normal</dimen>
     <dimen name="card_line_height">@dimen/height_normal</dimen>
-    <dimen name="card_detail_line_height">@dimen/height_title</dimen>
+    <dimen name="card_detail_line_height">60dp</dimen>
     <dimen name="card_divider_height">@dimen/margin_normal</dimen>
     <dimen name="card_padding_height">@dimen/margin_normal</dimen>
     <dimen name="card_padding_width">@dimen/margin_double</dimen>
@@ -90,4 +90,6 @@
     <dimen name="white_list_margin">@dimen/margin_normal</dimen>
 
     <dimen name="toolbar_height">@dimen/height_title</dimen>
+
+    <dimen name="card_hint_text_width">220dp</dimen>
 </resources>

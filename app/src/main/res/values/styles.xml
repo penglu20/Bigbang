@@ -206,4 +206,20 @@
     <style name="spinnerDropDownItemStyle" parent="android:TextAppearance.Widget.TextView.SpinnerItem">
 
     </style>
+
+
+    <style name="hintTextViewRelativeLayoutSelector" parent="cardViewRelativeLayoutSelector">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+    </style>
+
+
+    <style name="hintTextViewInLayoutLeft"  parent="cardViewTextViewInLayoutLeft">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+        <item name="android:layout_width">220dp</item>
+    </style>
+
+
+    <style name="hintTextViewswitchStyle" parent="switchStyle">
+        <item name="android:layout_height">@dimen/card_detail_line_height</item>
+    </style>
 </resources>

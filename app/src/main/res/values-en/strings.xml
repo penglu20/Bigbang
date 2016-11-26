@@ -155,4 +155,7 @@
     <string name="xposed_setting">Xposed Settings</string>
     <string name="xposed_forcetouch">ForceTouch Setting</string>
     <string name="xposed_forcetouch_intro">Setting the perssure for the showing of BigBang</string>
+
+
+    <string name="too_short_to_split">too short to split</string>
 </resources>

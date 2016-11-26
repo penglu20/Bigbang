@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
@@ -59,11 +60,11 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private CharSequence mWindowClassName;
 
-    private TipViewController tipViewController;
-    private boolean showBigBang = true;
-    private boolean monitorClick =true;
-    private boolean showFloatView =true;
-    private boolean onlyText =true;
+    private boolean showBigBang = false;
+    private boolean monitorClick = false;
+    private boolean showFloatView = false;
+    private boolean onlyText = true;
+    private boolean isRun;
 
     private int qqSelection = TYPE_VIEW_LONG_CLICKED;
     private int weixinSelection = TYPE_VIEW_LONG_CLICKED;
@@ -79,16 +80,9 @@ public class BigBangMonitorService extends AccessibilityService {
     public void onCreate() {
         super.onCreate();
 
-
-        boolean isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
-        if (!isRun){
-            stopSelf();
-            return;
-        }
         readSettingFromSp();
 
-        tipViewController=TipViewController.getInstance();
-        tipViewController.addActionListener(actionListener);
+        TipViewController.getInstance().addActionListener(actionListener);
 
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
@@ -103,7 +97,7 @@ public class BigBangMonitorService extends AccessibilityService {
                 try {
                     startService(new Intent(BigBangMonitorService.this,ListenClipboardService.class));
                     if (showFloatView){
-                        tipViewController.show();
+                        TipViewController.getInstance().show();
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();
@@ -131,10 +125,8 @@ public class BigBangMonitorService extends AccessibilityService {
 
     @Override
     public void onDestroy() {
-        if (tipViewController!=null) {
-            tipViewController.removeActionListener(actionListener);
-            tipViewController.remove();
-        }
+        TipViewController.getInstance().removeActionListener(actionListener);
+        TipViewController.getInstance().remove();
         try {
             unregisterReceiver(bigBangBroadcastReceiver);
         } catch (Throwable e) {
@@ -203,6 +195,9 @@ public class BigBangMonitorService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
+        if (!isRun){
+            return;
+        }
         LogUtil.e(TAG,"onAccessibilityEvent:"+event);
         int type=event.getEventType();
         switch (type){
@@ -222,9 +217,6 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private void setCapabilities(boolean isPengYouQuan) {
-        if (mAccessibilityServiceInfo==null){
-            return;
-        }
         int flag= 0;
         flag = mAccessibilityServiceInfo.flags;
         if (isPengYouQuan) {
@@ -242,9 +234,6 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private synchronized void getText(AccessibilityEvent event){
         LogUtil.e(TAG,"getText:"+event);
-        if (mAccessibilityServiceInfo==null){
-            return;
-        }
         if (!monitorClick || event==null ) {
             return;
         }
@@ -300,12 +289,16 @@ public class BigBangMonitorService extends AccessibilityService {
             }
         }
         if (!TextUtils.isEmpty(txt)) {
+            if (txt.length()<=2){
+                ToastUtil.show(R.string.too_short_to_split);
+                return;
+            }
             Intent intent=new Intent(this, BigBangActivity.class);
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BigBangActivity.TO_SPLIT_STR,txt.toString());
 //            startActivity(intent);
             //放到TipViewController中触发试试
-            tipViewController.showTipViewForStartActivity(intent);
+            TipViewController.getInstance().showTipViewForStartActivity(intent);
         }
     }
 
@@ -517,9 +510,12 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private synchronized void readSettingFromSp(){
-        boolean isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         if (!isRun){
-            stopSelf();
+            monitorClick=false;
+            showFloatView=false;
+            onlyText=true;
+            TipViewController.getInstance().remove();
             return;
         }
 
@@ -574,7 +570,7 @@ public class BigBangMonitorService extends AccessibilityService {
                     UniversalCopy();
                 }
             }else if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
-                tipViewController.stopLoadingAnim();
+                TipViewController.getInstance().stopLoadingAnim();
             } else {
                 readSettingFromSp();
             }

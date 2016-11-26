@@ -21,7 +21,10 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
+<<<<<<< Updated upstream
 import com.shang.commonjar.contentProvider.SPHelper;
+=======
+>>>>>>> Stashed changes
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,9 +66,17 @@ public final class ListenClipboardService extends Service {
     };
 
 
+<<<<<<< Updated upstream
+    private TipViewController tipViewController;
+    private boolean showBigBang = true;
+    private boolean monitorClipborad = true;
+    private boolean showFloatView = true;
+=======
+
     private boolean showBigBang = false;
     private boolean monitorClipborad = false;
     private boolean showFloatView = false;
+>>>>>>> Stashed changes
 
     public static class GrayInnerService extends Service {
 
@@ -106,9 +117,15 @@ public final class ListenClipboardService extends Service {
             @Override
             public void run() {
                 try {
+<<<<<<< Updated upstream
                     startService(new Intent(ListenClipboardService.this, BigBangMonitorService.class));
                     if (showFloatView) {
+                        tipViewController.show();
+=======
+                    startService(new Intent(ListenClipboardService.this,BigBangMonitorService.class));
+                    if (showFloatView){
                         TipViewController.getInstance().show();
+>>>>>>> Stashed changes
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();

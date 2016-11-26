@@ -12,18 +12,32 @@
         style="@style/cardViewTextView"
         android:text="@string/share"/>
 
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/share"
+        android:layout_height="1px"/>
+
     <android.support.v7.widget.AppCompatTextView
+
         android:id="@+id/donate"
         style="@style/cardViewTextView"
-        android:layout_below="@id/share"
+        android:layout_below="@id/divider1"
         android:text="@string/donate"/>
 
 
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/donate"
+        android:layout_height="1px"/>
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/about"
 
         style="@style/cardViewTextView"
-        android:layout_below="@id/donate"
+        android:layout_below="@id/divider2"
         android:text="@string/about"/>
 
 </RelativeLayout>

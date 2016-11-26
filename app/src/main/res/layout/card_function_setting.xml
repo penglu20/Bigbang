@@ -11,6 +11,11 @@
         android:visibility="gone"
         android:text="@string/default_setting" />
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
+
     <RelativeLayout
         android:id="@+id/total_switch_rl"
         android:duplicateParentState="false"
@@ -18,7 +23,6 @@
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/total_switch_tv"
-
             style="@style/cardViewTextViewInLayoutLeft"
             android:text="@string/total_switch" />
 
@@ -27,6 +31,10 @@
             style="@style/switchStyle"/>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
     <RelativeLayout
         android:id="@+id/monitor_click_rl"
         android:duplicateParentState="false"
@@ -43,6 +51,10 @@
             style="@style/switchStyle"/>
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
     <RelativeLayout
         android:id="@+id/monitor_clipboard_rl"
         android:duplicateParentState="false"
