@@ -36,7 +36,7 @@ public class TouchEventHandler {
         }
     }
 
-    public static int BIG_BANG_RESPONSE_TIME = 400;
+    public static int BIG_BANG_RESPONSE_TIME = 1000;
     public static int INVALID_INTERVAL = 60;
 
     private static final String TAG = "TouchEventHandler";

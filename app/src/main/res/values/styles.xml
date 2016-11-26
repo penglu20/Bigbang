@@ -99,6 +99,7 @@
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@color/primary_text</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:paddingLeft">@dimen/card_padding_width</item>
         <item name="android:paddingRight">@dimen/card_padding_width_double</item>
     </style>
@@ -109,6 +110,7 @@
         <item name="android:layout_height">@dimen/card_line_height</item>
         <item name="android:layout_alignParentLeft">true</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
 
@@ -118,6 +120,7 @@
         <item name="android:layout_height">@dimen/card_line_height</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
         <item name="android:textColor">@color/primary_text</item>
     </style>
 

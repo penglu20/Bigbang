@@ -192,7 +192,7 @@ public class ScreenCaptureService extends Service {
         image.close();
          LogUtil.e(TAG, "image data captured");
         ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
-        bitmap.compress(Bitmap.CompressFormat.PNG, 80, output);//把bitmap100%高质量压缩 到 output对象里
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
         bitmap.recycle();//自由选择是否进行回收
         byte[] result = output.toByteArray();//转换成功了
         try {
