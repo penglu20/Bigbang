@@ -644,7 +644,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 builder.append("\n");
             }
         }
-        return builder.toString();
+        return builder.toString().replaceAll("[\\n]+","\n").trim();
     }
 
     @Override

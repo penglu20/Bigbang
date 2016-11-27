@@ -4,10 +4,8 @@ import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.view.View;
@@ -18,6 +16,7 @@ import com.forfan.bigbang.component.activity.SplashActivity;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 
 public class BigbangNotification {
@@ -71,7 +70,7 @@ public class BigbangNotification {
 // 		        .setTicker(mContext.getResources().getString(R.string.notify_quick_message_ticket))
 				 .setWhen(0)
 				 .setSmallIcon(R.mipmap.ic_launcher)
-				 .setPriority(Notification.PRIORITY_MAX)
+				 .setPriority(Notification.PRIORITY_MAX)//这里改成PRIORITY_MAX_Min就可以不显示状态栏的图标了
 				 .setAutoCancel(true)
 				 .build();
 		setContetView();
@@ -90,16 +89,33 @@ public class BigbangNotification {
 			contentView = new RemoteViews(mContext.getPackageName(),R.layout.notification_light);
 		}
 
+		boolean isRun= SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+
+		boolean clipborad= SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
+		boolean click = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
+
+
+		String totalSwitch=!isRun?mContext.getString(R.string.notify_total_switch_off):mContext.getString(R.string.notify_total_switch_on);
+		String monitorClick=!click?mContext.getString(R.string.notify_monitor_click_off):mContext.getString(R.string.notify_monitor_click_on);
+		String monitorClipboard=!clipborad?mContext.getString(R.string.notify_monitor_clipboard_off):mContext.getString(R.string.notify_monitor_clipboard_on);
+
+
+
+
+
         //SettingActivity的跳转， 在SDK 3.0 （11）之上
         try {
 			contentView.setViewVisibility(R.id.total_switch, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.total_switch, createPendingIntent(mContext.getPackageName(),123456 ,ConstantUtil.TOTAL_SWITCH_BROADCAST));
+			contentView.setTextViewText(R.id.total_switch, totalSwitch);
 
 			contentView.setViewVisibility(R.id.monitor_click, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.monitor_click, createPendingIntent(mContext.getPackageName(), 123457 ,ConstantUtil.MONITOR_CLICK_BROADCAST));
+			contentView.setTextViewText(R.id.monitor_click,monitorClick);
 
 			contentView.setViewVisibility(R.id.monitor_clipboard, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.monitor_clipboard, createPendingIntent(mContext.getPackageName(), 123458 ,ConstantUtil.MONITOR_CLIPBOARD_BROADCAST));
+			contentView.setTextViewText(R.id.monitor_clipboard,monitorClipboard);
 
 			contentView.setViewVisibility(R.id.universal_copy, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.universal_copy, createPendingIntent(mContext,  SplashActivity.class,ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST));

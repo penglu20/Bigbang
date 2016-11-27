@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">逼格棒</string>
     <string name="cancel">取消</string>
     <string name="toast_tip_content">如果触发BigBang异常，可以切换"增强型监控"设置查看效果。</string>
     <string name="no_internet_for_fenci">网络异常，使用本地分词</string>
@@ -69,7 +70,6 @@
     <string name="donate">我请作者吃辣条</string>
     <string name="join_qq">欢迎加入锤子BigBang内测群（290017771）</string>
     <string name="confirm">确认</string>
-    <string name="app_name">锤子BigBang</string>
     <string name="share_request_cancel_dislike">算了吧...</string>
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
     <string name="check_update">检测更新</string>
@@ -166,11 +166,14 @@
 
 
 
-    <string name="notify_total_switch">使用\n服务</string>
-    <string name="notify_monitor_click">监控\n点击</string>
-    <string name="notify_monitor_clipboard">监控\n复制</string>
+    <string name="notify_total_switch_on">启用\n服务</string>
+    <string name="notify_total_switch_off">停用\n服务</string>
+    <string name="notify_monitor_click_on">监控\n点击</string>
+    <string name="notify_monitor_click_off">停用\n点击</string>
+    <string name="notify_monitor_clipboard_on">监控\n复制</string>
+    <string name="notify_monitor_clipboard_off">停用\n复制</string>
     <string name="notify_copy_title">全局\n复制</string>
-    <string name="notify_srceen_cap">全屏\n截图</string>
+    <string name="notify_srceen_cap">全屏\nOCR</string>
 
 
     <string name="open_total_switch_first">请先点击第一项"使用服务"</string>

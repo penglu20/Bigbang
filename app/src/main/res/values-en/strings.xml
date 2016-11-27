@@ -163,12 +163,17 @@
     <string name="float_tips">clict to show Menu Switch，Long-click to jump to Settings。</string>
     <string name="access_open_tips">Please go to open Accessibility for BigBang!</string>
 
-    <string name="notify_srceen_cap">Screenshots</string>
-    <string name="notify_monitor_click">Monitor \nclick</string>
+    <string name="notify_total_switch_on">Enable \nService</string>
+    <string name="notify_total_switch_off">Disable\nService</string>
+    <string name="notify_monitor_click_on">Monitor \nclick</string>
+    <string name="notify_monitor_click_off">Stop\nclick</string>
+    <string name="notify_monitor_clipboard_on">Monitor \nclipboard</string>
+    <string name="notify_monitor_clipboard_off">Stop\nclipboard</string>
 
-    <string name="notify_total_switch">Enable \nService</string>
     <string name="notify_copy_title">Universal \nCopy</string>
-    <string name="notify_monitor_clipboard">Monitor \nclipboard</string>
+    <string name="notify_srceen_cap">Screen OCR</string>
+
+
 
 
     <string name="open_total_switch_first">Please Enable Service First!</string>

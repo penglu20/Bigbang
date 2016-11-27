@@ -588,6 +588,7 @@ public class BigBangMonitorService extends AccessibilityService {
                 }else {
                     ToastUtil.show(R.string.monitor_click_close);
                 }
+                sendBroadcast(new Intent(ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
             } else {
                 readSettingFromSp();
             }

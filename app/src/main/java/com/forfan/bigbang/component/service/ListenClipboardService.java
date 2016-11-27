@@ -256,6 +256,8 @@ public final class ListenClipboardService extends Service {
             monitorClipborad=false;
             showFloatView=false;
             TipViewController.getInstance().remove();
+            isForegroundShow=false;
+            adjustService();
             return;
         }
 
@@ -272,6 +274,7 @@ public final class ListenClipboardService extends Service {
         } else {
             mClipboardWatcher.removePrimaryClipChangedListener(mOnPrimaryClipChangedListener);
         }
+        isForegroundShow=false;
         adjustService();
     }
 
@@ -295,13 +298,13 @@ public final class ListenClipboardService extends Service {
                 }
             } else if(intent.getAction().equals(ConstantUtil.TOTAL_SWITCH_BROADCAST)){
                 SPHelper.save(ConstantUtil.TOTAL_SWITCH,!isRun);
+                sendBroadcast(new Intent(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                 readSettingFromSp();
                 if (isRun){
                     ToastUtil.show(R.string.bigbang_open);
                 }else {
                     ToastUtil.show(R.string.bigbang_close);
                 }
-                sendBroadcast(new Intent(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
             } else {
                 readSettingFromSp();
             }
