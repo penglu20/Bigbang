@@ -65,10 +65,13 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@style/fade</item>
     </style>
-    <style name="ScreenCaptureTheme" parent="Theme.AppCompat.Dialog">
+    <style name="ScreenCaptureTheme" parent="OverlayTheme">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
     <style name="WebActivityTheme" parent="BigBangTheme">

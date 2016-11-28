@@ -640,7 +640,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 }
             }
             builder.append(line.getSelectedText());
-            if (containEnter) {
+            if (containEnter&&showSection) {
                 builder.append("\n");
             }
         }

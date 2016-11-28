@@ -59,6 +59,14 @@
             <!--</intent-filter>-->
         </activity>
         <activity
+            android:name=".component.activity.screen.CaptureResultActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/BigBangTheme"/>
+
+        <activity
             android:name=".component.activity.BigBangActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"

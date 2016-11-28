@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MarkSizeView">
+        <attr name="markedColor" format="color"/>
+        <attr name="unMarkedColor" format="color"/>
+        <attr name="strokeColor" format="color"/>
+        <attr name="strokeWidth" format="dimension"/>
+        <attr name="vertexColor" format="color"/>
+        <attr name="vertexWidth" format="dimension"/>
+        <attr name="confirmButtonRes" format="reference"/>
+        <attr name="cancleButtonRes" format="reference"/>
+    </declare-styleable>
+
+</resources>

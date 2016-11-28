@@ -199,4 +199,6 @@
     <string name="pre_setting_intro1">This page will only appear once\nUsed to help you choose whether to display a suspended window\n\nWhen you click &lt;Show &gt;，will display the suspension window，Copy text, long press or double-click will&lt; directly explode the text&gt;。\nWhen you click &lt;Gone &gt;, the display will close the popup window and the notification bar , then the text operation will pop up a suspension window, and then you need to &lt;click to explode the text &gt;</string>
     <string name="pre_setting_intro2">You can do this by clicking the &lt; Float Window Resident &gt; on the Settings page</string>
 
+    <string name="capture_tips">Take a screenshot of the area on the screen</string>
+    <string name="capture_all">Click TO Capture Full Screen</string>
 </resources>
