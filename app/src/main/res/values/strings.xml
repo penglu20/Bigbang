@@ -129,6 +129,10 @@
 
 
     <string name="share">分享到朋友圈</string>
+    <string name="share_">分享</string>
+    <string name="save_">保存</string>
+    <string name="ocr_">识别</string>
+    <string name="bigbang_">炸词</string>
     <string name="share_content">BigBang，不止是分词！更是您的高效助手！单击、双击、长按、复制等多种触发方式随心选！更有全局复制，图片识别等黑科技加持，给你的手机插上翅膀！</string>
     <string name="share_no_wechat">你还没有安装微信</string>
 
@@ -200,5 +204,9 @@
     <string name="pre_setting_intro2">您可以点击设置页面的&lt;悬浮窗常驻&gt;进行设置</string>
     <string name="capture_tips">在屏幕上划取区域截图</string>
     <string name="capture_all">点我截取全屏</string>
+
+    <string name="save_sd_card">已保存sd卡 Pictures 目录下</string>
+    <string name="save_sd_card_fail">保存失败</string>
+
 
 </resources>

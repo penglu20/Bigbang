@@ -3,7 +3,6 @@ package com.forfan.bigbang.component.activity.screen;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -32,7 +31,7 @@ public class ScreenCaptureActivity extends BaseActivity {
     private Intent intent = null;
     private int REQUEST_MEDIA_PROJECTION = 1;
     private MediaProjectionManager mMediaProjectionManager;
-    private  MarkSizeView markSizeView;
+    private MarkSizeView markSizeView;
     private Rect markedArea;
     private TextView captureTips;
     private Button captureAll;
@@ -55,19 +54,19 @@ public class ScreenCaptureActivity extends BaseActivity {
 
         setContentView(R.layout.activity_screen_capture);
 
-        markSizeView= (MarkSizeView) findViewById(R.id.mark_size);
-        captureTips= (TextView) findViewById(R.id.capture_tips);
-        captureAll= (Button) findViewById(R.id.capture_all);
+        markSizeView = (MarkSizeView) findViewById(R.id.mark_size);
+        captureTips = (TextView) findViewById(R.id.capture_tips);
+        captureAll = (Button) findViewById(R.id.capture_all);
 
 
         markSizeView.setmOnClickListener(new MarkSizeView.onClickListener() {
             @Override
             public void onConfirm(Rect markedArea) {
-                boolean isFirst = SPHelper.getBoolean("is_fist",true);
-                if(isFirst){
-                    ToastUtil.show(R.string.need_capture_perssion);
-                }
-                ScreenCaptureActivity.this.markedArea=new Rect(markedArea);
+                boolean isFirst = SPHelper.getBoolean("is_fist", true);
+//                if(isFirst){
+//                    ToastUtil.show(R.string.need_capture_perssion);
+//                }
+                ScreenCaptureActivity.this.markedArea = new Rect(markedArea);
                 markSizeView.reset();
                 markSizeView.setUnmarkedColor(getResources().getColor(R.color.transparent));
                 startIntent();
@@ -88,8 +87,8 @@ public class ScreenCaptureActivity extends BaseActivity {
         captureAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isFirst = SPHelper.getBoolean("is_fist",true);
-                if(isFirst){
+                boolean isFirst = SPHelper.getBoolean("is_fist", true);
+                if (isFirst) {
                     ToastUtil.show(R.string.need_capture_perssion);
                 }
                 markSizeView.setUnmarkedColor(getResources().getColor(R.color.transparent));
@@ -130,7 +129,7 @@ public class ScreenCaptureActivity extends BaseActivity {
         super.onStart();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
-        registerReceiver(captureResultReceiver,intentFilter);
+        registerReceiver(captureResultReceiver, intentFilter);
     }
 
     //    @Override
@@ -181,10 +180,10 @@ public class ScreenCaptureActivity extends BaseActivity {
     private BroadcastReceiver captureResultReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
-                Intent newIntent=new Intent(context, CaptureResultActivity.class);
-                newIntent.putExtra(ScreenCaptureService.MESSAGE,intent.getStringExtra(ScreenCaptureService.MESSAGE));
-                newIntent.putExtra(ScreenCaptureService.FILE_NAME,intent.getStringExtra(ScreenCaptureService.FILE_NAME));
+            if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)) {
+                Intent newIntent = new Intent(context, CaptureResultActivity.class);
+                newIntent.putExtra(ScreenCaptureService.MESSAGE, intent.getStringExtra(ScreenCaptureService.MESSAGE));
+                newIntent.putExtra(ScreenCaptureService.FILE_NAME, intent.getStringExtra(ScreenCaptureService.FILE_NAME));
                 startActivity(newIntent);
                 finish();
             }

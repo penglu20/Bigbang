@@ -1,61 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/container"
-    android:layout_height="match_parent"
-    android:padding="@dimen/margin_double"
-    android:orientation="vertical">
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/ocr_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <ImageView
-        android:id="@+id/captured_pic"
-        android:layout_marginTop="@dimen/margin_double"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_double">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/margin_double"
-        android:orientation="horizontal"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/share"
-            android:src="@mipmap/bigbang_action_share"
-            android:scaleType="center"
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/ocr_result"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <ImageView
+            android:id="@+id/captured_pic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_double" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="0dp"
-            android:id="@+id/save"
-            android:layout_weight="1"
-            android:src="@mipmap/bigbang_action_local"
-            android:scaleType="center"
-            android:layout_height="wrap_content" />
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="0dp"
-            android:id="@+id/recognize"
-            android:layout_weight="1"
-            android:src="@mipmap/bigbang_action_cloud"
-            android:scaleType="center"
-            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/margin_double"
+            android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:layout_width="0dp"
-            android:id="@+id/bigbang"
-            android:layout_weight="1"
-            android:src="@mipmap/bigbang_action_copy"
-            android:scaleType="center"
-            android:layout_height="wrap_content" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/bigbang_action_share"
+                android:gravity="center_horizontal"
+                android:scaleType="center"
+                android:text="@string/share_" />
+
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/save"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/bigbang_action_local"
+                android:gravity="center_horizontal"
+                android:scaleType="center"
+                android:text="@string/save_" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/recognize"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/bigbang_action_cloud"
+                android:gravity="center_horizontal"
+                android:scaleType="center"
+                android:text="@string/ocr_" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/bigbang"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/bigbang_action_copy"
+                android:gravity="center_horizontal"
+                android:scaleType="center"
+                android:text="@string/bigbang_" />
+        </LinearLayout>
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

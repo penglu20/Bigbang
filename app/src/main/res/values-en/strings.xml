@@ -128,7 +128,12 @@
     <string name="thinks_for_donate">Thank for your donation ，welcome to join our QQ club(290017771)，and wish you can provide us some suggestions .</string>
     <string name="picture_saved">QRCode is alreay saved</string>
     <string name="click_to_save_qrcord">click QRCode to save</string>
-    <string name="share">Share To WeChat</string><string name="share_content">BigBang！Your efficient way of life！</string>
+    <string name="share">Share To WeChat</string>
+    <string name="share_">Share</string>
+    <string name="save_">Save</string>
+    <string name="ocr_">Ocr</string>
+    <string name="bigbang_">Bigbang</string>
+    <string name="share_content">BigBang！Your efficient way of life！</string>
 
     <string name="share_no_wechat">You did not have WeChat installed</string>
     <string name="xposed_whitelist">Xposed White List</string>
@@ -201,4 +206,7 @@
 
     <string name="capture_tips">Take a screenshot of the area on the screen</string>
     <string name="capture_all">Click TO Capture Full Screen</string>
+
+    <string name="save_sd_card">Saved in Sdcard/Pictures/</string>
+    <string name="save_sd_card_fail">Save fail</string>
 </resources>
