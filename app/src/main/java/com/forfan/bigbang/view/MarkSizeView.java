@@ -171,11 +171,11 @@ public class MarkSizeView extends View {
                     mOnClickListener.onTouch();
                 }
                 if (confirmArea.contains(x,y)){
+                    isButtonClicked=true;
+                    isValid=true;
                     if (mOnClickListener!=null){
                         mOnClickListener.onConfirm(markedArea);
                     }
-                    isButtonClicked=true;
-                    isValid=true;
                 }else if (cancelArea.contains(x,y)){
                     isButtonClicked=true;
                     isValid=true;
