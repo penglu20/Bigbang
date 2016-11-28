@@ -27,10 +27,12 @@ import rx.schedulers.Schedulers;
  */
 
 public class OcrAnalsyser {
-    //我自己的 00b0e581e4124a2583ea7dba57aaf281
-    //别人的  56c87e179c084cfaae9b70a2f58fa8d3
+    //别人的 00b0e581e4124a2583ea7dba57aaf281
+    // 我自己的 56c87e179c084cfaae9b70a2f58fa8d3
+    //彭露的 9e88939475894dec85a2019fd36243be
+
     private static OcrAnalsyser instance = new OcrAnalsyser();
-    VisionServiceRestClient client = new VisionServiceRestClient("56c87e179c084cfaae9b70a2f58fa8d3");
+    VisionServiceRestClient client = new VisionServiceRestClient("00b0e581e4124a2583ea7dba57aaf281");
     private String img_path;
     Observable.OnSubscribe<OCR> mOnSubscrube = new Observable.OnSubscribe<OCR>() {
         @Override
