@@ -1,7 +1,6 @@
 package com.forfan.bigbang.view;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -15,15 +14,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.forfan.bigbang.R;
-import com.forfan.bigbang.component.activity.IntroActivity;
-import com.forfan.bigbang.util.LogUtil;
 
 import java.util.List;
 
@@ -108,6 +103,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
     private OnLongClickCallback onLongclickListener;
     private OnViewAddedListener onViewAddedListener;
     private RelativeLayout guideViewLayout;
+    private Builder builder;
 
     public void restoreState() {
         Log.v(TAG, "restoreState");
@@ -221,8 +217,17 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
                 targetView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
             this.removeAllViews();
-            ((FrameLayout) ((Activity) mContent).getWindow().getDecorView()).removeView(this);
-            restoreState();
+            try {
+                ((FrameLayout) ((Activity) mContent).getWindow().getDecorView()).removeView(this);
+                restoreState();
+                builder.guiderView = null;
+                builder.instance = null;
+                builder = null;
+                this.mContent = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
@@ -308,15 +313,15 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
 
             this.addView(customGuideView, guideViewParams);
         }
-        if(centerView != null){
+        if (centerView != null) {
             LayoutParams centerViewParams;
             centerViewParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             centerViewParams.setMargins(0, center[1], 0, 0);
-            if (centerView.getParent()!=null){
-                ((ViewGroup)centerView.getParent()).removeView(centerView);
+            if (centerView.getParent() != null) {
+                ((ViewGroup) centerView.getParent()).removeView(centerView);
             }
             this.addView(centerView, centerViewParams);
-            if (onViewAddedListener!=null){
+            if (onViewAddedListener != null) {
                 onViewAddedListener.viewAdded(centerView);
             }
         }
@@ -412,10 +417,10 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
                 case RECTANGULAR://圆角矩形
                     int[] target = getTargetViewSize();
                     //RectF对象
-                    oval.left = center[0] - target[0]/2;                              //左边
-                    oval.top = center[1] - target[1]/2;                                   //上边
-                    oval.right = center[0] + target[0]/2;                             //右边
-                    oval.bottom = center[1] + target[1]/2;                                //下边
+                    oval.left = center[0] - target[0] / 2;                              //左边
+                    oval.top = center[1] - target[1] / 2;                                   //上边
+                    oval.right = center[0] + target[0] / 2;                             //右边
+                    oval.bottom = center[1] + target[1] / 2;                                //下边
                     temp.drawRoundRect(oval, radius, radius, mCirclePaint);                   //绘制圆角矩形
                     break;
             }
@@ -435,6 +440,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
     public void setOnLongClickExit(boolean onLongClickExit) {
         this.onLongClickExit = onLongClickExit;
     }
+
     public void setOnclickListener(OnClickCallback onclickListener) {
         this.onclickListener = onclickListener;
     }
@@ -462,19 +468,19 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
         });
         final boolean exit1 = onLongClickExit;
         setOnLongClickListener(new OnLongClickListener() {
-               @Override
-               public boolean onLongClick(View v) {
-                   boolean t=false;
-                   if (onLongclickListener != null) {
-                       onLongclickListener.onLongClickedGuideView();
-                       t=true;
-                   }
-                   if (exit1) {
-                       hide();
-                   }
-                   return t;
-               }
-           }
+                                   @Override
+                                   public boolean onLongClick(View v) {
+                                       boolean t = false;
+                                       if (onLongclickListener != null) {
+                                           onLongclickListener.onLongClickedGuideView();
+                                           t = true;
+                                       }
+                                       if (exit1) {
+                                           hide();
+                                       }
+                                       return t;
+                                   }
+                               }
         );
     }
 
@@ -508,6 +514,14 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
         this.centerView = conterView;
     }
 
+    public void destory() {
+
+    }
+
+    public void setBuilder(Builder builder) {
+        this.builder = builder;
+    }
+
     /**
      * 定义GuideView相对于targetView的方位，共八种。不设置则默认在targetView下方
      */
@@ -520,7 +534,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
     /**
      * 定义目标控件的形状，共3种。圆形，椭圆，带圆角的矩形（可以设置圆角大小），不设置则默认是圆形
      */
-   public enum MyShape {
+    public enum MyShape {
         CIRCULAR, ELLIPSE, RECTANGULAR
     }
 
@@ -543,21 +557,14 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
     }
 
     public static class Builder {
-        static GuideView guiderView;
-        static Builder instance = new Builder();
-        Context mContext;
-
-        private Builder() {
-        }
-
+        GuideView guiderView;
+        Builder instance;
         public Builder(Context ctx) {
-            mContext = ctx;
+            guiderView = new GuideView(ctx);
+            guiderView.setBuilder(this);
+            instance = this;
         }
 
-        public static Builder newInstance(Context ctx) {
-            guiderView = new GuideView(ctx);
-            return instance;
-        }
 
         public Builder setTargetView(View target) {
             guiderView.setTargetView(target);
@@ -615,7 +622,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
             return instance;
         }
 
-        public Builder setOnLongClickExit(boolean onLongClickExit){
+        public Builder setOnLongClickExit(boolean onLongClickExit) {
             guiderView.setOnLongClickExit(onLongClickExit);
             return instance;
         }
@@ -631,7 +638,7 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
             return instance;
         }
 
-        public Builder setOnViewAddedListener(OnViewAddedListener listener){
+        public Builder setOnViewAddedListener(OnViewAddedListener listener) {
             guiderView.setOnViewAddedListener(listener);
             return instance;
         }
@@ -641,4 +648,6 @@ public class GuideView extends RelativeLayout implements ViewTreeObserver.OnGlob
             return instance;
         }
     }
+
+
 }

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.PreSettingActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
@@ -81,8 +82,7 @@ public class IntroActivity extends BaseActivity {
 
             }
         });
-        guideView = GuideView.Builder
-                .newInstance(this)
+        guideView = new GuideView.Builder(this)
                 .setTargetView(mIntro)//设置目标
                 .setCustomGuideView(tv)
                 .setCenterView(imageView)
@@ -149,12 +149,12 @@ public class IntroActivity extends BaseActivity {
         mBigBangLayout.setActionListener(bigBangActionListener);
 
         mBigBangWraper = (CardView) findViewById(R.id.bigbang_wraper);
-        txts_cloud = new String[]{"BigBang", "是", "您", "的", "快捷", "助手", "。","\n",
+        txts_cloud = new String[]{"BigBang", "是", "您", "的", "快捷", "助手", "。", "\n",
                 "您", "可以", "在", "任意", "app", "中", "对", "文字", "进行", "编辑", "，",
-                "包括", "分词", "，", "翻译", "，", "复制", "以及", "动态", "调整", "。","\n", "希望", "您", "能", "在", "日常", "生活", "中", "获得", "便利"};
-        txts_local = new String[]{"BigBang", "是", "您", "的", "快", "捷", "助", "手", "。","\n",
+                "包括", "分词", "，", "翻译", "，", "复制", "以及", "动态", "调整", "。", "\n", "希望", "您", "能", "在", "日常", "生活", "中", "获得", "便利"};
+        txts_local = new String[]{"BigBang", "是", "您", "的", "快", "捷", "助", "手", "。", "\n",
                 "您", "可", "以", "在", "任", "意", "app", "中", "对", "文", "字", "进", "行", "编", "辑", "，",
-                "包", "括", "分", "词", "，", "翻", "译", "，", "复", "制", "以", "及", "动", "态", "调", "整", "。","\n","希", "望", "您", "能", "在", "日", "常", "生", "活", "中", "获", "得"
+                "包", "括", "分", "词", "，", "翻", "译", "，", "复", "制", "以", "及", "动", "态", "调", "整", "。", "\n", "希", "望", "您", "能", "在", "日", "常", "生", "活", "中", "获", "得"
                 , "便", "利"};
         for (String t : txts_cloud) {
             mBigBangLayout.addTextItem(t);
@@ -172,7 +172,7 @@ public class IntroActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(IntroActivity.this, SettingActivity.class);
+                intent.setClass(IntroActivity.this, PreSettingActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -208,8 +208,7 @@ public class IntroActivity extends BaseActivity {
 
             }
         });
-        guideView = GuideView.Builder
-                .newInstance(this)
+        guideView = new GuideView.Builder(this)
                 .setTargetView(mBigBangWraper)//设置目标
                 .setCustomGuideView(tv)
                 .setCenterView(imageView)
@@ -343,12 +342,12 @@ public class IntroActivity extends BaseActivity {
         public void onSwitchType(boolean isLocal) {
             mBigBangLayout.reset();
             if (isLocal) {
-                for(String text : txts_local){
+                for (String text : txts_local) {
                     mBigBangLayout.addTextItem(text);
                 }
                 mFunctionIntroTV.setText(R.string.word_type_local);
             } else {
-                for(String text : txts_cloud){
+                for (String text : txts_cloud) {
                     mBigBangLayout.addTextItem(text);
                 }
                 mFunctionIntroTV.setText(R.string.word_type_cloud);
@@ -382,5 +381,13 @@ public class IntroActivity extends BaseActivity {
             guideView.hide();
         }
         super.onBackPressed();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (guideView != null)
+            guideView.hide();
+        guideView = null;
     }
 }

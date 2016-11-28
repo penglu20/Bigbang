@@ -93,6 +93,7 @@ public class UrlCountUtil {
     public static final String CLICK_BIGBANG_REMAIN_SYMBOL= "click_bigbang_remain_symbol";
     public static final String CLICK_BIGBANG_REMAIN_SECTION= "click_bigbang_remain_section";
 
+    public static final java.lang.String PRE__FLOATVIEW = "pre__floatview";
 
 
     public static Context mContext= BigBangApp.getInstance();

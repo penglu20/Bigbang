@@ -194,4 +194,9 @@
     <string name="can_not_capture_under_5_0">Screenshots 5.0以下系统暂不支持截屏</string>
     <string name="double_click">双击分词</string>
 
+    <string name="show">显示</string>
+    <string name="gone">不显示</string>
+    <string name="pre_setting_intro1">这个页面只会出现一次\n用来帮助您选择是否展示悬浮窗\n\n当您点击 &lt;显示 &gt;，会展示悬浮球，复制文字，长按或双击(等自定义操作)会&lt;直接炸开文字&gt;。\n当您点击&lt;不显示&gt;时，会关闭掉悬浮窗和通知栏，此时对文字操作会弹出一个悬浮窗，然后需要您&lt;点击去炸开文字&gt;</string>
+    <string name="pre_setting_intro2">您可以点击设置页面的&lt;悬浮窗常驻&gt;进行设置</string>
+
 </resources>

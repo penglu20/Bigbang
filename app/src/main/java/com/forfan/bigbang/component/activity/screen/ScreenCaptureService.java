@@ -245,7 +245,7 @@ public class ScreenCaptureService extends Service {
 
     private void saveCutBitmap(Bitmap cutBitmap) {
         Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
-            File localFile = new File(getCacheDir(), "temp.png");
+            File localFile = new File(getFilesDir(), "temp.png");
         try {
             if (!localFile.exists()) {
                 localFile.createNewFile();

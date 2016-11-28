@@ -46,6 +46,11 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".component.PreSettingActivity"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".test.TestActivity">
 
             <!--<intent-filter>-->
@@ -59,16 +64,16 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"
-            android:theme="@style/BigBangTheme" >
+            android:theme="@style/BigBangTheme">
             <intent-filter>
-                <action android:name="android.intent.action.SEND"/>
+                <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <action android:name="android.intent.action.VIEW"/>
-                <data android:scheme="forbigBang"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="android.intent.action.VIEW" />
+                <data android:scheme="forbigBang" />
             </intent-filter>
         </activity>
 
@@ -123,7 +128,6 @@
         </service>
 
 
-
         <activity
             android:name=".component.activity.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
@@ -149,7 +153,9 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="application/*" />
                 <data android:mimeType="image/*" />
                 <data android:mimeType="multipart/*" />
@@ -157,7 +163,7 @@
         </activity>
         <activity
             android:name=".component.activity.SettingBigBangActivity"
-            android:theme="@style/BaseAppTheme"/>
+            android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.WebActivity"
             android:autoRemoveFromRecents="true"
@@ -180,39 +186,19 @@
         <service android:name=".component.activity.screen.ScreenCaptureService">
 
         </service>
-        <activity android:name=".component.activity.DonateActivity"
-            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name=".component.activity.DonateActivity"
+            android:theme="@style/BaseAppTheme" />
 
         <receiver android:name=".component.WakeUpBroadcastReceiver">
             <intent-filter>
-                <action android:name="com.shang.bigbang.wake"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="com.shang.bigbang.wake" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     </application>
