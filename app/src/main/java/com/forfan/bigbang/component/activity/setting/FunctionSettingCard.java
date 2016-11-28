@@ -127,7 +127,7 @@ public class FunctionSettingCard extends AbsCard {
                     mContext.startService(new Intent(context, BigBangMonitorService.class));
                     if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
                         handler.removeCallbacks(showAccess);
-                        handler.postDelayed(showAccess, 1000);
+                        handler.postDelayed(showAccess, 2000);
                     }
                 }
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));

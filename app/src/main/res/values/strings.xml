@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">逼格棒</string>
+    <string name="app_name">全能分词王</string>
     <string name="cancel">取消</string>
     <string name="toast_tip_content">如果触发BigBang异常，可以切换"增强型监控"设置查看效果。</string>
     <string name="no_internet_for_fenci">网络异常，使用本地分词</string>
