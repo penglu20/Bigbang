@@ -70,7 +70,15 @@ public class WebServiceRequest {
         return webInvoke("POST", url, data, contentType, responseInputStream);
     }
 
+    public void setOnTimeUseUp(OnResult onTimeUseUp) {
+        onResult = onTimeUseUp;
+    }
 
+    public  interface  OnResult{
+        void onTimeUseUp();
+        void onSuccess();
+    }
+    private  OnResult onResult;
     private Object webInvoke(String method, String url, Map<String, Object> data, String contentType, boolean responseInputStream) throws VisionServiceException {
         HttpPost request = null;
 
@@ -103,12 +111,19 @@ public class WebServiceRequest {
             client.getParams().setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000);
             HttpResponse response = this.client.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
+            if(statusCode == 403){
+                if(onResult != null)
+                    onResult.onTimeUseUp();
+            }
             if (statusCode == 200) {
+                if(onResult != null)
+                    onResult.onSuccess();
                 if (!responseInputStream) {
                     return readInput(response.getEntity().getContent());
                 } else {
                     return response.getEntity().getContent();
                 }
+
             } else {
                 throw new Exception("Error executing POST request! Received error code: " + response.getStatusLine().getStatusCode());
             }

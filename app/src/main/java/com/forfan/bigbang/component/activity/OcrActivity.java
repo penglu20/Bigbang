@@ -208,7 +208,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         String img_path = ImageUriUtil.getImageAbsolutePath(this, uri);
         // VisionServiceRestClient client = new VisionServiceRestClient("00b0e581e4124a2583ea7dba57aaf281");
         findViewById(R.id.hint).setVisibility(View.VISIBLE);
-        OcrAnalsyser.getInstance().analyse(this, img_path, new OcrAnalsyser.CallBack() {
+        OcrAnalsyser.getInstance().analyse(this, img_path,true, new OcrAnalsyser.CallBack() {
             @Override
             public void onSucess(OCR ocr) {
                 editText.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));

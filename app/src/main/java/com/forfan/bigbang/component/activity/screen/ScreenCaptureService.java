@@ -5,7 +5,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.Image;
@@ -24,20 +24,22 @@ import android.view.WindowManager;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
-import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
-import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.ToastUtil;
-import com.microsoft.projectoxford.vision.contract.LanguageCodes;
-import com.microsoft.projectoxford.vision.contract.OCR;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 
 public class ScreenCaptureService extends Service {
     private static final String TAG = "ScreenCaptureActivity";
+    public static final String SCREEN_CUT_RECT = "screen_cut";
+    public static final String MESSAGE = "message";
+    public static final String FILE_NAME = "temp_file";
     private SimpleDateFormat dateFormat = null;
     private String strDate = null;
     private String pathImage = null;
@@ -58,32 +60,35 @@ public class ScreenCaptureService extends Service {
     private int mScreenDensity = 0;
 
     Handler handler = new Handler(Looper.getMainLooper());
+    private Rect mRect;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void onCreate() {
         super.onCreate();
-
+        try {
+            createVirtualEnvironment();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void toCapture() {
         try {
-            createVirtualEnvironment();
 
             handler.postDelayed(new Runnable() {
                 public void run() {
-                    //start virtual
                     startVirtual();
                 }
-            }, 500);
+            }, 10);
 
             handler.postDelayed(new Runnable() {
                 public void run() {
                     //capture the screen
                     startCapture();
                 }
-            }, 1500);
+            }, 100);
         } catch (Exception e) {
             e.printStackTrace();
         } catch (Error e) {
@@ -94,6 +99,7 @@ public class ScreenCaptureService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
         toCapture();
         return super.onStartCommand(intent, flags, startId);
 
@@ -127,11 +133,11 @@ public class ScreenCaptureService extends Service {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void startVirtual() {
         if (mMediaProjection != null) {
-             LogUtil.e(TAG, "want to display virtual");
+            LogUtil.e(TAG, "want to display virtual");
             virtualDisplay();
         } else {
-             LogUtil.e(TAG, "start screen capture intent");
-             LogUtil.e(TAG, "want to build mediaprojection and display virtual");
+            LogUtil.e(TAG, "start screen capture intent");
+            LogUtil.e(TAG, "want to build mediaprojection and display virtual");
             setUpMediaProjection();
             virtualDisplay();
         }
@@ -156,8 +162,9 @@ public class ScreenCaptureService extends Service {
         mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
                 windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                 mImageReader.getSurface(), null, null);
-         LogUtil.e(TAG, "virtual displayed");
+        LogUtil.e(TAG, "virtual displayed");
     }
+
     //获取状态栏高度
     public int getStatusBarHeight() {
         int result = 0;
@@ -174,7 +181,7 @@ public class ScreenCaptureService extends Service {
         nameImage = pathImage + strDate + ".png";
 
         Image image = mImageReader.acquireLatestImage();
-        if(image == null){
+        if (image == null) {
             ToastUtil.show(R.string.screen_capture_fail);
             sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
             return;
@@ -190,41 +197,75 @@ public class ScreenCaptureService extends Service {
         Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_4444);
         bitmap.copyPixelsFromBuffer(buffer);
         image.close();
-         LogUtil.e(TAG, "image data captured");
+        LogUtil.e(TAG, "image data captured");
         ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
-        bitmap.recycle();//自由选择是否进行回收
-        byte[] result = output.toByteArray();//转换成功了
-        try {
-            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
-            ToastUtil.showLong(R.string.ocr_recognize);
-            output.close();
-            OcrAnalsyser.getInstance().analyse(result, new OcrAnalsyser.CallBack() {
-                @Override
-                public void onSucess(OCR ocr) {
-                    LogUtil.e(TAG, "ocr--success");
 
-
-                    String str = OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr);
-                    Intent intent = new Intent(ScreenCaptureService.this, BigBangActivity.class);
-                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, str);
-                    startActivity(intent);
-                    stopSelf();
-                }
-
-                @Override
-                public void onFail() {
-                    LogUtil.e(TAG, "ocr--fail");
-                    ToastUtil.show(R.string.sorry_for_ocr_parse_fail);
-                    stopSelf();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (mRect != null) {
+            int cut_width = Math.abs(mRect.left - mRect.right);
+            int cut_height = Math.abs(mRect.top - mRect.bottom);
+            Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
+            saveCutBitmap(cutBitmap);
+        } else {
+            saveCutBitmap(bitmap);
         }
+        bitmap.recycle();//自由选择是否进行回收
+//        byte[] result = output.toByteArray();//转换成功了
+//        try {
+//            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
+//            ToastUtil.showLong(R.string.ocr_recognize);
+//            output.close();
+//            OcrAnalsyser.getInstance().analyse(result, new OcrAnalsyser.CallBack() {
+//                @Override
+//                public void onSucess(OCR ocr) {
+//                    LogUtil.e(TAG, "ocr--success");
+//
+//
+//                    String str = OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr);
+//                    Intent intent = new Intent(ScreenCaptureService.this, BigBangActivity.class);
+//                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+//                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, str);
+//                    startActivity(intent);
+//                    stopSelf();
+//                }
+//
+//                @Override
+//                public void onFail() {
+//                    LogUtil.e(TAG, "ocr--fail");
+//                    ToastUtil.show(R.string.sorry_for_ocr_parse_fail);
+//                    stopSelf();
+//                }
+//            });
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
 
+    }
+
+    private void saveCutBitmap(Bitmap cutBitmap) {
+        Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
+            File localFile = new File(getCacheDir(), "temp.png");
+        try {
+            if (!localFile.exists()) {
+                localFile.createNewFile();
+                Log.i("ContentValues", "image file created");
+            }
+            FileOutputStream fileOutputStream = new FileOutputStream(localFile);
+            if (fileOutputStream != null) {
+                cutBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            intent.putExtra(MESSAGE,"保存失败");
+            return;
+        }
+        intent.putExtra(MESSAGE,"保存成功");
+        intent.putExtra(FILE_NAME,localFile.getAbsolutePath());
+        sendBroadcast(intent);
+        stopSelf();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -233,7 +274,7 @@ public class ScreenCaptureService extends Service {
             mMediaProjection.stop();
             mMediaProjection = null;
         }
-         LogUtil.e(TAG, "mMediaProjection undefined");
+        LogUtil.e(TAG, "mMediaProjection undefined");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -243,7 +284,7 @@ public class ScreenCaptureService extends Service {
         }
         mVirtualDisplay.release();
         mVirtualDisplay = null;
-         LogUtil.e(TAG, "virtual display stopped");
+        LogUtil.e(TAG, "virtual display stopped");
     }
 
     @Override
@@ -251,6 +292,6 @@ public class ScreenCaptureService extends Service {
         // to remove mFloatLayout from windowManager
         super.onDestroy();
         tearDownMediaProjection();
-         LogUtil.e(TAG, "application destroy");
+        LogUtil.e(TAG, "application destroy");
     }
 }

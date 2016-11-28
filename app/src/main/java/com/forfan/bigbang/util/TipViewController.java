@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
+import com.forfan.bigbang.component.activity.screen.ScreenCaptureService;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 
@@ -181,6 +182,7 @@ public class TipViewController implements  View.OnTouchListener {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
                 refreshViewState(false);
                 Intent intent = new Intent();
+                intent.putExtra(ScreenCaptureService.SCREEN_CUT_RECT,new Rect(0,0,50,50));
                 intent.setClass(mContext,ScreenCaptureActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);

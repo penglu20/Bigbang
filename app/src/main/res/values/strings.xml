@@ -191,7 +191,7 @@
 
 
     <string name="show_float_close_tip">通知栏和悬浮窗都关闭时，复制或点击时会暂时显示悬浮窗，通过点击悬浮窗激活Bigbang</string>
-    <string name="can_not_capture_under_5_0">Screenshots 5.0一下系统暂不支持截屏</string>
+    <string name="can_not_capture_under_5_0">Screenshots 5.0以下系统暂不支持截屏</string>
     <string name="double_click">双击分词</string>
 
 </resources>

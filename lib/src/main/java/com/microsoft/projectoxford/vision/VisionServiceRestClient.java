@@ -78,4 +78,7 @@ public class VisionServiceRestClient {
     }
 
 
+    public void setOnTimeUseUp(WebServiceRequest.OnResult onTimeUseUp) {
+        restCall.setOnTimeUseUp(onTimeUseUp);
+    }
 }

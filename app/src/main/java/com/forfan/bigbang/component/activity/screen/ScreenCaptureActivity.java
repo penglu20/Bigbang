@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,8 +15,8 @@ import android.view.WindowManager;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 public class ScreenCaptureActivity extends BaseActivity {
     private String TAG = "Service";
@@ -27,7 +28,7 @@ public class ScreenCaptureActivity extends BaseActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(null);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             ToastUtil.show(R.string.can_not_capture_under_5_0);
@@ -38,12 +39,9 @@ public class ScreenCaptureActivity extends BaseActivity {
 
         initWindow();
         mMediaProjectionManager = (MediaProjectionManager) getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);
-        boolean isFirst = SPHelper.getBoolean("is_fist",true);
-        if(isFirst){
-            ToastUtil.show(R.string.need_capture_perssion);
-        }
         startIntent();
     }
+
     private void initWindow() {
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
@@ -65,9 +63,33 @@ public class ScreenCaptureActivity extends BaseActivity {
 
     }
 
+//    @Override
+//    protected void onDestroy() {
+//        LogUtil.e("shang", "destory 了");
+//        boolean isFirst = SPHelper.getBoolean("is_fist", true);
+//
+//        if (isFirst) {
+//            Intent intent = new Intent();
+//            intent.setClass(BigBangApp.getInstance(),ScreenCaptureActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            BigBangApp.getInstance().startActivity(intent);
+//            SPHelper.save("is_fist", false);
+//        }
+//        super.onDestroy();
+//    }
+
+    private void startScreenCapture() {
+        Intent intent = new Intent(getApplicationContext(), ScreenCaptureService.class);
+        Rect rect = getIntent().getParcelableExtra(ScreenCaptureService.SCREEN_CUT_RECT);
+        if (rect != null)
+            intent.putExtra(ScreenCaptureService.SCREEN_CUT_RECT, rect);
+        startService(intent);
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        LogUtil.e("shang", "进入了");
         if (requestCode == REQUEST_MEDIA_PROJECTION) {
             if (resultCode != Activity.RESULT_OK) {
                 return;
@@ -79,13 +101,13 @@ public class ScreenCaptureActivity extends BaseActivity {
                 intent = data;
                 ((BigBangApp) getApplication()).setResult(resultCode);
                 ((BigBangApp) getApplication()).setIntent(data);
-                Intent intent = new Intent(getApplicationContext(), ScreenCaptureService.class);
-                startService(intent);
+                startScreenCapture();
                 Log.i(TAG, "start service ScreenCaptureService");
 
-                SPHelper.save("is_fist",false);
+
                 finish();
             }
         }
     }
+
 }
