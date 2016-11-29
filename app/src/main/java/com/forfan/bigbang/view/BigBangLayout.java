@@ -236,7 +236,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         if (TextUtils.isEmpty(text) || text.equals(" ")) {
             return;
         }
-        if (text.equals(TAB)) {
+        if (text.contains(TAB)) {
             return;
         }
         TextView view = new TextView(getContext());

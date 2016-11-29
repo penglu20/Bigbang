@@ -200,7 +200,7 @@
 
     <string name="show">显示</string>
     <string name="gone">不显示</string>
-    <string name="pre_setting_intro1">这个页面只会出现一次\n用来帮助您选择是否展示悬浮窗\n\n当您点击 &lt;显示 &gt;，会展示悬浮球，复制文字，长按或双击(等自定义操作)会&lt;直接炸开文字&gt;。\n当您点击&lt;不显示&gt;时，会关闭掉悬浮窗和通知栏，此时对文字操作会弹出一个悬浮窗，然后需要您&lt;点击去炸开文字&gt;</string>
+    <string name="pre_setting_intro1">在这里我们帮助您选择是否展示悬浮窗\n\n当您点击 &lt;显示 &gt;，会展示悬浮球，复制文字，长按或双击(等自定义操作)会&lt;直接炸开文字&gt;。\n当您点击&lt;不显示&gt;时，会关闭掉悬浮窗和通知栏，此时对文字操作会弹出一个悬浮窗，然后需要您&lt;点击去炸开文字&gt;</string>
     <string name="pre_setting_intro2">您可以点击设置页面的&lt;悬浮窗常驻&gt;进行设置</string>
     <string name="capture_tips">在屏幕上划取区域截图</string>
     <string name="capture_all">点我截取全屏</string>
@@ -214,5 +214,7 @@
     <string name="float_trigger">点击悬浮球触发Bigbang</string>
     <string name="float_trigger_request">在复制或点击以后，需要先点击悬浮球才会触发Bigbang，多一步操作，减少误触发</string>
 
+
+    <string name="float_setting_card">悬浮窗和通知栏设置</string>
 
 </resources>

@@ -11,11 +11,13 @@ import android.os.Environment;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
@@ -97,6 +99,24 @@ public class CaptureResultActivity extends BaseActivity {
         save = (TextView) findViewById(R.id.save);
         ocr = (TextView) findViewById(R.id.recognize);
         bigbang = (TextView) findViewById(R.id.bigbang);
+
+
+        if (bitmap.getHeight()/bitmap.getWidth()>=1.5){
+            LinearLayout container= (LinearLayout) findViewById(R.id.container);
+            container.setOrientation(LinearLayout.HORIZONTAL);
+
+            capturedImage.setMaxWidth((int) ViewUtil.dp2px(250));
+            LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) capturedImage.getLayoutParams();
+            layoutParams.width=LinearLayout.LayoutParams.WRAP_CONTENT;
+            layoutParams.gravity=Gravity.CENTER;
+            capturedImage.setLayoutParams(layoutParams);
+
+            layoutParams= (LinearLayout.LayoutParams) ocrResult.getLayoutParams();
+            layoutParams.width=LinearLayout.LayoutParams.WRAP_CONTENT;
+            layoutParams.gravity= Gravity.CENTER_VERTICAL;
+            ocrResult.setLayoutParams(layoutParams);
+
+        }
 
 
         capturedImage.setImageBitmap(bitmap);
