@@ -142,7 +142,6 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                     startActivityForResult(intent, CropHelper.REQUEST_CAMERA);
                     mPicReOcr.setVisibility(View.GONE);
                 } catch (Throwable e) {
-                    ToastUtil.show(R.string.error_in_copy);
                 }
 
                 break;
@@ -156,7 +155,6 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                     startActivityForResult(intent1, CropHelper.REQUEST_CROP);
                     mPicReOcr.setVisibility(View.GONE);
                 } catch (Throwable e) {
-                    ToastUtil.show(R.string.error_in_copy);
                 }
                 break;
             case R.id.re_ocr:

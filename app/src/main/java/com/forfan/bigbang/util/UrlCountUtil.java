@@ -103,6 +103,11 @@ public class UrlCountUtil {
     public static final String PRE__NOTIFY = "pre__notify";
     public static final String PRE__TRIGGER = "pre__trigger";
 
+    public static final String CLICK_CAPTURERESULT_OCR= "click_captureresult_ocr";
+    public static final String CLICK_CAPTURERESULT_SHARE= "click_captureresult_share";
+    public static final String CLICK_CAPTURERESULT_SAVE= "click_captureresult_save";
+    public static final String CLICK_CAPTURERESULT_BIGBANG= "click_captureresult_bigbang";
+    public static final String CLICK_CAPTURERESULT_OCRRESULT= "click_captureresult_ocrresult";
 
     public static Context mContext= BigBangApp.getInstance();
     /*
