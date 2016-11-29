@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,30 +103,38 @@ public class CaptureResultActivity extends BaseActivity {
 
         save.setOnClickListener(new View.OnClickListener() {
                                     @Override
-                                    public void onClick(View v) {
-                                        try {
-                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
-                                            file.getParentFile().mkdirs();
-                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
-                                            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                                            Uri uri = Uri.fromFile(file);
-                                            intent.setData(uri);
-                                            sendBroadcast(intent);
-                                            ToastUtil.show(getResources().getString(R.string.save_sd_card));
-                                        } catch (FileNotFoundException e) {
-                                            e.printStackTrace();
-                                            ToastUtil.show(R.string.save_sd_card_fail);
-                                        }
+                public void onClick(View v) {
+                    try {
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
+                        file.getParentFile().mkdirs();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                        Uri uri = Uri.fromFile(file);
+                        intent.setData(uri);
+                        sendBroadcast(intent);
+                        ToastUtil.show(getResources().getString(R.string.save_sd_card));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                        ToastUtil.show(R.string.save_sd_card_fail);
+                    }
 
-                                    }
-                                }
+                }
+            }
         );
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shareMsg("分享给", "截图", "来自bigbang的截图", fileName);
+                try {
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                    File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
+                    file.getParentFile().mkdirs();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                    shareMsg("分享给", "截图", "来自bigbang的截图", file.getAbsolutePath());
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -154,11 +163,19 @@ public class CaptureResultActivity extends BaseActivity {
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
                     @Override
                     public void onSucess(OCR ocr) {
-                        Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
-                        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.putExtra(BigBangActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
-                        startActivity(intent);
-                        finish();
+                        if (!TextUtils.isEmpty(ocrResult.getText())) {
+                            Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
+                            startActivity(intent);
+                            finish();
+                        }else {
+                            Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                            intent.putExtra(BigBangActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
+                            startActivity(intent);
+                            finish();
+                        }
                     }
 
                     @Override
@@ -166,6 +183,19 @@ public class CaptureResultActivity extends BaseActivity {
                         ToastUtil.show("Error:"+throwable.getMessage());
                     }
                 });
+            }
+        });
+
+        ocrResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TextUtils.isEmpty(ocrResult.getText())) {
+                    Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                    intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }

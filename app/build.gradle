@@ -92,12 +92,21 @@ android {
         eoe {}
         xiaomi {}
         meizu {}
-        coolapk {}
+        coolapk {
+            applicationId "com.forfan.bigbang.coolapk"
+        }
         for_test {}
     }
 
     productFlavors.all { flavor ->
         flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    sourceSets{
+        coolapk{
+            resources.srcDirs += ['src/coolapk/res']
+            java.srcDirs += ['src/coolapk/java']
+        }
     }
 }
 
@@ -134,6 +143,7 @@ dependencies {
     compile files('libs/AndroidScreenCap.jar')
     compile project(':lib')
     compile files('libs/copy.jar')
-    compile project(':xposed')
+    coolapkCompile project(':xposed')
     compile project(':commonjar')
+
 }
