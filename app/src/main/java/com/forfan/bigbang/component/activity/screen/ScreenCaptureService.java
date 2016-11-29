@@ -204,8 +204,11 @@ public class ScreenCaptureService extends Service {
         if (mRect != null) {
             int cut_width = Math.abs(mRect.left - mRect.right);
             int cut_height = Math.abs(mRect.top - mRect.bottom);
-            Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
-            saveCutBitmap(cutBitmap);
+            if (cut_height > 0 && cut_height > 0) {
+                Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
+                saveCutBitmap(cutBitmap);
+            }
+
         } else {
             saveCutBitmap(bitmap);
         }
@@ -245,7 +248,7 @@ public class ScreenCaptureService extends Service {
 
     private void saveCutBitmap(Bitmap cutBitmap) {
         Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
-            File localFile = new File(getFilesDir(), "temp.png");
+        File localFile = new File(getFilesDir(), "temp.png");
         try {
             if (!localFile.exists()) {
                 localFile.createNewFile();
@@ -259,11 +262,11 @@ public class ScreenCaptureService extends Service {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            intent.putExtra(MESSAGE,"保存失败");
+            intent.putExtra(MESSAGE, "保存失败");
             return;
         }
-        intent.putExtra(MESSAGE,"保存成功");
-        intent.putExtra(FILE_NAME,localFile.getAbsolutePath());
+        intent.putExtra(MESSAGE, "保存成功");
+        intent.putExtra(FILE_NAME, localFile.getAbsolutePath());
         sendBroadcast(intent);
         stopSelf();
     }
