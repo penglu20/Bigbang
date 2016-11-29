@@ -86,7 +86,11 @@ public class ScreenCaptureService extends Service {
             handler.postDelayed(new Runnable() {
                 public void run() {
                     //capture the screen
-                    startCapture();
+                    try {
+                        startCapture();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }, 100);
         } catch (Exception e) {
@@ -99,7 +103,11 @@ public class ScreenCaptureService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
+        try {
+            mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         toCapture();
         return super.onStartCommand(intent, flags, startId);
 
@@ -181,7 +189,7 @@ public class ScreenCaptureService extends Service {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void startCapture() {
+    private void startCapture() throws Exception {
         strDate = dateFormat.format(new java.util.Date());
         nameImage = pathImage + strDate + ".png";
 
@@ -208,7 +216,7 @@ public class ScreenCaptureService extends Service {
         ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
 
-        if (mRect != null) {
+        if (mRect != null && mRect.left > 0) {
             int cut_width = Math.abs(mRect.left - mRect.right);
             int cut_height = Math.abs(mRect.top - mRect.bottom);
             if (cut_height > 0 && cut_height > 0) {
