@@ -296,6 +296,8 @@ public class MarkSizeView extends View {
         rbVer.set(markedArea.right - vertexWidth / 2, markedArea.bottom - vertexWidth / 2, markedArea.right + vertexWidth / 2, markedArea.bottom + vertexWidth / 2);
         if (markedArea.height()*markedArea.width()>100){
             isValid=true;
+        }else {
+            isValid = false;
         }
     }
 

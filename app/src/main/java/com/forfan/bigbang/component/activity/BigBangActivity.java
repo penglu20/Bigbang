@@ -32,7 +32,6 @@ import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -190,13 +189,12 @@ public class BigBangActivity extends BaseActivity {
         public void onSearch(String text) {
             if (!TextUtils.isEmpty(text)) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SEARCH);
-
+                boolean isUrl = false;
+                Uri uri = null;
                 try {
-                    Uri uri = null;
 //                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
                     Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
                     Matcher matcher = p.matcher(text);
-                    boolean isUrl;
                     if (!matcher.matches()) {
                         uri = Uri.parse("https://m.baidu.com/s?word=" + URLEncoder.encode(text, "utf-8"));
                         isUrl = false;
@@ -223,8 +221,18 @@ public class BigBangActivity extends BaseActivity {
                     }
                     startActivity(intent);
                     finish();
-                } catch (UnsupportedEncodingException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
+                    Intent intent = new Intent();
+                    if (isUrl) {
+                        intent.putExtra("url", text);
+                    } else {
+                        intent.putExtra("query", text);
+                    }
+                    intent = new Intent(Intent.ACTION_VIEW, uri);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+
                 }
             }
         }
@@ -401,7 +409,7 @@ public class BigBangActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (bigBangLayoutWrapper.getVisibility() == View.GONE) {
+        if (bigBangLayoutWrapper != null && bigBangLayoutWrapper.getVisibility() == View.GONE) {
             bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             transRl.setVisibility(View.GONE);
         } else {

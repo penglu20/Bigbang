@@ -86,7 +86,11 @@ public class ScreenCaptureService extends Service {
             handler.postDelayed(new Runnable() {
                 public void run() {
                     //capture the screen
-                    startCapture();
+                    try {
+                        startCapture();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }, 100);
         } catch (Exception e) {
@@ -99,7 +103,11 @@ public class ScreenCaptureService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
+        try {
+            mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         toCapture();
         return super.onStartCommand(intent, flags, startId);
 
@@ -139,6 +147,7 @@ public class ScreenCaptureService extends Service {
             LogUtil.e(TAG, "start screen capture intent");
             LogUtil.e(TAG, "want to build mediaprojection and display virtual");
             setUpMediaProjection();
+
             virtualDisplay();
         }
     }
@@ -159,10 +168,14 @@ public class ScreenCaptureService extends Service {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void virtualDisplay() {
-        mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
-                windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                mImageReader.getSurface(), null, null);
-        LogUtil.e(TAG, "virtual displayed");
+        try {
+            mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
+                    windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    mImageReader.getSurface(), null, null);
+            LogUtil.e(TAG, "virtual displayed");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //获取状态栏高度
@@ -176,14 +189,16 @@ public class ScreenCaptureService extends Service {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void startCapture() {
+    private void startCapture() throws Exception {
         strDate = dateFormat.format(new java.util.Date());
         nameImage = pathImage + strDate + ".png";
 
         Image image = mImageReader.acquireLatestImage();
         if (image == null) {
             ToastUtil.show(R.string.screen_capture_fail);
-            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
+            Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
+            intent.putExtra(MESSAGE, "截屏失败");
+            sendBroadcast(intent);
             return;
         }
 
@@ -202,10 +217,21 @@ public class ScreenCaptureService extends Service {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
 
         if (mRect != null) {
+            if (mRect.left < 0)
+                mRect.left = 0;
+            if (mRect.right < 0)
+                mRect.right = 0;
+            if (mRect.top < 0)
+                mRect.top = 0;
+            if (mRect.bottom < 0)
+                mRect.bottom = 0;
             int cut_width = Math.abs(mRect.left - mRect.right);
             int cut_height = Math.abs(mRect.top - mRect.bottom);
-            Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
-            saveCutBitmap(cutBitmap);
+            if (cut_height > 0 && cut_height > 0) {
+                Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
+                saveCutBitmap(cutBitmap);
+            }
+
         } else {
             saveCutBitmap(bitmap);
         }
@@ -245,7 +271,7 @@ public class ScreenCaptureService extends Service {
 
     private void saveCutBitmap(Bitmap cutBitmap) {
         Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
-            File localFile = new File(getFilesDir(), "temp.png");
+        File localFile = new File(getFilesDir(), "temp.png");
         try {
             if (!localFile.exists()) {
                 localFile.createNewFile();
@@ -259,11 +285,11 @@ public class ScreenCaptureService extends Service {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            intent.putExtra(MESSAGE,"保存失败");
+            intent.putExtra(MESSAGE, "保存失败");
             return;
         }
-        intent.putExtra(MESSAGE,"保存成功");
-        intent.putExtra(FILE_NAME,localFile.getAbsolutePath());
+        intent.putExtra(MESSAGE, "保存成功");
+        intent.putExtra(FILE_NAME, localFile.getAbsolutePath());
         sendBroadcast(intent);
         stopSelf();
     }

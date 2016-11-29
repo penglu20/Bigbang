@@ -276,7 +276,11 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
     @Override
     public void handleIntent(Intent intent, int requestCode) {
-        startActivityForResult(intent, requestCode);
+        try {
+            startActivityForResult(intent, requestCode);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

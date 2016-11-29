@@ -111,9 +111,13 @@ public class WebActivity
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_BROWSER_TO_SYS_BROWSER);
                 Uri uri = getUri();
                 if (uri != null) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
+                    try {
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
