@@ -1,89 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/activity_main"
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/setting_activity_top_margin"
-    tools:context="com.forfan.bigbang.component.activity.setting.SettingActivity">
+    android:layout_height="match_parent">
 
-
-    <com.forfan.bigbang.view.ColorTextView
-        android:id="@+id/control_setting_title"
-        android:background="@drawable/button_white_stroke_green"
-        android:layout_marginTop="20dp"
-        android:layout_margin="@dimen/margin_normal"
-        android:padding="10dp"
-        android:lineSpacingExtra="@dimen/margin_normal"
-        android:textSize="@dimen/text_size_normal"
+    <LinearLayout
+        android:id="@+id/activity_main"
         android:layout_width="match_parent"
-        android:textColor="@color/primary_text"
-        android:layout_height="wrap_content"
-        android:gravity="center"/>
-
-    <com.forfan.bigbang.view.ColorTextView
-        android:id="@+id/introduction"
-        android:padding="10dp"
-        android:layout_marginTop="@dimen/margin_normal"
-        android:textSize="@dimen/text_size_small"
-        android:layout_width="match_parent"
-        android:textColor="@color/secondary_text"
-        android:layout_height="wrap_content"
-        android:gravity="center"/>
-
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/contron_by_float"
-        android:text="@string/control_by_float"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:theme="@style/CheckBoxTheme"
-       />
-
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/contron_by_notify"
-        android:text="@string/control_by_notify"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:theme="@style/CheckBoxTheme"
-        />
-
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/trigger_by_float"
-        android:text="@string/trigger_by_float"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_gravity="center_vertical"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:theme="@style/CheckBoxTheme"
-     />
-
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/confirm"
-        android:text="@string/confirm_setting"
-        android:background="@null"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:textColor="@color/secondary_text"
-        android:layout_height="50dp"
-        />
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.forfan.bigbang.component.activity.setting.SettingActivity">
 
 
-</LinearLayout>
+        <com.forfan.bigbang.view.ColorTextView
+            android:id="@+id/control_setting_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_normal"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_white_stroke_green"
+            android:gravity="center"
+            android:lineSpacingExtra="@dimen/margin_normal"
+            android:padding="10dp"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_normal" />
+
+        <com.forfan.bigbang.view.ColorTextView
+            android:id="@+id/introduction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/text_size_small" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/contron_by_float"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:text="@string/control_by_float"
+            app:theme="@style/CheckBoxTheme" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/contron_by_notify"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:text="@string/control_by_notify"
+            app:theme="@style/CheckBoxTheme" />
+
+        <android.support.v7.widget.AppCompatCheckBox
+            android:id="@+id/trigger_by_float"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:text="@string/trigger_by_float"
+            app:theme="@style/CheckBoxTheme" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/confirm_setting"
+            android:textColor="@color/secondary_text" />
+
+
+    </LinearLayout>
+</ScrollView>

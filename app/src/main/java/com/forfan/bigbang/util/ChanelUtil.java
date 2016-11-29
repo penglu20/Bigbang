@@ -29,7 +29,7 @@ public class ChanelUtil {
 //        return false;
     }
 
-    public static boolean isCookApk(Context context){
-        return "coolapk".equals(getChanelName(context));
+    public static boolean isXposedApk(Context context){
+        return "xposed".equals(getChanelName(context));
     }
 }

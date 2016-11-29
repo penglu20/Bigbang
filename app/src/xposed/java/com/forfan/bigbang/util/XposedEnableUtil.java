@@ -1,4 +1,4 @@
-package com.forfun.bigbang.util;
+package com.forfan.bigbang.util;
 
 
 import com.shang.xposed.XposedEnable;

@@ -115,9 +115,11 @@ public class PreSettingActivity extends BaseActivity {
             public void onNegativeActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
                 UrlCountUtil.onEvent(UrlCountUtil.PRE__FLOATVIEW,false);
-                SPHelper.save(SHOW,false);
-                finish();
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_PRE_CONFIRM_IN_DIALOG);
+                SPHelper.save(SHOW,false);
+                Intent intent=new Intent(PreSettingActivity.this,SettingActivity.class);
+                startActivity(intent);
+                finish();
                 super.onPositiveActionClicked(fragment);
             }
 

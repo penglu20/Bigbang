@@ -44,7 +44,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        if (!new File("/data/data/com.forfan.bigbang").exists())
+        if (!new File("/data/data/com.forfan.bigbang.coolapk").exists())
             return;
         setXpoedEnable(loadPackageParam);
 

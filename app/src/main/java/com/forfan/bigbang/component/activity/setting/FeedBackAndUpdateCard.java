@@ -2,32 +2,18 @@ package com.forfan.bigbang.component.activity.setting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.text.Layout;
-import android.text.Selection;
-import android.text.Spannable;
-import android.text.method.LinkMovementMethod;
-import android.text.method.MovementMethod;
-import android.text.style.ClickableSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
-import com.forfan.bigbang.component.activity.DonateActivity;
 import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
 import com.forfan.bigbang.util.ChanelUtil;
-import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.CountLinkMovementMethod;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
@@ -36,7 +22,6 @@ import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
 import com.umeng.fb.FeedbackAgent;
-import com.umeng.onlineconfig.OnlineConfigAgent;
 
 /**
  * Created by penglu on 2015/11/23.
@@ -91,7 +76,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
                     SnackBarUtil.show(v,R.string.snackbar_net_error);
                     return;
                 }
-                if (!ChanelUtil.isCookApk(mContext)) {
+                if (!ChanelUtil.isXposedApk(mContext)) {
                     UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
                 }else {
                     SnackBarUtil.show(v,R.string.check_update_close);

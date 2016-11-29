@@ -92,7 +92,8 @@ android {
         eoe {}
         xiaomi {}
         meizu {}
-        coolapk {
+        coolapk {}
+        xposed{
             applicationId "com.forfan.bigbang.coolapk"
         }
         for_test {}
@@ -103,9 +104,60 @@ android {
     }
 
     sourceSets{
+        wandoujia{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        _360{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        baidu{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        taobao{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        QQ{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        google{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        _91{
+            java.srcDirs += ['src/Normal/java']
+        }
+        hiapk{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        goapk{
+            java.srcDirs += ['src/Normal/java']
+        }
+
+        eoe{
+            java.srcDirs += ['src/Normal/java']
+        }
+        xiaomi{
+            java.srcDirs += ['src/Normal/java']
+        }
+        meizu{
+            java.srcDirs += ['src/Normal/java']
+        }
+
         coolapk{
-            resources.srcDirs += ['src/coolapk/res']
-            java.srcDirs += ['src/coolapk/java']
+            java.srcDirs += ['src/Normal/java']
+        }
+        for_test{
+            java.srcDirs += ['src/Normal/java']
+        }
+        xposed{
+            resources.srcDirs += ['src/xposed/res']
+            java.srcDirs += ['src/xposed/java']
         }
     }
 }
@@ -143,7 +195,7 @@ dependencies {
     compile files('libs/AndroidScreenCap.jar')
     compile project(':lib')
     compile files('libs/copy.jar')
-    coolapkCompile project(':xposed')
+    xposedCompile project(':xposed')
     compile project(':commonjar')
 
 }
