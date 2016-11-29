@@ -194,14 +194,6 @@ public class ScreenCaptureService extends Service {
         nameImage = pathImage + strDate + ".png";
 
         Image image = mImageReader.acquireLatestImage();
-        if (image == null) {
-            ToastUtil.show(R.string.screen_capture_fail);
-            Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
-            intent.putExtra(MESSAGE, "截屏失败");
-            sendBroadcast(intent);
-            return;
-        }
-
         int width = image.getWidth();
         int height = image.getHeight();
         final Image.Plane[] planes = image.getPlanes();
