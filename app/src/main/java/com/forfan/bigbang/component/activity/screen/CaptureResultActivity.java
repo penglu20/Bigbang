@@ -140,8 +140,8 @@ public class CaptureResultActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFail() {
-                        ToastUtil.show(R.string.sorry_for_ocr_parse_fail);
+                    public void onFail(Throwable throwable) {
+                        ToastUtil.show("Error:"+throwable.getMessage());
                     }
                 });
             }
@@ -162,8 +162,8 @@ public class CaptureResultActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onFail() {
-                        ToastUtil.show(R.string.sorry_for_ocr_parse_fail);
+                    public void onFail(Throwable throwable) {
+                        ToastUtil.show("Error:"+throwable.getMessage());
                     }
                 });
             }

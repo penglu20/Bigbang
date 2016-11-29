@@ -29,8 +29,6 @@ import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
 import com.shang.utils.StatusBarCompat;
-import com.shang.xposed.forcetouch.Callback;
-import com.shang.xposed.forcetouch.ForceTouchListener;
 
 
 /**
@@ -215,7 +213,8 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             }
 
             @Override
-            public void onFail() {
+            public void onFail(Throwable throwable) {
+                ToastUtil.show("Error:"+throwable.getMessage());
                 editText.setText(R.string.sorry_for_parse_fail);
                 mPicReOcr.setVisibility(View.VISIBLE);
             }

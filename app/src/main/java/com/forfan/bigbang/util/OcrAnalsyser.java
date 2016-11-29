@@ -67,6 +67,7 @@ public class OcrAnalsyser {
                         //返回403
                         currentIndex = (currentIndex + 1) % keys.length;
                         client = new VisionServiceRestClient(keys[currentIndex]);
+                        subscriber.onError(new IOException("次数使用超出限额，为您切换服务器，请点击重试"));
                     }
 
                     @Override
@@ -97,7 +98,7 @@ public class OcrAnalsyser {
     public interface CallBack {
         void onSucess(OCR ocr);
 
-        void onFail();
+        void onFail(Throwable throwable);
     }
 
     public void analyse(BaseActivity activity, String img_path, boolean isVertical, CallBack callback) {
@@ -110,7 +111,7 @@ public class OcrAnalsyser {
                 .compose(activity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> callback.onSucess(s),
-                        throwable -> callback.onFail());
+                        throwable -> callback.onFail(throwable));
     }
 
     public void analyse(byte[] img, CallBack callback) {
@@ -122,7 +123,7 @@ public class OcrAnalsyser {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(s -> callback.onSucess(s),
-                            throwable -> callback.onFail());
+                            throwable -> callback.onFail(throwable));
         } catch (Exception e) {
             e.printStackTrace();
         }
