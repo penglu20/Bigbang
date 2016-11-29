@@ -16,7 +16,9 @@ import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.baseCard.CardListAdapter;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
 import com.forfan.bigbang.util.XposedEnableUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -127,7 +129,9 @@ public class SettingActivity extends BaseActivity {
                 .subscribe(s -> {
                     if (s.equals("")) {
                         try {
-                            UpdateUtil.autoCheckUpdate();
+                            if (!ChanelUtil.isCookApk(getApplicationContext())) {
+                                UpdateUtil.autoCheckUpdate();
+                            }
                         } catch (Throwable e) {
                             e.printStackTrace();
                         }

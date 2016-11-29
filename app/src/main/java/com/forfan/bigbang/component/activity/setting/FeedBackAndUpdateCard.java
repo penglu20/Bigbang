@@ -91,7 +91,11 @@ public class FeedBackAndUpdateCard extends AbsCard {
                     SnackBarUtil.show(v,R.string.snackbar_net_error);
                     return;
                 }
-                UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
+                if (!ChanelUtil.isCookApk(mContext)) {
+                    UpdateUtil.UserCheckUpdate(FeedBackAndUpdateCard.this);
+                }else {
+                    SnackBarUtil.show(v,R.string.check_update_close);
+                }
                 break;
             case R.id.feedback:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_FEEDBACK);

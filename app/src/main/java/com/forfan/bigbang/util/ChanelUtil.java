@@ -28,4 +28,8 @@ public class ChanelUtil {
         return "for_test".equals(getChanelName(context));
 //        return false;
     }
+
+    public static boolean isCookApk(Context context){
+        return "coolapk".equals(getChanelName(context));
+    }
 }
