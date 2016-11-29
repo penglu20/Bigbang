@@ -96,6 +96,11 @@ public class UrlCountUtil {
 
     public static final java.lang.String PRE__FLOATVIEW = "pre__floatview";
 
+    public static final String CLICK_CAPTURERESULT_OCR= "click_captureresult_ocr";
+    public static final String CLICK_CAPTURERESULT_SHARE= "click_captureresult_share";
+    public static final String CLICK_CAPTURERESULT_SAVE= "click_captureresult_save";
+    public static final String CLICK_CAPTURERESULT_BIGBANG= "click_captureresult_bigbang";
+    public static final String CLICK_CAPTURERESULT_OCRRESULT= "click_captureresult_ocrresult";
 
     public static Context mContext= BigBangApp.getInstance();
     /*

@@ -27,6 +27,7 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -125,6 +126,7 @@ public class CaptureResultActivity extends BaseActivity {
                                     @Override
                 public void onClick(View v) {
                     try {
+                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
                         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                         File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
                         file.getParentFile().mkdirs();
@@ -147,6 +149,7 @@ public class CaptureResultActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SHARE);
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
                     File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
                     file.getParentFile().mkdirs();
@@ -162,6 +165,7 @@ public class CaptureResultActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ToastUtil.show(R.string.ocr_recognize);
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCR);
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
                     @Override
                     public void onSucess(OCR ocr) {
@@ -180,6 +184,7 @@ public class CaptureResultActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ToastUtil.show(R.string.ocr_recognize);
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_BIGBANG);
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
                     @Override
                     public void onSucess(OCR ocr) {
@@ -209,6 +214,7 @@ public class CaptureResultActivity extends BaseActivity {
         ocrResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCRRESULT);
                 if (!TextUtils.isEmpty(ocrResult.getText())) {
                     Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
                     intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
