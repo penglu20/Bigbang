@@ -291,7 +291,7 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (!TextUtils.isEmpty(txt)) {
             if (txt.length()<=2){
-                ToastUtil.show(R.string.too_short_to_split);
+//                ToastUtil.show(R.string.too_short_to_split);
                 return;
             }
             Intent intent=new Intent(this, BigBangActivity.class);

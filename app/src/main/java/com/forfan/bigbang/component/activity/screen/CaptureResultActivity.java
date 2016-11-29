@@ -100,15 +100,22 @@ public class CaptureResultActivity extends BaseActivity {
         ocr = (TextView) findViewById(R.id.recognize);
         bigbang = (TextView) findViewById(R.id.bigbang);
 
-
-        if (bitmap.getHeight()/bitmap.getWidth()>=1.5){
+        WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
+        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
+        ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
+        if (bitmap.getHeight()>localDisplayMetrics.heightPixels*2/3||1.0*bitmap.getHeight()/bitmap.getWidth()>=1.2){
             LinearLayout container= (LinearLayout) findViewById(R.id.container);
             container.setOrientation(LinearLayout.HORIZONTAL);
 
-            capturedImage.setMaxWidth((int) ViewUtil.dp2px(250));
+            capturedImage.setMaxWidth(localDisplayMetrics.widthPixels/2);
             LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) capturedImage.getLayoutParams();
-            layoutParams.width=LinearLayout.LayoutParams.WRAP_CONTENT;
-            layoutParams.gravity=Gravity.CENTER;
+            if (bitmap.getWidth() > localDisplayMetrics.widthPixels/2){
+                layoutParams.width =bitmap.getWidth()*2/5;
+                layoutParams.height =bitmap.getHeight()*2/5;
+            }else {
+                layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+                layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
+            }
             capturedImage.setLayoutParams(layoutParams);
 
             layoutParams= (LinearLayout.LayoutParams) ocrResult.getLayoutParams();
@@ -257,4 +264,5 @@ public class CaptureResultActivity extends BaseActivity {
         super.onBackPressed();
 //        }
     }
+
 }

@@ -74,7 +74,8 @@ public class ScreenCaptureActivity extends BaseActivity {
 
             @Override
             public void onCancel() {
-
+                captureTips.setVisibility(View.VISIBLE);
+                captureAll.setVisibility(View.VISIBLE);
             }
 
             @Override

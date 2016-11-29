@@ -521,6 +521,11 @@ public class TipViewController implements  View.OnTouchListener {
                 @Override
                 public void run() {
                     setFloatViewToDefault();
+                    floatImageView.setVisibility(View.VISIBLE);
+                    floatSwitch.setVisibility(View.GONE);
+                    floatCopy.setVisibility(View.GONE);
+                    floatScreen.setVisibility(View.GONE);
+                    floatBack.setVisibility(View.GONE);
                 }
             });
             mainHandler.post(new Runnable() {

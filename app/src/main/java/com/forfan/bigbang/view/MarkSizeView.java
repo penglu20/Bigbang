@@ -238,6 +238,11 @@ public class MarkSizeView extends View {
                     cancelArea.set(endX-2*confirmBitmap.getWidth()-mActionGap*2,endY+mActionGap,endX-confirmBitmap.getWidth()-mActionGap*2,endY+confirmBitmap.getHeight()+mActionGap);
                 }
 
+                if (!isValid){
+                    if (mOnClickListener != null) {
+                        mOnClickListener.onCancel();
+                    }
+                }
 
                 break;
             case MotionEvent.ACTION_CANCEL:
@@ -294,7 +299,7 @@ public class MarkSizeView extends View {
         rtVer.set(markedArea.right - vertexWidth / 2, markedArea.top - vertexWidth / 2, markedArea.right + vertexWidth / 2, markedArea.top + vertexWidth / 2);
         lbVer.set(markedArea.left - vertexWidth / 2, markedArea.bottom - vertexWidth / 2, markedArea.left + vertexWidth / 2, markedArea.bottom + vertexWidth / 2);
         rbVer.set(markedArea.right - vertexWidth / 2, markedArea.bottom - vertexWidth / 2, markedArea.right + vertexWidth / 2, markedArea.bottom + vertexWidth / 2);
-        if (markedArea.height()*markedArea.width()>100){
+        if (markedArea.height()*markedArea.width()>200){
             isValid=true;
         }else {
             isValid = false;

@@ -94,7 +94,14 @@ public class UrlCountUtil {
     public static final String CLICK_BIGBANG_REMAIN_SYMBOL= "click_bigbang_remain_symbol";
     public static final String CLICK_BIGBANG_REMAIN_SECTION= "click_bigbang_remain_section";
 
-    public static final java.lang.String PRE__FLOATVIEW = "pre__floatview";
+
+    public static final String CLICK_PRE_CONFIRM= "click_pre_confirm";
+    public static final String CLICK_PRE_CONFIRM_IN_DIALOG= "click_pre_confirm_in_dialog";
+    public static final String CLICK_PRE_CANCEL_IN_DIALOG= "click_pre_cancel_in_dialog";
+
+    public static final String PRE__FLOATVIEW = "pre__floatview";
+    public static final String PRE__NOTIFY = "pre__notify";
+    public static final String PRE__TRIGGER = "pre__trigger";
 
 
     public static Context mContext= BigBangApp.getInstance();

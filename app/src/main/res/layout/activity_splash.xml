@@ -13,7 +13,7 @@
     tools:context="com.forfan.bigbang.component.activity.SplashActivity">
 
     <TextView
-        android:id="@+id/show"
+        android:id="@+id/contron_by_float"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -36,7 +36,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/show"
+        android:layout_above="@+id/contron_by_float"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/default_general_margin"
         android:src="@mipmap/hand_down_splash" />

@@ -199,10 +199,13 @@
 
     <string name="show_float_close_tip">When both the notification and suspension windows are closed, a pop-up window is temporarily displayed when Bigbang is triggered, and Bigbang is activated by clicking the floating window</string>
 
-    <string name="show">Show</string>
-    <string name="gone">Gone</string>
+    <string name="control_by_float">Control by float view</string>
+    <string name="control_by_notify">Control by notification</string>
+    <string name="trigger_by_float">Trigger through click float view</string>
     <string name="pre_setting_intro1">This page will help you choose whether to display a suspended window\n\nWhen you click &lt;Show &gt;，will display the suspension window，Copy text, long press or double-click will&lt; directly explode the text&gt;。\nWhen you click &lt;Gone &gt;, the display will close the popup window and the notification bar , then the text operation will pop up a suspension window, and then you need to &lt;click to explode the text &gt;</string>
     <string name="pre_setting_intro2">You can do this by clicking the &lt; Float Window Resident &gt; on the Settings page</string>
+    <string name="pre_setting_intro3">Have you selected the appropriate triggering method? \nYou can also change it at any time in the settings page</string>
+    <string name="pre_setting_cancel">Checkout again</string>
 
     <string name="capture_tips">Take a screenshot of the area on the screen</string>
     <string name="capture_all">Click TO Capture Full Screen</string>
@@ -215,4 +218,6 @@
     <string name="float_trigger_request">After copy or click, you need to click on the ball before the trigger Bigbang, reduce mis-triggering</string>
 
     <string name="float_setting_card">FloatView Notification Setting</string>
+
+    <string name="confirm_setting">Done</string>
 </resources>

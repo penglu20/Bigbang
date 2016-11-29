@@ -177,7 +177,7 @@
     <string name="notify_monitor_clipboard_on">监控\n复制</string>
     <string name="notify_monitor_clipboard_off">停用\n复制</string>
     <string name="notify_copy_title">全局\n复制</string>
-    <string name="notify_srceen_cap">全屏\nOCR</string>
+    <string name="notify_srceen_cap">截屏\nOCR</string>
 
 
     <string name="open_total_switch_first">请先点击第一项"使用服务"</string>
@@ -198,10 +198,14 @@
     <string name="can_not_capture_under_5_0">Screenshots 5.0以下系统暂不支持截屏</string>
     <string name="double_click">双击分词</string>
 
-    <string name="show">显示</string>
-    <string name="gone">不显示</string>
-    <string name="pre_setting_intro1">在这里我们帮助您选择是否展示悬浮窗\n\n当您点击 &lt;显示 &gt;，会展示悬浮球，复制文字，长按或双击(等自定义操作)会&lt;直接炸开文字&gt;。\n当您点击&lt;不显示&gt;时，会关闭掉悬浮窗和通知栏，此时对文字操作会弹出一个悬浮窗，然后需要您&lt;点击去炸开文字&gt;</string>
-    <string name="pre_setting_intro2">您可以点击设置页面的&lt;悬浮窗常驻&gt;进行设置</string>
+    <string name="control_by_float">使用悬浮窗控制</string>
+    <string name="control_by_notify">使用通知栏控制</string>
+    <string name="trigger_by_float">点击悬浮窗触发</string>
+    <string name="pre_setting_intro1">请先设置 &lt;控制和触发&gt;方式\n\n如果您选择悬浮窗常驻或通知栏\n可以在其中设置BigBang的开关\n\n如果您选择&lt;点击悬浮窗触发&gt;\n或者&lt;关闭悬浮窗和通知栏&gt;\n在触发Bigbang时会先弹出悬浮窗\n您需要&lt;点击悬浮窗激活Bigbang&gt;</string>
+    <string name="pre_setting_intro2">&lt;点击上面的文字&gt;可以验证设置的效果。\n您也可以随时在设置页面中更改</string>
+    <string name="pre_setting_intro3">您已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改</string>
+    <string name="pre_setting_cancel">再看看效果</string>
+
     <string name="capture_tips">在屏幕上划取区域截图</string>
     <string name="capture_all">点我截取全屏</string>
 
@@ -216,5 +220,8 @@
 
 
     <string name="float_setting_card">悬浮窗和通知栏设置</string>
+
+
+    <string name="confirm_setting">我选好了</string>
 
 </resources>
