@@ -49,6 +49,7 @@ public class UrlCountUtil {
     public static final String STATUS_TOTAL_SWITCH = "status_total_switch";
     public static final String STATUS_PUNCTUATION = "status_punctuation";
     public static final String STATUS_USE_BUILTIN_BROWSER= "status_use_built_in_browser";
+    public static final String STATUS_FLOAT_VIEW_TRIGGER= "status_float_view_trigger";
     public static final String STATUS_ONLY_TEXT_MONITOR= "status_only_text_monitor";
 
     public static final String STATUS_SPINNER_WEIXIN= "status_spinner_weixin";

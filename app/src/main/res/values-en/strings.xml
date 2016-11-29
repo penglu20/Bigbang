@@ -209,4 +209,8 @@
 
     <string name="save_sd_card">Saved in Sdcard/Pictures/</string>
     <string name="save_sd_card_fail">Save fail</string>
+
+
+    <string name="float_trigger">Click the float view trigger Bigbang</string>
+    <string name="float_trigger_request">After copy or click, you need to click on the ball before the trigger Bigbang, reduce mis-triggering</string>
 </resources>

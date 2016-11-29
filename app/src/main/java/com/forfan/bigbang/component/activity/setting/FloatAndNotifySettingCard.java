@@ -200,11 +200,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
         }else {
             showFloatRequestLL.setVisibility(GONE);
         }
-        if (showFloatView && !showNotify){
-            showNotifyRL.setVisibility(GONE);
-        }else{
-            showNotifyRL.setVisibility(VISIBLE);
-        }
     }
 
 

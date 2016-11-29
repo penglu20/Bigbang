@@ -83,6 +83,7 @@ public class ConstantUtil {
     public static final String ITEM_MARGIN="item_margin";
     public static final String BIGBANG_ALPHA="bigbang_alpha";
     public static final String USE_LOCAL_WEBVIEW="use_local_webview";
+    public static final String USE_FLOAT_VIEW_TRIGGER="use_float_view_trigger";
 
 
 

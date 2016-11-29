@@ -209,4 +209,10 @@
     <string name="save_sd_card_fail">保存失败</string>
 
 
+
+
+    <string name="float_trigger">点击悬浮球触发Bigbang</string>
+    <string name="float_trigger_request">在复制或点击以后，需要先点击悬浮球才会触发Bigbang，多一步操作，减少误触发</string>
+
+
 </resources>

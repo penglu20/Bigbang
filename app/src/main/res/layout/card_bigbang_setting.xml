@@ -54,4 +54,26 @@
             android:id="@+id/browser_switch"
             style="@style/switchStyle" />
     </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/float_trigger_rl"
+        android:duplicateParentState="false"
+        style="@style/hintTextViewRelativeLayoutSelector">
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <com.forfan.bigbang.view.HintTextView
+            android:id="@+id/float_trigger_tv"
+            style="@style/hintTextViewInLayoutLeft"
+            app:hint="@string/float_trigger_request"
+            app:msg="@string/float_trigger" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/float_trigger_switch"
+            style="@style/hintTextViewswitchStyle" />
+    </RelativeLayout>
+
 </LinearLayout>

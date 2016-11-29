@@ -1,5 +1,6 @@
 package com.forfan.bigbang.util;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -86,53 +87,55 @@ public class TipViewController implements  View.OnTouchListener {
         mainHandler=new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what){
-                    case MOVETOEDGE:
-                        int desX= (int) msg.obj;
-                        if (desX==0){
-                            layoutParams.x= (int) (layoutParams.x - density*10);
-                            if (layoutParams.x<0){
-                                layoutParams.x=0;
+                synchronized(TipViewController.this) {
+                    switch (msg.what) {
+                        case MOVETOEDGE:
+                            int desX = (int) msg.obj;
+                            if (desX == 0) {
+                                layoutParams.x = (int) (layoutParams.x - density * 10);
+                                if (layoutParams.x < 0) {
+                                    layoutParams.x = 0;
+                                }
+                            } else {
+                                layoutParams.x = (int) (layoutParams.x + density * 10);
+                                if (layoutParams.x > desX) {
+                                    layoutParams.x = desX;
+                                }
                             }
-                        }else {
-                            layoutParams.x= (int) (layoutParams.x + density*10);
-                            if (layoutParams.x>desX){
-                                layoutParams.x=desX;
-                            }
-                        }
-                        updateViewPosition(layoutParams.x,layoutParams.y);
-                        if (layoutParams.x!=desX) {
-                            mainHandler.sendMessageDelayed(mainHandler.obtainMessage(MOVETOEDGE, desX),10);
-                        }else {
-                            isMovingToEdge = false;
-                            // TODO: 2016/11/21
-                            setFloatViewToDefault();
+                            updateViewPosition(layoutParams.x, layoutParams.y);
+                            if (layoutParams.x != desX) {
+                                mainHandler.sendMessageDelayed(mainHandler.obtainMessage(MOVETOEDGE, desX), 10);
+                            } else {
+                                isMovingToEdge = false;
+                                // TODO: 2016/11/21
+                                setFloatViewToDefault();
 
-                            if(rotation == Surface.ROTATION_0 || rotation ==Surface.ROTATION_180){
-                                SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_X,layoutParams.x);
-                                SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_Y,layoutParams.y);
-                            }else {
-                                SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_X,layoutParams.x);
-                                SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_Y,layoutParams.y);
+                                if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
+                                    SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_X, layoutParams.x);
+                                    SPHelper.save(ConstantUtil.FLOAT_VIEW_PORT_Y, layoutParams.y);
+                                } else {
+                                    SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_X, layoutParams.x);
+                                    SPHelper.save(ConstantUtil.FLOAT_VIEW_LAND_Y, layoutParams.y);
+                                }
                             }
-                        }
-                        break;
-                    case HIDETOEDGE:
-                        if (layoutParams.x==0 && ((layoutParams.gravity&( Gravity.TOP| Gravity.LEFT))==( Gravity.TOP| Gravity.LEFT))){
-                            floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_left));
-                        }else {
-                            floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_right));
-                        }
-                        floatImageView.setVisibility(View.VISIBLE);
-                        floatSwitch.setVisibility(View.GONE);
-                        floatCopy.setVisibility(View.GONE);
-                        floatScreen.setVisibility(View.GONE);
-                        floatBack.setVisibility(View.GONE);
-                        mWholeView.setOnTouchListener(TipViewController.this);
-                        LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
-                        layoutParams.width=(int) ViewUtil.dp2px(20);
-                        floatImageView.setLayoutParams(layoutParams);
-                        break;
+                            break;
+                        case HIDETOEDGE:
+                            if (layoutParams.x == 0 && ((layoutParams.gravity & (Gravity.TOP | Gravity.LEFT)) == (Gravity.TOP | Gravity.LEFT))) {
+                                floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_left));
+                            } else {
+                                floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_right));
+                            }
+                            floatImageView.setVisibility(View.VISIBLE);
+                            floatSwitch.setVisibility(View.GONE);
+                            floatCopy.setVisibility(View.GONE);
+                            floatScreen.setVisibility(View.GONE);
+                            floatBack.setVisibility(View.GONE);
+                            mWholeView.setOnTouchListener(TipViewController.this);
+                            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
+                            layoutParams.width = (int) ViewUtil.dp2px(20);
+                            floatImageView.setLayoutParams(layoutParams);
+                            break;
+                    }
                 }
             }
         };
@@ -149,9 +152,13 @@ public class TipViewController implements  View.OnTouchListener {
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    mWholeView.setVisibility(View.VISIBLE);
-                    if (rotation!=mWindowManager.getDefaultDisplay().getRotation()){
-                        moveToEdge();
+                    synchronized(TipViewController.this) {
+                        if (mWholeView != null) {
+                            mWholeView.setVisibility(View.VISIBLE);
+                            if (rotation != mWindowManager.getDefaultDisplay().getRotation()) {
+                                moveToEdge();
+                            }
+                        }
                     }
                 }
             });
@@ -279,65 +286,80 @@ public class TipViewController implements  View.OnTouchListener {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                mWindowManager.addView(mWholeView, layoutParams);
+                synchronized(TipViewController.this) {
+                    if (mWholeView != null) {
+                        try {
+                            mWindowManager.addView(mWholeView, layoutParams);
+                        } catch (Throwable e) {
+                        }
+                    } else {
+                        isRemoved = true;
+                        show();
+                    }
+                }
             }
         });
         isRemoved=false;
     }
 
-    private void refreshViewState(boolean showFun){
+    private synchronized void refreshViewState(boolean showFun){
         mainHandler.post(new Runnable() {
             long delay=0;
             @Override
             public void run() {
-                if (showFun){
-                    floatImageView.setVisibility(View.GONE);
-                    floatSwitch.setVisibility(View.VISIBLE);
-                    floatCopy.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ? View.GONE :View.VISIBLE);
-                    floatScreen.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE :View.VISIBLE);
-                    floatBack.setVisibility(View.VISIBLE);
+                synchronized (TipViewController.this) {
+                    if (showFun) {
+                        floatImageView.setVisibility(View.GONE);
+                        floatSwitch.setVisibility(View.VISIBLE);
+                        floatCopy.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ? View.GONE : View.VISIBLE);
+                        floatScreen.setVisibility(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ? View.GONE : View.VISIBLE);
+                        floatBack.setVisibility(View.VISIBLE);
 
-                    floatBack.animate().alpha(0.8f).setStartDelay(delay).start();
-                    delay+=DELAY_STEP;
-                    showInAnimation(floatSwitch,delay,showBigBang?0.8f:0.3f);
-                    delay+=DELAY_STEP;
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        showInAnimation(floatCopy, delay);
+                        floatBack.animate().alpha(0.8f).setStartDelay(delay).start();
                         delay += DELAY_STEP;
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        showInAnimation(floatScreen, delay);
-                    }
-                    mWholeView.setOnTouchListener(null);
-                }else {
-                    floatImageView.setVisibility(View.VISIBLE);
-                    floatSwitch.setVisibility(View.GONE);
-                    floatCopy.setVisibility(View.GONE);
-                    floatScreen.setVisibility(View.GONE);
-                    floatBack.setVisibility(View.GONE);
-                    mWholeView.setOnTouchListener(TipViewController.this);
+                        showInAnimation(floatSwitch, delay, showBigBang ? 0.8f : 0.3f);
+                        delay += DELAY_STEP;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            showInAnimation(floatCopy, delay);
+                            delay += DELAY_STEP;
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            showInAnimation(floatScreen, delay);
+                        }
+                        mWholeView.setOnTouchListener(null);
+                    } else {
+                        floatImageView.setVisibility(View.VISIBLE);
+                        floatSwitch.setVisibility(View.GONE);
+                        floatCopy.setVisibility(View.GONE);
+                        floatScreen.setVisibility(View.GONE);
+                        floatBack.setVisibility(View.GONE);
+                        mWholeView.setOnTouchListener(TipViewController.this);
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        hideInAnimation(floatScreen, delay);
-                        delay+=DELAY_STEP;
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                        hideInAnimation(floatCopy, delay);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            hideInAnimation(floatScreen, delay);
+                            delay += DELAY_STEP;
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            hideInAnimation(floatCopy, delay);
+                            delay += DELAY_STEP;
+                        }
+                        hideInAnimation(floatSwitch, delay);
                         delay += DELAY_STEP;
+                        hideInAnimation(floatBack, delay);
                     }
-                    hideInAnimation(floatSwitch,delay);
-                    delay+=DELAY_STEP;
-                    hideInAnimation(floatBack,delay);
+                    if (showBigBang) {
+                        floatImageView.setImageLevel(0);
+                        floatImageView.setAlpha(0.8f);
+                    } else {
+                        floatImageView.setImageLevel(1);
+                        floatImageView.setAlpha(0.3f);
+                    }
+                    try {
+                        mWindowManager.updateViewLayout(mWholeView, layoutParams);
+                    } catch (Throwable e) {
+                    }
+                    setFloatViewToDefault();
                 }
-                if (showBigBang){
-                    floatImageView.setImageLevel(0);
-                    floatImageView.setAlpha(0.8f);
-                }else {
-                    floatImageView.setImageLevel(1);
-                    floatImageView.setAlpha(0.3f);
-                }
-                mWindowManager.updateViewLayout(mWholeView, layoutParams);
-                setFloatViewToDefault();
             }
         });
     }
@@ -347,21 +369,27 @@ public class TipViewController implements  View.OnTouchListener {
     }
 
     private void showInAnimation(View view,long delay,float toAlpha){
-        view.setAlpha(0);
-        int y= (int) view.getHeight();
-        view.setY(view.getY()-view.getHeight());
-        view.animate().alpha(toAlpha).translationYBy(y).setDuration(DELAY_STEP+50).setStartDelay(delay).start();
+        synchronized(TipViewController.this) {
+            view.setAlpha(0);
+            int y = (int) view.getHeight();
+            view.setY(view.getY() - view.getHeight());
+            view.animate().alpha(toAlpha).translationYBy(y).setDuration(DELAY_STEP + 50).setStartDelay(delay).start();
+        }
     }
     private void hideInAnimation(View view,long delay){
-        view.animate().alpha(0).setStartDelay(delay).start();
+        synchronized(TipViewController.this) {
+            view.animate().alpha(0).setStartDelay(delay).start();
+        }
     }
 
     public synchronized void hide(){
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (mWholeView!=null) {
-                    mWholeView.setVisibility(View.GONE);
+                synchronized(TipViewController.this) {
+                    if (mWholeView != null) {
+                        mWholeView.setVisibility(View.GONE);
+                    }
                 }
             }
         });
@@ -387,9 +415,14 @@ public class TipViewController implements  View.OnTouchListener {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                floatImageView.setVisibility(View.VISIBLE);
-                bangWrap.setVisibility(View.GONE);
-                mWindowManager.updateViewLayout(mWholeView, layoutParams);
+                synchronized(TipViewController.this) {
+                    floatImageView.setVisibility(View.VISIBLE);
+                    bangWrap.setVisibility(View.GONE);
+                    try {
+                        mWindowManager.updateViewLayout(mWholeView, layoutParams);
+                    } catch (Throwable e) {
+                    }
+                }
             }
         });
     }
@@ -400,27 +433,29 @@ public class TipViewController implements  View.OnTouchListener {
             int times=0;
             @Override
             public void run() {
-                showAnimator = true;
-                if (floatImageView != null) {
-                    floatImageView.setVisibility(View.VISIBLE);
-                    floatImageView.animate().
-                            rotationBy(360).
-                            setDuration(1000).
-                            setInterpolator(new AccelerateDecelerateInterpolator()).
-                            withEndAction(new Runnable() {
-                                @Override
-                                public void run() {
-                                    times++;
-                                    if (showAnimator && times < 4) {
-                                        floatImageView.animate().
-                                                rotationBy(360).
-                                                setDuration(1000).
-                                                setInterpolator(new AccelerateDecelerateInterpolator()).
-                                                withEndAction(this).start();
+                synchronized(TipViewController.this) {
+                    showAnimator = true;
+                    if (floatImageView != null) {
+                        floatImageView.setVisibility(View.VISIBLE);
+                        floatImageView.animate().
+                                rotationBy(360).
+                                setDuration(1000).
+                                setInterpolator(new AccelerateDecelerateInterpolator()).
+                                withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        times++;
+                                        if (showAnimator && times < 4) {
+                                            floatImageView.animate().
+                                                    rotationBy(360).
+                                                    setDuration(1000).
+                                                    setInterpolator(new AccelerateDecelerateInterpolator()).
+                                                    withEndAction(this).start();
+                                        }
                                     }
-                                }
-                            }).start();
+                                }).start();
 
+                    }
                 }
             }
         });
@@ -430,10 +465,12 @@ public class TipViewController implements  View.OnTouchListener {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (floatImageView!=null) {
-                    floatImageView.clearAnimation();
+                synchronized(TipViewController.this) {
+                    if (floatImageView != null) {
+                        floatImageView.clearAnimation();
+                    }
+                    showAnimator = false;
                 }
-                showAnimator=false;
             }
         });
     }
@@ -448,21 +485,27 @@ public class TipViewController implements  View.OnTouchListener {
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
-                bigBangLayout.reset();
-                for (String txt: txts){
-                    bigBangLayout.addTextItem(txt);
+                synchronized(TipViewController.this) {
+                    bigBangLayout.reset();
+                    for (String txt : txts) {
+                        bigBangLayout.addTextItem(txt);
+                    }
+                    floatImageView.setVisibility(View.GONE);
+                    bangWrap.setVisibility(View.VISIBLE);
+                    try {
+                        mWindowManager.updateViewLayout(mWholeView, layoutParams);
+                    } catch (Throwable e) {
+                    }
                 }
-                floatImageView.setVisibility(View.GONE);
-                bangWrap.setVisibility(View.VISIBLE);
-                mWindowManager.updateViewLayout(mWholeView, layoutParams);
             }
         });
 
     }
 
-    public void showTipViewForStartActivity(Intent intent){
+    public synchronized void showTipViewForStartActivity(Intent intent){
         boolean isNotify=SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
-        if (isNotify){
+        boolean floatTrigger=SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,false);
+        if (!floatTrigger && isNotify){
             //直接打开bigbang
             try {
                 mContext.startActivity(intent);
@@ -470,7 +513,7 @@ public class TipViewController implements  View.OnTouchListener {
             }
             return;
         }
-        if (mWholeView==null || isRemoved || isTempAdd ){
+        if (floatTrigger || mWholeView==null || isRemoved || isTempAdd ){
             isTempAdd=true;
             //没显示悬浮窗的情况下，用户点击才打开Bigbang
             show();
@@ -478,25 +521,58 @@ public class TipViewController implements  View.OnTouchListener {
                 @Override
                 public void run() {
                     setFloatViewToDefault();
-                    mWholeView.setAlpha(0);
-                    mWholeView.setScaleX(0);
-                    mWholeView.setScaleY(0);
-                    mWholeView.animate().alpha(1).scaleX(1).scaleY(1).setDuration(1000).setInterpolator(new AnticipateOvershootInterpolator()).start();
-                    floatImageView.setOnClickListener(new View.OnClickListener() {
-                              @Override
-                              public void onClick(View v) {
-                                  try {
-                                      mContext.startActivity(intent);
-                                  } catch (Throwable e) {
-                                      e.printStackTrace();
-                                  }
-                                  remove();
-                                  isTempAdd=false;
-                              }
-                          }
-                    );
                 }
             });
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized(TipViewController.this) {
+                        if (mWholeView==null){
+                            return;
+                        }
+                        mWholeView.clearAnimation();
+                        mWholeView.setOnTouchListener(null);
+                        mWholeView.setAlpha(0);
+                        mWholeView.setScaleX(0);
+                        mWholeView.setScaleY(0);
+                        mWholeView.animate().alpha(1).scaleX(1.0f).scaleY(1.0f).setDuration(1000).setInterpolator(new AnticipateOvershootInterpolator()).setListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                isTempAdd = false;
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+
+                            }
+                        }).start();
+                        floatImageView.setOnClickListener(new View.OnClickListener() {
+                                  @Override
+                                  public void onClick(View v) {
+                                      try {
+                                          mContext.startActivity(intent);
+                                      } catch (Throwable e) {
+                                          e.printStackTrace();
+                                      }
+                                      removeViewRunnanble.run();
+                                      isTempAdd = false;
+                                  }
+                              }
+                        );
+                    }
+                }
+            });
+            mainHandler.removeCallbacks(showViewRunnable);
             mainHandler.removeCallbacks(removeViewRunnanble);
             mainHandler.postDelayed(removeViewRunnanble, 3000);
         }else {
@@ -510,13 +586,52 @@ public class TipViewController implements  View.OnTouchListener {
     Runnable removeViewRunnanble=new Runnable() {
         @Override
         public void run() {
-            floatImageView.setOnClickListener(null);
-            remove();
-            mWholeView=null;
-            isTempAdd=false;
+            synchronized(TipViewController.this) {
+                if (mWholeView==null){
+                    return;
+                }
+                floatImageView.setOnClickListener(null);
+                mWholeView.animate().alpha(0).scaleX(0).scaleY(0).setDuration(1000).setInterpolator(new AnticipateOvershootInterpolator()).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (!isTempAdd){
+                            remove();
+                            mWholeView = null;
+                            isTempAdd = false;
+                            mainHandler.removeCallbacks(showViewRunnable);
+                            mainHandler.removeCallbacks(removeViewRunnanble);
+                            mainHandler.postDelayed(showViewRunnable, 1000);
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                }).start();
+            }
         }
     };
-
+   Runnable showViewRunnable=  new Runnable() {
+        @Override
+        public void run() {
+            layoutParams.width=(int) ViewUtil.dp2px(40);
+            layoutParams.height=(int) ViewUtil.dp2px(40);
+            if (SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true)){
+                show();
+            }
+        }
+    };
     /**
      * touch the outside of the content view, remove the popped view
      */
@@ -581,7 +696,7 @@ public class TipViewController implements  View.OnTouchListener {
         return true;
     }
 
-    private void setFloatViewToDefault() {
+    private synchronized void setFloatViewToDefault() {
         mainHandler.removeMessages(HIDETOEDGE);
         floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
 
@@ -594,7 +709,7 @@ public class TipViewController implements  View.OnTouchListener {
     }
 
 
-    private void updateViewPosition(float x,float y) {
+    private synchronized void updateViewPosition(float x,float y) {
         layoutParams.x = (int) (x );
         layoutParams.y = (int) (y );
 
@@ -607,7 +722,10 @@ public class TipViewController implements  View.OnTouchListener {
 //        layoutParams.x= (int) x;
 //        layoutParams.y= (int) y;
         layoutParams.gravity= Gravity.TOP| Gravity.LEFT;
-        mWindowManager.updateViewLayout(mWholeView, layoutParams);
+        try {
+            mWindowManager.updateViewLayout(mWholeView, layoutParams);
+        } catch (Throwable e) {
+        }
     }
 
     private void moveToEdge(){

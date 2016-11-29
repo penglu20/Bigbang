@@ -12,6 +12,7 @@ import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.SettingBigBangActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.forfan.bigbang.view.HintTextView;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 /**
@@ -20,6 +21,8 @@ import com.shang.commonjar.contentProvider.SPHelper;
 
 public class BigBangSettingCard extends AbsCard {
     private SwitchCompat browserSwitch;
+    private SwitchCompat floatTriggerSwitch;
+    private HintTextView floatTriggerHintTextView;
 
     public BigBangSettingCard(Context context) {
         super(context);
@@ -29,11 +32,13 @@ public class BigBangSettingCard extends AbsCard {
 
     private void refresh() {
         browserSwitch.setChecked(SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true));
+        floatTriggerSwitch.setChecked(SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER, true));
+        floatTriggerHintTextView.setShowHint(!floatTriggerSwitch.isChecked());
     }
 
     private void initView(Context context) {
         mContext = context;
-        LayoutInflater.from(context).inflate(R.layout.card_choice, this);
+        LayoutInflater.from(context).inflate(R.layout.card_bigbang_setting, this);
         findViewById(R.id.setting_bigbang).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +63,23 @@ public class BigBangSettingCard extends AbsCard {
                 browserSwitch.setChecked(!browserSwitch.isChecked());
             }
         });
+        floatTriggerHintTextView= (HintTextView) findViewById(R.id.float_trigger_tv);
+        floatTriggerSwitch= (SwitchCompat) findViewById(R.id.float_trigger_switch);
+        floatTriggerSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_FLOAT_VIEW_TRIGGER, isChecked);
+                floatTriggerHintTextView.setShowHint(!isChecked);
+            }
+        });
 
+        findViewById(R.id.float_trigger_rl).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                floatTriggerSwitch.setChecked(!floatTriggerSwitch.isChecked());
+            }
+        });
     }
 
 }

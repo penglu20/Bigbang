@@ -229,10 +229,10 @@ public final class ListenClipboardService extends Service {
 
 
     private void stopForeground(){
-        if (isForegroundShow) {
+//        if (isForegroundShow) {
             stopForeground(true);
-            isForegroundShow=false;
-        }
+//            isForegroundShow=false;
+//        }
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
