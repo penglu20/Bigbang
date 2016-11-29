@@ -216,7 +216,15 @@ public class ScreenCaptureService extends Service {
         ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
 
-        if (mRect != null && mRect.left > 0) {
+        if (mRect != null) {
+            if (mRect.left < 0)
+                mRect.left = 0;
+            if (mRect.right < 0)
+                mRect.right = 0;
+            if (mRect.top < 0)
+                mRect.top = 0;
+            if (mRect.bottom < 0)
+                mRect.bottom = 0;
             int cut_width = Math.abs(mRect.left - mRect.right);
             int cut_height = Math.abs(mRect.top - mRect.bottom);
             if (cut_height > 0 && cut_height > 0) {
