@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
@@ -100,29 +101,34 @@ public class FloatAndNotifySettingCard extends AbsCard {
                     }
 
                 }
-                if (isClickFloat && isChecked){
-                    SnackBarUtil.show(buttonView,
-                            mContext.getString(R.string.punish_float_problem),
-                            mContext.getString(R.string.punish_float_action),
-                            new OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    try {
-                                        Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
-                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
-                                        mContext.startActivity(intent);
-                                    }catch (Throwable e){
-                                        SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
+
+                if (isClickFloat && isChecked) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(mContext)) {
+                        SnackBarUtil.show(buttonView,
+                                mContext.getString(R.string.punish_float_problem),
+                                mContext.getString(R.string.punish_float_action),
+                                new OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        try {
+//                                        Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
+//                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+//                                        mContext.startActivity(intent);
+
+                                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                                    Uri.parse("package:" + mContext.getPackageName()));
+                                            mContext.startActivity(intent);
+
+                                        } catch (Throwable e) {
+                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    } else {
+                        SnackBarUtil.show(buttonView, mContext.getString(R.string.punish_float_problem));
+                    }
                 }
                 isInFirst = false;
-//                if (showFloatView){
-//                    requestFloatViewTv.setVisibility(GONE);
-//                }else {
-//                    requestFloatViewTv.setVisibility(VISIBLE);
-//                }
                 showFloatViewTV.setShowHint(!showFloatView);
                 showFloatTip();
             }

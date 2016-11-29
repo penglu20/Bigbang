@@ -18,9 +18,9 @@ import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.UpdateUtil;
+import com.forfan.bigbang.util.XposedEnableUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
-import com.shang.xposed.XposedEnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +49,7 @@ public class SettingActivity extends BaseActivity {
                 int index = 0;
                 if (!newAdapter.containsView(settingCard))
                     index = cardViews.size() - 4;
-                if (XposedEnable.isEnable())
+                if (XposedEnableUtil.isEnable())
                     index = index - 1;
                 newAdapter.addView(settingCard, index);
             } else {
@@ -75,7 +75,7 @@ public class SettingActivity extends BaseActivity {
         cardViews.add(new FunctionSettingCard(this));
         settingCard = new MonitorSettingCard(this);
         //  cardViews.add(new OcrCard(this));
-        if (XposedEnable.isEnable()) {
+        if (XposedEnableUtil.isEnable()) {
             cardViews.add(new XposedCard(this));
         }
         cardViews.add(new FloatAndNotifySettingCard(this));

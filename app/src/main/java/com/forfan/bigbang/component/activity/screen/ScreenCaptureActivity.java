@@ -62,7 +62,7 @@ public class ScreenCaptureActivity extends BaseActivity {
         markSizeView.setmOnClickListener(new MarkSizeView.onClickListener() {
             @Override
             public void onConfirm(Rect markedArea) {
-                boolean isFirst = SPHelper.getBoolean("is_fist", true);
+//                boolean isFirst = SPHelper.getBoolean("is_fist", true);
 //                if(isFirst){
 //                    ToastUtil.show(R.string.need_capture_perssion);
 //                }
@@ -87,10 +87,10 @@ public class ScreenCaptureActivity extends BaseActivity {
         captureAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isFirst = SPHelper.getBoolean("is_fist", true);
-                if (isFirst) {
-                    ToastUtil.show(R.string.need_capture_perssion);
-                }
+//                boolean isFirst = SPHelper.getBoolean("is_fist", true);
+//                if (isFirst) {
+//                    ToastUtil.show(R.string.need_capture_perssion);
+//                }
                 markSizeView.setUnmarkedColor(getResources().getColor(R.color.transparent));
                 captureTips.setVisibility(View.GONE);
                 captureAll.setVisibility(View.GONE);
