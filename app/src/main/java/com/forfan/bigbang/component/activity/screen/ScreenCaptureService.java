@@ -139,6 +139,7 @@ public class ScreenCaptureService extends Service {
             LogUtil.e(TAG, "start screen capture intent");
             LogUtil.e(TAG, "want to build mediaprojection and display virtual");
             setUpMediaProjection();
+
             virtualDisplay();
         }
     }
@@ -159,10 +160,14 @@ public class ScreenCaptureService extends Service {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void virtualDisplay() {
-        mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
-                windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
-                mImageReader.getSurface(), null, null);
-        LogUtil.e(TAG, "virtual displayed");
+        try {
+            mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
+                    windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
+                    mImageReader.getSurface(), null, null);
+            LogUtil.e(TAG, "virtual displayed");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //获取状态栏高度
@@ -183,7 +188,9 @@ public class ScreenCaptureService extends Service {
         Image image = mImageReader.acquireLatestImage();
         if (image == null) {
             ToastUtil.show(R.string.screen_capture_fail);
-            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
+            Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
+            intent.putExtra(MESSAGE, "截屏失败");
+            sendBroadcast(intent);
             return;
         }
 
