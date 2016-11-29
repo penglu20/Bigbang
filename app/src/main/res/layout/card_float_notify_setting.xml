@@ -7,9 +7,26 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        style="@style/cardViewRelativeLayoutSelector"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold"
+            android:text="@string/float_setting_card"/>
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/show_float_view_rl"
         android:duplicateParentState="false"
         style="@style/hintTextViewRelativeLayoutSelector">
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
 
         <com.forfan.bigbang.view.HintTextView
             android:id="@+id/show_float_view_tv"
