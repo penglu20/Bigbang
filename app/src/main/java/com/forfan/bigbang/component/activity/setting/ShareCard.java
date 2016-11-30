@@ -174,43 +174,48 @@ public class ShareCard extends AbsCard {
 
     public static void shareToWeChat(View view, Context context) {
         // TODO: 2015/12/13 将需要分享到微信的图片准备好
-        if (!checkInstallation(context, "com.tencent.mm")) {
-            SnackBarUtil.show(view, R.string.share_no_wechat);
-            return;
-        }
-        Intent intent = new Intent();
-        //分享精确到微信的页面，朋友圈页面，或者选择好友分享页面
-        ComponentName comp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI");
-        intent.setComponent(comp);
-        intent.setAction(Intent.ACTION_SEND_MULTIPLE);
-        intent.setType("image/*");
-//        intent.setType("text/plain");
-        //添加Uri图片地址
-//        String msg=String.format(getString(R.string.share_content), getString(R.string.app_name), getLatestWeekStatistics() + "");
-        String msg = context.getString(R.string.share_content);
-        intent.putExtra("Kdescription", msg);
-        ArrayList<Uri> imageUris = new ArrayList<Uri>();
-        // TODO: 2016/3/8 根据不同图片来设置分享
-        File dir = context.getExternalFilesDir(null);
-        if (dir == null || dir.getAbsolutePath().equals("")) {
-            dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
-        }
-        File pic = new File(dir, "temp.jpg");
-        pic.deleteOnExit();
-        BitmapDrawable bitmapDrawable;
-        if (Build.VERSION.SDK_INT < 22) {
-            bitmapDrawable = (BitmapDrawable) context.getResources().getDrawable(R.mipmap.bannar);
-        } else {
-            bitmapDrawable = (BitmapDrawable) context.getDrawable(R.mipmap.bannar);
-        }
         try {
-            bitmapDrawable.getBitmap().compress(Bitmap.CompressFormat.JPEG, 75, new FileOutputStream(pic));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            if (!checkInstallation(context, "com.tencent.mm")) {
+                SnackBarUtil.show(view, R.string.share_no_wechat);
+                return;
+            }
+            Intent intent = new Intent();
+            //分享精确到微信的页面，朋友圈页面，或者选择好友分享页面
+            ComponentName comp = new ComponentName("com.tencent.mm", "com.tencent.mm.ui.tools.ShareToTimeLineUI");
+            intent.setComponent(comp);
+            intent.setAction(Intent.ACTION_SEND_MULTIPLE);
+            intent.setType("image/*");
+//        intent.setType("text/plain");
+            //添加Uri图片地址
+//        String msg=String.format(getString(R.string.share_content), getString(R.string.app_name), getLatestWeekStatistics() + "");
+            String msg = context.getString(R.string.share_content);
+            intent.putExtra("Kdescription", msg);
+            ArrayList<Uri> imageUris = new ArrayList<Uri>();
+            // TODO: 2016/3/8 根据不同图片来设置分享
+            File dir = context.getExternalFilesDir(null);
+            if (dir == null || dir.getAbsolutePath().equals("")) {
+                dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+            }
+            File pic = new File(dir, "temp.jpg");
+            pic.deleteOnExit();
+            BitmapDrawable bitmapDrawable;
+            if (Build.VERSION.SDK_INT < 22) {
+                bitmapDrawable = (BitmapDrawable) context.getResources().getDrawable(R.mipmap.bannar);
+            } else {
+                bitmapDrawable = (BitmapDrawable) context.getDrawable(R.mipmap.bannar);
+            }
+            try {
+                bitmapDrawable.getBitmap().compress(Bitmap.CompressFormat.JPEG, 75, new FileOutputStream(pic));
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+            imageUris.add(Uri.fromFile(pic));
+            intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
+            ((Activity) context).startActivityForResult(intent, 1000);
+        }catch (Throwable e){
+            SnackBarUtil.show(view,R.string.share_error);
         }
-        imageUris.add(Uri.fromFile(pic));
-        intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
-        ((Activity) context).startActivityForResult(intent, 1000);
+
     }
 
     public void show() {
