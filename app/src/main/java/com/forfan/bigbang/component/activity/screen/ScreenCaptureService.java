@@ -89,7 +89,7 @@ public class ScreenCaptureService extends Service {
                     try {
                         startCapture();
                     } catch (Exception e) {
-                        e.printStackTrace();
+                        sendBroadcastCaptureFail();
                     }
                 }
             }, 100);
@@ -98,6 +98,13 @@ public class ScreenCaptureService extends Service {
         } catch (Error e) {
             e.printStackTrace();
         }
+    }
+
+    private void sendBroadcastCaptureFail() {
+        Intent intent = new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
+        intent.putExtra(MESSAGE, "截屏失败");
+        sendBroadcast(intent);
+        stopSelf();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)

@@ -13,7 +13,6 @@ public class Logger {
     public static void e(String tag, String msg) {
         if (sEnable) {
             Log.e(TAG + ":" + tag, msg);
-            XposedBridge.log(TAG + ":" + msg);
         }
     }
 
@@ -28,7 +27,7 @@ public class Logger {
         if(sEnable) {
             d(tag, "class: " + c.getName());
             if (c.getSuperclass() != null) {
-                XposedBridge.log(TAG + ":" + c);
+                Log.e(TAG + ":" + tag, c.getCanonicalName());
             }
         }
     }

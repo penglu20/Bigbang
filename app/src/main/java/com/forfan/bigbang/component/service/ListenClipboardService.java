@@ -21,6 +21,7 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
+import com.shang.commonjar.contentProvider.Global;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.util.regex.Matcher;
@@ -97,6 +98,7 @@ public final class ListenClipboardService extends Service {
     @Override
     public void onCreate() {
         mClipboardWatcher = ClipboardManagerCompat.create(this);
+        Global.init(this);
         handler = new Handler();
         readSettingFromSp();
 

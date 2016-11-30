@@ -44,10 +44,9 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam loadPackageParam) throws Throwable {
-        if (!new File("/data/data/com.forfan.bigbang.coolapk").exists())
-            return;
         setXpoedEnable(loadPackageParam);
-
+        if (!new File("/data/data/"+PACKAGE_NAME).exists())
+            return;
         //  wakeup(loadPackageParam);
         Logger.d(TAG, loadPackageParam.packageName);
         XSharedPreferences appXSP = new XSharedPreferences(PACKAGE_NAME, SP_NAME);
@@ -122,7 +121,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
 
     private void setXpoedEnable(XC_LoadPackage.LoadPackageParam loadPackageParam) throws ClassNotFoundException {
-        if (loadPackageParam.packageName.startsWith("com.forfan.bigbang")) {
+        if (loadPackageParam.packageName.equals(PACKAGE_NAME)) {
             findAndHookMethod(loadPackageParam.classLoader.loadClass("com.shang.xposed.XposedEnable"), "isEnable", new XC_MethodReplacement() {
                 @Override
                 protected Object replaceHookedMethod(MethodHookParam methodHookParam) throws Throwable {
