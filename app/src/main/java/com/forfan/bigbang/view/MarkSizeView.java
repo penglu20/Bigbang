@@ -132,10 +132,12 @@ public class MarkSizeView extends View {
 
         //draw maeked
 
-        if (isValid) {
+        if (isValid || !isEnabled()) {
             canvas.drawRect(markedArea, markPaint);
         }
-
+        if (!isEnabled()){
+            return;
+        }
         //draw vertex
         if (isValid&&isUp) {
             canvas.drawOval(ltVer, vertexPaint);
@@ -155,6 +157,9 @@ public class MarkSizeView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        if (!isEnabled()){
+            return false;
+        }
         int x= (int) event.getX();
         int y= (int) event.getY();
         switch ( event.getAction()){

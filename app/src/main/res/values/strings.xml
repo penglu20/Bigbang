@@ -224,4 +224,10 @@
 
     <string name="confirm_setting">我选好了</string>
 
+
+    <string name="notify_disabled_title">通知未开启</string>
+    <string name="notify_disabled_msg">检测到您尚未允许本应用发送通知，可能会影响到程序的功能！</string>
+
+    <string name="ignore">不再提醒</string>
+    <string name="goto_setting">进入设置</string>
 </resources>

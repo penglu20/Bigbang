@@ -54,7 +54,7 @@ public class ConstantUtil {
 
 
     public static final String IS_SHOW_NOTIFY="is_show_notify";
-
+    public static final String NOTIFY_DISABLED_IGNORE="notify_disabled_ignore";
 
 
     //FeedBackAndUpdateCard

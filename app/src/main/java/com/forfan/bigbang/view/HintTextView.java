@@ -34,6 +34,7 @@ public class HintTextView extends LinearLayout {
     private boolean showHint =false;
 
     private TextView msgTv,hintTv;
+    private boolean showAnimation=false;
 
     public HintTextView(Context context) {
         super(context);
@@ -97,6 +98,39 @@ public class HintTextView extends LinearLayout {
         hintTv.setTextSize(hintSize);
         hintTv.setTextColor(hintColor);
 
+
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        int msgTopOld=msgTv.getTop();
+        int hintTopOld = hintTv.getTop();
+
+        super.onLayout(changed, l, t, r, b);
+
+        int msgTopNew=msgTv.getTop();
+        int hintTopNew=hintTv.getTop();
+
+        if (showAnimation) {
+            msgTv.clearAnimation();
+            msgTv.setY(msgTopOld);
+            msgTv.animate().y(msgTopNew).setDuration(300).start();
+
+            if (showHint) {
+                hintTv.clearAnimation();
+                hintTv.setY(hintTopOld);
+                hintTv.setAlpha(0);
+                hintTv.animate().y(hintTopNew).alpha(1).setDuration(300).start();
+            }else {
+                hintTv.clearAnimation();
+                hintTv.setY(hintTopOld);
+                hintTv.setAlpha(1);
+                hintTv.animate().y(hintTopNew).alpha(0).setDuration(300).start();
+            }
+
+            showAnimation=false;
+
+        }
 
     }
 
@@ -165,6 +199,7 @@ public class HintTextView extends LinearLayout {
         }else {
             hintTv.setVisibility(GONE);
         }
+        showAnimation=true;
     }
 
 

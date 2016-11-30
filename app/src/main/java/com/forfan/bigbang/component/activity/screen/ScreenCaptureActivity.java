@@ -69,6 +69,7 @@ public class ScreenCaptureActivity extends BaseActivity {
                 ScreenCaptureActivity.this.markedArea = new Rect(markedArea);
                 markSizeView.reset();
                 markSizeView.setUnmarkedColor(getResources().getColor(R.color.transparent));
+                markSizeView.setEnabled(false);
                 startIntent();
             }
 

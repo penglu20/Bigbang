@@ -109,6 +109,12 @@ public class UrlCountUtil {
     public static final String CLICK_CAPTURERESULT_BIGBANG= "click_captureresult_bigbang";
     public static final String CLICK_CAPTURERESULT_OCRRESULT= "click_captureresult_ocrresult";
 
+
+
+    public static final String CLICK_NOTIFY_DISABLED_CONFIRM="click_notify_disabled_confirm";
+    public static final String CLICK_NOTIFY_DISABLED_CANCEL="click_notify_disabled_cancel";
+    public static final String CLICK_NOTIFY_DISABLED_IGNORE="click_notify_disabled_ignore";
+
     public static Context mContext= BigBangApp.getInstance();
     /*
         context指当前的Activity，eventId为当前统计的事件ID。
