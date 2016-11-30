@@ -34,6 +34,7 @@ public class BigBangSettingCard extends AbsCard {
         browserSwitch.setChecked(SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true));
         floatTriggerSwitch.setChecked(SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER, false));
         floatTriggerHintTextView.setShowHint(!floatTriggerSwitch.isChecked());
+        floatTriggerHintTextView.setShowAnimation(true);
     }
 
     private void initView(Context context) {

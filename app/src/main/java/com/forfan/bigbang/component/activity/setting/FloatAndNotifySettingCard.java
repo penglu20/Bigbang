@@ -1,5 +1,6 @@
 package com.forfan.bigbang.component.activity.setting;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -224,10 +225,54 @@ public class FloatAndNotifySettingCard extends AbsCard {
     };
 
     private void showFloatTip(){
+        showFloatRequestLL.clearAnimation();
         if (!showFloatView && !showNotify) {
             showFloatRequestLL.setVisibility(VISIBLE);
+            showFloatRequestLL.setAlpha(0);
+            showFloatRequestLL.animate().alpha(1).setDuration(300).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    showFloatRequestLL.setVisibility(VISIBLE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
         }else {
-            showFloatRequestLL.setVisibility(GONE);
+            showFloatRequestLL.setAlpha(1);
+            showFloatRequestLL.animate().alpha(0).setDuration(300).setListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    showFloatRequestLL.setVisibility(GONE);
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+
+                }
+
+                @Override
+                public void onAnimationRepeat(Animator animation) {
+
+                }
+            }).start();
         }
     }
 
@@ -241,6 +286,9 @@ public class FloatAndNotifySettingCard extends AbsCard {
         showNotifySwitch.setChecked(showNotify);
 
         showFloatTip();
+
+        showNotifyTV.setShowAnimation(true);
+        showFloatViewTV.setShowAnimation(true);
     }
 
 }
