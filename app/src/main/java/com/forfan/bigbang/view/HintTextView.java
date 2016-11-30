@@ -35,6 +35,7 @@ public class HintTextView extends LinearLayout {
 
     private TextView msgTv,hintTv;
     private boolean showAnimation=false;
+    private boolean showAnimationOnce=false;
 
     public HintTextView(Context context) {
         super(context);
@@ -111,24 +112,28 @@ public class HintTextView extends LinearLayout {
         int msgTopNew=msgTv.getTop();
         int hintTopNew=hintTv.getTop();
 
-        if (showAnimation) {
-            msgTv.clearAnimation();
-            msgTv.setY(msgTopOld);
-            msgTv.animate().y(msgTopNew).setDuration(300).start();
-
-            if (showHint) {
-                hintTv.clearAnimation();
-                hintTv.setY(hintTopOld);
-                hintTv.setAlpha(0);
-                hintTv.animate().y(hintTopNew).alpha(1).setDuration(300).start();
-            }else {
-                hintTv.clearAnimation();
-                hintTv.setY(hintTopOld);
-                hintTv.setAlpha(1);
-                hintTv.animate().y(hintTopNew).alpha(0).setDuration(300).start();
+        if (showAnimation && showAnimationOnce) {
+            if (msgTopOld!=0 && msgTopNew!=msgTopOld) {
+                msgTv.clearAnimation();
+                msgTv.setY(msgTopOld);
+                msgTv.animate().y(msgTopNew).setDuration(300).start();
             }
 
-            showAnimation=false;
+            if (hintTopOld!=0) {
+                if (showHint) {
+                    hintTv.clearAnimation();
+                    hintTv.setY(hintTopOld);
+                    hintTv.setAlpha(0);
+                    hintTv.animate().y(hintTopNew).alpha(1).setDuration(300).start();
+                } else {
+                    hintTv.clearAnimation();
+                    hintTv.setY(hintTopOld);
+                    hintTv.setAlpha(1);
+                    hintTv.animate().y(hintTopNew).alpha(0).setDuration(300).start();
+                }
+            }
+
+            showAnimationOnce=false;
 
         }
 
@@ -199,11 +204,10 @@ public class HintTextView extends LinearLayout {
         }else {
             hintTv.setVisibility(GONE);
         }
-        showAnimation=true;
+        showAnimationOnce=true;
     }
 
-
-
-
-
+    public void setShowAnimation(boolean showAnimation) {
+        this.showAnimation = showAnimation;
+    }
 }
