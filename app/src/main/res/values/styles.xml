@@ -59,6 +59,10 @@
     <!-- 启动页 引导页设置StatusBar为透明色 -->
     <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme" />
 
+    <style name="PreSettingTheme" parent="@style/ColorTranslucentTheme">
+        <item name="android:windowTranslucentNavigation">false</item>
+    </style>
+
     <style name="BigBangTheme" parent="Theme.AppCompat.Dialog">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
