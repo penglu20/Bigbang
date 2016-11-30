@@ -504,8 +504,9 @@ public class TipViewController implements  View.OnTouchListener {
 
     public synchronized void showTipViewForStartActivity(Intent intent){
         boolean isNotify=SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
+        boolean showFloat=SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
         boolean floatTrigger=SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,false);
-        if (!floatTrigger && isNotify){
+        if (!floatTrigger && (isNotify || showFloat)){
             //直接打开bigbang
             try {
                 mContext.startActivity(intent);
@@ -513,7 +514,7 @@ public class TipViewController implements  View.OnTouchListener {
             }
             return;
         }
-        if (floatTrigger || mWholeView==null || isRemoved || isTempAdd ){
+        if (floatTrigger || mWholeView==null || isRemoved || isTempAdd ||  (!isNotify && !showFloat)){
             isTempAdd=true;
             //没显示悬浮窗的情况下，用户点击才打开Bigbang
             show();

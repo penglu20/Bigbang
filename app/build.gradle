@@ -41,8 +41,8 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 14
-        versionName "1.6.8"
+        versionCode 15
+        versionName "1.6.9"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -148,16 +148,16 @@ android {
         meizu{
             java.srcDirs += ['src/Normal/java']
         }
-
-        coolapk{
-            java.srcDirs += ['src/Normal/java']
-        }
         for_test{
             java.srcDirs += ['src/Normal/java']
         }
         xposed{
             resources.srcDirs += ['src/xposed/res']
             java.srcDirs += ['src/xposed/java']
+        }
+        coolapk{
+            resources.srcDirs += ['src/coolapk/res']
+            java.srcDirs += ['src/Normal/java']
         }
     }
 }

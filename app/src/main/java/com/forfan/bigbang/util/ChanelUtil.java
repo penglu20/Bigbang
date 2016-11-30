@@ -30,6 +30,6 @@ public class ChanelUtil {
     }
 
     public static boolean isXposedApk(Context context){
-        return "xposed".equals(getChanelName(context));
+        return "xposed".equals(getChanelName(context))||"coolapk".equals(getChanelName(context));
     }
 }
