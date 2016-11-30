@@ -1,11 +1,14 @@
 package com.forfan.bigbang.component;
 
+import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -33,6 +36,7 @@ import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SE
 public class PreSettingActivity extends BaseActivity {
     public static final String SHOW = "pre_is_show";
     private ColorTextView colorText;
+    private ColorTextView title;
     private ColorTextView colorTextInto;
 
     private CheckBox controlByFloat,controlByNotify,triggerByFloat;
@@ -54,6 +58,9 @@ public class PreSettingActivity extends BaseActivity {
     }
 
     private void initView() {
+        title = (ColorTextView)findViewById(R.id.title);
+        title.setColorTextColor(getResources().getColor(R.color.colorPrimary));
+        title.setColorText(getResources().getString(R.string.pre_setting_title));
         colorText = (ColorTextView)findViewById(R.id.control_setting_title);
         colorText.setColorTextColor(getResources().getColor(R.color.colorPrimary));
         colorText.setColorText(getResources().getString(R.string.pre_setting_intro1));
@@ -105,8 +112,103 @@ public class PreSettingActivity extends BaseActivity {
         });
 
 
+        initAnimation();
+
     }
 
+    private void initAnimation(){
+        colorTextInto.setVisibility(View.GONE);
+        controlByFloat.setVisibility(View.GONE);
+        controlByNotify.setVisibility(View.GONE);
+        triggerByFloat.setVisibility(View.GONE);
+        confirmSetting.setVisibility(View.GONE);
+
+        colorText.setScaleX(0.8f);
+        colorText.setScaleY(0.8f);
+        colorText.setAlpha(0.5f);
+
+        colorText.animate().alpha(1).scaleX(1).scaleY(1).setInterpolator(new AnticipateOvershootInterpolator()).setDuration(500).setListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                animationTwo();
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).start();
+
+    }
+
+    private void animationTwo() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                colorTextInto.setVisibility(View.VISIBLE);
+                colorTextInto.setScaleX(0.5f);
+                colorTextInto.setScaleY(0.5f);
+                colorTextInto.setAlpha(0);
+                colorTextInto.animate().alpha(1).scaleX(1).scaleY(1).setInterpolator(new AnticipateOvershootInterpolator()).setDuration(500).setListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        animationThree();
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                }).start();
+            }
+        }, 1500);
+
+    }
+
+    private void animationThree() {
+
+        controlByFloat.setVisibility(View.VISIBLE);
+        controlByNotify.setVisibility(View.VISIBLE);
+        triggerByFloat.setVisibility(View.VISIBLE);
+        confirmSetting.setVisibility(View.VISIBLE);
+
+        controlByFloat.setScaleX(0.5f);
+        controlByFloat.setScaleY(0.5f);
+
+        controlByNotify.setScaleX(0.5f);
+        controlByNotify.setScaleY(0.5f);
+
+        triggerByFloat.setScaleX(0.5f);
+        triggerByFloat.setScaleY(0.5f);
+
+        confirmSetting.setScaleX(0.5f);
+        confirmSetting.setScaleY(0.5f);
+
+        controlByFloat.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new AnticipateOvershootInterpolator()).start();
+        controlByNotify.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new AnticipateOvershootInterpolator()).start();
+        triggerByFloat.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new AnticipateOvershootInterpolator()).start();
+        confirmSetting.animate().scaleX(1).scaleY(1).setDuration(500).setInterpolator(new AnticipateOvershootInterpolator()).start();
+    }
 
     private void showConfirmDialog() {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {

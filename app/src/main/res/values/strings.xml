@@ -201,7 +201,8 @@
     <string name="control_by_float">使用悬浮窗控制</string>
     <string name="control_by_notify">使用通知栏控制</string>
     <string name="trigger_by_float">点击悬浮窗触发</string>
-    <string name="pre_setting_intro1">请先设置 &lt;控制和触发&gt;方式\n\n如果您选择悬浮窗常驻或通知栏\n可以在其中设置BigBang的开关\n\n如果您选择&lt;点击悬浮窗触发&gt;\n或者&lt;关闭悬浮窗和通知栏&gt;\n在触发Bigbang时会先弹出悬浮窗\n您需要&lt;点击悬浮窗激活Bigbang&gt;</string>
+    <string name="pre_setting_title">请先设置 &lt;控制和触发&gt;方式</string>
+    <string name="pre_setting_intro1">如果您选择悬浮窗常驻或通知栏\n可以在其中设置BigBang的开关\n\n如果您选择&lt;点击悬浮窗触发&gt;\n或者&lt;关闭悬浮窗和通知栏&gt;\n在触发Bigbang时会先弹出悬浮窗\n您需要&lt;点击悬浮窗激活Bigbang&gt;</string>
     <string name="pre_setting_intro2">&lt;点击上面的文字&gt;可以验证设置的效果。\n您也可以随时在设置页面中更改</string>
     <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改</string>
     <string name="pre_setting_cancel">再看看效果</string>

@@ -2,7 +2,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,6 +18,15 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="com.forfan.bigbang.component.activity.setting.SettingActivity">
 
+        <com.forfan.bigbang.view.ColorTextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_size_huge"
+            android:layout_height="wrap_content" />
 
         <com.forfan.bigbang.view.ColorTextView
             android:id="@+id/control_setting_title"
@@ -45,9 +53,9 @@
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/contron_by_float"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:text="@string/control_by_float"
@@ -55,9 +63,9 @@
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/contron_by_notify"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:text="@string/control_by_notify"
@@ -65,9 +73,9 @@
 
         <android.support.v7.widget.AppCompatCheckBox
             android:id="@+id/trigger_by_float"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:text="@string/trigger_by_float"
