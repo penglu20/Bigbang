@@ -351,7 +351,8 @@ public class BigBangActivity extends BaseActivity {
                 break;
             }
             char next = str.charAt(i + 1);
-            if ((RegexUtil.isChinese(first) && !RegexUtil.isChinese(next)) || (!RegexUtil.isChinese(first) && RegexUtil.isChinese(next))) {
+            if ((RegexUtil.isChinese(first) && !RegexUtil.isChinese(next)) || (!RegexUtil.isChinese(first) && RegexUtil.isChinese(next)) ||
+                    (Character.isLetter(first) && !Character.isLetter(next)) ||    (Character.isDigit(first) && !Character.isDigit(next))) {
                 s = s + first + " ";
             } else if (RegexUtil.isSymbol(first)) {
                 s = s + " " + first + " ";

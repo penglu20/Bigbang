@@ -29,7 +29,7 @@
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/ocr_result"
                 android:textSize="@dimen/text_size_normal"
-                android:textColor="@color/secondary_text"
+                android:textColor="@color/white"
                 android:padding="@dimen/margin_double"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
