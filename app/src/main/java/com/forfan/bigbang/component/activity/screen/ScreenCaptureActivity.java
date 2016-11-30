@@ -11,6 +11,7 @@ import android.media.projection.MediaProjectionManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -183,11 +184,16 @@ public class ScreenCaptureActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)) {
-                Intent newIntent = new Intent(context, CaptureResultActivity.class);
-                newIntent.putExtra(ScreenCaptureService.MESSAGE, intent.getStringExtra(ScreenCaptureService.MESSAGE));
-                newIntent.putExtra(ScreenCaptureService.FILE_NAME, intent.getStringExtra(ScreenCaptureService.FILE_NAME));
-                startActivity(newIntent);
-                finish();
+                String fileName=intent.getStringExtra(ScreenCaptureService.FILE_NAME);
+                if (TextUtils.isEmpty(fileName)){
+                    finish();
+                }else {
+                    Intent newIntent = new Intent(context, CaptureResultActivity.class);
+                    newIntent.putExtra(ScreenCaptureService.MESSAGE, intent.getStringExtra(ScreenCaptureService.MESSAGE));
+                    newIntent.putExtra(ScreenCaptureService.FILE_NAME,fileName );
+                    startActivity(newIntent);
+                    finish();
+                }
             }
         }
     };

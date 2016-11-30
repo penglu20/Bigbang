@@ -630,7 +630,7 @@ public class TipViewController implements  View.OnTouchListener {
    Runnable showViewRunnable=  new Runnable() {
         @Override
         public void run() {
-            if (SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true)){
+            if (SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false)){
                 show();
             }
         }

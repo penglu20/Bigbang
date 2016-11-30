@@ -224,10 +224,8 @@
     <string name="confirm_setting">Done</string>
 
 
-
+    <string name="notify_enable">Notification Enabled!</string>
     <string name="notify_disabled_title">Need Notification Permission</string>
-    <string name="notify_disabled_msg">It has been detected that you have not allowed this app to send notifications, which may affect the functionality of your app!</string>
 
-    <string name="ignore">No longer reminded</string>
     <string name="goto_setting">Go to Settings</string>
 </resources>

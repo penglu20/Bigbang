@@ -521,7 +521,7 @@ public class BigBangMonitorService extends AccessibilityService {
         }
 
         monitorClick = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
-        showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
+        showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
         onlyText = SPHelper.getBoolean(ConstantUtil.TEXT_ONLY,true) ;
         double_click_interval=SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL,ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
 

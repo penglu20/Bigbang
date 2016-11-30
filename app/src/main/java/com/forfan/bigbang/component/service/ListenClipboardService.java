@@ -264,7 +264,7 @@ public final class ListenClipboardService extends Service {
         }
 
         monitorClipborad= SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
-        showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
+        showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
         if (showFloatView){
             TipViewController.getInstance().show();
 

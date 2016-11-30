@@ -56,7 +56,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
     private boolean showFloatView =true;
     private boolean showNotify =false;
     private boolean isInFirst = true;
-    private boolean isClickFloat = false;
+    private boolean isClickFloat=false,isClickNotify = false;
 
     private Handler handler;
 
@@ -149,8 +149,28 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 showNotifyTV.setShowHint(!showNotify);
                 showFloatTip();
-                if (isChecked){
-                    checkNotification();
+                if (isClickNotify&&isChecked){
+                    if (!NotificationCheckUtil.areNotificationsEnabled(mContext.getApplicationContext())) {
+                        SnackBarUtil.show(buttonView,
+                                mContext.getString(R.string.notify_enable),
+                                mContext.getString(R.string.notify_disabled_title),
+                                new OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        try {
+                                            Intent intent = new Intent();
+                                            intent.setClassName("com.android.settings", "com.android.settings.Settings$AppNotificationSettingsActivity");
+                                            intent.putExtra("app_package", mContext.getPackageName());
+                                            intent.putExtra("app_uid", mContext.getApplicationInfo().uid);
+                                            mContext.startActivity(intent);
+                                        }catch (Throwable e){
+                                            SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
+                                        }
+                                    }
+                                });
+                    } else {
+                        SnackBarUtil.show(buttonView, mContext.getString(R.string.notify_enable));
+                    }
                 }
             }
         });
@@ -191,6 +211,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
                     showFloarViewSwitch.setChecked(!showFloarViewSwitch.isChecked());
                     break;
                 case R.id.show_notify_rl:
+                    isClickNotify=true;
                     showNotifySwitch.setChecked(!showNotifySwitch.isChecked());
                     break;
                 case R.id.default_setting:
@@ -212,7 +233,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
 
     private void refresh(){
-        showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true);
+        showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
         showNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
 
 
@@ -220,66 +241,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
         showNotifySwitch.setChecked(showNotify);
 
         showFloatTip();
-    }
-
-    private void checkNotification(){
-        if (!SPHelper.getBoolean(ConstantUtil.NOTIFY_DISABLED_IGNORE,false) &&
-                !NotificationCheckUtil.areNotificationsEnabled(mContext.getApplicationContext())){
-            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    showNotifyDisabledDialog(showNotifySwitch,mContext);
-                    LogUtil.d("areNotificationsEnabled==false");
-                }
-            }, 2000);
-        }
-    }
-
-    public static void showNotifyDisabledDialog(final View view, final Context mContext) {
-        Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight ){
-            @Override
-            protected void onBuildDone(Dialog dialog) {
-                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            }
-            @Override
-            public void onPositiveActionClicked(DialogFragment fragment) {
-                // 这里是保持开启
-                try {
-                    Intent intent = new Intent();
-                    intent.setClassName("com.android.settings", "com.android.settings.Settings$AppNotificationSettingsActivity");
-                    intent.putExtra("app_package", mContext.getPackageName());
-                    intent.putExtra("app_uid", mContext.getApplicationInfo().uid);
-                    mContext.startActivity(intent);
-                }catch (Throwable e){
-                    SnackBarUtil.show(view,R.string.open_setting_failed_diy);
-                }
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_NOTIFY_DISABLED_CONFIRM);
-                super.onPositiveActionClicked(fragment);
-            }
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                //这里是确认关闭
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_NOTIFY_DISABLED_CANCEL);
-                super.onNegativeActionClicked(fragment);
-            }
-
-            @Override
-            public void onNeutralActionClicked(DialogFragment fragment) {
-                SPHelper.save(ConstantUtil.NOTIFY_DISABLED_IGNORE,true);
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_NOTIFY_DISABLED_IGNORE);
-                super.onNeutralActionClicked(fragment);
-            }
-        };
-        ((SimpleDialog.Builder) builder).
-                message(mContext.getString(R.string.notify_disabled_msg)).
-                title(mContext.getString(R.string.notify_disabled_title));
-        ((SimpleDialog.Builder)builder)
-                .positiveAction(mContext.getString(R.string.goto_setting))
-                .negativeAction(mContext.getString(R.string.cancel))
-                .neutralAction(mContext.getString(R.string.ignore));
-
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
 }

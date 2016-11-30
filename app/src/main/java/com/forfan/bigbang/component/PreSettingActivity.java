@@ -3,8 +3,11 @@ package com.forfan.bigbang.component;
 import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,8 @@ import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.NotificationCheckUtil;
+import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.ColorTextView;
 import com.forfan.bigbang.view.DialogFragment;
@@ -42,6 +47,7 @@ public class PreSettingActivity extends BaseActivity {
     private CheckBox controlByFloat,controlByNotify,triggerByFloat;
     private TextView confirmSetting;
 
+    private boolean isClickFloat=false,isClickNotify = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,9 +58,11 @@ public class PreSettingActivity extends BaseActivity {
     }
 
     private void refresh(){
-        controlByFloat.setChecked(SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,true));
-        controlByNotify.setChecked(SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,true));
+        controlByFloat.setChecked(SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false));
+        controlByNotify.setChecked(SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false));
         triggerByFloat.setChecked(SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,false));
+        isClickFloat=true;
+        isClickNotify=true;
     }
 
     private void initView() {
@@ -83,6 +91,32 @@ public class PreSettingActivity extends BaseActivity {
                 SPHelper.save(ConstantUtil.SHOW_FLOAT_VIEW, isChecked);
                 sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
+                if (isClickFloat && isChecked) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(getApplicationContext())) {
+                        SnackBarUtil.show(buttonView,
+                                getString(R.string.punish_float_problem),
+                                getString(R.string.punish_float_action),
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        try {
+//                                        Uri packageURI = Uri.parse("package:" +  mContext.getPackageName());
+//                                        Intent intent =  new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,packageURI);
+//                                        mContext.startActivity(intent);
+
+                                            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                                                    Uri.parse("package:" + getPackageName()));
+                                            startActivity(intent);
+
+                                        } catch (Throwable e) {
+                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
+                                        }
+                                    }
+                                });
+                    } else {
+                        SnackBarUtil.show(buttonView, getString(R.string.punish_float_problem));
+                    }
+                }
             }
         });
         controlByNotify= (CheckBox) findViewById(R.id.contron_by_notify);
@@ -92,6 +126,29 @@ public class PreSettingActivity extends BaseActivity {
                 SPHelper.save(ConstantUtil.IS_SHOW_NOTIFY, isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.PRE__NOTIFY,isChecked);
                 sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
+                if (isClickNotify&&isChecked){
+                    if (!NotificationCheckUtil.areNotificationsEnabled(getApplicationContext())) {
+                        SnackBarUtil.show(buttonView,
+                                getString(R.string.notify_enable),
+                                getString(R.string.notify_disabled_title),
+                                new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        try {
+                                            Intent intent = new Intent();
+                                            intent.setClassName("com.android.settings", "com.android.settings.Settings$AppNotificationSettingsActivity");
+                                            intent.putExtra("app_package", getPackageName());
+                                            intent.putExtra("app_uid", getApplicationInfo().uid);
+                                            startActivity(intent);
+                                        }catch (Throwable e){
+                                            SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
+                                        }
+                                    }
+                                });
+                    } else {
+                        SnackBarUtil.show(buttonView, getString(R.string.notify_enable));
+                    }
+                }
             }
         });
         triggerByFloat= (CheckBox) findViewById(R.id.trigger_by_float);

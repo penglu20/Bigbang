@@ -111,9 +111,6 @@ public class UrlCountUtil {
 
 
 
-    public static final String CLICK_NOTIFY_DISABLED_CONFIRM="click_notify_disabled_confirm";
-    public static final String CLICK_NOTIFY_DISABLED_CANCEL="click_notify_disabled_cancel";
-    public static final String CLICK_NOTIFY_DISABLED_IGNORE="click_notify_disabled_ignore";
 
     public static Context mContext= BigBangApp.getInstance();
     /*
