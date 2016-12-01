@@ -410,7 +410,7 @@ public class BigBangActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (bigBangLayoutWrapper != null && bigBangLayoutWrapper.getVisibility() == View.GONE) {
+        if (bigBangLayoutWrapper != null) {
             bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             transRl.setVisibility(View.GONE);
         } else {
