@@ -25,6 +25,7 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.RegexUtil;
 import com.forfan.bigbang.util.SearchEngineUtil;
+import com.forfan.bigbang.util.SharedIntentHelper;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
@@ -244,11 +245,11 @@ public class BigBangActivity extends BaseActivity {
             if (!TextUtils.isEmpty(text)) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SHARAE);
 
-                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                sharingIntent.setType("text/plain");
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
-                startActivity(Intent.createChooser(sharingIntent, getString(R.string.share_to)));
+//                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+//                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                sharingIntent.setType("text/plain");
+//                sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
+                SharedIntentHelper.sendShareIntent(BigBangActivity.this,text);
                 finish();
             }
         }
