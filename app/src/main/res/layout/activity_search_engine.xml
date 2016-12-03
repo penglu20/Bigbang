@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,16 +15,43 @@
         android:gravity="center"
         app:popupTheme="@style/Theme.AppCompat.Light"
         app:subtitleTextColor="@color/white"
-        app:title="@string/title_white_list"
         app:titleTextColor="@color/white" />
 
-    <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/hint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/move_edit_hint"
+        android:textSize="10sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_below="@+id/hint"
+        android:background="@drawable/divider_recycler" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/add" />
+
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE"
+        android:layout_below="@+id/hint"
         android:orientation="vertical"
         android:overScrollMode="never"
         android:scrollbars="vertical" />
 
-</LinearLayout>
+
+</RelativeLayout>

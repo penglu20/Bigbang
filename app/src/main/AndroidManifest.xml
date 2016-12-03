@@ -173,7 +173,7 @@
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.searchengine.SearchEngineActivity"
-            android:theme="@style/BaseAppTheme" />
+            android:theme="@style/SearchEngineAppTheme" />
         <activity
             android:name=".component.activity.WebActivity"
             android:autoRemoveFromRecents="true"

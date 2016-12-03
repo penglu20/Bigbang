@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:background="?selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="5dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_title"
+        android:layout_marginLeft="@dimen/text_size_tiny"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/primary_text"
+        android:textSize="18sp"
+        android:maxLines="1"
+        android:maxLength="5"
+        android:text="百度"
+        />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/tv_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="https://www.baidu.com"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:textColor="@color/secondary_text"
+        android:layout_marginLeft="@dimen/text_size_tiny" />
+
+</LinearLayout>

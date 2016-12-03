@@ -239,4 +239,15 @@
     <string name="ocr_quote_beyond_time">We are sorry, since OCR is a paid service, and because there is no access to advertising, authors have assumed the cost of 3,000 yuan per month, now can not afford this cost. Your experience on the course could be compromised. \n You can click "How to use it for free" for more information.</string>
     <string name="free_use">How to use it for free</string>
     <string name="ocr_useup_toast">Our OCR times has nearly exhausted, you want a better experience, please go to Settings for the "How to Get Free OCR"</string>
+    <string name="add">add</string>
+    <string name="save_search_engine_fail">The name or URL can not be empty</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="set_search_pre">We alreay make </string>
+    <string name="set_search_end">as the default search engine</string>
+    <string name="can_not_delete"><![CDATA[Can not delete anymore,%>_<%]]></string>
+    <string name="xiugai">modify</string>
+    <string name="search_name_hint">Name (no more than 5 words)</string>
+    <string name="search_url_hint">Address (last search will be stitched on the word)</string>
+    <string name="move_edit_hint">Left slide to edit or delete, long press to adjust position</string>
 </resources>

@@ -28,12 +28,14 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.DensityUtils;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.SearchEngineUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 
 public class WebActivity
@@ -64,12 +66,12 @@ public class WebActivity
     }
     private  boolean isFistIn = true;
     private void initViews() {
-        String[] engines = getResources().getStringArray(R.array.browser_list);
+        ArrayList<String> engines = SearchEngineUtil.getInstance().getSearchEngineNames();
         this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
         mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_Engines,engines[position]);
+                UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_Engines,engines.get(position));
                 SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
                 if(isFistIn){
                     isFistIn = false;
@@ -84,8 +86,7 @@ public class WebActivity
 
             }
         });
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.browser_list, R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.simple_spinner_item,engines);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
         mTitleSpinner.setAdapter(adapter);
         browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0);
@@ -175,25 +176,9 @@ public class WebActivity
 
 
     private String getUrlStrBySelect(String query) {
-        String url = "";
-        switch (SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)) {
-            case 0:
-                url = "https://m.baidu.com/s?word=";
-                break;
-            case 1:
-                url = "https://www.google.com/search?q=";
-                break;
-//            case 2:
-//                url ="http://m.so.com/s?q=";
-//                break;
-            case 2:
-                url = "https://www.bing.com/search?q=";
-                break;
-            case 3:
-                url = "https://s.m.taobao.com/h5?event_submit_do_new_search_auction=1&_input_charset=utf-8&topSearch=1&atype=b&searchfrom=1&action=home%3Aredirect_app_action&from=1&sst=1&n=20&buying=buyitnow&q=";
-                break;
-        }
-
+        String url = SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url;
+        if(!url.startsWith("http"))
+            url = "http://"+url;
         try {
             return url + URLEncoder.encode(query, "utf-8");
         } catch (UnsupportedEncodingException e) {

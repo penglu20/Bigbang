@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <dimen name="item_height">60dp</dimen>
     <dimen name="dimen_50dp">50dp</dimen>
     <dimen name="dimen_150dp">150dp</dimen>
     <!-- Default screen margins, per the Android Design guidelines. -->

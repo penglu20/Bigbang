@@ -232,4 +232,16 @@
 
     <string name="set_background_myself">自定义</string>
     <string name="set_background">设置BigBang背景颜色</string>
+
+    <string name="save_search_engine_fail">名字或网址不能为空</string>
+    <string name="add" >添加</string>
+    <string name="delete">删除</string>
+    <string name="edit">编辑</string>
+    <string name="set_search_pre">已将</string>
+    <string name="set_search_end">设置为默认搜索引擎</string>
+    <string name="can_not_delete"><![CDATA[不能再删啦,%>_<%]]></string>
+    <string name="xiugai">修改</string>
+    <string name="search_name_hint">名字(不超过5个字)</string>
+    <string name="search_url_hint">地址(最后会拼接上 搜索词 )</string>
+    <string name="move_edit_hint">左滑编辑或删除，长按调整位置</string>
 </resources>
