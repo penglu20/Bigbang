@@ -24,6 +24,13 @@ public class SearchEngineUtil {
             "},{\n" +
             "\"title\":\"淘宝\",\n" +
             "\"url\":\"https://s.m.taobao.com/h5?q=\"\n" +
+            "},{\n" +
+            "\"title\":\"知乎\",\n" +
+            "\"url\":\"https://www.zhihu.com/search?q=\"\n" +
+            "}\n" +
+            ",{\n" +
+            "\"title\":\"有道\",\n" +
+            "\"url\":\"http://m.youdao.com/dict?q=\"\n" +
             "}\n" +
             "]";
     private static SearchEngineUtil searchEngineUtil;
