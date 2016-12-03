@@ -28,6 +28,7 @@ public class UrlCountUtil {
     public static final String CLICK_SETTINGS_DOUBLECLICK_SETTING = "click_settings_doubleclick_setting";
     public static final String CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM = "click_settings_doubleclick_setting_conform";
     public static final String CLICK_SETTINGS_DONATE = "click_settings_donate";
+    public static final String CLICK_DIY_OCR_KEY = "click_diy_ocr_key";
 
     public static final String CLICK_SETTINGS_XPOSED_WHITELIST = "click_settings_xposed_whitelist";
     public static final String CLICK_SETTINGS_NOTIFY_FL_WIN = "click_settings_notify_fl_win";

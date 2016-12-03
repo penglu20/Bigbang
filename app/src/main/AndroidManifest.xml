@@ -207,7 +207,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".component.activity.screen.DiyOcrKeyActivity"></activity>
+        <activity android:name=".component.activity.screen.DiyOcrKeyActivity"
+            android:theme="@style/BaseAppTheme"
+            />
     </application>
 
 </manifest>

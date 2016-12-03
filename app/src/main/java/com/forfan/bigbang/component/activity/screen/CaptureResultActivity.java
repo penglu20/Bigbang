@@ -177,7 +177,7 @@ public class CaptureResultActivity extends BaseActivity {
         ocr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == 15) {
+                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
                     showBeyondQuoteDialog();
                     return;
                 }
@@ -200,7 +200,7 @@ public class CaptureResultActivity extends BaseActivity {
         bigbang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == 15) {
+                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
                     showBeyondQuoteDialog();
                     return;
                 }

@@ -17,7 +17,9 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.DonateActivity;
 import com.forfan.bigbang.component.activity.IntroActivity;
+import com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity;
 import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.CountLinkMovementMethod;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
@@ -26,6 +28,7 @@ import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.fb.FeedbackAgent;
 
 /**
@@ -63,6 +66,15 @@ public class AboudCard extends AbsCard {
 //            feedback.setVisibility(View.GONE);
 //        }
         findViewById(R.id.donate).setOnClickListener(myOnClickListener);
+
+        View diy=findViewById(R.id.diy_ocr_key);
+        diy.setOnClickListener(myOnClickListener);
+
+        if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) >= ConstantUtil.OCR_TIME_TO_ALERT || SPHelper.getBoolean(ConstantUtil.SHOULD_SHOW_DIY_OCR,false)) {
+            diy.setVisibility(VISIBLE);
+        }else {
+            diy.setVisibility(GONE);
+        }
     }
 
     private OnClickListener myOnClickListener =new OnClickListener() {
@@ -81,6 +93,11 @@ public class AboudCard extends AbsCard {
             case R.id.donate:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DONATE);
                 toDonate();
+                break;
+            case R.id.diy_ocr_key:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_DIY_OCR_KEY);
+                Intent intent=new Intent(mContext, DiyOcrKeyActivity.class);
+                mContext.startActivity(intent);
                 break;
             default:
                 break;

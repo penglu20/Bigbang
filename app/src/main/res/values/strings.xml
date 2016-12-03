@@ -232,4 +232,20 @@
 
     <string name="set_background_myself">自定义</string>
     <string name="set_background">设置BigBang背景颜色</string>
+
+
+    <string name="set_diy_ocr_key">设置免费OCR秘钥</string>
+    <string name="set_diy_ocr_key_ok">设置OCR秘钥成功</string>
+    <string name="set_diy_ocr_key_hint">请输入您的OCR秘钥</string>
+    <string name="ocr_step1">通过下面几步，您就可以免费使用每个月5000次的图片OCR功能。\\n您也可以给作者捐赠10元，并附言需要KEY，由作者帮您申请。</string>
+    <string name="ocr_step2">第一步：使用浏览器打开网址： https://www.microsoft.com/cognitive-services/  \\n（点击复制网址）</string>
+    <string name="ocr_step3">第二步：点击网页右上角的“My account（我的账户）”，如下图。</string>
+    <string name="ocr_step4">第三步：选择一种适合的方式注册/登录网站，下面以微软账户登录为例。</string>
+    <string name="ocr_step5">第四步：如果您没有微软账户，需要先使用邮箱注册微软账户。然后授权使用微软账户登录本网站，如下图。</string>
+    <string name="ocr_step6">第五步：登录以后，点击下图中的红框内的按钮发送验证邮件。</string>
+    <string name="ocr_step7">第六步：到邮箱中找到验证邮件，点击通过验证。（如果收不到验证邮件，可以反复刷新第五步中的页面，重发邮件）</string>
+    <string name="ocr_step8">第七步：邮件验证成功以后，会自动跳转到下图中的页面，点击红框中的按钮。</string>
+    <string name="ocr_step9">第八步：在产品列表中勾选下图中所示的功能，大概在第四排的位置。</string>
+    <string name="ocr_step10">第九步：勾选“同意协议”，然后点击提交，如下图。</string>
+    <string name="ocr_step11">第十步：将你的KEY复制，如下图，并填写到本页面最后的输入框中。</string>
 </resources>

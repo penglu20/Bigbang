@@ -31,6 +31,7 @@
                 android:textSize="@dimen/text_size_normal"
                 android:textColor="@color/white"
                 android:padding="@dimen/margin_double"
+                android:background="@color/pressed_color"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

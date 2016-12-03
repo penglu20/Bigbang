@@ -239,4 +239,20 @@
     <string name="ocr_quote_beyond_time">We are sorry, since OCR is a paid service, and because there is no access to advertising, authors have assumed the cost of 3,000 yuan per month, now can not afford this cost. Your experience on the course could be compromised. \n You can click "How to use it for free" for more information.</string>
     <string name="free_use">How to use it for free</string>
     <string name="ocr_useup_toast">Our OCR times has nearly exhausted, you want a better experience, please go to Settings for the "How to Get Free OCR"</string>
+
+
+    <string name="set_diy_ocr_key">Set OCR KEY For Free</string>
+    <string name="set_diy_ocr_key_ok">Set OCR KEY Success</string>
+    <string name="set_diy_ocr_key_hint">Input your KEY</string>
+    <string name="ocr_step1">In the next few steps, you can use the free OCR feature 5000 times per month. \ n You can also donate 10 yuan to the author, and postscript need KEY, by the author to help you apply.</string>
+    <string name="ocr_step2">Step 1: Use your browser to open the URL: https://www.microsoft.com/cognitive-services/ \ n (Click to Copy URL)</string>
+    <string name="ocr_step3">Step 2: Click "My account" in the upper right corner of the page, as shown below.</string>
+    <string name="ocr_step4">Step 3: Select a suitable way to register / log on the site, the following account to log on Microsoft as an example.</string>
+    <string name="ocr_step5">Step 4: If you do not have Microsoft accounts, you need to use the mailbox to register Microsoft accounts. And then authorize the use of Microsoft account to log on to this website, as shown below.</string>
+    <string name="ocr_step6">Step 5: After login, click the button in the red box below to send the verification message.</string>
+    <string name="ocr_step7">Step 6: to the mailbox to find the verification message, click through the verification. (If you can not receive the verification message, you can repeatedly refresh the fifth step in the page, re-mail)</string>
+    <string name="ocr_step8">Step 7: After the mail authentication is successful, it will automatically jump to the following page, click the red box button.</string>
+    <string name="ocr_step9">Step 8: In the product list check the following figure shows the function, probably in the fourth row position.</string>
+    <string name="ocr_step10">Step 9: Check the "Agree Agreement", then click on the submission, as shown below.</string>
+    <string name="ocr_step11">Step 10: Copy your KEY, as shown below, and fill in the final input to the page box.</string>
 </resources>

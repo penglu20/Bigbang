@@ -232,4 +232,12 @@
     <style name="hintTextViewswitchStyle" parent="switchStyle">
         <item name="android:layout_height">@dimen/card_detail_line_height</item>
     </style>
+
+    <style name="diyOcrKeyTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_double</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_normal</item>
+    </style>
 </resources>

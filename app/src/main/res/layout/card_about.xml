@@ -13,10 +13,24 @@
         android:text="@string/share"/>
 
     <View
-        android:id="@+id/divider1"
+        android:id="@+id/divider0"
         android:layout_width="match_parent"
         android:background="@color/divider"
         android:layout_below="@id/share"
+        android:layout_height="1px"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/diy_ocr_key"
+
+        style="@style/cardViewTextView"
+        android:layout_below="@id/share"
+        android:text="@string/set_diy_ocr_key"/>
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_below="@id/diy_ocr_key"
         android:layout_height="1px"/>
 
     <android.support.v7.widget.AppCompatTextView

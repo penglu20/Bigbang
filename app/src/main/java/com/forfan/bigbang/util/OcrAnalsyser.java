@@ -134,7 +134,10 @@ public class OcrAnalsyser {
                 .compose(activity.bindToLifecycle())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> callback.onSucess(s),
-                        throwable -> callback.onFail(throwable));
+                        throwable -> {
+                            callback.onFail(throwable);
+                            SPHelper.save(ConstantUtil.SHOULD_SHOW_DIY_OCR,true);
+                        });
     }
 
     public void analyse(byte[] img, CallBack callback) {
