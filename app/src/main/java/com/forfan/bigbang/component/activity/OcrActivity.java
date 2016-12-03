@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.screen.CaptureResultActivity;
+import com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.cropper.BitmapUtil;
 import com.forfan.bigbang.cropper.CropHandler;
@@ -209,6 +211,9 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
                 super.onPositiveActionClicked(fragment);
+                Intent intent = new Intent();
+                intent.setClass(OcrActivity.this,DiyOcrKeyActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -227,6 +232,8 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         findViewById(R.id.hint).setVisibility(View.VISIBLE);
         if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
             showBeyondQuoteDialog();
+            int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
+            SPHelper.save(ConstantUtil.OCR_TIME, time);
             return;
         }
         editText.setText(R.string.recognize);

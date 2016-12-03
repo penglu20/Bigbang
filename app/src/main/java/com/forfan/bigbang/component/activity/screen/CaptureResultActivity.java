@@ -179,6 +179,8 @@ public class CaptureResultActivity extends BaseActivity {
             public void onClick(View v) {
                 if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
                     showBeyondQuoteDialog();
+                    int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
+                    SPHelper.save(ConstantUtil.OCR_TIME, time);
                     return;
                 }
                 ToastUtil.show(R.string.ocr_recognize);
@@ -202,6 +204,8 @@ public class CaptureResultActivity extends BaseActivity {
             public void onClick(View v) {
                 if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
                     showBeyondQuoteDialog();
+                    int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
+                    SPHelper.save(ConstantUtil.OCR_TIME, time);
                     return;
                 }
                 ToastUtil.show(R.string.ocr_recognize);
@@ -255,6 +259,10 @@ public class CaptureResultActivity extends BaseActivity {
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
                 super.onPositiveActionClicked(fragment);
+                Intent intent = new Intent();
+                intent.setClass(CaptureResultActivity.this,DiyOcrKeyActivity.class);
+                startActivity(intent);
+
             }
 
             @Override
