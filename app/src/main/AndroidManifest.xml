@@ -47,16 +47,16 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".component.PreSettingActivity"
+            android:name=".component.activity.PreSettingActivity"
             android:launchMode="singleTask"
             android:theme="@style/PreSettingTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".test.TestActivity">
 
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".component.activity.screen.CaptureResultActivity"
@@ -64,8 +64,7 @@
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:noHistory="true"
-            android:theme="@style/BigBangTheme"/>
-
+            android:theme="@style/BigBangTheme" />
         <activity
             android:name=".component.activity.BigBangActivity"
             android:autoRemoveFromRecents="true"
@@ -75,16 +74,19 @@
             android:theme="@style/BigBangTheme">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <data android:scheme="forbigBang" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".copy.CopyActivity"
             android:autoRemoveFromRecents="true"
@@ -92,7 +94,6 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:theme="@style/OverlayTheme" />
-
         <activity
             android:name="com.umeng.fb.ConversationActivity"
             android:label="@string/app_name"
@@ -135,7 +136,6 @@
             </intent-filter>
         </service>
 
-
         <activity
             android:name=".component.activity.SplashActivity"
             android:theme="@style/ColorTranslucentTheme">
@@ -157,7 +157,6 @@
         <activity
             android:name=".component.activity.OcrActivity"
             android:theme="@style/BaseAppTheme">
-
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <action android:name="android.intent.action.SEND_MULTIPLE" />
@@ -182,21 +181,17 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:theme="@style/WebActivityTheme" />
-        <activity android:name=".component.activity.SettingQueryActivity"></activity>
-
+        <activity android:name=".component.activity.SettingQueryActivity" />
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.screen.ScreenCaptureActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/ScreenCaptureTheme">
+            android:theme="@style/ScreenCaptureTheme"></activity>
 
-        </activity>
+        <service android:name=".component.activity.screen.ScreenCaptureService"></service>
 
-        <service android:name=".component.activity.screen.ScreenCaptureService">
-
-        </service>
         <activity
             android:name=".component.activity.DonateActivity"
             android:theme="@style/BaseAppTheme" />
@@ -204,6 +199,7 @@
         <receiver android:name=".component.WakeUpBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.shang.bigbang.wake" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
@@ -211,7 +207,7 @@
             </intent-filter>
         </receiver>
 
-
+        <activity android:name=".component.activity.screen.DiyOcrKeyActivity"></activity>
     </application>
 
 </manifest>

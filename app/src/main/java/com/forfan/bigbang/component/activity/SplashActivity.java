@@ -8,7 +8,6 @@ import android.os.Bundle;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
-import com.forfan.bigbang.component.PreSettingActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;

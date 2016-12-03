@@ -80,8 +80,6 @@
     <dimen name="setting_bigbang_activity_line_height">@dimen/height_normal</dimen>
 
 
-
-
     <dimen name="white_list_delete_img_width">@dimen/margin_double</dimen>
     <dimen name="white_list_delete_img_margin">@dimen/margin_normal</dimen>
 

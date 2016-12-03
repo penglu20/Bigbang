@@ -101,7 +101,6 @@
     <string name="white_list_settings">白名单设置</string>
 
 
-
     <string name="title_white_list">白名单</string>
     <string name="select_monitor_list">请选择:</string>
     <string name="select_list">点击选择:</string>
@@ -151,7 +150,6 @@
     <string name="show_section">是否保持原段落\n开启时，段首的文字颜色加深，复制时保持分段状态</string>
 
 
-
     <string name="open_setting_failed">无法打开系统设置</string>
     <string name="recognize">识别中...</string>
     <string name="click_show_bigbang">点击炸开文字</string>
@@ -172,8 +170,6 @@
     <string name="ocr_quote_beyond_time">非常抱歉，由于OCR是付费服务，并且因为没有接入广告，作者已承担了每月3000元的费用，现已无力承担此费用。您在使用过程中体验可能会大打折扣。\n您可以点击“如何免费使用”来了解详情。</string>
     <string name="free_use">如何免费使用OCR</string>
     <string name="ocr_useup_toast">"我们的ocr次数已将要耗尽，想要更好的使用体验，请到设置的“如何获取免费OCR”"</string>
-
-
 
 
     <string name="notify_total_switch_on">启用\n服务</string>
@@ -218,8 +214,6 @@
 
     <string name="save_sd_card">已保存sd卡 Pictures 目录下</string>
     <string name="save_sd_card_fail">保存失败</string>
-
-
 
 
     <string name="float_trigger">点击悬浮球触发Bigbang</string>
