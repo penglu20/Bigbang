@@ -24,6 +24,7 @@ import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.RegexUtil;
+import com.forfan.bigbang.util.SearchEngineUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
@@ -197,7 +198,7 @@ public class BigBangActivity extends BaseActivity {
                     Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
                     Matcher matcher = p.matcher(text);
                     if (!matcher.matches()) {
-                        uri = Uri.parse("https://m.baidu.com/s?word=" + URLEncoder.encode(text, "utf-8"));
+                        uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0)).url + URLEncoder.encode(text, "utf-8"));
                         isUrl = false;
                     } else {
                         uri = Uri.parse(text);

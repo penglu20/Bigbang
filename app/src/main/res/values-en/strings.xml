@@ -255,4 +255,15 @@
     <string name="ocr_step9">Step 8: In the product list check the following figure shows the function, probably in the fourth row position.</string>
     <string name="ocr_step10">Step 9: Check the "Agree Agreement", then click on the submission, as shown below.</string>
     <string name="ocr_step11">Step 10: Copy your KEY, as shown below, and fill in the final input to the page box.</string>
+    <string name="add">add</string>
+    <string name="save_search_engine_fail">The name or URL can not be empty</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="set_search_pre">We alreay make </string>
+    <string name="set_search_end">as the default search engine</string>
+    <string name="can_not_delete"><![CDATA[Can not delete anymore,%>_<%]]></string>
+    <string name="xiugai">modify</string>
+    <string name="search_name_hint">Name (no more than 5 words)</string>
+    <string name="search_url_hint">Address (last search will be stitched on the word)</string>
+    <string name="move_edit_hint">Left slide to edit or delete, long press to adjust position</string>
 </resources>
