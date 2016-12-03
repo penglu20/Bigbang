@@ -26,7 +26,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/move_edit_hint"
-        android:textSize="10sp" />
+        android:textSize="12sp" />
 
     <View
         android:layout_width="match_parent"

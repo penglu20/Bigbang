@@ -166,7 +166,7 @@ public class SearchEngineActivity extends BaseActivity {
                 SwipeMenuItem deleteItem = new SwipeMenuItem(mContext)
 //                        .setBackgroundDrawable(R.drawable.selector_red)
 //                        .setImage(R.mipmap.ic_action_delete)
-                        .setBackgroundColor(Color.RED)
+                        .setBackgroundColor(Color.parseColor("#ff6e40"))
                         .setText(getString(R.string.delete)) // 文字，还可以设置文字颜色，大小等。。
                         .setTextColor(Color.WHITE)
                         .setWidth(width)
@@ -175,7 +175,7 @@ public class SearchEngineActivity extends BaseActivity {
 
                 SwipeMenuItem addItem = new SwipeMenuItem(mContext)
 //                        .setBackgroundDrawable(R.drawable.selector_green)
-                        .setBackgroundColor(Color.GREEN)
+                        .setBackgroundColor(Color.parseColor("#5af158"))
                         .setText(getString(R.string.edit))
                         .setTextColor(Color.WHITE)
                         .setWidth(width)
