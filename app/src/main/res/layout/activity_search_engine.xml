@@ -42,6 +42,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
+        app:theme="@style/fabTheme"
         android:src="@mipmap/add" />
 
     <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView

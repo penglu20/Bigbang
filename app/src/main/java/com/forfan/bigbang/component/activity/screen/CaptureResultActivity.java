@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
@@ -52,6 +53,8 @@ public class CaptureResultActivity extends BaseActivity {
 
     private TextView share, save, ocr, bigbang;
     private TextView ocrResult;
+    int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
+    int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
 
     private void initWindow() {
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
@@ -69,8 +72,8 @@ public class CaptureResultActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
-        int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
-        int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
+        alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
+        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
 
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_capture_result, null, false);
@@ -106,6 +109,8 @@ public class CaptureResultActivity extends BaseActivity {
         save = (TextView) findViewById(R.id.save);
         ocr = (TextView) findViewById(R.id.recognize);
         bigbang = (TextView) findViewById(R.id.bigbang);
+
+        ocrResult.setVisibility(View.GONE);
 
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
@@ -188,7 +193,9 @@ public class CaptureResultActivity extends BaseActivity {
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
                     @Override
                     public void onSucess(OCR ocr) {
+                        ocrResult.setVisibility(View.VISIBLE);
                         ocrResult.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
+                        ocrResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
                     }
 
                     @Override

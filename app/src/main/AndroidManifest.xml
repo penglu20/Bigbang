@@ -181,7 +181,6 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:theme="@style/WebActivityTheme" />
-        <activity android:name=".component.activity.SettingQueryActivity" />
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />

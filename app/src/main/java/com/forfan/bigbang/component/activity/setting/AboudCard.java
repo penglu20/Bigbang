@@ -67,14 +67,8 @@ public class AboudCard extends AbsCard {
 //        }
         findViewById(R.id.donate).setOnClickListener(myOnClickListener);
 
-        View diy=findViewById(R.id.diy_ocr_key);
-        diy.setOnClickListener(myOnClickListener);
+        findViewById(R.id.diy_ocr_key).setOnClickListener(myOnClickListener);
 
-        if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) >= ConstantUtil.OCR_TIME_TO_ALERT || SPHelper.getBoolean(ConstantUtil.SHOULD_SHOW_DIY_OCR,false)) {
-            diy.setVisibility(VISIBLE);
-        }else {
-            diy.setVisibility(GONE);
-        }
     }
 
     private OnClickListener myOnClickListener =new OnClickListener() {

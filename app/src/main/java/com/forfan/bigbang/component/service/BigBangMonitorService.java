@@ -265,7 +265,7 @@ public class BigBangMonitorService extends AccessibilityService {
                 return;
             }
         }
-        if (className==null || !className.equals("android.widget.EditText")){
+        if (className==null || className.equals("android.widget.EditText")){
             //输入框不监控
             return;
         }

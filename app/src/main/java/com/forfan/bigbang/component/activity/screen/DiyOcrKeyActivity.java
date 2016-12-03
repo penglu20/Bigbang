@@ -1,6 +1,5 @@
 package com.forfan.bigbang.component.activity.screen;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -8,13 +7,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
-public class DiyOcrKeyActivity extends AppCompatActivity {
+public class DiyOcrKeyActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

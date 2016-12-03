@@ -16,11 +16,13 @@ import android.view.ViewStub;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.util.ClipboardUtils;
+import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.RegexUtil;
@@ -61,13 +63,17 @@ public class BigBangActivity extends BaseActivity {
 
     private List<String> netWordSegments;
 
+
+    int alpha ;
+    int lastPickedColor ;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
-        int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
-        int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
+        alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
+        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
 
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
@@ -286,6 +292,12 @@ public class BigBangActivity extends BaseActivity {
                     transRl = (RelativeLayout) findViewById(R.id.trans_rl);
                     toTrans = (EditText) findViewById(R.id.to_translate);
                     transResult = (EditText) findViewById(R.id.translate_result);
+                    TextView title = (TextView) findViewById(R.id.title);
+
+
+                    title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                    toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                    transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
                     ImageView transAgain = (ImageView) findViewById(R.id.trans_again);
                     transAgain.setOnClickListener(new View.OnClickListener() {
                         @Override
