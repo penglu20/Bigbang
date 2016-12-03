@@ -230,4 +230,7 @@
     <string name="notify_disabled_title">Need Notification Permission</string>
 
     <string name="goto_setting">Go to Settings</string>
+    <string name="ocr_quote_beyond_time">We are sorry, since OCR is a paid service, and because there is no access to advertising, authors have assumed the cost of 3,000 yuan per month, now can not afford this cost. Your experience on the course could be compromised. \n You can click "How to use it for free" for more information.</string>
+    <string name="free_use">How to use it for free</string>
+    <string name="ocr_useup_toast">Our OCR times has nearly exhausted, you want a better experience, please go to Settings for the "How to Get Free OCR"</string>
 </resources>

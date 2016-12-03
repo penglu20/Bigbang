@@ -8,37 +8,48 @@
 
     <RelativeLayout
         android:id="@+id/setting_bigbang"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <com.forfan.bigbang.view.HintTextView
-            android:id="@+id/show_float_view_tv"
+            android:id="@+id/setting_search_engine_tv"
             style="@style/hintTextViewInLayoutLeft"
             app:hint="@string/setting_bigbang_intro"
             app:msg="@string/setting_bigbang" />
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/setting_search_engine"
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
+        <com.forfan.bigbang.view.HintTextView
+            android:id="@+id/show_float_view_tv"
+            style="@style/hintTextViewInLayoutLeft"
+            app:hint="@string/setting_search_engine_into"
+            app:msg="@string/setting_search_engine" />
+
+    </RelativeLayout>
     <!---->
     <!--<RelativeLayout-->
-        <!--android:id="@+id/white_list"-->
-        <!--style="@style/cardViewRelativeLayoutSelector"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal">-->
+    <!--android:id="@+id/white_list"-->
+    <!--style="@style/cardViewRelativeLayoutSelector"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
 
-        <!--<android.support.v7.widget.AppCompatTextView-->
-            <!--style="@style/cardViewTextViewInLayoutLeft"-->
-            <!--android:text="@string/white_list_settings" />-->
+    <!--<android.support.v7.widget.AppCompatTextView-->
+    <!--style="@style/cardViewTextViewInLayoutLeft"-->
+    <!--android:text="@string/white_list_settings" />-->
 
     <!--</RelativeLayout>-->
 
     <View
         android:id="@+id/divider1"
         android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="@color/divider" />
 
     <RelativeLayout
         android:id="@+id/browser_setting"
@@ -57,13 +68,13 @@
 
     <RelativeLayout
         android:id="@+id/float_trigger_rl"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <View
             android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
+            android:layout_height="1px"
+            android:background="@color/divider" />
 
         <com.forfan.bigbang.view.HintTextView
             android:id="@+id/float_trigger_tv"

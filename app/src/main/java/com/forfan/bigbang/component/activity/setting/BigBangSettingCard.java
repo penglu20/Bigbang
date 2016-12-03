@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.SettingBigBangActivity;
+import com.forfan.bigbang.component.activity.searchengine.SearchEngineActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.HintTextView;
@@ -48,7 +49,14 @@ public class BigBangSettingCard extends AbsCard {
                 mContext.startActivity(intent);
             }
         });
-
+        findViewById(R.id.setting_search_engine).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
+                Intent intent = new Intent(mContext, SearchEngineActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
         browserSwitch = (SwitchCompat) findViewById(R.id.browser_switch);
         browserSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

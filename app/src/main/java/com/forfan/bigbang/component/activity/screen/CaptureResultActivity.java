@@ -1,6 +1,7 @@
 package com.forfan.bigbang.component.activity.screen;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -29,6 +30,8 @@ import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
+import com.forfan.bigbang.view.DialogFragment;
+import com.forfan.bigbang.view.SimpleDialog;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
@@ -49,6 +52,7 @@ public class CaptureResultActivity extends BaseActivity {
 
     private TextView share, save, ocr, bigbang;
     private TextView ocrResult;
+
     private void initWindow() {
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
@@ -60,6 +64,7 @@ public class CaptureResultActivity extends BaseActivity {
         getWindow().setGravity(17);
         getWindow().getAttributes().windowAnimations = R.anim.anim_scale_in;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,24 +109,24 @@ public class CaptureResultActivity extends BaseActivity {
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
         ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
-        if (bitmap.getHeight()>localDisplayMetrics.heightPixels*2/3||1.0*bitmap.getHeight()/bitmap.getWidth()>=1.2){
-            LinearLayout container= (LinearLayout) findViewById(R.id.container);
+        if (bitmap.getHeight() > localDisplayMetrics.heightPixels * 2 / 3 || 1.0 * bitmap.getHeight() / bitmap.getWidth() >= 1.2) {
+            LinearLayout container = (LinearLayout) findViewById(R.id.container);
             container.setOrientation(LinearLayout.HORIZONTAL);
 
-            capturedImage.setMaxWidth(localDisplayMetrics.widthPixels/2);
-            LinearLayout.LayoutParams layoutParams= (LinearLayout.LayoutParams) capturedImage.getLayoutParams();
-            if (bitmap.getWidth() > localDisplayMetrics.widthPixels/2){
-                layoutParams.width =bitmap.getWidth()*2/5;
-                layoutParams.height =bitmap.getHeight()*2/5;
-            }else {
+            capturedImage.setMaxWidth(localDisplayMetrics.widthPixels / 2);
+            LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) capturedImage.getLayoutParams();
+            if (bitmap.getWidth() > localDisplayMetrics.widthPixels / 2) {
+                layoutParams.width = bitmap.getWidth() * 2 / 5;
+                layoutParams.height = bitmap.getHeight() * 2 / 5;
+            } else {
                 layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
-                layoutParams.gravity=Gravity.CENTER_HORIZONTAL;
+                layoutParams.gravity = Gravity.CENTER_HORIZONTAL;
             }
             capturedImage.setLayoutParams(layoutParams);
 
-            layoutParams= (LinearLayout.LayoutParams) ocrResult.getLayoutParams();
-            layoutParams.width=LinearLayout.LayoutParams.WRAP_CONTENT;
-            layoutParams.gravity= Gravity.CENTER_VERTICAL;
+            layoutParams = (LinearLayout.LayoutParams) ocrResult.getLayoutParams();
+            layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
+            layoutParams.gravity = Gravity.CENTER_VERTICAL;
             ocrResult.setLayoutParams(layoutParams);
 
         }
@@ -131,25 +136,25 @@ public class CaptureResultActivity extends BaseActivity {
 
         save.setOnClickListener(new View.OnClickListener() {
                                     @Override
-                public void onClick(View v) {
-                    try {
-                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
-                        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
-                        file.getParentFile().mkdirs();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
-                        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                        Uri uri = Uri.fromFile(file);
-                        intent.setData(uri);
-                        sendBroadcast(intent);
-                        ToastUtil.show(getResources().getString(R.string.save_sd_card));
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                        ToastUtil.show(R.string.save_sd_card_fail);
-                    }
+                                    public void onClick(View v) {
+                                        try {
+                                            UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_SAVE);
+                                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
+                                            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Pictures/", format.format(new Date()) + ".jpg");
+                                            file.getParentFile().mkdirs();
+                                            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(file));
+                                            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                                            Uri uri = Uri.fromFile(file);
+                                            intent.setData(uri);
+                                            sendBroadcast(intent);
+                                            ToastUtil.show(getResources().getString(R.string.save_sd_card));
+                                        } catch (FileNotFoundException e) {
+                                            e.printStackTrace();
+                                            ToastUtil.show(R.string.save_sd_card_fail);
+                                        }
 
-                }
-            }
+                                    }
+                                }
         );
 
         share.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +176,10 @@ public class CaptureResultActivity extends BaseActivity {
         ocr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == 15) {
+                    showBeyondQuoteDialog();
+                    return;
+                }
                 ToastUtil.show(R.string.ocr_recognize);
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCR);
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
@@ -181,7 +190,7 @@ public class CaptureResultActivity extends BaseActivity {
 
                     @Override
                     public void onFail(Throwable throwable) {
-                        ToastUtil.show("Error:"+throwable.getMessage());
+                        ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
                     }
                 });
             }
@@ -190,6 +199,10 @@ public class CaptureResultActivity extends BaseActivity {
         bigbang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == 15) {
+                    showBeyondQuoteDialog();
+                    return;
+                }
                 ToastUtil.show(R.string.ocr_recognize);
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_BIGBANG);
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
@@ -201,7 +214,7 @@ public class CaptureResultActivity extends BaseActivity {
                             intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
                             startActivity(intent);
                             finish();
-                        }else {
+                        } else {
                             Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
                             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
                             intent.putExtra(BigBangActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
@@ -212,10 +225,11 @@ public class CaptureResultActivity extends BaseActivity {
 
                     @Override
                     public void onFail(Throwable throwable) {
-                        ToastUtil.show("Error:"+throwable.getMessage());
+                        ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
                     }
                 });
             }
+
         });
 
         ocrResult.setOnClickListener(new View.OnClickListener() {
@@ -232,6 +246,27 @@ public class CaptureResultActivity extends BaseActivity {
             }
         });
     }
+
+    private void showBeyondQuoteDialog() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                // 这里是保持开启
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                super.onCancel(dialog);
+            }
+        };
+        builder.message(this.getString(R.string.ocr_quote_beyond_time))
+                .positiveAction(this.getString(R.string.free_use));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
+    }
+
 
     /**
      * 分享功能

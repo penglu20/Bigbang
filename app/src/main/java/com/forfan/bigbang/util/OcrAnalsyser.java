@@ -2,6 +2,8 @@ package com.forfan.bigbang.util;
 
 import android.text.TextUtils;
 
+import com.forfan.bigbang.BigBangApp;
+import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -13,6 +15,7 @@ import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import com.microsoft.projectoxford.vision.rest.WebServiceRequest;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.IOException;
 
@@ -27,9 +30,12 @@ import rx.schedulers.Schedulers;
 
 public class OcrAnalsyser {
     //别人的 00b0e581e4124a2583ea7dba57aaf281
-    // 我自己的 56c87e179c084cfaae9b70a2f58fa8d3
+    // 我自己的 56c87e179c084cfaae9b70a2f58fa8d3 56c87e179c084cfaae9b70a2f58fa8d3
     //彭露的 9e88939475894dec85a2019fd36243be
-    String[] keys = {"00b0e581e4124a2583ea7dba57aaf281", "9e88939475894dec85a2019fd36243be", "56c87e179c084cfaae9b70a2f58fa8d3"};
+    //进发的 eac11887004a4c88a7c3f527d6852bb3
+    //王岩2 cc750e4c195d497391e9fe18f6d21bae
+
+    String[] keys = { "9e88939475894dec85a2019fd36243be", "56c87e179c084cfaae9b70a2f58fa8d3"};
     int currentIndex = 0;
     private static OcrAnalsyser instance = new OcrAnalsyser();
     VisionServiceRestClient client = new VisionServiceRestClient(keys[currentIndex]);
@@ -37,6 +43,20 @@ public class OcrAnalsyser {
     Observable.OnSubscribe<OCR> mOnSubscrube = new Observable.OnSubscribe<OCR>() {
         @Override
         public void call(Subscriber<? super OCR> subscriber) {
+            client.setOnTimeUseUp(new WebServiceRequest.OnResult() {
+                @Override
+                public void onTimeUseUp() {
+                    //返回403
+                    currentIndex = (currentIndex + 1) % keys.length;
+                    client = new VisionServiceRestClient(keys[currentIndex]);
+                    subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                }
+
+                @Override
+                public void onSuccess() {
+
+                }
+            });
             byte[] data = IOUtil.getBytes(img_path);
             try {
                 String ocr = client.recognizeText(data, LanguageCodes.AutoDetect, verticalOrentation);
@@ -60,14 +80,13 @@ public class OcrAnalsyser {
         public void call(Subscriber<? super OCR> subscriber) {
 
             try {
-                String ocr = client.recognizeText(img, LanguageCodes.AutoDetect, verticalOrentation);
                 client.setOnTimeUseUp(new WebServiceRequest.OnResult() {
                     @Override
                     public void onTimeUseUp() {
                         //返回403
                         currentIndex = (currentIndex + 1) % keys.length;
                         client = new VisionServiceRestClient(keys[currentIndex]);
-                        subscriber.onError(new IOException("次数使用超出限额，为您切换服务器，请点击重试"));
+                        subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
                     }
 
                     @Override
@@ -75,6 +94,8 @@ public class OcrAnalsyser {
 
                     }
                 });
+                String ocr = client.recognizeText(img, LanguageCodes.AutoDetect, verticalOrentation);
+
                 if (!TextUtils.isEmpty(ocr)) {
                     OCR ocrItem = new Gson().fromJson(ocr, new TypeToken<OCR>() {
                     }.getType());
@@ -104,6 +125,8 @@ public class OcrAnalsyser {
     public void analyse(BaseActivity activity, String img_path, boolean isVertical, CallBack callback) {
         if (callback == null)
             return;
+        int time = SPHelper.getInt(ConstantUtil.OCR_TIME,0) + 1;
+        SPHelper.save(ConstantUtil.OCR_TIME,time);
         this.img_path = img_path;
         this.verticalOrentation = isVertical;
         Observable.create(mOnSubscrube)

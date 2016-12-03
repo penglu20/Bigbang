@@ -46,6 +46,8 @@
     <string name="monitor_click_into">需要开启辅助服务，在一些比较奇葩的应用中可能无法使用</string>
     <string name="setting_bigbang">设置BigBang样式</string>
     <string name="setting_bigbang_intro">您可以调节爆炸出的文字的间距，大小，背景等</string>
+    <string name="setting_search_engine">设置默认搜索引擎</string>
+    <string name="setting_search_engine_into">您可以设置,添加内置浏览器使用的默认搜索引擎</string>
     <string name="confirm_known">我知道了</string>
     <string name="go_set_msg">下面的设置入口有助于提高程序的存活性，但并不是手机管家的清理白名单，可能无法彻底解决问题！</string>
     <string name="share_request_cancel">无感...</string>
@@ -167,6 +169,9 @@
 
     <string name="float_tips">单击悬浮窗切换开关，长按悬浮打开设置页。</string>
     <string name="access_open_tips">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
+    <string name="ocr_quote_beyond_time">非常抱歉，由于OCR是付费服务，并且因为没有接入广告，作者已承担了每月3000元的费用，现已无力承担此费用。您在使用过程中体验可能会大打折扣。\n您可以点击“如何免费使用”来了解详情。</string>
+    <string name="free_use">如何免费使用OCR</string>
+    <string name="ocr_useup_toast">"我们的ocr次数已将要耗尽，想要更好的使用体验，请到设置的“如何获取免费OCR”"</string>
 
 
 

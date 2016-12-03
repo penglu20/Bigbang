@@ -111,4 +111,5 @@ public class ConstantUtil {
     public static final String NOTIFY_UNIVERSAL_COPY_BROADCAST="notify_universal_copy_broadcast";
     public static final String NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST="notify_screen_capture_over_broadcast";
 
+    public static final String OCR_TIME = "ocr_time";
 }
