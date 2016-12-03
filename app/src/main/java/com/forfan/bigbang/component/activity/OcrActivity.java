@@ -1,5 +1,6 @@
 package com.forfan.bigbang.component.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -19,14 +20,18 @@ import com.forfan.bigbang.cropper.CropHandler;
 import com.forfan.bigbang.cropper.CropHelper;
 import com.forfan.bigbang.cropper.CropParams;
 import com.forfan.bigbang.cropper.ImageUriUtil;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.forfan.bigbang.view.DialogFragment;
+import com.forfan.bigbang.view.SimpleDialog;
 import com.microsoft.projectoxford.vision.contract.Line;
 import com.microsoft.projectoxford.vision.contract.OCR;
 import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
 
@@ -197,12 +202,34 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
     }
 
+    private void showBeyondQuoteDialog() {
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
+            @Override
+            public void onPositiveActionClicked(DialogFragment fragment) {
+                // 这里是保持开启
+                super.onPositiveActionClicked(fragment);
+            }
+
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                super.onCancel(dialog);
+            }
+        };
+        builder.message(this.getString(R.string.ocr_quote_beyond_time))
+                .positiveAction(this.getString(R.string.free_use));
+        DialogFragment fragment = DialogFragment.newInstance(builder);
+        fragment.show(getSupportFragmentManager(), null);
+    }
     private void uploadImage4Ocr(Uri uri) {
-        editText.setText(R.string.recognize);
         String img_path = ImageUriUtil.getImageAbsolutePath(this, uri);
         // VisionServiceRestClient client = new VisionServiceRestClient("00b0e581e4124a2583ea7dba57aaf281");
         findViewById(R.id.hint).setVisibility(View.VISIBLE);
+        if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == 15) {
+            showBeyondQuoteDialog();
+            return;
+        }
+        editText.setText(R.string.recognize);
         OcrAnalsyser.getInstance().analyse(this, img_path,true, new OcrAnalsyser.CallBack() {
             @Override
             public void onSucess(OCR ocr) {
@@ -211,7 +238,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
             @Override
             public void onFail(Throwable throwable) {
-                ToastUtil.show("Error:"+throwable.getMessage());
+                ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
                 editText.setText(R.string.sorry_for_parse_fail);
                 mPicReOcr.setVisibility(View.VISIBLE);
             }

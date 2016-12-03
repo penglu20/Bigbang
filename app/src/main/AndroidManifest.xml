@@ -173,6 +173,9 @@
             android:name=".component.activity.SettingBigBangActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
+            android:name=".component.activity.searchengine.SearchEngineActivity"
+            android:theme="@style/BaseAppTheme" />
+        <activity
             android:name=".component.activity.WebActivity"
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
