@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,6 +22,7 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
@@ -106,6 +106,7 @@ public class SettingBigBangActivity extends BaseActivity {
                 mBigBangLayout.setTextSize(value);
                 textSize.setText(getString(R.string.setting_text_size) + value);
                 SPHelper.save(ConstantUtil.TEXT_SIZE, value);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_TEXT_SIZE,value+"");
             }
 
             @Override
@@ -126,6 +127,7 @@ public class SettingBigBangActivity extends BaseActivity {
                 mBigBangLayout.setLineSpace(value);
                 lineMargin.setText(getString(R.string.setting_line_margin) + value);
                 SPHelper.save(ConstantUtil.LINE_MARGIN, value);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_LINE_MARGIN,value+"");
             }
 
             @Override
@@ -145,6 +147,7 @@ public class SettingBigBangActivity extends BaseActivity {
                 mBigBangLayout.setItemSpace(value);
                 itemMargin.setText(getString(R.string.setting_item_margin) + value);
                 SPHelper.save(ConstantUtil.ITEM_MARGIN, value);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ITEM_MARGIN,value+"");
             }
 
             @Override
@@ -166,6 +169,7 @@ public class SettingBigBangActivity extends BaseActivity {
                 bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + value +"%");
                 SPHelper.save(ConstantUtil.BIGBANG_ALPHA, value);
                 alpha=value;
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ALPHA,value+"");
             }
 
             @Override
@@ -240,6 +244,7 @@ public class SettingBigBangActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         showColorPickDialog();
+                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_SET_BB_BGCOLOR_DIY);
                     }
                 });
             }else {
@@ -252,6 +257,7 @@ public class SettingBigBangActivity extends BaseActivity {
                             applyColor(bigbangBackgroungColors[position]);
                             lastPickedColor=bigbangBackgroungColors[position];
                             SPHelper.save(ConstantUtil.BIGBANG_DIY_BG_COLOR,bigbangBackgroungColors[position] );
+                            UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR,lastPickedColor+"");
                         }
                     }
                 });
@@ -301,7 +307,8 @@ public class SettingBigBangActivity extends BaseActivity {
                         lastPickedColor=Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
                         alpha= (int) (Color.alpha(selectedColor)*100.0/255);
                         applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
-                        SPHelper.save(ConstantUtil.BIGBANG_DIY_BG_COLOR,selectedColor );
+                        SPHelper.save(ConstantUtil.BIGBANG_DIY_BG_COLOR,lastPickedColor );
+                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR,lastPickedColor+"");
                         mBigbangAlphaSeekBar.setProgress(alpha);
                     }
                 })

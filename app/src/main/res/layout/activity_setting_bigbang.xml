@@ -143,12 +143,12 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_double"
                 android:background="@drawable/button_white_stroke_green"
-                android:padding="@dimen/margin_normal"
+                android:padding="2dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/setting_bigbang_activity_text_height"
+                    android:layout_height="@dimen/setting_bigbang_activity_line_height"
                     android:gravity="left|center_vertical"
                     android:paddingLeft="@dimen/margin_double"
                     android:text="@string/set_background"
