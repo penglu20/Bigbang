@@ -167,9 +167,9 @@
 
     <string name="float_tips">单击悬浮窗切换开关，长按悬浮打开设置页。</string>
     <string name="access_open_tips">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
-    <string name="ocr_quote_beyond_time">非常抱歉，由于OCR是付费服务，并且因为没有接入广告，作者已承担了每月3000元的费用，现已无力承担此费用。您在使用过程中体验可能会大打折扣。\n您可以点击“如何免费使用”来了解详情。</string>
+    <string name="ocr_quote_beyond_time">\t\t非常抱歉，由于我们使用的是第三方付费OCR服务，作者每月需要为此支付数千元的费用。\n\t\t为了用户体验，本应用一直不愿接入广告，而热心用户的捐赠也有限，现已无力承担此费用.\n\t\t为了您的使用体验，麻烦您花几分钟时间进行设置，以继续免费使用OCR服务！</string>
     <string name="free_use">如何免费使用OCR</string>
-    <string name="ocr_useup_toast">"我们的ocr次数已将要耗尽，想要更好的使用体验，请到设置的“如何获取免费OCR”"</string>
+    <string name="ocr_useup_toast">"我们的OCR限额即将耗尽，请查看设置页“免费设置OCR秘钥”"</string>
 
 
     <string name="notify_total_switch_on">启用\n服务</string>
@@ -234,11 +234,11 @@
     <string name="set_background">设置BigBang背景颜色</string>
 
 
-    <string name="set_diy_ocr_key">设置免费OCR秘钥</string>
+    <string name="set_diy_ocr_key">免费设置OCR秘钥</string>
     <string name="set_diy_ocr_key_ok">设置OCR秘钥成功</string>
     <string name="set_diy_ocr_key_hint">请输入您的OCR秘钥</string>
-    <string name="ocr_step1">通过下面几步，您就可以免费使用每个月5000次的图片OCR功能。\\n您也可以给作者捐赠10元，并附言需要KEY，由作者帮您申请。</string>
-    <string name="ocr_step2">第一步：使用浏览器打开网址： https://www.microsoft.com/cognitive-services/  \\n（点击复制网址）</string>
+    <string name="ocr_step1">通过下面几步，您就可以免费使用每个月5000次的图片OCR功能。\n您也可以给作者捐赠10元，并附言需要KEY，由作者帮您申请。</string>
+    <string name="ocr_step2">第一步：使用浏览器打开网址： https://www.microsoft.com/cognitive-services/  \n（点击复制网址）</string>
     <string name="ocr_step3">第二步：点击网页右上角的“My account（我的账户）”，如下图。</string>
     <string name="ocr_step4">第三步：选择一种适合的方式注册/登录网站，下面以微软账户登录为例。</string>
     <string name="ocr_step5">第四步：如果您没有微软账户，需要先使用邮箱注册微软账户。然后授权使用微软账户登录本网站，如下图。</string>

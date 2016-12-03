@@ -43,6 +43,7 @@
         android:layout_below="@id/to_translate"
         android:layout_marginBottom="@dimen/margin_double"
         android:layout_marginLeft="@dimen/margin_double"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginRight="@dimen/margin_double"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_normal" />
