@@ -65,13 +65,14 @@ public class BigBangActivity extends BaseActivity {
 
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
+        int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
 
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
         cardView.setRadius(ViewUtil.dp2px(10));
 
         int value = (int) ((alpha / 100.0f) * 255);
-        cardView.setCardBackgroundColor(Color.argb(value, 00, 00, 00));
+        cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
         cardView.addView(view);
 
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
@@ -126,7 +127,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setTextSize(text);
         bigBangLayout.setLineSpace(line);
         bigBangLayout.setItemSpace(item);
-        bigBangLayoutWrapper.setBackgroundColorAlpha(alpha);
+        bigBangLayoutWrapper.setBackgroundColorWithAlpha(lastPickedColor,alpha);
 
 
 //        if (!remainSymbol){
@@ -410,9 +411,11 @@ public class BigBangActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (bigBangLayoutWrapper != null) {
+         if (bigBangLayoutWrapper != null && bigBangLayoutWrapper.getVisibility() == View.GONE) {
             bigBangLayoutWrapper.setVisibility(View.VISIBLE);
-            transRl.setVisibility(View.GONE);
+            if (transRl!=null) {
+                transRl.setVisibility(View.GONE);
+            }
         } else {
             super.onBackPressed();
         }

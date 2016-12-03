@@ -265,6 +265,10 @@ public class BigBangMonitorService extends AccessibilityService {
                 return;
             }
         }
+        if (className==null || !className.equals("android.widget.EditText")){
+            //输入框不监控
+            return;
+        }
         if (onlyText){
             if (className==null || !className.equals("android.widget.TextView")){
                 if (!hasShowTipToast){
@@ -399,7 +403,11 @@ public class BigBangMonitorService extends AccessibilityService {
 
                     intent.putParcelableArrayListExtra("copy_nodes", nodeList);
                     intent.putExtra("source_package", packageName);
-                    this.startActivity(intent, ActivityOptions.makeCustomAnimation(this.getBaseContext(), android.R.anim.fade_in, android.R.anim.fade_out).toBundle());
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        this.startActivity(intent, ActivityOptions.makeCustomAnimation(this.getBaseContext(), android.R.anim.fade_in, android.R.anim.fade_out).toBundle());
+                    }else {
+                        startActivity(intent);
+                    }
                     isSuccess = true;
                     break label37;
                 }

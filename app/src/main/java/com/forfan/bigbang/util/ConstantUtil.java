@@ -84,6 +84,7 @@ public class ConstantUtil {
     public static final String BIGBANG_ALPHA="bigbang_alpha";
     public static final String USE_LOCAL_WEBVIEW="use_local_webview";
     public static final String USE_FLOAT_VIEW_TRIGGER="use_float_view_trigger";
+    public static final String BIGBANG_DIY_BG_COLOR ="bigbang_diy_bg_color";
 
 
 

@@ -205,7 +205,7 @@
     <string name="pre_setting_title">请先设置 &lt;控制和触发&gt;方式</string>
     <string name="pre_setting_intro1">如果您选择悬浮窗常驻或通知栏\n可以在其中设置BigBang的开关\n\n如果您选择&lt;点击悬浮窗触发&gt;\n或者&lt;关闭悬浮窗和通知栏&gt;\n在触发Bigbang时会先弹出悬浮窗\n您需要&lt;点击悬浮窗激活Bigbang&gt;</string>
     <string name="pre_setting_intro2">&lt;点击上面的文字&gt;可以验证设置的效果。\n您也可以随时在设置页面中更改</string>
-    <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改\n或者从“如果使用”中进入本页面</string>
+    <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改, 或者从“如果使用”中进入本页面</string>
     <string name="pre_setting_cancel">再看看效果</string>
 
     <string name="capture_tips">在屏幕上划取区域截图</string>
@@ -230,4 +230,7 @@
     <string name="notify_disabled_title">通知不显示?</string>
 
     <string name="goto_setting">进入设置</string>
+
+    <string name="set_background_myself">自定义</string>
+    <string name="set_background">设置BigBang背景颜色</string>
 </resources>

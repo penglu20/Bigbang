@@ -41,9 +41,9 @@ public class BigBangLayoutWrapper extends FrameLayout  {
         init();
     }
 
-    public void setBackgroundColorAlpha(int value) {
-        value = (int) ((value / 100.0f) * 255);
-        setBackgroundColor(Color.argb(value, 00, 00, 00));
+    public void setBackgroundColorWithAlpha(int color,int alpha) {
+        alpha = (int) ((alpha / 100.0f) * 255);
+        setBackgroundColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
     }
 
     public void addTextItem(String text) {

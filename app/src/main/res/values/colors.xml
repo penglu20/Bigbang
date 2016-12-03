@@ -22,4 +22,19 @@
 
     <color name="notification_bg_grey">#dc404040</color>
 
+
+    //bigbangBackgroundColor
+    <color name="back_black">#000000</color>
+    <color name="back_green">#9ccc65</color>
+    <color name="back_cyan">#26c6da</color>
+    <color name="back_pink">#ec407a</color>
+    <color name="back_ingo">#5c6bc0</color>
+    <color name="back_blue">#738ffe</color>
+    <color name="back_bluegreen">#26a69a</color>
+    <color name="back_oringe">#ff7043</color>
+    <color name="back_purple">#ab47bc</color>
+    <color name="back_brown">#8d6e63</color>
+    <color name="back_grey">#78909c</color>
+
+
 </resources>

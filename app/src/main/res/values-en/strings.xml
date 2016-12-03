@@ -230,4 +230,8 @@
     <string name="notify_disabled_title">Need Notification Permission</string>
 
     <string name="goto_setting">Go to Settings</string>
+
+
+    <string name="set_background_myself">DIY</string>
+    <string name="set_background">Set BigBang Background Color</string>
 </resources>

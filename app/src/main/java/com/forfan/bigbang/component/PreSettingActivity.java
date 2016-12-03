@@ -26,6 +26,7 @@ import com.forfan.bigbang.util.NotificationCheckUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.ColorTextView;
+import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -269,6 +270,12 @@ public class PreSettingActivity extends BaseActivity {
 
     private void showConfirmDialog() {
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
+
+            @Override
+            protected void onBuildDone(Dialog dialog) {
+                dialog.layoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                super.onBuildDone(dialog);
+            }
 
             @Override
             public void onNegativeActionClicked(DialogFragment fragment) {

@@ -13,4 +13,18 @@
         <item>淘宝</item>
     </string-array>
 
+
+    <integer-array name="bigbang_background_color">
+        <item >@color/back_black</item>
+        <item >@color/back_green</item>
+        <item >@color/back_cyan</item>
+        <item >@color/back_pink</item>
+        <item >@color/back_ingo</item>
+        <item >@color/back_blue</item>
+        <item >@color/back_bluegreen</item>
+        <item >@color/back_oringe</item>
+        <item >@color/back_purple</item>
+        <item >@color/back_brown</item>
+        <item >@color/back_grey</item>
+    </integer-array>
 </resources>

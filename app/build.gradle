@@ -197,5 +197,5 @@ dependencies {
     compile files('libs/copy.jar')
     xposedCompile project(':xposed')
     compile project(':commonjar')
-
+    compile project(':colorpicker')
 }
