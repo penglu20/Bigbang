@@ -200,7 +200,11 @@ public class CaptureResultActivity extends BaseActivity {
 
                     @Override
                     public void onFail(Throwable throwable) {
-                        ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
+                            ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+                        }else {
+                            ToastUtil.show(throwable.getMessage());
+                        }
                     }
                 });
             }
@@ -237,7 +241,12 @@ public class CaptureResultActivity extends BaseActivity {
 
                     @Override
                     public void onFail(Throwable throwable) {
-                        ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+
+                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
+                            ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+                        }else {
+                            ToastUtil.show(throwable.getMessage());
+                        }
                     }
                 });
             }
@@ -265,6 +274,7 @@ public class CaptureResultActivity extends BaseActivity {
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SHOW_BEYOND_QUOTE);
                 super.onPositiveActionClicked(fragment);
                 Intent intent = new Intent();
                 intent.setClass(CaptureResultActivity.this,DiyOcrKeyActivity.class);

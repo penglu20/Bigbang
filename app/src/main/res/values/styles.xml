@@ -57,7 +57,7 @@
         <item name="colorControlNormal">@color/white</item>
     </style>
 
-    <style name="SearchEngineAppTheme" parent="AppTheme">
+    <style name="SearchEngineAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -69,6 +69,21 @@
         <item name="android:fitsSystemWindows">true</item>
         <item name="colorControlNormal">@color/white</item>
     </style>
+
+
+    <style name="DiyOcrKeyAppTheme" parent="AppTheme">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="colorControlNormal">@color/white</item>
+    </style>
+
     <!-- 启动页 引导页设置StatusBar为透明色 -->
     <style name="ColorTranslucentTheme" parent="@style/BaseAppTheme" />
 

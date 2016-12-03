@@ -113,7 +113,7 @@ public class ConstantUtil {
     public static final String NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST="notify_screen_capture_over_broadcast";
 
     public static final String OCR_TIME = "ocr_time";
-    public static final int OCR_TIME_TO_ALERT = 1;
+    public static final int OCR_TIME_TO_ALERT = 5;
     public static final String SHOULD_SHOW_DIY_OCR = "should_show_diy_ocr";
 
     public static final String DIY_OCR_KEY="diy_ocr_key";

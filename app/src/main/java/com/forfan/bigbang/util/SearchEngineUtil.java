@@ -1,5 +1,6 @@
 package com.forfan.bigbang.util;
 
+import com.forfan.bigbang.entity.SearchEngine;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -49,16 +50,6 @@ public class SearchEngineUtil {
             names.add(s.title);
         }
         return names;
-    }
-
-    public static class SearchEngine{
-        public String title;
-        public String url;
-
-        public SearchEngine(String string, String string1) {
-            title = string;
-            url = string1;
-        }
     }
 
     public static SearchEngineUtil getInstance(){

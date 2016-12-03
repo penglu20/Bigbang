@@ -245,7 +245,10 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
             @Override
             public void onFail(Throwable throwable) {
-                ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+
+                if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
+                    ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+                }
                 editText.setText(R.string.sorry_for_parse_fail);
                 mPicReOcr.setVisibility(View.VISIBLE);
             }

@@ -10,12 +10,14 @@
         android:maxLength="5"
         android:layout_width="match_parent"
         app:theme="@style/BrowserMonthDropTheme"
+        android:textColor="@color/primary_text"
         android:layout_height="wrap_content" />
     <android.support.v7.widget.AppCompatEditText
         android:id="@+id/search_url"
         android:hint="@string/search_url_hint"
         android:layout_width="match_parent"
         app:theme="@style/BrowserMonthDropTheme"
+        android:textColor="@color/primary_text"
         android:layout_height="wrap_content" />
 
 </LinearLayout>

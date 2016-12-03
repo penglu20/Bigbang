@@ -34,21 +34,21 @@ import com.umeng.fb.FeedbackAgent;
 /**
  * Created by penglu on 2015/11/23.
  */
-public class AboudCard extends AbsCard {
+public class AboutCard extends AbsCard {
     private TextView about;
     private TextView share;
 
-    public AboudCard(Context context) {
+    public AboutCard(Context context) {
         super(context);
         initView(context);
     }
 
-    public AboudCard(Context context, AttributeSet attrs) {
+    public AboutCard(Context context, AttributeSet attrs) {
         super(context, attrs);
         initView(context);
     }
 
-    public AboudCard(Context context, AttributeSet attrs, int defStyleAttr) {
+    public AboutCard(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initView(context);
     }

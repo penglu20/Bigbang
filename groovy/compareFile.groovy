@@ -110,5 +110,5 @@ def compare(String oldFilePath,String newFilePath,String resultDir) {
 //    }
 }
 
-generateNewCount("../app/src/main/java/com/forfan/bigbang/util/UrlCountUtil.java","../count_id_1.6.8.txt");
-compare("../count_id_1.6.2.txt","../count_id_1.6.8.txt","../")
+generateNewCount("../app/src/main/java/com/forfan/bigbang/util/UrlCountUtil.java","../count_id_1.7.0.txt");
+compare("../count_id_1.6.8.txt","../count_id_1.7.0.txt","../")

@@ -220,6 +220,7 @@ public class ScreenCaptureActivity extends BaseActivity {
             if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)) {
                 String fileName=intent.getStringExtra(ScreenCaptureService.FILE_NAME);
                 if (TextUtils.isEmpty(fileName)){
+                    ToastUtil.show(R.string.screen_capture_fail);
                     finish();
                 }else {
                     Intent newIntent = new Intent(context, CaptureResultActivity.class);

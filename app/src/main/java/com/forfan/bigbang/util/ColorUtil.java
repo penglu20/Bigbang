@@ -7,6 +7,9 @@ import android.graphics.Color;
  */
 public class ColorUtil {
     public static int getPropertyTextColor(int color,int alpha){
+        if (alpha<20){
+
+        }
         int red= Color.red(color);
         int green = Color.green(color);
         int blue = Color.blue(color);

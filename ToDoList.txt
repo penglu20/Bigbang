@@ -166,7 +166,7 @@ xposed完善
 分享到拨号盘 链接 微信朋友圈
 全局复制时复制文字颜色过深
 添加andres
-添加在线ocr的key
+ok 添加在线ocr的key
 
 
 替换有道api为google

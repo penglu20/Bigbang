@@ -176,6 +176,7 @@ public class WebActivity
 
 
     private String getUrlStrBySelect(String query) {
+        query = query.replaceAll("\n","");
         String url = SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url;
         if(!url.startsWith("http"))
             url = "http://"+url;

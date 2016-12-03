@@ -85,7 +85,7 @@ public class SettingActivity extends BaseActivity {
             cardViews.add(settingCard);
         }
         cardViews.add(new FeedBackAndUpdateCard(this));
-        cardViews.add(new AboudCard(this));
+        cardViews.add(new AboutCard(this));
 
 
         newAdapter = new CardListAdapter(this, false);

@@ -16,9 +16,11 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.searchengine.listener.OnItemClickListener;
 import com.forfan.bigbang.component.activity.searchengine.view.ListViewDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.entity.SearchEngine;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.SearchEngineUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
@@ -42,7 +44,7 @@ import java.util.Collections;
 public class SearchEngineActivity extends BaseActivity {
     private Activity mContext;
 
-    private ArrayList<SearchEngineUtil.SearchEngine> searchEngines;
+    private ArrayList<SearchEngine> searchEngines;
 
     private MenuAdapter mMenuAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -84,6 +86,7 @@ public class SearchEngineActivity extends BaseActivity {
         findViewById(R.id.add_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SEARCH_ENGINE_ADD);
                 showAddSearchEngineDialog();
             }
         });
@@ -110,7 +113,7 @@ public class SearchEngineActivity extends BaseActivity {
                     SnackBarUtil.show(swipeMenuRecyclerView,getResources().getString(R.string.save_search_engine_fail));
                     return;
                 }
-                SearchEngineUtil.getInstance().addSearchEngine(new SearchEngineUtil.SearchEngine(editName.getText().toString(), editUrl.getText().toString()));
+                SearchEngineUtil.getInstance().addSearchEngine(new SearchEngine(editName.getText().toString(), editUrl.getText().toString()));
                 mMenuAdapter.notifyDataSetChanged();
                 SearchEngineUtil.getInstance().save(searchEngines);
                 super.onPositiveActionClicked(fragment);
@@ -207,6 +210,7 @@ public class SearchEngineActivity extends BaseActivity {
                         SnackBarUtil.show(swipeMenuRecyclerView, getString(R.string.can_not_delete));
                         return;
                     }
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SEARCH_ENGINE_DEL);
                     mMenuAdapter.notifyItemRemoved(adapterPosition);
                     searchEngines.remove(adapterPosition);
                     if (SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0) == adapterPosition) {
@@ -215,6 +219,7 @@ public class SearchEngineActivity extends BaseActivity {
                     SearchEngineUtil.getInstance().save(searchEngines);
                     break;
                 case 1:
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SEARCH_ENGINE_EDIT);
                     showEidtSearchEngineDialog(adapterPosition);
                     break;
             }
@@ -230,7 +235,7 @@ public class SearchEngineActivity extends BaseActivity {
     };
 
     private void showEidtSearchEngineDialog(int adapterPosition) {
-        SearchEngineUtil.SearchEngine searchEngine = searchEngines.get(adapterPosition);
+        SearchEngine searchEngine = searchEngines.get(adapterPosition);
         SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
             public EditText editName;
             public EditText editUrl;

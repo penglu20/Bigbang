@@ -17,6 +17,7 @@ public class UrlCountUtil {
     public static final String CLICK_SETTINGS_OPEN_OCR ="click_settings_open_ocr";
     public static final String CLICK_SETTINGS_FEEDBACK ="click_settings_feedback";
     public static final String CLICK_SETTINGS_SET_STYLE_BIGBANG ="click_settings_set_style_bigbang";
+    public static final String CLICK_SETTINGS_SEARCH_ENGINE ="click_settings_search_engine";
     public static final String CLICK_SETTINGS_CHECK_FOR_UPDATE ="click_settings_check_for_update";
     public static final String CLICK_SETTINGS_HOW_TO_USE ="click_settings_how_to_use";
     public static final String CLICK_SETTINGS_ABOUT ="click_settings_about";
@@ -109,6 +110,7 @@ public class UrlCountUtil {
     public static final String CLICK_CAPTURERESULT_SAVE= "click_captureresult_save";
     public static final String CLICK_CAPTURERESULT_BIGBANG= "click_captureresult_bigbang";
     public static final String CLICK_CAPTURERESULT_OCRRESULT= "click_captureresult_ocrresult";
+    public static final String CLICK_SHOW_BEYOND_QUOTE= "click_show_beyond_quote";
 
 
     public static final String CLICK_SET_BB_BGCOLOR_DIY="click_set_bb_bgcolor_diy";
@@ -117,6 +119,17 @@ public class UrlCountUtil {
     public static final String STATUS_SET_BB_ITEM_MARGIN="status_set_bb_item_margin";
     public static final String STATUS_SET_BB_ALPHA="status_set_bb_alpha";
     public static final String STATUS_SET_BB_BGCOLOR="status_set_bb_bgcolor";
+
+
+    public static final String STATUS_DIY_OCR_KEY="status_diy_ocr_key";
+    public static final String CLICK_COPY_OCR_URL="click_copy_ocr_url";
+
+
+    public static final String CLICK_SEARCH_ENGINE_ADD="click_search_engine_add";
+    public static final String CLICK_SEARCH_ENGINE_DEL="click_search_engine_del";
+    public static final String CLICK_SEARCH_ENGINE_EDIT="click_search_engine_edit";
+
+
 
 
     public static Context mContext= BigBangApp.getInstance();

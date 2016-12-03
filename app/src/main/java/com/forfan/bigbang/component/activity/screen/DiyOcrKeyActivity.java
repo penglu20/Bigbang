@@ -11,6 +11,7 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
@@ -32,6 +33,7 @@ public class DiyOcrKeyActivity extends BaseActivity {
         findViewById(R.id.copy_url).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_COPY_OCR_URL);
                 ClipboardUtils.setText(DiyOcrKeyActivity.this,"https://www.microsoft.com/cognitive-services/");
                 ToastUtil.show(R.string.copyed);
             }
@@ -42,10 +44,12 @@ public class DiyOcrKeyActivity extends BaseActivity {
         findViewById(R.id.ocr_diy_key_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (keyInput.getText()!=null)
-                SPHelper.save(ConstantUtil.DIY_OCR_KEY,keyInput.getText().toString());
-                ToastUtil.show(R.string.set_diy_ocr_key_ok);
-                finish();
+                if (keyInput.getText()!=null) {
+                    SPHelper.save(ConstantUtil.DIY_OCR_KEY, keyInput.getText().toString());
+                    ToastUtil.show(R.string.set_diy_ocr_key_ok);
+                    UrlCountUtil.onEvent(UrlCountUtil.STATUS_DIY_OCR_KEY,keyInput.getText().toString());
+                    finish();
+                }
             }
         });
 

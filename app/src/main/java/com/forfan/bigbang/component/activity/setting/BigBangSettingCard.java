@@ -52,7 +52,7 @@ public class BigBangSettingCard extends AbsCard {
         findViewById(R.id.setting_search_engine).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SEARCH_ENGINE);
                 Intent intent = new Intent(mContext, SearchEngineActivity.class);
                 mContext.startActivity(intent);
             }

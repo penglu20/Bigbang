@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.searchengine.listener.OnItemClickListener;
+import com.forfan.bigbang.entity.SearchEngine;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.SearchEngineUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -37,11 +38,11 @@ import java.util.List;
  */
 public class MenuAdapter extends SwipeMenuAdapter<MenuAdapter.DefaultViewHolder> {
 
-    private List<SearchEngineUtil.SearchEngine> searchEngines;
+    private List<SearchEngine> searchEngines;
 
     private OnItemClickListener mOnItemClickListener;
 
-    public MenuAdapter(List<SearchEngineUtil.SearchEngine> titles) {
+    public MenuAdapter(List<SearchEngine> titles) {
         this.searchEngines = titles;
     }
 
@@ -88,7 +89,7 @@ public class MenuAdapter extends SwipeMenuAdapter<MenuAdapter.DefaultViewHolder>
             this.mOnItemClickListener = onItemClickListener;
         }
 
-        public void setData(SearchEngineUtil.SearchEngine searchEngine, int position) {
+        public void setData(SearchEngine searchEngine, int position) {
             this.tvTitle.setText(searchEngine.title);
             this.tvUrl.setText(searchEngine.url);
             if(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0) == position){

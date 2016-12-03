@@ -256,7 +256,7 @@ public class BigBangActivity extends BaseActivity {
 //                sharingIntent.setType("text/plain");
 //                sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
                 SharedIntentHelper.sendShareIntent(BigBangActivity.this,text);
-                finish();
+//                finish();
             }
         }
 
