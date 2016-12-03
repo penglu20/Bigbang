@@ -38,6 +38,7 @@ import java.text.SimpleDateFormat;
 public class ScreenCaptureService extends Service {
     private static final String TAG = "ScreenCaptureActivity";
     public static final String SCREEN_CUT_RECT = "screen_cut";
+    public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
     public static final String MESSAGE = "message";
     public static final String FILE_NAME = "temp_file";
     private SimpleDateFormat dateFormat = null;
@@ -58,6 +59,7 @@ public class ScreenCaptureService extends Service {
     private ImageReader mImageReader = null;
     private DisplayMetrics metrics = null;
     private int mScreenDensity = 0;
+    private int mNavigationBarHeight = 0;
 
     Handler handler = new Handler(Looper.getMainLooper());
     private Rect mRect;
@@ -112,6 +114,7 @@ public class ScreenCaptureService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
+            mNavigationBarHeight = intent.getIntExtra(NAVIGATION_BAR_HEIGHT, 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -212,10 +215,23 @@ public class ScreenCaptureService extends Service {
         bitmap.copyPixelsFromBuffer(buffer);
         image.close();
         LogUtil.e(TAG, "image data captured");
-        ByteArrayOutputStream output = new ByteArrayOutputStream();//初始化一个流对象
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, output);//把bitmap100%高质量压缩 到 output对象里
+
+        int totalHeight=height+mNavigationBarHeight;
+        double multipleHeight= totalHeight*1.0/height;
+
+        if (mNavigationBarHeight!=0){
+            bitmap=Bitmap.createBitmap(bitmap, (int) (rowPadding / pixelStride / multipleHeight), 0, (int) (width/multipleHeight), height);
+        }
+        double multipleWidth =width*1.0/ bitmap.getWidth();
 
         if (mRect != null) {
+            mRect.left= (int) (mRect.left/multipleWidth);
+            mRect.right= (int) (mRect.right/multipleWidth);
+
+            mRect.top= (int) (mRect.top/multipleHeight);
+            mRect.bottom= (int) (mRect.bottom/multipleHeight);
+
+
             if (mRect.left < 0)
                 mRect.left = 0;
             if (mRect.right < 0)

@@ -6,6 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.media.projection.MediaProjectionManager;
 import android.os.Build;
@@ -13,8 +15,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Display;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.BigBangApp;
@@ -100,12 +108,37 @@ public class ScreenCaptureActivity extends BaseActivity {
                 startIntent();
             }
         });
+
     }
 
     private void initWindow() {
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
     }
 
+    public boolean isNavigationBarShow(){
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        Point realSize = new Point();
+        display.getSize(size);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            display.getRealSize(realSize);
+        }else {
+            realSize=size;
+        }
+        return realSize.y!=size.y;
+    }
+
+    public int getNavigationBarHeight(Context activity) {
+        if (!isNavigationBarShow()){
+            return 0;
+        }
+        Resources resources = activity.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height",
+                "dimen", "android");
+        //获取NavigationBar的高度
+        int height = resources.getDimensionPixelSize(resourceId);
+        return height;
+    }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startIntent() {
@@ -153,6 +186,7 @@ public class ScreenCaptureActivity extends BaseActivity {
     private void startScreenCapture() {
         Intent intent = new Intent(getApplicationContext(), ScreenCaptureService.class);
         intent.putExtra(ScreenCaptureService.SCREEN_CUT_RECT, markedArea);
+        intent.putExtra(ScreenCaptureService.NAVIGATION_BAR_HEIGHT,getNavigationBarHeight(this) );
         startService(intent);
     }
 
