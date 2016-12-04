@@ -259,4 +259,7 @@
     <string name="search_name_hint">名字(不超过5个字)</string>
     <string name="search_url_hint">地址(最后会拼接上 搜索词 )</string>
     <string name="move_edit_hint">左滑编辑或删除，长按调整位置</string>
+
+
+    <string name="setting_search_engine_web">设置搜索引擎</string>
 </resources>
