@@ -116,16 +116,22 @@ public class ScreenCaptureActivity extends BaseActivity {
     }
 
     public boolean isNavigationBarShow(){
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        Point realSize = new Point();
-        display.getSize(size);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            Display display = getWindowManager().getDefaultDisplay();
+            Point size = new Point();
+            Point realSize = new Point();
+            display.getSize(size);
             display.getRealSize(realSize);
+            return realSize.y!=size.y;
         }else {
-            realSize=size;
+            boolean menu = ViewConfiguration.get(this).hasPermanentMenuKey();
+            boolean back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+            if(menu || back) {
+                return false;
+            }else {
+                return true;
+            }
         }
-        return realSize.y!=size.y;
     }
 
     public int getNavigationBarHeight(Context activity) {

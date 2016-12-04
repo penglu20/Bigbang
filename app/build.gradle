@@ -199,5 +199,4 @@ dependencies {
     compile project(':commonjar')
     compile project(':colorpicker')
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
-
 }

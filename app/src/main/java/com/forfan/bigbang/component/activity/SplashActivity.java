@@ -40,14 +40,18 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        if (intent.getAction().equals(ConstantUtil.NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST)) {
-            finish();
-            sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
-        } else if (intent.getAction().equals(ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST)) {
-            finish();
-            sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
-        }
+        try {
+            Intent intent = getIntent();
+            if (intent.getAction().equals(ConstantUtil.NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST)) {
+                sendBroadcast(new Intent(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST));
+                finish();
+                return;
+            } else if (intent.getAction().equals(ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST)) {
+                sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
+                finish();
+                return;
+            }
+        }catch (Throwable e){}
 
         setContentView(R.layout.activity_splash);
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
