@@ -73,7 +73,8 @@ public class UrlCountUtil {
 
     public static final String CLICK_BROWSER_EXIT= "click_browser_exit";
     public static final String CLICK_BROWSER_TO_SYS_BROWSER= "click_browser_to_sys_browser";
-    public static final String STATE_BROWSER_Engines= "state_browser_engines";
+    public static final String CLICK_SETTINGS_SEARCH_ENGINE_WEB= "click_settings_search_engine_web";
+    public static final String STATE_BROWSER_ENGINES= "state_browser_engines";
 
     public static final String CLICK_UNIVERSAL_COPY_EXIT_RETUN= "click_universal_copy_exit_retun";
     public static final String CLICK_UNIVERSAL_COPY_EXIT= "click_universal_copy_exit";
@@ -130,6 +131,11 @@ public class UrlCountUtil {
     public static final String CLICK_SEARCH_ENGINE_EDIT="click_search_engine_edit";
 
 
+    public static final String STATUS_NOFITY_SWITCH="status_nofity_switch";
+    public static final String STATUS_NOFITY_CLICK="status_nofity_click";
+    public static final String STATUS_NOFITY_CLIPBOARD="status_nofity_clipboard";
+    public static final String CLICK_NOFITY_COPY="click_nofity_copy";
+    public static final String CLICK_NOFITY_SCREEN="click_nofity_screen";
 
 
     public static Context mContext= BigBangApp.getInstance();

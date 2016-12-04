@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.searchengine.SearchEngineActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.DensityUtils;
@@ -67,17 +68,25 @@ public class WebActivity
     private  boolean isFistIn = true;
     private void initViews() {
         ArrayList<String> engines = SearchEngineUtil.getInstance().getSearchEngineNames();
+        engines.add(getResources().getString(R.string.setting_search_engine_web));
         this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
         mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_Engines,engines.get(position));
-                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
-                if(isFistIn){
-                    isFistIn = false;
-                    return;
+                if (position==engines.size()-1){
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SEARCH_ENGINE_WEB);
+                    Intent intent = new Intent(WebActivity.this, SearchEngineActivity.class);
+                    startActivity(intent);
+                }else {
+                    UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_ENGINES, engines.get(position));
+//                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
+                    if (isFistIn) {
+                        isFistIn = false;
+                        return;
+                    }
+                    browserSelection=position;
+                    toLoadUrl("", mQuery);
                 }
-                toLoadUrl("", mQuery);
             }
 
             @Override
@@ -93,6 +102,7 @@ public class WebActivity
         mTitleSpinner.setSelection(browserSelection);
         this.mFrameLayout = ((FrameLayout) findViewById(android.R.id.content));
         this.mContentLayout = ((LinearLayout) findViewById(R.id.content_view));
+        mContentLayout.removeAllViews();
         this.mWebView = new WebView(this);
         this.mContentLayout.addView(this.mWebView, -1, -1);
         this.mProgressBar = ((ContentLoadingProgressBar) findViewById(R.id.progress));
@@ -177,7 +187,7 @@ public class WebActivity
 
     private String getUrlStrBySelect(String query) {
         query = query.replaceAll("\n","");
-        String url = SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0)).url;
+        String url = SearchEngineUtil.getInstance().getSearchEngines().get(browserSelection).url;
         if(!url.startsWith("http"))
             url = "http://"+url;
         try {
@@ -232,6 +242,12 @@ public class WebActivity
 
         toLoadUrl(mUrl, mQuery);
         setConfigCallback((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initViews();
     }
 
     protected void onDestroy() {

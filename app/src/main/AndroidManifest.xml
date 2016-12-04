@@ -176,11 +176,11 @@
             android:theme="@style/SearchEngineAppTheme" />
         <activity
             android:name=".component.activity.WebActivity"
-            android:autoRemoveFromRecents="true"
-            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:noHistory="true"
             android:theme="@style/WebActivityTheme" />
+            <!--android:autoRemoveFromRecents="true"-->
+            <!--android:excludeFromRecents="true"-->
+            <!--android:noHistory="true"-->
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />

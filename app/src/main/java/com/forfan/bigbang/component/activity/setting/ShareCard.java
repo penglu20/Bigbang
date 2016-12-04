@@ -6,6 +6,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,6 +15,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -196,7 +199,7 @@ public class ShareCard extends AbsCard {
             if (dir == null || dir.getAbsolutePath().equals("")) {
                 dir = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
             }
-            File pic = new File(dir, "temp.jpg");
+            File pic = new File(dir, "bigbang.jpg");
             pic.deleteOnExit();
             BitmapDrawable bitmapDrawable;
             if (Build.VERSION.SDK_INT < 22) {
@@ -209,7 +212,22 @@ public class ShareCard extends AbsCard {
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            imageUris.add(Uri.fromFile(pic));
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                imageUris.add(Uri.fromFile(pic));
+            }else {
+                //修复微信在7.0崩溃的问题
+                Uri uri =Uri.parse(android.provider.MediaStore.Images.Media.insertImage(context.getContentResolver(), pic.getAbsolutePath(), "bigbang.jpg", null));
+//                ContentValues values = new ContentValues(1);
+//                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpg");
+//                Uri uri = context.getContentResolver()
+//                        .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+//
+//                pic.toURI();
+//                pic.renameTo(new File(uri.getPath()));
+//                pic.deleteOnExit();
+                imageUris.add(uri);
+            }
+
             intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris);
             ((Activity) context).startActivityForResult(intent, 1000);
         }catch (Throwable e){

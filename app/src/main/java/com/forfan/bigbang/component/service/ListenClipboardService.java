@@ -21,6 +21,7 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.shang.commonjar.contentProvider.Global;
 import com.shang.commonjar.contentProvider.SPHelper;
 
@@ -291,6 +292,7 @@ public final class ListenClipboardService extends Service {
                     ToastUtil.show(R.string.open_total_switch_first);
                     return;
                 }
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_NOFITY_CLIPBOARD,!monitorClipborad);
                 SPHelper.save(ConstantUtil.MONITOR_CLIP_BOARD,!monitorClipborad);
                 readSettingFromSp();
                 if (monitorClipborad){
@@ -299,6 +301,7 @@ public final class ListenClipboardService extends Service {
                     ToastUtil.show(R.string.monitor_clipboard_close);
                 }
             } else if(intent.getAction().equals(ConstantUtil.TOTAL_SWITCH_BROADCAST)){
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_NOFITY_SWITCH,!isRun);
                 SPHelper.save(ConstantUtil.TOTAL_SWITCH,!isRun);
                 sendBroadcast(new Intent(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                 readSettingFromSp();
