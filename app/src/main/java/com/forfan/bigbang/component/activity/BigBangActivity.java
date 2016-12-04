@@ -80,6 +80,7 @@ public class BigBangActivity extends BaseActivity {
         if (fullScreen){
             setTheme(R.style.ColorTranslucentTheme);
             setContentView(R.layout.activity_big_bang);
+            getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.bigbang_activity_window_full));
             getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
         }else {
             CardView cardView = new CardView(this);

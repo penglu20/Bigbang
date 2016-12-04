@@ -120,6 +120,8 @@ public class UrlCountUtil {
     public static final String STATUS_SET_BB_ITEM_MARGIN="status_set_bb_item_margin";
     public static final String STATUS_SET_BB_ALPHA="status_set_bb_alpha";
     public static final String STATUS_SET_BB_BGCOLOR="status_set_bb_bgcolor";
+    public static final String STATUS_SET_BB_FULL_SCREEN="status_set_bb_full_screen";
+    public static final String STATUS_SET_BB_STICK_HEAD="status_set_bb_stick_head";
 
 
     public static final String STATUS_DIY_OCR_KEY="status_diy_ocr_key";

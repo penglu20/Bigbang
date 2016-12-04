@@ -196,6 +196,7 @@ public class SettingBigBangActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SPHelper.save(ConstantUtil.IS_FULL_SCREEN,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_FULL_SCREEN,isChecked+"");
             }
         });
 
@@ -203,6 +204,7 @@ public class SettingBigBangActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SPHelper.save(ConstantUtil.IS_STICK_HEADER,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_STICK_HEAD,isChecked+"");
             }
         });
 

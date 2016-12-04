@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
@@ -67,39 +68,9 @@ public class WebActivity
     }
     private  boolean isFistIn = true;
     private void initViews() {
-        ArrayList<String> engines = SearchEngineUtil.getInstance().getSearchEngineNames();
-        engines.add(getResources().getString(R.string.setting_search_engine_web));
-        this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
-        mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==engines.size()-1){
-                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SEARCH_ENGINE_WEB);
-                    Intent intent = new Intent(WebActivity.this, SearchEngineActivity.class);
-                    startActivity(intent);
-                }else {
-                    UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_ENGINES, engines.get(position));
-//                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
-                    if (isFistIn) {
-                        isFistIn = false;
-                        return;
-                    }
-                    browserSelection=position;
-                    toLoadUrl("", mQuery);
-                }
-            }
+        refreshSpinner();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                LogUtil.d(TAG, "onNothingSelected:");
-
-            }
-        });
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.simple_spinner_item,engines);
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        mTitleSpinner.setAdapter(adapter);
         browserSelection = SPHelper.getInt(ConstantUtil.BROWSER_SELECTION, 0);
-        mTitleSpinner.setSelection(browserSelection);
         this.mFrameLayout = ((FrameLayout) findViewById(android.R.id.content));
         this.mContentLayout = ((LinearLayout) findViewById(R.id.content_view));
         mContentLayout.removeAllViews();
@@ -159,6 +130,43 @@ public class WebActivity
             }
         });
         this.mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+    }
+
+    @NonNull
+    private void refreshSpinner() {
+        ArrayList<String> engines = SearchEngineUtil.getInstance().getSearchEngineNames();
+        engines.add(getResources().getString(R.string.setting_search_engine_web));
+        this.mTitleSpinner = ((AppCompatSpinner) findViewById(R.id.title));
+        mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position==engines.size()-1){
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SEARCH_ENGINE_WEB);
+                    Intent intent = new Intent(WebActivity.this, SearchEngineActivity.class);
+                    startActivity(intent);
+                }else {
+                    UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_ENGINES, engines.get(position));
+//                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
+                    if (isFistIn) {
+                        isFistIn = false;
+                        return;
+                    }
+                    browserSelection=position;
+                    toLoadUrl("", mQuery);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                LogUtil.d(TAG, "onNothingSelected:");
+
+            }
+        });
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.simple_spinner_item,engines);
+        mTitleSpinner.setAdapter(adapter);
+        mTitleSpinner.setSelection(browserSelection);
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+        return ;
     }
 
     private Uri getUri() {
@@ -247,7 +255,7 @@ public class WebActivity
     @Override
     protected void onResume() {
         super.onResume();
-        initViews();
+        refreshSpinner();
     }
 
     protected void onDestroy() {

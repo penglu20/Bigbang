@@ -223,15 +223,15 @@ public class BigBangLayoutWrapper extends FrameLayout  {
             top = top + topPadding + mHeader.getMeasuredHeight();
         }
         if (fullScreenMode){
-            if (mBigBangLayout.getMeasuredHeight()<bottom-top- mBottom.getMeasuredHeight()*4.0/3){
+            if (mBigBangLayout.getMeasuredHeight()<bottom-top- mBottom.getMeasuredHeight()*3.0/3){
                 //显示在中部
                 int layoutBottom=(bottom-top)/2+mBigBangLayout.getMeasuredHeight()/2;
                 int layoutTop=(bottom-top)/2-mBigBangLayout.getMeasuredHeight()/2;
                 mScrollView.layout(left,layoutTop,right,layoutBottom);
             }else {
-                mScrollView.layout(left, top, right, (int) (bottom - mBottom.getMeasuredHeight() * 4.0 / 3));
+                mScrollView.layout(left, top, right, (int) (bottom - mBottom.getMeasuredHeight() * 3.0 / 3));
             }
-            mBottom.layout(left, (int) (bottom - mBottom.getMeasuredHeight()*4.0/3), right, (int) (bottom- mBottom.getMeasuredHeight()*1.0/3));
+            mBottom.layout(left, (int) (bottom - mBottom.getMeasuredHeight()*3.0/3), right, (int) (bottom- mBottom.getMeasuredHeight()*0.0/3));
         }else {
             mScrollView.layout(left, top, right, bottom - mBottom.getMeasuredHeight());
             mBottom.layout(left, bottom - mBottom.getMeasuredHeight(), right, bottom);

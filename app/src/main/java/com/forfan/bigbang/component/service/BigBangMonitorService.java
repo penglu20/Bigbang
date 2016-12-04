@@ -112,12 +112,12 @@ public class BigBangMonitorService extends AccessibilityService {
         mAccessibilityServiceInfo.feedbackType=FEEDBACK_GENERIC;
         mAccessibilityServiceInfo.eventTypes=AccessibilityEvent.TYPE_VIEW_CLICKED|AccessibilityEvent.TYPE_VIEW_LONG_CLICKED|AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
         int flag=AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-
-        }
-        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2){
-            flag=flag|AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
-        }
+//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+//
+//        }
+//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2){
+//            flag=flag|AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
+//        }
         mAccessibilityServiceInfo.flags=flag;
         mAccessibilityServiceInfo.notificationTimeout=100;
         setServiceInfo(mAccessibilityServiceInfo);
