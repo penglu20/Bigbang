@@ -4,6 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.forfan.bigbang.view.BigBangHeader
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        />
+
+
     <ScrollView
         android:id="@+id/bigbang_scroll"
         android:layout_width="wrap_content"

@@ -70,21 +70,42 @@ public class BigBangActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
+        boolean fullScreen=SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN,false);
+        boolean stickHeader=SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER,false);
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
-
-        CardView cardView = new CardView(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
-        cardView.setRadius(ViewUtil.dp2px(10));
-
         int value = (int) ((alpha / 100.0f) * 255);
-        cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
-        cardView.addView(view);
 
-        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
-        setContentView(cardView);
+        if (fullScreen){
+            setTheme(R.style.ColorTranslucentTheme);
+            setContentView(R.layout.activity_big_bang);
+            getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+        }else {
+            CardView cardView = new CardView(this);
+            View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
+            cardView.setRadius(ViewUtil.dp2px(10));
+
+
+            cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+            cardView.addView(view);
+
+            getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
+            setContentView(cardView);
+
+        }
+
+
+//        CardView cardView = new CardView(this);
+//        View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
+//        cardView.setRadius(ViewUtil.dp2px(10));
+//
+//        int value = (int) ((alpha / 100.0f) * 255);
+//        cardView.setCardBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+//        cardView.addView(view);
+//
+//        getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
+//        setContentView(cardView);
 
         Intent intent = getIntent();
         String str = intent.getStringExtra(TO_SPLIT_STR);
@@ -131,6 +152,10 @@ public class BigBangActivity extends BaseActivity {
         loading.show();
         bigBangLayout.reset();
         bigBangLayoutWrapper.setVisibility(View.GONE);
+        if (fullScreen) {
+            bigBangLayoutWrapper.setFullScreenMode(true);
+        }
+        bigBangLayoutWrapper.setStickHeader(stickHeader);
 
         bigBangLayout.setTextSize(text);
         bigBangLayout.setLineSpace(line);

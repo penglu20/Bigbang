@@ -34,6 +34,7 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
     private int mContentPadding;
     private ActionListener mActionListener;
     private boolean dragMode=false;
+    private boolean stickHeader=false;
 
     public BigBangHeader(Context context) {
         this(context, null);
@@ -151,7 +152,7 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         Rect oldBounds = mBorder.getBounds();
         Rect newBounds = new Rect(0, mSearch.getMeasuredHeight() / 2, width, height);
 
-        if (!oldBounds.equals(newBounds)) {
+        if (!stickHeader && !oldBounds.equals(newBounds)) {
             ObjectAnimator.ofObject(mBorder, "bounds", new RectEvaluator(), oldBounds, newBounds).setDuration(200).start();
         }
     }
@@ -163,12 +164,19 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        mBorder.draw(canvas);
+        if (!stickHeader) {
+            mBorder.draw(canvas);
+        }
     }
 
     @Override
     protected boolean verifyDrawable(Drawable who) {
         return super.verifyDrawable(who) || who == mBorder;
+    }
+
+
+    public void setStickHeader(boolean stickHeader) {
+        this.stickHeader = stickHeader;
     }
 
     public int getContentPadding() {
@@ -221,9 +229,6 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         void onSearch();
         void onShare();
         void onCopy();
-        void onDrag();
         void onTrans();
-        void onSelectAll();
-        void onSelectOther();
     }
 }

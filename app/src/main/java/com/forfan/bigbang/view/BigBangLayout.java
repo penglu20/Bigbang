@@ -61,6 +61,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private Item dragItem;
 
     private ColorStateList mColorStateList;
+    private boolean stickHeader = false;
+    private int mOriginActionBarTopHeight;
 
     private AnimatorListenerAdapter mActionBarAnimationListener = new AnimatorListenerAdapter() {
         @Override
@@ -115,6 +117,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             typedArray.recycle();
             mActionBarBottomHeight = mLineSpace;
             mActionBarTopHeight = getResources().getDimensionPixelSize(R.dimen.big_bang_action_bar_height);
+            mOriginActionBarTopHeight=mActionBarTopHeight;
         }
 
         // TODO 暂时放到这里
@@ -178,6 +181,17 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             }
         });
         mSectionIndex = new ArrayList<>();
+    }
+
+
+    public void setStickHeader(boolean stickHeader) {
+        this.stickHeader = stickHeader;
+        mHeader.setStickHeader(stickHeader);
+        if (stickHeader){
+            mActionBarTopHeight=0;
+        }else {
+            mActionBarTopHeight=mOriginActionBarTopHeight;
+        }
     }
 
     public int getLineSpace() {
@@ -355,7 +369,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             mHeader.measure(MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(selectedLineHeight, MeasureSpec.UNSPECIFIED));
         }
 
-        int size = heightSize + getPaddingTop() + getPaddingBottom() + (mLines.size()) * mLineSpace + mActionBarTopHeight + mActionBarBottomHeight;
+        int size = heightSize + getPaddingTop() + getPaddingBottom() + (mLines.size()) * mLineSpace +mActionBarTopHeight + mActionBarBottomHeight;
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
     }
 
@@ -397,22 +411,25 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 left += child.getMeasuredWidth() + mItemSpace;
             }
         }
-
-        if (firstSelectedLine != null && lastSelectedLine != null) {
-            mHeader.setVisibility(View.VISIBLE);
-            mHeader.setAlpha(1);
-            int oldTop = mHeader.getTop();
-            int actionBarTop = firstSelectedLine.maxIndex * (firstSelectedLine.getHeight() + mLineSpace) + getPaddingTop();
-            mHeader.layout(getPaddingLeft(), actionBarTop, getPaddingLeft() + mHeader.getMeasuredWidth(), actionBarTop + mHeader.getMeasuredHeight());
-            if (oldTop != actionBarTop) {
-                int translationY = oldTop - actionBarTop;
-                mHeader.setTranslationY(translationY);
-                mHeader.animate().translationYBy(-translationY).setDuration(200).start();
+        if (!stickHeader) {
+            if (firstSelectedLine != null && lastSelectedLine != null) {
+                mHeader.setVisibility(View.VISIBLE);
+                mHeader.setAlpha(1);
+                int oldTop = mHeader.getTop();
+                int actionBarTop = firstSelectedLine.maxIndex * (firstSelectedLine.getHeight() + mLineSpace) + getPaddingTop();
+                mHeader.layout(getPaddingLeft(), actionBarTop, getPaddingLeft() + mHeader.getMeasuredWidth(), actionBarTop + mHeader.getMeasuredHeight());
+                if (oldTop != actionBarTop) {
+                    int translationY = oldTop - actionBarTop;
+                    mHeader.setTranslationY(translationY);
+                    mHeader.animate().translationYBy(-translationY).setDuration(200).start();
+                }
+            } else {
+                if (mHeader.getVisibility() == View.VISIBLE && !dragMode) {
+                    mHeader.animate().alpha(0).setDuration(200).setListener(mActionBarAnimationListener).start();
+                }
             }
-        } else {
-            if (mHeader.getVisibility() == View.VISIBLE && !dragMode) {
-                mHeader.animate().alpha(0).setDuration(200).setListener(mActionBarAnimationListener).start();
-            }
+        }else {
+            mHeader.setVisibility(GONE);
         }
     }
 
@@ -671,7 +688,6 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         }
     }
 
-    @Override
     public void onDrag() {
         dragMode = !dragMode;
         if (mActionListener != null) {
@@ -687,18 +703,6 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         }
     }
 
-    @Override
-    public void onSelectAll() {
-        for (Line line : mLines) {
-            List<Item> items = line.getItems();
-            for (Item item : items) {
-                item.setSelected(true);
-            }
-        }
-        requestLayout();
-    }
-
-    @Override
     public void onSelectOther() {
         for (Line line : mLines) {
             List<Item> items = line.getItems();

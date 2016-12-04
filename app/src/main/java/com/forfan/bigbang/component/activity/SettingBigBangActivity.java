@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -57,6 +59,9 @@ public class SettingBigBangActivity extends BaseActivity {
     private TextView bigbangAlpha;
     private SeekBar mBigbangAlphaSeekBar;
 
+    private CheckBox isFullScreen;
+    private CheckBox isStickHeader;
+
     private RecyclerView backgroundRV;
     private int[] bigbangBackgroungColors;
     private int lastPickedColor;//只存rgb
@@ -91,6 +96,10 @@ public class SettingBigBangActivity extends BaseActivity {
         bigbangAlpha = (TextView) findViewById(R.id.bigbang_alpha);
 
         backgroundRV= (RecyclerView) findViewById(R.id.bigbang_background);
+
+
+        isFullScreen= (CheckBox) findViewById(R.id.is_full_screen);
+        isStickHeader= (CheckBox) findViewById(R.id.is_stick_header);
 
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
@@ -183,12 +192,31 @@ public class SettingBigBangActivity extends BaseActivity {
             }
         });
 
+        isFullScreen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.IS_FULL_SCREEN,isChecked);
+            }
+        });
+
+        isStickHeader.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.IS_STICK_HEADER,isChecked);
+            }
+        });
+
+
 
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
+        boolean fullScreen=SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN,false);
+        isFullScreen.setChecked(fullScreen);
+        boolean stickHeader=SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER,false);
+        isStickHeader.setChecked(stickHeader);
 
 
         mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));

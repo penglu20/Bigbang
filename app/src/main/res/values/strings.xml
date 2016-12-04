@@ -262,4 +262,7 @@
 
 
     <string name="setting_search_engine_web">设置搜索引擎</string>
+
+    <string name="is_full_screen">全屏显示分词</string>
+    <string name="is_stick_header">功能键保持在顶部</string>
 </resources>

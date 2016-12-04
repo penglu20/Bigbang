@@ -270,4 +270,8 @@
     <string name="setting_search_engine_into">You can set, add the default search engine used by the built-in browser</string>
 
     <string name="setting_search_engine_web">Setting Search Engine</string>
+
+
+    <string name="is_full_screen">Show in full screen</string>
+    <string name="is_stick_header">Keep Header Button At The Top</string>
 </resources>

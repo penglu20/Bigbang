@@ -204,7 +204,7 @@ public class WebActivity
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
         ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
-        localLayoutParams.width = ((int) (localDisplayMetrics.widthPixels * 0.99D));
+        localLayoutParams.width = ((int) (localDisplayMetrics.widthPixels * 0.9D));
         localLayoutParams.gravity = 17;
         localLayoutParams.height = ((int) (localDisplayMetrics.heightPixels * 0.8D));
         getWindow().setAttributes(localLayoutParams);

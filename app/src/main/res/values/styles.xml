@@ -96,6 +96,10 @@
         <item name="windowActionBar">false</item>
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@style/fade</item>
+
+        <item name="android:windowBackground">@drawable/bigbang_activity_window_bg</item>
+        <item name="listPreferredItemPaddingLeft">0dp</item>
+        <item name="listPreferredItemPaddingRight">0dp</item>
     </style>
     <style name="ScreenCaptureTheme" parent="OverlayTheme">
         <item name="windowNoTitle">true</item>
