@@ -63,5 +63,50 @@
             app:msg="@string/xposed_whitelist" />
 
     </RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/double_click_setting"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_detail_line_height"
+        style="@style/cardViewTextViewInLayoutLeft"
+        android:paddingLeft="@dimen/card_padding_width"/>
 
+    <RelativeLayout
+        android:id="@+id/double_click_interval_rl"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:paddingLeft="@dimen/margin_normal"
+        android:paddingRight="@dimen/margin_normal"
+        android:layout_height="@dimen/card_detail_line_height">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/double_click_interval"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:hint="@string/double_click_intercal_hint"
+            >
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/double_click_interval_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left|center_vertical"
+                android:inputType="number"
+                android:textSize="@dimen/text_size_normal"
+                android:textColor="@color/secondary_text" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/double_click_confirm"
+            android:layout_width="wrap_content"
+            android:text="@string/confirm"
+            android:layout_alignParentRight="true"
+            android:paddingLeft="@dimen/margin_normal"
+            android:paddingRight="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 </LinearLayout>

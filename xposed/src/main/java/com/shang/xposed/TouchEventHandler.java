@@ -10,12 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.shang.commonjar.contentProvider.Global;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.xposed.forcetouch.Callback;
-import com.shang.xposed.forcetouch.ForceTouchActivity;
-import com.shang.xposed.forcetouch.ForceTouchListener;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -45,8 +39,10 @@ public class TouchEventHandler {
     private final List<View> topmostChildList = new ArrayList<>();
 
 
-    public boolean hookTouchEvent(View v, MotionEvent event, List<Filter> filters, boolean needVerify) {
+    public boolean hookTouchEvent(View v, MotionEvent event, List<Filter> filters, boolean needVerify, int anInt) {
+        BIG_BANG_RESPONSE_TIME = anInt;
         boolean handle = false;
+        // Log.e("shang","event:"+event);
         if (event.getAction() == MotionEvent.ACTION_UP) {
             View targetTextView = getTargetTextView(v, event, filters);
             if (targetTextView != null) {
@@ -79,51 +75,97 @@ public class TouchEventHandler {
                         }
                     }
                 }
-                setClickTimeMillis(targetTextView, currentTimeMillis);
+                targetTextView.setTag(R.id.bigBang_$$, currentTimeMillis);
+                // setClickTimeMillis(targetTextView, currentTimeMillis);
 
             }
         }
         return handle;
     }
 
-    public boolean hookForceTouchEvent(View v, MotionEvent event, final List<Filter> filters, final boolean needVerify) {
-        final boolean[] handle = {false};
-        final View targetTextView = getTargetTextView(v, event, filters);
-        if (targetTextView != null) {
-            Global.init(v.getContext());
-            ForceTouchListener forceTouchListener = new ForceTouchListener(v.getContext(), 70, SPHelper.getFloat(ForceTouchActivity.PRESSURE, 1000.0f), true, true, new Callback() {
-                @Override
-                public void onForceTouch() {
-                    Logger.logClass(TAG, targetTextView.getClass());
-                    String msg = null;
-                    for (Filter filter : filters) {
-                        msg = filter.getContent(targetTextView);
-                        if (msg != null) {
-                            break;
+    public boolean hookAllTouchEvent(View v, MotionEvent event, List<Filter> filters, boolean needVerify, int anInt) {
+        BIG_BANG_RESPONSE_TIME = anInt;
+        boolean handle = false;
+        //  Log.e("shang","event:"+event);
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View targetTextView = getTargetTextView(v, event, filters);
+            if (targetTextView != null) {
+                Logger.logClass(TAG, targetTextView.getClass());
+                long preClickTimeMillis = getClickTimeMillis(targetTextView);
+                long currentTimeMillis = System.currentTimeMillis();
+                if (preClickTimeMillis != 0) {
+                    long interval = currentTimeMillis - preClickTimeMillis;
+                    if (interval < INVALID_INTERVAL) {
+                        return false;
+                    }
+                    if (interval < BIG_BANG_RESPONSE_TIME) {
+                        String msg = null;
+                        for (Filter filter : filters) {
+                            msg = filter.getContent(targetTextView);
+                            if (msg != null) {
+                                break;
+                            }
+                        }
+                        if (msg != null && (needVerify || verifyText(msg))) {
+                            handle = true;
+                            Context context = targetTextView.getContext();
+                            try {
+                                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + msg));
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                targetTextView.setTag(R.id.bigBang_$$, 0);
+                                context.startActivity(intent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
-                    if (msg != null && (needVerify || verifyText(msg))) {
-                        Context context = targetTextView.getContext();
-                        try {
-                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + msg));
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(intent);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    handle[0] = true;
                 }
+                targetTextView.setTag(R.id.bigBang_$$, currentTimeMillis);
+                // setClickTimeMillis(targetTextView, currentTimeMillis);
 
-                @Override
-                public void onNormalTouch() {
-
-                }
-            });
-            forceTouchListener.onTouch(v, event);
+            }
         }
-        return handle[0];
+        return handle;
     }
+
+//    public boolean hookForceTouchEvent(View v, MotionEvent event, final List<Filter> filters, final boolean needVerify) {
+//        final boolean[] handle = {false};
+//        final View targetTextView = getTargetTextView(v, event, filters);
+//        if (targetTextView != null) {
+//            Global.init(v.getContext());
+//            ForceTouchListener forceTouchListener = new ForceTouchListener(v.getContext(), 70, SPHelper.getFloat(ForceTouchActivity.PRESSURE, 1000.0f), true, true, new Callback() {
+//                @Override
+//                public void onForceTouch() {
+//                    Logger.logClass(TAG, targetTextView.getClass());
+//                    String msg = null;
+//                    for (Filter filter : filters) {
+//                        msg = filter.getContent(targetTextView);
+//                        if (msg != null) {
+//                            break;
+//                        }
+//                    }
+//                    if (msg != null && (needVerify || verifyText(msg))) {
+//                        Context context = targetTextView.getContext();
+//                        try {
+//                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + msg));
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            context.startActivity(intent);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                    handle[0] = true;
+//                }
+//
+//                @Override
+//                public void onNormalTouch() {
+//
+//                }
+//            });
+//            forceTouchListener.onTouch(v, event);
+//        }
+//        return handle[0];
+//    }
 
     private boolean verifyText(String msg) {
         if (msg.length() > 20) {
@@ -163,8 +205,20 @@ public class TouchEventHandler {
         return 0;
     }
 
+    public long getViewClickTimeMillis(View view) {
+        Object preClickTimeMillis = view.getTag(R.id.bigBang_$);
+        if (preClickTimeMillis != null) {
+            return (Long) preClickTimeMillis;
+        }
+        return 0;
+    }
+
     public void setClickTimeMillis(View view, long timeMillis) {
         view.setTag(R.id.bigBang_$$, timeMillis);
+    }
+
+    public void setViewClickTimeMillis(View view, long timeMillis) {
+        view.setTag(R.id.bigBang_$, timeMillis);
     }
 
     private View getTargetTextView(View view, MotionEvent event, List<Filter> filters) {
@@ -210,6 +264,7 @@ public class TouchEventHandler {
         rect.set(xy[0], xy[1], xy[0] + view.getWidth(), xy[1] + view.getHeight());
         return rect.contains(rawX, rawY);
     }
+
 
     /**
      * Sorts child views with higher Z values to the beginning of a collection.

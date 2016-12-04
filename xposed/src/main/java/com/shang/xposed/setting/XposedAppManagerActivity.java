@@ -13,10 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.shang.utils.StatusBarCompat;
 import com.shang.xposed.R;
 
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public class XposedAppManagerActivity extends AppCompatActivity implements Searc
     private Set<String> mDisAppSet = new HashSet<>();
     private String mKeyWord = "";
     private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

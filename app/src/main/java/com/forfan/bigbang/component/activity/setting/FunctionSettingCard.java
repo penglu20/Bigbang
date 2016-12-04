@@ -24,6 +24,7 @@ import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.forfan.bigbang.util.XposedEnableUtil;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -125,7 +126,7 @@ public class FunctionSettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.MONITOR_CLICK, monitorClick);
                 if (monitorClick) {
                     mContext.startService(new Intent(context, BigBangMonitorService.class));
-                    if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext)) {
+                    if (!BigBangMonitorService.isAccessibilitySettingsOn(mContext) && !XposedEnableUtil.isEnable()) {
                         handler.removeCallbacks(showAccess);
                         handler.postDelayed(showAccess, 2000);
                     }
