@@ -131,6 +131,11 @@ public class UrlCountUtil {
     public static final String CLICK_SEARCH_ENGINE_EDIT="click_search_engine_edit";
 
 
+    public static final String STATUS_NOFITY_SWITCH="status_nofity_switch";
+    public static final String STATUS_NOFITY_CLICK="status_nofity_click";
+    public static final String STATUS_NOFITY_CLIPBOARD="status_nofity_clipboard";
+    public static final String CLICK_NOFITY_COPY="click_nofity_copy";
+    public static final String CLICK_NOFITY_SCREEN="click_nofity_screen";
 
 
     public static Context mContext= BigBangApp.getInstance();

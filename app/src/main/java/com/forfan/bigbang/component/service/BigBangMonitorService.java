@@ -18,6 +18,7 @@ import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -35,6 +36,7 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -109,7 +111,14 @@ public class BigBangMonitorService extends AccessibilityService {
         mAccessibilityServiceInfo=new AccessibilityServiceInfo();
         mAccessibilityServiceInfo.feedbackType=FEEDBACK_GENERIC;
         mAccessibilityServiceInfo.eventTypes=AccessibilityEvent.TYPE_VIEW_CLICKED|AccessibilityEvent.TYPE_VIEW_LONG_CLICKED|AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
-        mAccessibilityServiceInfo.flags=AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
+        int flag=AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+
+        }
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2){
+            flag=flag|AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
+        }
+        mAccessibilityServiceInfo.flags=flag;
         mAccessibilityServiceInfo.notificationTimeout=100;
         setServiceInfo(mAccessibilityServiceInfo);
 
@@ -177,6 +186,11 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
 
+    @Override
+    protected void onServiceConnected() {
+        super.onServiceConnected();
+        setServiceInfo(mAccessibilityServiceInfo);
+    }
 
     private void saveSelectedApp(){
         if (whiteList!=null) {
@@ -226,6 +240,11 @@ public class BigBangMonitorService extends AccessibilityService {
             mAccessibilityServiceInfo.flags=flag & (~AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS);
         }
         this.setServiceInfo(mAccessibilityServiceInfo);
+    }
+
+    @Override
+    protected boolean onKeyEvent(KeyEvent event) {
+        return super.onKeyEvent(event);
     }
 
     @Override
@@ -585,6 +604,7 @@ public class BigBangMonitorService extends AccessibilityService {
                     ToastUtil.show(R.string.open_total_switch_first);
                     return;
                 }
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_NOFITY_CLICK,!monitorClick);
                 SPHelper.save(ConstantUtil.MONITOR_CLICK,!monitorClick);
                 readSettingFromSp();
                 if (monitorClick){
