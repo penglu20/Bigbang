@@ -266,4 +266,6 @@
     <string name="search_name_hint">Name (no more than 5 words)</string>
     <string name="search_url_hint">Address (last search will be stitched on the word)</string>
     <string name="move_edit_hint">Left slide to edit or delete, long press to adjust position</string>
+    <string name="setting_search_engine">Set the default search engine</string>
+    <string name="setting_search_engine_into">You can set, add the default search engine used by the built-in browser</string>
 </resources>
