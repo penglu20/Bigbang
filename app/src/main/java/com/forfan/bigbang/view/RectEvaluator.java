@@ -1,12 +1,4 @@
-/*
- * The MIT License (MIT)
- * Copyright (c) 2016 baoyongzhang <baoyz94@gmail.com>
- */
 package com.forfan.bigbang.view;
-
-/**
- * Created by baoyongzhang on 2016/10/20.
- */
 
 import android.animation.TypeEvaluator;
 import android.graphics.Rect;
@@ -29,10 +21,10 @@ public class RectEvaluator implements TypeEvaluator<Rect> {
         int right = startValue.right + (int) ((endValue.right - startValue.right) * fraction);
         int bottom = startValue.bottom + (int) ((endValue.bottom - startValue.bottom) * fraction);
         if (mRect == null) {
-            return new Rect(left, top, right, bottom);
+            mRect=new Rect(left, top, right, bottom);
         } else {
             mRect.set(left, top, right, bottom);
-            return mRect;
         }
+        return mRect;
     }
 }

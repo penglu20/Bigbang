@@ -160,3 +160,5 @@ public static final int *;
 
 -keep class com.shang.* { *; }
 -keep class com.shang.** { *; }
+
+-keep class com.forfan.bigbang.view.BigBangHeader$BoundWrapper{*;}

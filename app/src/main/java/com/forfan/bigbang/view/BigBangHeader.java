@@ -1,6 +1,7 @@
 package com.forfan.bigbang.view;
 
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ViewUtil;
 
 class BigBangHeader extends ViewGroup implements View.OnClickListener {
@@ -49,7 +51,7 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         initSubViews();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BigBangHeader(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initSubViews();
@@ -153,7 +155,22 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         Rect newBounds = new Rect(0, mSearch.getMeasuredHeight() / 2, width, height);
 
         if (!stickHeader && !oldBounds.equals(newBounds)) {
-            ObjectAnimator.ofObject(mBorder, "bounds", new RectEvaluator(), oldBounds, newBounds).setDuration(200).start();
+            ObjectAnimator.ofObject(new BoundWrapper(oldBounds), "bound", new RectEvaluator(), oldBounds, newBounds).setDuration(200).start();
+        }
+    }
+
+    private class BoundWrapper{
+        Rect bound;
+        public BoundWrapper(Rect bound){
+            this.bound=bound;
+        }
+        public Rect getBound() {
+            return bound;
+        }
+        public void setBound(Rect bound) {
+            this.bound = bound;
+            mBorder.setBounds(bound);
+            postInvalidate();
         }
     }
 
