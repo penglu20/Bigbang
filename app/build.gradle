@@ -41,8 +41,8 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 17
-        versionName "1.7.1"
+        versionCode 18
+        versionName "1.7.2"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -199,4 +199,5 @@ dependencies {
     compile project(':commonjar')
     compile project(':colorpicker')
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
+    compile files('libs/classes-dex2jar.jar')
 }

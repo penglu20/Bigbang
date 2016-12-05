@@ -7,11 +7,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
@@ -22,7 +24,6 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 
@@ -112,10 +113,10 @@ public class BigBangMonitorService extends AccessibilityService {
         mAccessibilityServiceInfo=new AccessibilityServiceInfo();
         mAccessibilityServiceInfo.feedbackType=FEEDBACK_GENERIC;
         mAccessibilityServiceInfo.eventTypes=AccessibilityEvent.TYPE_VIEW_CLICKED|AccessibilityEvent.TYPE_VIEW_LONG_CLICKED|AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED;
-        int flag=AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
-//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
-//
-//        }
+        int flag=0;
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
+            flag=flag|AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
+        }
 //        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2){
 //            flag=flag|AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
 //        }
@@ -243,10 +244,58 @@ public class BigBangMonitorService extends AccessibilityService {
         this.setServiceInfo(mAccessibilityServiceInfo);
     }
 
-    @Override
-    protected boolean onKeyEvent(KeyEvent event) {
-        return super.onKeyEvent(event);
-    }
+//    @Override
+//    protected boolean onKeyEvent(KeyEvent paramKeyEvent) {
+//        SharedPreferences localSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+//        String str = localSharedPreferences.getString("long_click_button", "NONE");
+//        try
+//        {
+//            int k = Integer.parseInt(str);
+//            int i;
+//            int j=0;
+//            if (paramKeyEvent.getKeyCode() == k)
+//            {
+//                i = 1;
+//                j = i;
+//                if (k == 187)
+//                {
+//                    if (i == 0)
+//                    {
+//                        i = paramKeyEvent.getKeyCode();
+//                        if (i != 82)
+//                            j=0;
+//                    }
+//                    j = 1;
+//                }
+//            }
+//            while (true)
+//                if (j != 0)
+//                {
+//                    if (paramKeyEvent.getAction() == KeyEvent.ACTION_UP)
+//                    {
+////                        if (paramKeyEvent.getEventTime() - this.b < 400L)
+////                            this.handler.removeCallbacks(this.c);
+////                        this.b = 0L;
+////                        return false;
+////                        i = 0;
+//                        break;
+////                        label140: j = 0;
+////                        continue;
+//                    }
+//                    if ((paramKeyEvent.getAction() == 0) && (localSharedPreferences.getBoolean("service_active", false)))
+//                    {
+////                        this.b = paramKeyEvent.getEventTime();
+////                        this.c.a(k);
+////                        this.e.postDelayed(this.c, 400L);
+//                    }
+//                }
+//            return super.onKeyEvent(paramKeyEvent);
+//        }
+//        catch (NumberFormatException e)
+//        {
+//        }
+//        return false;
+//    }
 
     @Override
     public void onInterrupt() {
@@ -623,6 +672,18 @@ public class BigBangMonitorService extends AccessibilityService {
             } else {
                 readSettingFromSp();
             }
+        }
+    };
+
+    private class LongClickRunnable implements Runnable {
+        private int keyCode;
+        public LongClickRunnable(int keyCode){
+            this.keyCode=keyCode;
+        }
+
+        @Override
+        public void run() {
+
         }
     };
 }

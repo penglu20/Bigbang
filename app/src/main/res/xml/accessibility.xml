@@ -5,6 +5,7 @@
     android:accessibilityFeedbackType="feedbackGeneric"
     android:accessibilityFlags="flagRetrieveInteractiveWindows"
     android:canRetrieveWindowContent="true"
+    android:canRequestFilterKeyEvents ="true"
     android:notificationTimeout="10"
     android:packageNames="@null"
     android:description="@string/accessibility_des"

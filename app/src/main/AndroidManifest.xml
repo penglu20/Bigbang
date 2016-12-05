@@ -214,6 +214,7 @@
         <activity
             android:name=".component.activity.screen.DiyOcrKeyActivity"
             android:theme="@style/DiyOcrKeyAppTheme" />
+
     </application>
 
 </manifest>

@@ -70,7 +70,7 @@ public class BigbangNotification {
 // 		        .setTicker(mContext.getResources().getString(R.string.notify_quick_message_ticket))
 				 .setWhen(0)
 				 .setSmallIcon(R.mipmap.ic_launcher)
-				 .setPriority(Notification.PRIORITY_MAX)//这里改成PRIORITY_MAX_Min就可以不显示状态栏的图标了
+				 .setPriority(Notification.PRIORITY_MIN)//这里改成PRIORITY_MAX_Min就可以不显示状态栏的图标了
 				 .setAutoCancel(true)
 				 .build();
 		setContetView();
