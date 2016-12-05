@@ -83,9 +83,6 @@ public class BigBangSettingCard extends AbsCard {
                 floatTriggerHintTextView.setShowHint(!isChecked);
             }
         });
-        if(XposedEnableUtil.isEnable()){
-            findViewById(R.id.float_trigger_rl).setVisibility(GONE);
-        }
         findViewById(R.id.float_trigger_rl).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

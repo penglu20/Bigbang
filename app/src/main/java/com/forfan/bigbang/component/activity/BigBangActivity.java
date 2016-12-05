@@ -121,13 +121,7 @@ public class BigBangActivity extends BaseActivity {
                 }
             }
         }
-        //xposed uri进入
-        if (getIntent().getData() != null) {
-            String query = getIntent().getData().getQuery();
-            if (!TextUtils.isEmpty(query) && query.startsWith("extra_text=")) {
-                str = query.replace("extra_text=", "");
-            }
-        }
+
 
 
         if (TextUtils.isEmpty(str)) {

@@ -81,7 +81,9 @@ public class FunctionSettingCard extends AbsCard {
         monitorClipBoardRl = (RelativeLayout) findViewById(R.id.monitor_clipboard_rl);
         monitorClickRl = (RelativeLayout) findViewById(R.id.monitor_click_rl);
         totalSwitchRL = (RelativeLayout) findViewById(R.id.total_switch_rl);
-
+        if(XposedEnableUtil.isEnable()){
+            monitorClickRl.setVisibility(GONE);
+        }
         monitorClipBoardSwitch = (SwitchCompat) findViewById(R.id.monitor_clipboard_switch);
         monitorClickSwitch = (SwitchCompat) findViewById(R.id.monitor_click_switch);
         totalSwitchSwitch = (SwitchCompat) findViewById(R.id.total_switch_switch);
