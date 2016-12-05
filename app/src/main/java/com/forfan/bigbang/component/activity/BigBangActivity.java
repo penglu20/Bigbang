@@ -78,7 +78,7 @@ public class BigBangActivity extends BaseActivity {
         int value = (int) ((alpha / 100.0f) * 255);
 
         if (fullScreen){
-            setTheme(R.style.ColorTranslucentTheme);
+            setTheme(R.style.PreSettingTheme);
             setContentView(R.layout.activity_big_bang);
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.bigbang_activity_window_full));
             getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
