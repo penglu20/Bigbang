@@ -61,7 +61,6 @@ public class SettingActivity extends BaseActivity {
     };
     private MonitorSettingCard settingCard;
     private CardListAdapter newAdapter;
-    private MediaProjectionManager mMediaProjectionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,7 @@ public class SettingActivity extends BaseActivity {
         }
         cardViews.add(new FloatAndNotifySettingCard(this));
         cardViews.add(new BigBangSettingCard(this));
-        if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true)) {
+        if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true) && !XposedEnableUtil.isEnable()) {
             cardViews.add(settingCard);
         }
         cardViews.add(new FeedBackAndUpdateCard(this));

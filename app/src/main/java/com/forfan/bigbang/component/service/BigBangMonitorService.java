@@ -37,6 +37,7 @@ import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.forfan.bigbang.util.XposedEnableUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.lang.reflect.InvocationTargetException;
@@ -253,6 +254,8 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private synchronized void getText(AccessibilityEvent event){
+        if(XposedEnableUtil.isEnable())
+            return;
         LogUtil.e(TAG,"getText:"+event);
         if (!monitorClick || event==null ) {
             return;
