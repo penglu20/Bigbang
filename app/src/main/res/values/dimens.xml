@@ -52,7 +52,7 @@
 
 
     <dimen name="main_toolbar_height">0dp</dimen>
-    <dimen name="card_list_margin">@dimen/margin_normal</dimen>
+    <dimen name="card_list_margin">@dimen/margin_triple</dimen>
     <dimen name="card_line_height">@dimen/height_normal</dimen>
     <dimen name="card_detail_line_height">60dp</dimen>
     <dimen name="card_divider_height">@dimen/margin_normal</dimen>
