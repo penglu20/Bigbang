@@ -14,10 +14,10 @@
 
 		<TextView
 			android:id="@+id/total_switch"
-			android:textSize="@dimen/text_size_tiny"
+			android:textSize="@dimen/text_size_very_tiny"
 			android:text="@string/notify_total_switch_on"
 			android:gravity="center"
-			android:textColor="@color/secondary_text"
+			android:textColor="@color/text_color_notify"
 			android:layout_width="0dp"
 			android:layout_weight="1"
 			android:background="@drawable/notify_item_bg_transe"
@@ -31,10 +31,10 @@
 
 		<TextView
 			android:id="@+id/monitor_click"
-			android:textSize="@dimen/text_size_tiny"
+			android:textSize="@dimen/text_size_very_tiny"
 			android:text="@string/notify_monitor_click_on"
 			android:gravity="center"
-			android:textColor="@color/secondary_text"
+			android:textColor="@color/text_color_notify"
 			android:layout_width="0dp"
 			android:layout_weight="1"
 			android:background="@drawable/notify_item_bg_transe"
@@ -47,10 +47,10 @@
 			android:layout_height="match_parent"/>
 		<TextView
 			android:id="@+id/monitor_clipboard"
-			android:textSize="@dimen/text_size_tiny"
+			android:textSize="@dimen/text_size_very_tiny"
 			android:text="@string/notify_monitor_clipboard_on"
 			android:gravity="center"
-			android:textColor="@color/secondary_text"
+			android:textColor="@color/text_color_notify"
 			android:layout_width="0dp"
 			android:layout_weight="1"
 			android:background="@drawable/notify_item_bg_transe"
@@ -63,10 +63,10 @@
 			android:layout_height="match_parent"/>
 		<TextView
 			android:id="@+id/universal_copy"
-			android:textSize="@dimen/text_size_tiny"
+			android:textSize="@dimen/text_size_very_tiny"
 			android:text="@string/notify_copy_title"
 			android:gravity="center"
-			android:textColor="@color/secondary_text"
+			android:textColor="@color/text_color_notify"
 			android:layout_width="0dp"
 			android:layout_weight="1"
 			android:background="@drawable/notify_item_bg_transe"
@@ -79,10 +79,10 @@
 			android:layout_height="match_parent"/>
 		<TextView
 			android:id="@+id/screen_cap"
-			android:textSize="@dimen/text_size_tiny"
+			android:textSize="@dimen/text_size_very_tiny"
 			android:text="@string/notify_srceen_cap"
 			android:gravity="center"
-			android:textColor="@color/secondary_text"
+			android:textColor="@color/text_color_notify"
 			android:layout_width="0dp"
 			android:layout_weight="1"
 			android:background="@drawable/notify_item_bg_transe"

@@ -2,6 +2,7 @@ package com.forfan.bigbang.component.base;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -98,5 +99,27 @@ public class BaseActivity extends PermissionActivity {
         ft.commitAllowingStateLoss();
         Fragment current=fm.findFragmentByTag(currentFragmentTag);
         switchFragment(current);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        removeDialogFragment();
+        super.onSaveInstanceState(outState);
+    }
+
+    protected void removeDialogFragment(){
+        FragmentManager fm=getSupportFragmentManager();
+        FragmentTransaction ft=fm.beginTransaction();
+        List<Fragment> fragments=fm.getFragments();
+        if (fragments==null){
+            return;
+        }
+        for (Fragment fragment:fragments){
+            if (fragment instanceof DialogFragment){
+                ft.remove(fragment);
+            }
+        }
+        ft.commitAllowingStateLoss();
     }
 }

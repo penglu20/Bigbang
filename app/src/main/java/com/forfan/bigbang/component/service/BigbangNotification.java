@@ -83,11 +83,7 @@ public class BigbangNotification {
     public void setContetView()
     {
 		// 在2.3到5.1以前, 通知栏的背景是黑色的, 所以RemoteView的背景色可以设置为透明
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-			contentView = new RemoteViews(mContext.getPackageName(),R.layout.notification_trans);
-		} else {
-			contentView = new RemoteViews(mContext.getPackageName(),R.layout.notification_light);
-		}
+		contentView = new RemoteViews(mContext.getPackageName(),R.layout.notification_trans);
 
 		boolean isRun= SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
 
