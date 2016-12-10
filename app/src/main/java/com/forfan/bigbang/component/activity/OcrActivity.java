@@ -49,6 +49,8 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     private Button mPicReOcr;
     private Uri mCurrentUri;
 
+    private boolean shouldShowDialog=false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -136,6 +138,14 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (shouldShowDialog){
+            showBeyondQuoteDialog();
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         mCropParams.refreshUri();
 
@@ -219,6 +229,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             @Override
             public void onDismiss(DialogInterface dialog) {
                 super.onCancel(dialog);
+                shouldShowDialog=false;
             }
         };
         builder.message(this.getString(R.string.ocr_quote_beyond_time))
@@ -226,12 +237,14 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(getSupportFragmentManager(), null);
     }
+
     private void uploadImage4Ocr(Uri uri) {
         String img_path = ImageUriUtil.getImageAbsolutePath(this, uri);
         // VisionServiceRestClient client = new VisionServiceRestClient("00b0e581e4124a2583ea7dba57aaf281");
         findViewById(R.id.hint).setVisibility(View.VISIBLE);
         if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
-            showBeyondQuoteDialog();
+//            showBeyondQuoteDialog();
+            shouldShowDialog=true;
             int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
             SPHelper.save(ConstantUtil.OCR_TIME, time);
             return;
