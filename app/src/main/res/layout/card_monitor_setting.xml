@@ -17,67 +17,17 @@
             android:text="@string/monitor_setting_card"/>
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        style="@style/cardViewRelativeLayoutSelector"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.AppCompatTextView
-            style="@style/cardViewTextViewInLayoutLeft"
-            android:text="@string/qq_monitor"/>
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/qq_spinner"
-            style="@style/spinnerStyle"
-            app:theme="@style/MonthDropTheme"/>
-
-    </RelativeLayout>
-
 
     <View
         android:layout_width="match_parent"
         android:background="@color/divider"
         android:layout_height="1px"/>
-    <RelativeLayout
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/white_list"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        style="@style/cardViewRelativeLayoutSelector"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.AppCompatTextView
-            style="@style/cardViewTextViewInLayoutLeft"
-            android:text="@string/weixin_monitor"/>
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/weixin_spinner"
-            style="@style/spinnerStyle"
-            app:theme="@style/MonthDropTheme"/>
-
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
-        style="@style/cardViewRelativeLayoutSelector"
-        android:layout_height="wrap_content">
-        <android.support.v7.widget.AppCompatTextView
-            style="@style/cardViewTextViewInLayoutLeft"
-            android:text="@string/other_monitor" />
-
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/other_spinner"
-            style="@style/spinnerStyle"
-            app:theme="@style/MonthDropTheme"/>
-
-    </RelativeLayout>
+        style="@style/cardViewTextViewInLayoutLeft"
+        android:paddingLeft="@dimen/card_padding_width"
+        android:text="@string/white_list" />
 
     <View
         android:layout_width="match_parent"
@@ -98,18 +48,6 @@
             style="@style/switchStyle"/>
     </RelativeLayout>
 
-
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/white_list"
-        android:layout_width="match_parent"
-        style="@style/cardViewTextViewInLayoutLeft"
-        android:paddingLeft="@dimen/card_padding_width"
-        android:text="@string/white_list" />
 
     <View
         android:layout_width="match_parent"

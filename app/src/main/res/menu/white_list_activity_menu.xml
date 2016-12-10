@@ -11,5 +11,18 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="collapseActionView|ifRoom" />
 
+    <item
+        android:id="@+id/select_all"
+        android:icon="@drawable/select_mode"
+        android:title="@string/select_mode"
+        app:showAsAction="collapseActionView|ifRoom"
+        />
+
+    <item
+        android:id="@+id/setSelection"
+        android:icon="@drawable/set_selection"
+        android:title="@string/set_selection"
+        app:showAsAction="collapseActionView|ifRoom"
+        />
 
 </menu>

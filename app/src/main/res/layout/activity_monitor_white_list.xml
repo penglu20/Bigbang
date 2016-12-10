@@ -28,14 +28,6 @@
         android:layout_gravity="center"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/toselectApp_tv"
-        style="@style/cardViewTextView"
-        android:background="@null"
-        android:visibility="gone"
-        android:text="@string/select_monitor_list"
-        android:textSize="@dimen/text_size_title" />
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/app_list"
         android:visibility="gone"

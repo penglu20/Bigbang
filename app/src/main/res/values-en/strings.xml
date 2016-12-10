@@ -102,7 +102,7 @@
     <string name="user_app">User App</string>
     <string name="search">Search</string>
     <string name="wait_until_loaded">Please try later</string>
-    <string name="white_list">set white list</string>
+    <string name="white_list">set click type</string>
 
 
     <string name="double_click_intercal">double click interval #ms， click to modify</string>
@@ -274,4 +274,11 @@
 
     <string name="is_full_screen">Show in full screen</string>
     <string name="is_stick_header">Keep Header Button At The Top</string>
+
+
+
+    <string name="select_all">Select All</string>
+    <string name="select_mode">Select Mode</string>
+    <string name="set_selection">Set to</string>
+    <string name="select_cancel">Cancel Selection</string>
 </resources>

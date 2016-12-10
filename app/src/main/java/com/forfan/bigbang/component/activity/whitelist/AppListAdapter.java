@@ -7,11 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
-
 
 import com.forfan.bigbang.R;
 
@@ -24,6 +25,7 @@ public class AppListAdapter extends RecyclerView.Adapter
 
 	private Context mContext;
 	private OnItemClickListener mListener;
+	private boolean isEditMode=false;
 
 	public AppListAdapter(Context context)
 	{
@@ -31,8 +33,19 @@ public class AppListAdapter extends RecyclerView.Adapter
 	}
 
 	public static class ApplicationInfoWrap{
+		public static final int NON_SELECTION=3;
 		public ApplicationInfo applicationInfo;
 		public boolean isSelected = false;
+		public int selection = NON_SELECTION;
+	}
+
+	public void setEditMode(boolean editMode) {
+		isEditMode = editMode;
+		notifyDataSetChanged();
+	}
+
+	public boolean isEditMode() {
+		return isEditMode;
 	}
 
 	public void setAppList(List<ApplicationInfoWrap> list)
@@ -46,6 +59,8 @@ public class AppListAdapter extends RecyclerView.Adapter
 
 	public interface OnItemClickListener{
 		void onItemClick(int position, boolean isChecked);
+		void onItemSpinnerChanged(int position,int selectPosition);
+		void onLongClick(int position);
 	}
 
 
@@ -76,9 +91,17 @@ public class AppListAdapter extends RecyclerView.Adapter
 		}else {
 			holder.mAppDescribe.setText(R.string.system_app);
 		}
-		holder.mAppCheck.setVisibility(View.VISIBLE);
+		if (isEditMode) {
+			holder.mAppCheck.setVisibility(View.VISIBLE);
+		}else {
+			holder.mAppCheck.setVisibility(View.GONE);
+		}
 		holder.mAppCheck.setOnCheckedChangeListener(null);
+		holder.mTriggerMode.setOnItemSelectedListener(null);
+//		holder.mAppCheck.setChecked(!mApplicationInfos.get(position).isSelected);
+//		holder.mTriggerMode.setSelection(mApplicationInfos.get(position).selection>0?0:1);
 		holder.mAppCheck.setChecked(mApplicationInfos.get(position).isSelected);
+		holder.mTriggerMode.setSelection(mApplicationInfos.get(position).selection);
 		holder.mAppCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -87,6 +110,40 @@ public class AppListAdapter extends RecyclerView.Adapter
 				}
 			}
 		});
+		holder.mTriggerMode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int secection, long id) {
+				if (mListener!=null) {
+					mListener.onItemSpinnerChanged(position, secection);
+				}
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
+		holder.mRoot.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (isEditMode) {
+						holder.mAppCheck.setChecked(!holder.mAppCheck.isChecked());
+					}else {
+						holder.mTriggerMode.performClick();
+					}
+				}
+		});
+		holder.mRoot.setOnLongClickListener(new View.OnLongClickListener() {
+			@Override
+			public boolean onLongClick(View v) {
+				if (mListener!=null) {
+					mListener.onLongClick(position);
+				}
+				return true;
+			}
+		});
+
+//		holder.mAppCheck.setChecked(mApplicationInfos.get(position).isSelected);
+//		holder.mTriggerMode.setSelection(mApplicationInfos.get(position).selection);
 	}
 
 	@Override
@@ -107,6 +164,7 @@ public class AppListAdapter extends RecyclerView.Adapter
 		public ImageView mAppIcon;
 		public TextView mAppDescribe;
 		public CheckBox mAppCheck;
+		public Spinner mTriggerMode;
 		public View mRoot;
 
 		public AppViewHolder(View itemView) {
@@ -116,6 +174,9 @@ public class AppListAdapter extends RecyclerView.Adapter
 			mAppIcon=(ImageView) itemView.findViewById(R.id.app_icon);
 			mAppDescribe=(TextView) itemView.findViewById(R.id.app_name_describe);
 			mAppCheck=(CheckBox) itemView.findViewById(R.id.app_check);
+			mTriggerMode= (Spinner) itemView.findViewById(R.id.spinner);
 		}
 	}
+
+
 }
