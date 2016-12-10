@@ -91,4 +91,8 @@
     <dimen name="toolbar_height">@dimen/height_title</dimen>
 
     <dimen name="card_hint_text_width">220dp</dimen>
+
+
+    <dimen name="recylerview_padding_bottom">@dimen/margin_double</dimen>
+    <dimen name="recylerview_padding_top">@dimen/margin_four</dimen>
 </resources>

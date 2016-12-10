@@ -314,9 +314,11 @@ public class BigBangMonitorService extends AccessibilityService {
             }
         }
         if (!TextUtils.isEmpty(txt)) {
-            if (txt.length()<=2 && !hasShowTooShortToast){
-                ToastUtil.show(R.string.too_short_to_split);
-                hasShowTooShortToast =true;
+            if (txt.length()<=2 ){
+                if (!hasShowTooShortToast) {
+                    ToastUtil.show(R.string.too_short_to_split);
+                    hasShowTooShortToast = true;
+                }
                 return;
             }
             Intent intent=new Intent(this, BigBangActivity.class);
