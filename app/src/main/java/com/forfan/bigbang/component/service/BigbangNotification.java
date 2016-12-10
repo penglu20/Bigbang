@@ -99,6 +99,9 @@ public class BigbangNotification {
 		String monitorClick=!click?mContext.getString(R.string.notify_monitor_click_off):mContext.getString(R.string.notify_monitor_click_on);
 		String monitorClipboard=!clipborad?mContext.getString(R.string.notify_monitor_clipboard_off):mContext.getString(R.string.notify_monitor_clipboard_on);
 
+		int totalSwitccRes=!isRun?R.drawable.notify_off:R.drawable.notify_on;
+		int monitorClickRes=!click?R.drawable.notify_click_off:R.drawable.notify_click_on;
+		int monitorClipboardRes=!clipborad?R.drawable.notify_clipboare_off:R.drawable.notify_clipboard_on;
 
 
 
@@ -108,20 +111,35 @@ public class BigbangNotification {
 			contentView.setViewVisibility(R.id.total_switch, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.total_switch, createPendingIntent(mContext.getPackageName(),123456 ,ConstantUtil.TOTAL_SWITCH_BROADCAST));
 			contentView.setTextViewText(R.id.total_switch, totalSwitch);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				contentView.setTextViewCompoundDrawables(R.id.total_switch,0,totalSwitccRes,0,0);
+			}
 
 			contentView.setViewVisibility(R.id.monitor_click, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.monitor_click, createPendingIntent(mContext.getPackageName(), 123457 ,ConstantUtil.MONITOR_CLICK_BROADCAST));
 			contentView.setTextViewText(R.id.monitor_click,monitorClick);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				contentView.setTextViewCompoundDrawables(R.id.monitor_click,0,monitorClickRes,0,0);
+			}
 
 			contentView.setViewVisibility(R.id.monitor_clipboard, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.monitor_clipboard, createPendingIntent(mContext.getPackageName(), 123458 ,ConstantUtil.MONITOR_CLIPBOARD_BROADCAST));
 			contentView.setTextViewText(R.id.monitor_clipboard,monitorClipboard);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				contentView.setTextViewCompoundDrawables(R.id.monitor_clipboard,0,monitorClipboardRes,0,0);
+			}
 
 			contentView.setViewVisibility(R.id.universal_copy, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.universal_copy, createPendingIntent(mContext,  SplashActivity.class,ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST));
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				contentView.setTextViewCompoundDrawables(R.id.universal_copy,0,R.drawable.notify_copy,0,0);
+			}
 
 			contentView.setViewVisibility(R.id.screen_cap, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.screen_cap, createPendingIntent(mContext,  ScreenCaptureActivity.class ,ConstantUtil.NOTIFY_SCREEN_CAPTURE_OVER_BROADCAST));
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+				contentView.setTextViewCompoundDrawables(R.id.screen_cap,0,R.drawable.notify_screen,0,0);
+			}
 
 		} catch (Exception ignored) {
         } catch (Error error) {}

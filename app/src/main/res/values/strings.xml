@@ -172,14 +172,14 @@
     <string name="ocr_useup_toast">"我们的OCR限额即将耗尽，请查看设置页“免费设置OCR秘钥”"</string>
 
 
-    <string name="notify_total_switch_on">启用\n服务</string>
-    <string name="notify_total_switch_off">停用\n服务</string>
-    <string name="notify_monitor_click_on">监控\n点击</string>
-    <string name="notify_monitor_click_off">停用\n点击</string>
-    <string name="notify_monitor_clipboard_on">监控\n复制</string>
-    <string name="notify_monitor_clipboard_off">停用\n复制</string>
-    <string name="notify_copy_title">全局\n复制</string>
-    <string name="notify_srceen_cap">截屏\nOCR</string>
+    <string name="notify_total_switch_on">启用服务</string>
+    <string name="notify_total_switch_off">停用服务</string>
+    <string name="notify_monitor_click_on">监控点击</string>
+    <string name="notify_monitor_click_off">停用点击</string>
+    <string name="notify_monitor_clipboard_on">监控复制</string>
+    <string name="notify_monitor_clipboard_off">停用复制</string>
+    <string name="notify_copy_title">全局复制</string>
+    <string name="notify_srceen_cap">截屏OCR</string>
 
 
     <string name="open_total_switch_first">请先点击第一项"使用服务"</string>
