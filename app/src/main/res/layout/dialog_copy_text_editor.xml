@@ -28,7 +28,7 @@
             android:singleLine="false"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColorHighlight="@color/primary_text"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="false" />
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton

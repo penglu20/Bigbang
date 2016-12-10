@@ -281,4 +281,9 @@
     <string name="select_mode">Select Mode</string>
     <string name="set_selection">Set to</string>
     <string name="select_cancel">Cancel Selection</string>
+
+
+    <string name="fragment_other">Other</string>
+    <string name="fragment_display">Display</string>
+    <string name="fragment_segment">Segment</string>
 </resources>

@@ -142,6 +142,9 @@ public class UrlCountUtil {
     public static final String STATUS_WL_SELECTION="status_wl_selection";
 
 
+    public static final String CLICK_FRAGMENT_SWITCHES="click_fragment_switches";
+
+
     public static Context mContext= BigBangApp.getInstance();
     /*
         context指当前的Activity，eventId为当前统计的事件ID。

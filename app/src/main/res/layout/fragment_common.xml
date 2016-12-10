@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/recylerview_padding_bottom"
+    android:paddingLeft="@dimen/card_list_margin"
+    android:paddingRight="@dimen/card_list_margin"
+    android:paddingTop="@dimen/recylerview_padding_top"
+    app:layoutManager="LinearLayoutManager">
+
+</android.support.v7.widget.RecyclerView>
