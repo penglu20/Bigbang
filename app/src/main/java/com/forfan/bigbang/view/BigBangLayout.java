@@ -46,6 +46,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private int mTextColorRes;
     private int mSectionTextBgRes;
     private int mTextSize;
+    private int mTextPadding;
     private int mTextBgRes;
 
     private Item mTargetItem;
@@ -237,6 +238,18 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         }
     }
 
+    public void setTextPadding(int padding){
+        mTextPadding=padding;
+        if (mLines != null) {
+            for (Line line : mLines) {
+                List<Item> items = line.getItems();
+                for (Item item : items) {
+                    ((TextView) item.view).setPadding(mTextPadding,0,mTextPadding,0);
+                }
+            }
+        }
+    }
+
     public int getTextBgRes() {
         return mTextBgRes;
     }
@@ -262,6 +275,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             view.setTextColor(mColorStateList);
         }
         view.setTextSize(mTextSize);
+        view.setPadding(mTextPadding,0,mTextPadding,0);
         view.setGravity(Gravity.CENTER);
         addView(view);
     }

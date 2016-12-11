@@ -48,14 +48,19 @@ public class SettingBigBangActivity extends BaseActivity {
     private static final int MIN_ITEM_MARGIN = (int) ViewUtil.dp2px(0);
     private static final int MAX_ITEM_MARGIN = (int) ViewUtil.dp2px(20);
 
+
+    private static final int MIN_ITEM_PADDING = (int) ViewUtil.dp2px(2);
+    private static final int MAX_ITEM_PADDING = (int) ViewUtil.dp2px(25);
+
     private CardView cardView;
     private BigBangLayoutWrapper mBigBangLayoutWrap;
     private BigBangLayout mBigBangLayout;
     private SeekBar mTextSizeSeekBar;
     private SeekBar mLineMarginSeekBar;
     private SeekBar mItemMarginSeekBar;
+    private SeekBar mItemPaddingSeekBar;
 
-    private TextView textSize, lineMargin, itemMargin;
+    private TextView textSize, lineMargin, itemMargin,itemPadding;
     private TextView bigbangAlpha;
     private SeekBar mBigbangAlphaSeekBar;
 
@@ -88,11 +93,13 @@ public class SettingBigBangActivity extends BaseActivity {
         mTextSizeSeekBar = (SeekBar) findViewById(R.id.set_text_size);
         mLineMarginSeekBar = (SeekBar) findViewById(R.id.set_line_margin);
         mItemMarginSeekBar = (SeekBar) findViewById(R.id.set_item_margin);
+        mItemPaddingSeekBar = (SeekBar) findViewById(R.id.set_item_padding);
         mBigbangAlphaSeekBar = (SeekBar) findViewById(R.id.set_bigbang_alpha);
 
         textSize = (TextView) findViewById(R.id.text_size);
         lineMargin = (TextView) findViewById(R.id.line_margin);
         itemMargin = (TextView) findViewById(R.id.item_margin);
+        itemPadding = (TextView) findViewById(R.id.item_padding);
         bigbangAlpha = (TextView) findViewById(R.id.bigbang_alpha);
 
         backgroundRV= (RecyclerView) findViewById(R.id.bigbang_background);
@@ -105,6 +112,7 @@ public class SettingBigBangActivity extends BaseActivity {
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
         mLineMarginSeekBar.setMax(MAX_LINE_MARGIN - MIN_LINE_MARGIN);
         mItemMarginSeekBar.setMax(MAX_ITEM_MARGIN - MIN_ITEM_MARGIN);
+        mItemPaddingSeekBar.setMax(MAX_ITEM_PADDING - MIN_ITEM_PADDING);
         mItemMarginSeekBar.setMax(100);
 
 
@@ -169,6 +177,27 @@ public class SettingBigBangActivity extends BaseActivity {
 
             }
         });
+
+
+        mItemPaddingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int value = (int) (MIN_ITEM_PADDING + progress);
+                mBigBangLayout.setTextPadding(value);
+                itemPadding.setText(getString(R.string.setting_item_padding) + value);
+                SPHelper.save(ConstantUtil.ITEM_PADDING, value);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ITEM_PADDING,value+"");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
         mBigbangAlphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -205,6 +234,7 @@ public class SettingBigBangActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 SPHelper.save(ConstantUtil.IS_STICK_HEADER,isChecked);
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_STICK_HEAD,isChecked+"");
+                mBigBangLayoutWrap.setStickHeader(isChecked);
             }
         });
 
@@ -213,6 +243,7 @@ public class SettingBigBangActivity extends BaseActivity {
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
+        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, ConstantUtil.DEFAULT_ITEM_PADDING);
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
         boolean fullScreen=SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN,false);
@@ -224,14 +255,17 @@ public class SettingBigBangActivity extends BaseActivity {
         mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
         mLineMarginSeekBar.setProgress((int) ((MIN_LINE_MARGIN)));
         mItemMarginSeekBar.setProgress((int) ((MIN_ITEM_MARGIN)));
+        mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
 
         mTextSizeSeekBar.setProgress((int) ((MAX_TEXT_SIZE)));
         mLineMarginSeekBar.setProgress((int) ((MAX_LINE_MARGIN)));
         mItemMarginSeekBar.setProgress((int) ((MAX_ITEM_MARGIN)));
+        mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
 
         mTextSizeSeekBar.setProgress((int) ((text - MIN_TEXT_SIZE)));
         mLineMarginSeekBar.setProgress((int) ((line - MIN_LINE_MARGIN)));
         mItemMarginSeekBar.setProgress((int) ((item - MIN_ITEM_MARGIN)));
+        mItemPaddingSeekBar.setProgress((int) ((padding-MIN_ITEM_PADDING)));
 
         bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + alpha +"%");
 
@@ -239,9 +273,11 @@ public class SettingBigBangActivity extends BaseActivity {
         cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
         mBigbangAlphaSeekBar.setProgress(alpha);
 
+        mBigBangLayoutWrap.setStickHeader(stickHeader);
 
-        String[] txts = new String[]{"BigBang", "可以", "对", "文字", "进行", "编辑",
-                "包括", "分词", "翻译", "复制", "以及", "动态", "调整"};
+
+        String[] txts = new String[]{"BigBang", "可以", "进行","文本", "分词", "。","\n",
+                "也","支持", "复制",  "翻译", "和", "调整","…"};
 
         for (String t : txts) {
             mBigBangLayout.addTextItem(t);
@@ -263,7 +299,7 @@ public class SettingBigBangActivity extends BaseActivity {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             TextView view= (TextView) holder.itemView;
-            view.setMinimumHeight((int) ViewUtil.dp2px(80));
+            view.setMinimumHeight((int) ViewUtil.dp2px(40));
             if (position==bigbangBackgroungColors.length){
                 view.setBackgroundColor(getResources().getColor(R.color.white));
                 view.setText(R.string.set_background_myself);

@@ -114,6 +114,7 @@ public class UrlCountUtil {
     public static final String STATUS_SET_BB_TEXT_SIZE="status_set_bb_text_size";
     public static final String STATUS_SET_BB_LINE_MARGIN="status_set_bb_line_margin";
     public static final String STATUS_SET_BB_ITEM_MARGIN="status_set_bb_item_margin";
+    public static final String STATUS_SET_BB_ITEM_PADDING="status_set_bb_item_padding";
     public static final String STATUS_SET_BB_ALPHA="status_set_bb_alpha";
     public static final String STATUS_SET_BB_BGCOLOR="status_set_bb_bgcolor";
     public static final String STATUS_SET_BB_FULL_SCREEN="status_set_bb_full_screen";

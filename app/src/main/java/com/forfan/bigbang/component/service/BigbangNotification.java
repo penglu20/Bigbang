@@ -100,6 +100,9 @@ public class BigbangNotification {
 		int monitorClipboardRes=!clipborad?R.drawable.notify_clipboare_off:R.drawable.notify_clipboard_on;
 
 
+		int totalSwitccColor=!isRun?R.color.text_color_notify:R.color.colorPrimary;
+		int monitorClickColor=!click?R.color.text_color_notify:R.color.colorPrimary;
+		int monitorClipboardColor=!clipborad?R.color.text_color_notify:R.color.colorPrimary;
 
 
         //SettingActivity的跳转， 在SDK 3.0 （11）之上
@@ -110,6 +113,7 @@ public class BigbangNotification {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				contentView.setTextViewCompoundDrawables(R.id.total_switch,0,totalSwitccRes,0,0);
 			}
+			contentView.setTextColor(R.id.total_switch,mContext.getResources().getColor(totalSwitccColor));
 
 			contentView.setViewVisibility(R.id.monitor_click, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.monitor_click, createPendingIntent(mContext.getPackageName(), 123457 ,ConstantUtil.MONITOR_CLICK_BROADCAST));
@@ -117,6 +121,7 @@ public class BigbangNotification {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				contentView.setTextViewCompoundDrawables(R.id.monitor_click,0,monitorClickRes,0,0);
 			}
+			contentView.setTextColor(R.id.monitor_click,mContext.getResources().getColor(monitorClickColor));
 
 			contentView.setViewVisibility(R.id.monitor_clipboard, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.monitor_clipboard, createPendingIntent(mContext.getPackageName(), 123458 ,ConstantUtil.MONITOR_CLIPBOARD_BROADCAST));
@@ -124,6 +129,7 @@ public class BigbangNotification {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
 				contentView.setTextViewCompoundDrawables(R.id.monitor_clipboard,0,monitorClipboardRes,0,0);
 			}
+			contentView.setTextColor(R.id.monitor_clipboard,mContext.getResources().getColor(monitorClipboardColor));
 
 			contentView.setViewVisibility(R.id.universal_copy, View.VISIBLE);
 			contentView.setOnClickPendingIntent(R.id.universal_copy, createPendingIntent(mContext,  SplashActivity.class,ConstantUtil.NOTIFY_UNIVERSAL_COPY_BROADCAST));

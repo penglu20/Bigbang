@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notify_total_switch_on">启用服务</string>
+    <string name="notify_total_switch_off">停用服务</string>
+    <string name="notify_monitor_click_on">监控点击</string>
+    <string name="notify_monitor_click_off">停用点击</string>
+    <string name="notify_monitor_clipboard_on">监控复制</string>
+    <string name="notify_monitor_clipboard_off">停用复制</string>
+    <string name="notify_copy_title">全局复制</string>
+    <string name="notify_srceen_cap">截屏OCR</string>
+
+</resources>
