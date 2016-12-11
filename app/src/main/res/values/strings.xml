@@ -276,4 +276,22 @@
     <string name="fragment_other">其他</string>
     <string name="fragment_display">界面</string>
     <string name="fragment_segment">分词</string>
+
+    <string name="open_access_setting">进入系统辅助服务设置</string>
+
+    <string name="save_setting">保存设置到SD卡</string>
+    <string name="load_setting">从SD卡恢复设置</string>
+
+    <string name="default_setting_tips">本操作会将所有设置项恢复默认，不过OCR秘钥将会保留。确认恢复吗？</string>
+
+    <string name="load_setting_tips">如果备份文件被修改过，可能会导致一些异常，确认恢复吗？</string>
+    <string name="effect_after_reboot">重启生效!</string>
+
+    <string name="save_setting_tips">普通备份不会备份OCR秘钥，OCR秘钥需要单独备份。</string>
+    <string name="save_setting_toast">配置项保留到sdcard/quannengfenci/backup</string>
+    <string name="only_save_ocr">备份OCR</string>
+    <string name="save_other">普通备份</string>
+
+    <string name="restore_ocr_origin">已恢复设置，OCR秘钥保持不变，</string>
+    <string name="restore_ocr_back">已恢复设置和OCR秘钥，</string>
 </resources>

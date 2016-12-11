@@ -7,6 +7,8 @@
     <color name="secondary_text">#727272</color>
     <color name="text_color_grey">#dddddd</color>
     <color name="text_color_notify">#cdcdcd</color>
+    <color name="text_color_import">#E64A19</color>
+    <color name="text_color_half_trans">#80FFFFFF</color>
 
     <color name="trans">#00000000</color>
     <color name="primary">#FF03A9F4</color>
@@ -22,7 +24,6 @@
     <color name="intro_bg">#3d85c0</color>
 
     <color name="notification_bg_grey">#dc404040</color>
-
 
     //bigbangBackgroundColor
     <color name="back_black">#000000</color>

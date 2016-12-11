@@ -119,10 +119,11 @@ public class SPHelperImpl {
         editor.remove(name);
         editor.commit();
     }
-//    public static void clear(){
-//        SharedPreferences sp=getSP();
-//        SharedPreferences.Editor editor=sp.edit();
-//        editor.clear();
-//        editor.commit();
-//    }
+
+    public static void clear(){
+        SharedPreferences sp=getSP(null);
+        SharedPreferences.Editor editor=sp.edit();
+        editor.clear();
+        editor.commit();
+    }
 }

@@ -16,6 +16,7 @@ import static com.shang.commonjar.contentProvider.ConstantUtil.CONTENT_URI;
 import static com.shang.commonjar.contentProvider.ConstantUtil.NULL_STRING;
 import static com.shang.commonjar.contentProvider.ConstantUtil.SEPARATOR;
 import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_BOOLEAN;
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_CLEAN;
 import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_CONTAIN;
 import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_FLOAT;
 import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_INT;
@@ -223,10 +224,17 @@ public class SPHelper {
             editor.commit();
         }
     }
-//    public static void clear(){
-//        SharedPreferences sp=getSP();
-//        SharedPreferences.Editor editor=sp.edit();
-//        editor.clear();
-//        editor.commit();
-//    }
+
+    public static void clear(){
+        SharedPreferences sp = getSP(null);
+        if (sp == null) {
+            ContentResolver cr = mContext.getContentResolver();
+            Uri uri = Uri.parse(CONTENT_URI + SEPARATOR + TYPE_CLEAN);
+            cr.getType(uri);
+        } else {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.clear();
+            editor.commit();
+        }
+    }
 }

@@ -156,6 +156,12 @@ public class SelectionDbHelper extends SQLiteOpenHelper {
     }
 
 
+    public void deleteAll(){
+        SQLiteDatabase database=getReadableDatabase();
+        database.delete(TABLE_NAME,null,null);
+        database.close();
+    }
+
     private List<AppListAdapter.ApplicationInfoWrap> mCanOpenApplicationInfos;
     private List<AppListAdapter.ApplicationInfoWrap> mSelectedApplicationInfos;
 

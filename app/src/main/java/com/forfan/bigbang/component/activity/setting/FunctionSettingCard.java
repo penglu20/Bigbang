@@ -46,7 +46,6 @@ public class FunctionSettingCard extends AbsCard {
     //    private TextView monitorClipBoardTV;
 //    private TextView showFloatViewTV;
 //    private TextView remainSymbolTV;
-    private TextView defaultSettingTV;
 
     private SwitchCompat monitorClipBoardSwitch;
     private SwitchCompat monitorClickSwitch;
@@ -100,7 +99,6 @@ public class FunctionSettingCard extends AbsCard {
 //        monitorClipBoardTV= (TextView) findViewById(R.id.monitor_clipboard_tv);
 //        showFloatViewTV= (TextView) findViewById(R.id.show_float_view_tv);
 //        remainSymbolTV= (TextView) findViewById(R.id.remain_symbol_tv);
-        defaultSettingTV = (TextView) findViewById(R.id.default_setting);
 
         monitorClipBoardSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -182,7 +180,6 @@ public class FunctionSettingCard extends AbsCard {
 //        monitorClipBoardTV.setOnClickListener(myOnClickListerner);
 //        showFloatViewTV.setOnClickListener(myOnClickListerner);
 //        remainSymbolTV.setOnClickListener(myOnClickListerner);
-        defaultSettingTV.setOnClickListener(myOnClickListerner);
 
         refresh();
     }
@@ -276,9 +273,6 @@ public class FunctionSettingCard extends AbsCard {
                 case R.id.total_switch_rl:
                     isClickTotalSwitch =true;
                     totalSwitchSwitch.setChecked(!totalSwitchSwitch.isChecked());
-                    break;
-                case R.id.default_setting:
-                    // TODO: 2016/10/29  恢复默认设置
                     break;
                 default:
                     break;

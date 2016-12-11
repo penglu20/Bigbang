@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
@@ -26,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.ViewUtil;
 
 import java.util.ArrayList;
@@ -46,7 +48,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private int mTextColorRes;
     private int mSectionTextBgRes;
     private int mTextSize;
-    private int mTextPadding;
+    private int mTextPadding = (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING);
     private int mTextBgRes;
 
     private Item mTargetItem;

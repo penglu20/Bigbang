@@ -24,6 +24,7 @@
 
         style="@style/cardViewTextView"
         android:layout_below="@id/share"
+        android:textColor="@color/text_color_import"
         android:text="@string/set_diy_ocr_key"/>
 
     <View

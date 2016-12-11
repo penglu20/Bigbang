@@ -277,5 +277,8 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-
+    <style name="tab_text_apparence" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/text_color_half_trans</item>
+        <item name="android:textSize">@dimen/text_size_title</item>
+    </style>
 </resources>

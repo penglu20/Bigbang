@@ -6,17 +6,6 @@
     android:id="@+id/content_view"
     android:orientation="vertical">
 
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/default_setting"
-        style="@style/cardViewTextView"
-        android:visibility="gone"
-        android:text="@string/default_setting" />
-
-    <View
-        android:layout_width="match_parent"
-        android:background="@color/divider"
-        android:layout_height="1px"/>
-
     <RelativeLayout
         android:id="@+id/total_switch_rl"
         android:duplicateParentState="false"

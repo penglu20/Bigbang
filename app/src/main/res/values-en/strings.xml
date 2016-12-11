@@ -287,4 +287,27 @@
     <string name="fragment_other">Other</string>
     <string name="fragment_display">Display</string>
     <string name="fragment_segment">Segment</string>
+
+    <string name="open_access_setting">Open System Accessibility Setting</string>
+
+    <string name="save_setting">Save Settings</string>
+    <string name="load_setting">Load Settings</string>
+
+
+
+    <string name="default_setting_tips">This will restore all settings to their defaults, but the OCR key will remain. Confirm recovery?</string>
+
+    <string name="load_setting_tips">If the backup file is modified, may lead to some exceptions, confirm the recovery?</string>
+    <string name="effect_after_reboot">Restart to take effect!</string>
+
+    <string name="save_setting_tips">Normal backup does not back up the OCR key, the backup OCR will only backup the OCR key.</string>
+    <string name="save_setting_toast">The configuration item saved to sdcard/quannengfenci/backup</string>
+    <string name="only_save_ocr">Backup OCR</string>
+    <string name="save_other">Normal backup</string>
+
+
+
+    <string name="restore_ocr_origin">The settings restored, OCR key remains unchanged,</string>
+    <string name="restore_ocr_back">Recovery settings and OCR keys ,</string>
+
 </resources>

@@ -94,7 +94,7 @@ public class ConstantUtil {
     public static final int DEFAULT_TEXT_SIZE=14;
     public static final int DEFAULT_LINE_MARGIN=8;
     public static final int DEFAULT_ITEM_MARGIN=0;
-    public static final int DEFAULT_ITEM_PADDING=0;
+    public static final int DEFAULT_ITEM_PADDING=6;
 
 
     //whiteListActivity
@@ -121,4 +121,7 @@ public class ConstantUtil {
     public static final String SHOULD_SHOW_DIY_OCR = "should_show_diy_ocr";
 
     public static final String DIY_OCR_KEY="diy_ocr_key";
+
+
+    public static final String EFFECT_AFTER_REBOOT_BROADCAST ="effect_after_reboot_broadcast";
 }

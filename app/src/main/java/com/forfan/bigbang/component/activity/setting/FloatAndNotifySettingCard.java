@@ -215,9 +215,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
                     isClickNotify=true;
                     showNotifySwitch.setChecked(!showNotifySwitch.isChecked());
                     break;
-                case R.id.default_setting:
-                    // TODO: 2016/10/29  恢复默认设置
-                    break;
                 default:
                     break;
             }

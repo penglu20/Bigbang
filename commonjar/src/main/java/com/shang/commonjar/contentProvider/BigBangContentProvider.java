@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.support.annotation.Nullable;
 
 import static com.shang.commonjar.contentProvider.ConstantUtil.SEPARATOR;
+import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_CLEAN;
 import static com.shang.commonjar.contentProvider.ConstantUtil.TYPE_CONTAIN;
 import static com.shang.commonjar.contentProvider.ConstantUtil.VALUE;
 
@@ -39,6 +40,10 @@ public class BigBangContentProvider extends ContentProvider {
         // 用这个来取数值
         String[] path= uri.getPath().split(SEPARATOR);
         String type=path[1];
+        if (type.equals(TYPE_CLEAN)){
+            SPHelperImpl.clear();
+            return "";
+        }
         String key=path[2];
         if (type.equals(TYPE_CONTAIN)){
             return SPHelperImpl.contains(key)+"";

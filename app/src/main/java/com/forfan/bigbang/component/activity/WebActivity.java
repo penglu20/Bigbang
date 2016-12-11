@@ -28,10 +28,10 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.searchengine.SearchEngineActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.DensityUtils;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.SearchEngineUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.forfan.bigbang.util.ViewUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;
@@ -105,7 +105,7 @@ public class WebActivity
             }
         });
         LinearLayout.LayoutParams localLayoutParams = (LinearLayout.LayoutParams) this.mWebView.getLayoutParams();
-        int i = DensityUtils.dp2px(this, 2.0F);
+        int i = (int) ViewUtil.dp2px(2.0F);
         localLayoutParams.setMargins(i, 0, i, i);
         this.mWebView.setLayoutParams(localLayoutParams);
         this.mWebView.setWebViewClient(new WebViewClient() {

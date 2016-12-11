@@ -19,6 +19,7 @@ public class OthersFragment extends BaseRecyclerFragment {
 
     @Override
     protected void prepareCardView() {
+        cardViews.add(new SLSettingCard(getActivity()));
         cardViews.add(new FeedBackAndUpdateCard(getActivity()));
         cardViews.add(new AboutCard(getActivity()));
     }

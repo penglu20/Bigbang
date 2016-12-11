@@ -41,8 +41,13 @@
         app:tabIndicatorColor="@color/text_color"
         app:tabIndicatorHeight="3dp"
         app:tabSelectedTextColor="@color/text_color"
-        app:tabTextColor="@color/primary_text" />
+        app:tabTextAppearance="@style/tab_text_apparence"
+        app:tabTextColor="@color/text_color_half_trans" />
 
+    <View
+        android:layout_width="match_parent"
+        android:background="@drawable/tab_shadow"
+        android:layout_height="@dimen/margin_normal"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

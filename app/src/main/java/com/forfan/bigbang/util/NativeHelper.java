@@ -3,6 +3,8 @@ package com.forfan.bigbang.util;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.os.Build;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -10,8 +12,9 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 public class NativeHelper {
+    private static final String DEFAULT_IMEI = "DEFAULT_IMEI";
 
-    private static String getCpuAbi() {
+    public static String getCpuAbi() {
         try {
             String abi1 = Build.CPU_ABI;
             String abi2 = Build.CPU_ABI2;
@@ -30,6 +33,22 @@ public class NativeHelper {
         } catch (Exception e) {
             return "armeabi";
         }
+    }
+
+
+    public final static String getImei(Context context) {
+        if (context != null) {
+            TelephonyManager tm = (TelephonyManager) context
+                    .getSystemService(Context.TELEPHONY_SERVICE);
+            try {
+                if (tm != null && !TextUtils.isEmpty(tm.getDeviceId())) {
+                    return tm.getDeviceId();
+                }
+            } catch (Exception e) {
+
+            }
+        }
+        return DEFAULT_IMEI;
     }
 
     public static String copyNativeLib(Context context, String name) {

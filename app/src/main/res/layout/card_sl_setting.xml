@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_view"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:id="@+id/default_setting_rl"
+        android:duplicateParentState="false"
+        style="@style/cardViewRelativeLayoutSelector">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:layout_width="match_parent"
+            android:text="@string/default_setting" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
+    <RelativeLayout
+        android:id="@+id/save_setting_rl"
+        android:duplicateParentState="false"
+        style="@style/cardViewRelativeLayoutSelector">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:layout_width="match_parent"
+            android:text="@string/save_setting" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/divider"
+        android:layout_height="1px"/>
+    <RelativeLayout
+        android:id="@+id/load_setting_rl"
+        android:duplicateParentState="false"
+        style="@style/cardViewRelativeLayoutSelector">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:layout_width="match_parent"
+            android:text="@string/load_setting" />
+
+    </RelativeLayout>
+
+</LinearLayout>

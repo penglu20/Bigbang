@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/content_view"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/goto_access_rl"
+        android:duplicateParentState="false"
+        style="@style/cardViewRelativeLayoutSelector">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/total_switch_tv"
+            android:layout_width="match_parent"
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:text="@string/open_access_setting" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>
