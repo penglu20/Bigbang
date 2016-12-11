@@ -10,21 +10,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.ToastUtil;
-import com.shang.commonjar.contentProvider.SPHelper;
+import com.forfan.bigbang.util.UrlCountUtil;
 import com.shang.utils.StatusBarCompat;
 
 import java.util.ArrayList;
@@ -32,21 +34,28 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import static com.forfan.bigbang.component.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
+import static com.forfan.bigbang.component.activity.whitelist.AppListAdapter.ApplicationInfoWrap.NON_SELECTION;
 
 public class WhiteListActivity extends BaseActivity {
 
-    private TextView mAppListTV;
     private RecyclerView mAppListView;
     private AppListAdapter mAppAdapter;
 
     private List<AppListAdapter.ApplicationInfoWrap> mCanOpenApplicationInfos;
     private List<AppListAdapter.ApplicationInfoWrap> mAllApplicationInfos;
     private List<AppListAdapter.ApplicationInfoWrap> mShowApplicationInfos;
-    private List<AppListAdapter.ApplicationInfoWrap> mSelectedApplicationInfos;
+    private Set<AppListAdapter.ApplicationInfoWrap> mSelectedApplicationInfos;
 
     private ContentLoadingProgressBar mLoadingProgressBar;
     private Toolbar toolbar;
+    private SelectionDbHelper mSelectionDbHelper;
+
+    private MenuItem selectAll;
+    private MenuItem setSelection;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,7 @@ public class WhiteListActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.white_list);
 
+        mSelectionDbHelper=new SelectionDbHelper(this);
         initView();
 
         ToastUtil.show(R.string.white_list_tip);
@@ -72,6 +82,9 @@ public class WhiteListActivity extends BaseActivity {
             SearchManager searchManager =
                     (SearchManager) getSystemService(Context.SEARCH_SERVICE);
             final SearchView searchView = (SearchView) menu.findItem(R.id.ab_search).getActionView();
+
+            selectAll=menu.findItem(R.id.select_all);
+            setSelection=menu.findItem(R.id.setSelection);
 
             final SearchView.SearchAutoComplete searchEditText = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
 
@@ -123,7 +136,105 @@ public class WhiteListActivity extends BaseActivity {
 //                }
 //            });
         }
+        setSelection.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                showPopupMenu(toolbar);
+                return true;
+            }
+        });
+        refreshMenu(false);
         return true;
+    }
+
+    private void refreshMenu(boolean isEditMode){
+        if (mSelectedApplicationInfos.size()>0 || isEditMode){
+            selectAll.setVisible(true);
+            setSelection.setVisible(true);
+            selectAll.setIcon(R.drawable.select_all);
+            selectAll.setTitle(R.string.select_all);
+            selectAll.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    boolean isAllSelected=true;
+                    for (AppListAdapter.ApplicationInfoWrap app:mShowApplicationInfos) {
+                        if (!app.isSelected){
+                            isAllSelected=false;
+                            break;
+                        }
+                    }
+                    for (AppListAdapter.ApplicationInfoWrap app:mShowApplicationInfos) {
+                        if (isAllSelected){
+                            app.isSelected = false;
+                            mSelectedApplicationInfos.remove(app);
+                        }else {
+                            app.isSelected = true;
+                            mSelectedApplicationInfos.add(app);
+                        }
+                    }
+                    mAppAdapter.notifyDataSetChanged();
+                    UrlCountUtil.onEvent(UrlCountUtil.STATUS_WL_SELECT_ALL,!isAllSelected);
+                    return true;
+                }
+            });
+        }else {
+            selectAll.setVisible(true);
+            setSelection.setVisible(false);
+            selectAll.setIcon(R.drawable.select_mode);
+            selectAll.setTitle(R.string.select_mode);
+            selectAll.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    mAppAdapter.setEditMode(true);
+                    refreshMenu(true);
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_WL_SELECT_MODE);
+                    return true;
+                }
+            });
+        }
+    }
+
+
+    public void showPopupMenu(View view) {
+        //参数View 是设置当前菜单显示的相对于View组件位置，具体位置系统会处理
+        PopupMenu popupMenu = new PopupMenu(this, view, Gravity.RIGHT,R.attr.popupMenuStyle,R.style.PopUpMenuStyle);
+        //加载menu布局
+        Menu menu=popupMenu.getMenu();
+        String[] spinnerArray = getResources().getStringArray(SPINNER_ARRAY);
+        int i=0;
+        for (i=0;i<spinnerArray.length;i++) {
+            menu.add(0,i,i,spinnerArray[i]);
+        }
+        menu.add(0,i,i,R.string.select_cancel);
+        //设置menu中的item点击事件
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                if (id<spinnerArray.length){
+                    for (AppListAdapter.ApplicationInfoWrap app:mSelectedApplicationInfos){
+                        app.selection=id;
+                    }
+                    mAppAdapter.notifyDataSetChanged();
+                    refreshMenu(true);
+                }else {
+                    unSelectAll();
+                    refreshMenu(false);
+                }
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_WL_SELECTION,id+"");
+                return true;
+            }
+        });
+        popupMenu.show();
+    }
+
+    private void unSelectAll() {
+        for (AppListAdapter.ApplicationInfoWrap app:mSelectedApplicationInfos){
+            app.isSelected=false;
+        }
+        mSelectedApplicationInfos.clear();
+        mAppAdapter.setEditMode(false);
+        mAppAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -156,10 +267,18 @@ public class WhiteListActivity extends BaseActivity {
         if (mAppAdapter != null) {
             mAppAdapter.setAppList(mShowApplicationInfos);
             mAppAdapter.notifyDataSetChanged();
-            refreshTV();
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (mAppAdapter!=null&&mAppAdapter.isEditMode()){
+            unSelectAll();
+            refreshMenu(false);
+            return;
+        }
+        super.onBackPressed();
+    }
 
     @Override
     protected void onStop() {
@@ -168,10 +287,10 @@ public class WhiteListActivity extends BaseActivity {
     }
 
     private void initView() {
+        mSelectedApplicationInfos = new HashSet<>();
         mLoadingProgressBar = (ContentLoadingProgressBar) findViewById(R.id.loading);
 
         mAppListView = (RecyclerView) findViewById(R.id.app_list);
-        mAppListTV = (TextView) findViewById(R.id.toselectApp_tv);
 
         mLoadingProgressBar.show();
         final Handler handler = new Handler();
@@ -185,7 +304,6 @@ public class WhiteListActivity extends BaseActivity {
                     public void run() {
                         mLoadingProgressBar.hide();
                         initAppList();
-                        mAppListTV.setVisibility(View.GONE);
                         mAppListView.setVisibility(View.VISIBLE);
                     }
                 });
@@ -194,39 +312,24 @@ public class WhiteListActivity extends BaseActivity {
     }
 
     private void querySelectedApp() {
-        mSelectedApplicationInfos = new ArrayList<>();
-        Set<String> selectedPackageNames = new HashSet<>();
-        int size = SPHelper.getInt(ConstantUtil.WHITE_LIST_COUNT, 0);
-        for (int i = 0; i < size; i++) {
-            String packageName = SPHelper.getString(ConstantUtil.WHITE_LIST + "_" + i, "");
-            selectedPackageNames.add(packageName);
-        }
-        for (AppListAdapter.ApplicationInfoWrap app : mAllApplicationInfos) {
-            String packageName = app.applicationInfo.packageName;
-            if (selectedPackageNames.contains(packageName)) {
-                app.isSelected = true;
-                mSelectedApplicationInfos.add(app);
+        Map<String,Integer> selections=mSelectionDbHelper.getSelections();
+        for (AppListAdapter.ApplicationInfoWrap app:mCanOpenApplicationInfos){
+            Integer type=selections.get(app.applicationInfo.packageName);
+            if (type == null){
+                app.selection=NON_SELECTION;
+            }else {
+                app.selection = type;
             }
         }
     }
 
 
     private void saveSelectedApp() {
-        if (mSelectedApplicationInfos != null) {
-            SPHelper.save(ConstantUtil.WHITE_LIST_COUNT, mSelectedApplicationInfos.size());
-//            HashMap<String, String> map = new HashMap<>();
-            for (int i = 0; i < mSelectedApplicationInfos.size(); i++) {
-                String value = mSelectedApplicationInfos.get(i).applicationInfo.packageName;
-                SPHelper.save(ConstantUtil.WHITE_LIST + "_" + i, value);
-//                map.put(UrlCountUtil.VALUE_MONITOR_WHITE_LIST_CLASS + "_" + i, value);
-            }
-            sendBroadcast(new Intent(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST));
-//            UrlCountUtil.onEvent(UrlCountUtil.VALUE_MONITOR_WHITE_LIST_CLASS, map);
-        }
+        mSelectionDbHelper.insertAll(mCanOpenApplicationInfos);
+        sendBroadcast(new Intent(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST));
     }
 
     private void initAppList() {
-        refreshTV();
 
         mAppListView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         DividerItemDecoration divider = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST);
@@ -241,6 +344,7 @@ public class WhiteListActivity extends BaseActivity {
                 if (position < 0 || position >= mShowApplicationInfos.size()) {
                     return;
                 }
+                int size=mSelectedApplicationInfos.size();
                 final AppListAdapter.ApplicationInfoWrap select = mShowApplicationInfos.get(position);
                 select.isSelected = isChecked;
                 if (isChecked) {
@@ -248,14 +352,38 @@ public class WhiteListActivity extends BaseActivity {
                 } else {
                     mSelectedApplicationInfos.remove(select);
                 }
-                refreshTV();
+                if (size==mSelectedApplicationInfos.size()){
+                    return;
+                }
+                if (mSelectedApplicationInfos.size()==0){
+                    mAppAdapter.setEditMode(false);
+                }
+                refreshMenu(false);
+            }
+
+            @Override
+            public void onItemSpinnerChanged(int position, int selectPosition) {
+                if (position < 0 || position >= mShowApplicationInfos.size()) {
+                    return;
+                }
+                final AppListAdapter.ApplicationInfoWrap select = mShowApplicationInfos.get(position);
+                select.selection=selectPosition;
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_WL_SELECTION,selectPosition+"");
+            }
+
+            @Override
+            public void onLongClick(int position) {
+                if (position < 0 || position >= mShowApplicationInfos.size()) {
+                    return;
+                }
+                final AppListAdapter.ApplicationInfoWrap select = mShowApplicationInfos.get(position);
+                select.isSelected=true;
+                mSelectedApplicationInfos.add(select);
+                refreshMenu(true);
+                mAppAdapter.setEditMode(true);
             }
         });
         mAppListView.setAdapter(mAppAdapter);
-    }
-
-    private void refreshTV() {
-        mAppListTV.setText(getString(R.string.select_list) + "(共" + mCanOpenApplicationInfos.size() + "个,已选" + mSelectedApplicationInfos.size() + "个)");
     }
 
     //全部程序包
@@ -302,6 +430,39 @@ public class WhiteListActivity extends BaseActivity {
             @Override
             public int compare(AppListAdapter.ApplicationInfoWrap lhs, AppListAdapter.ApplicationInfoWrap rhs) {
                 // TODO 自动生成的方法存根
+                String lhsName=lhs.applicationInfo.packageName;
+                String rhsName=rhs.applicationInfo.packageName;
+
+                if (rhsName.equals("im.yixin")){
+                    return 1000000;
+                }else if (rhsName.equals("com.alibaba.android.rimet")){
+                    return 2000000;
+                }else if (rhsName.equals("com.immomo.momo")){
+                    return 3000000;
+                }else if (rhsName.equals("com.sina.weibo")){
+                    return 4000000;
+                }else if (rhsName.equals("com.eg.android.AlipayGphone")){
+                    return 5000000;
+                }else if (rhsName.equals("com.tencent.mobileqq")){
+                    return 6000000;
+                }else if (rhsName.equals("com.tencent.mm")){
+                    return 7000000;
+                }
+                if (lhsName.equals("im.yixin")){
+                    return -1000000;
+                }else if (lhsName.equals("com.alibaba.android.rimet")){
+                    return -2000000;
+                }else if (lhsName.equals("com.immomo.momo")){
+                    return -3000000;
+                }else if (lhsName.equals("com.sina.weibo")){
+                    return -4000000;
+                }else if (lhsName.equals("com.eg.android.AlipayGphone")){
+                    return -5000000;
+                }else if (lhsName.equals("com.tencent.mobileqq")){
+                    return -6000000;
+                }else if (lhsName.equals("com.tencent.mm")){
+                    return -7000000;
+                }
                 return lhs.applicationInfo.loadLabel(pm).toString().compareToIgnoreCase(rhs.applicationInfo.loadLabel(pm).toString());
             }
         });

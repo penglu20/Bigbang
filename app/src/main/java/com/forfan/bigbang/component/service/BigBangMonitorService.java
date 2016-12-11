@@ -7,20 +7,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -31,6 +28,7 @@ import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
+import com.forfan.bigbang.component.activity.whitelist.SelectionDbHelper;
 import com.forfan.bigbang.copy.CopyActivity;
 import com.forfan.bigbang.copy.CopyNode;
 import com.forfan.bigbang.util.ArcTipViewController;
@@ -46,6 +44,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_GENERIC;
@@ -59,7 +58,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private static final int TYPE_VIEW_CLICKED=AccessibilityEvent.TYPE_VIEW_CLICKED;
     private static final int TYPE_VIEW_LONG_CLICKED=AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
     private static final int TYPE_VIEW_DOUBLD_CLICKED=3;
-    private static final int TYPE_VIEW_NONE=3;
+    private static final int TYPE_VIEW_NONE=0;
     public  int double_click_interval = ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL;
 
     private CharSequence mWindowClassName;
@@ -75,8 +74,12 @@ public class BigBangMonitorService extends AccessibilityService {
     private int otherSelection = TYPE_VIEW_LONG_CLICKED;
 
     private boolean hasShowTipToast;
+    private boolean hasShowTooShortToast;
+            
     private Handler handler;
-    private HashSet<String> whiteList;
+    private Map<String,Integer> selections;
+    private String mCurrentPackage;
+    private int mCurrentType;
 
     private AccessibilityServiceInfo mAccessibilityServiceInfo;
 
@@ -124,14 +127,6 @@ public class BigBangMonitorService extends AccessibilityService {
         mAccessibilityServiceInfo.notificationTimeout=100;
         setServiceInfo(mAccessibilityServiceInfo);
 
-        whiteList =new HashSet<>();
-        if (!SPHelper.getBoolean(ConstantUtil.HAS_ADDED_LAUNCHER_AS_WHITE_LIST,false)){
-            whiteList.addAll(getLauncherAsWhiteList());
-            whiteList.addAll(getInputMethodAsWhiteList());
-            saveSelectedApp();
-            SPHelper.save(ConstantUtil.HAS_ADDED_LAUNCHER_AS_WHITE_LIST,true);
-        }
-
         readWhiteList();
     }
 
@@ -163,51 +158,10 @@ public class BigBangMonitorService extends AccessibilityService {
         }
     };
 
-    private Set<String> getLauncherAsWhiteList(){
-        HashSet<String> packages=new HashSet<>();
-        PackageManager packageManager = getPackageManager();
-        final Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_HOME);
-//        final ResolveInfo res = context.getPackageManager().resolveActivity(intent, 0);
-        List<ResolveInfo> resolveInfo = packageManager.queryIntentActivities(intent,
-                PackageManager.MATCH_DEFAULT_ONLY);
-        for(ResolveInfo ri : resolveInfo){
-            packages.add(ri.activityInfo.packageName);
-        }
-        return packages;
-    }
-
-    private Set<String> getInputMethodAsWhiteList(){
-        HashSet<String> packages=new HashSet<>();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        List<InputMethodInfo> methodList = imm.getInputMethodList();
-        for (InputMethodInfo info: methodList) {
-            packages.add(info.getPackageName());
-        }
-        return packages;
-    }
-
-
     @Override
     protected void onServiceConnected() {
         super.onServiceConnected();
         setServiceInfo(mAccessibilityServiceInfo);
-    }
-
-    private void saveSelectedApp(){
-        if (whiteList!=null) {
-            SPHelper.save(ConstantUtil.WHITE_LIST_COUNT, whiteList.size());
-//            HashMap<String, String> map = new HashMap<>();
-            List<String> list=new ArrayList<>();
-            list.addAll(whiteList);
-            for (int i = 0; i < list.size(); i++) {
-                String value = list.get(i);
-                SPHelper.save(ConstantUtil.WHITE_LIST + "_" + i, value);
-//                map.put(UrlCountUtil.VALUE_MONITOR_WHITE_LIST_CLASS + "_" + i, value);
-            }
-            sendBroadcast(new Intent(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST));
-//            UrlCountUtil.onEvent(UrlCountUtil.VALUE_MONITOR_WHITE_LIST_CLASS, map);
-        }
     }
 
     @Override
@@ -220,6 +174,9 @@ public class BigBangMonitorService extends AccessibilityService {
         switch (type){
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
                 mWindowClassName = event.getClassName();
+                mCurrentPackage = event.getPackageName().toString();
+                Integer selectType=selections.get(mCurrentPackage);
+                mCurrentType = selectType==null?TYPE_VIEW_NONE:(selectType+1);
                 if ("com.tencent.mm.plugin.sns.ui.SnsTimeLineUI".equals(mWindowClassName)){
                     setCapabilities(true);
                 }else {
@@ -314,27 +271,19 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         int type=getClickType(event);
         CharSequence className = event.getClassName();
-        if (mWindowClassName==null || whiteList.contains(event.getPackageName())|| whiteList.contains(mWindowClassName)){
+        if (mWindowClassName.toString().startsWith("com.forfan.bigbang")){
+            //自己的应用不监控
             return;
         }
-//        if ("com.tencent.mm.ui.LauncherUI".equals(mWindowClassName)){
-        if ("com.tencent.mm".equals(event.getPackageName())){
-            if (type!=weixinSelection){
-                return;
-            }
-//        }else if ("com.tencent.mobileqq.activity.SplashActivity".equals(mWindowClassName)){
-        }else if ("com.tencent.mobileqq".equals(event.getPackageName())){
-            if (type!=qqSelection){
+        if (mWindowClassName==null){
+            return;
+        }
+        if (mCurrentPackage.equals(event.getPackageName())){
+            if (type!=mCurrentType){
                 return;
             }
         }else {
-            if (type!=otherSelection){
-                return;
-            }
-            if (mWindowClassName.toString().startsWith("com.forfan.bigbang")){
-                //自己的应用不监控
-                return;
-            }
+            return;
         }
         if (className==null || className.equals("android.widget.EditText")){
             //输入框不监控
@@ -365,8 +314,11 @@ public class BigBangMonitorService extends AccessibilityService {
             }
         }
         if (!TextUtils.isEmpty(txt)) {
-            if (txt.length()<=2){
-//                ToastUtil.show(R.string.too_short_to_split);
+            if (txt.length()<=2 ){
+                if (!hasShowTooShortToast) {
+                    ToastUtil.show(R.string.too_short_to_split);
+                    hasShowTooShortToast = true;
+                }
                 return;
             }
             Intent intent=new Intent(this, BigBangActivity.class);
@@ -632,12 +584,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
 
     public synchronized void readWhiteList(){
-        whiteList.clear();
-        int size = SPHelper.getInt(ConstantUtil.WHITE_LIST_COUNT, 0);
-        for (int i = 0; i < size; i++) {
-            String packageName = SPHelper.getString(ConstantUtil.WHITE_LIST + "_" + i, "");
-            whiteList.add(packageName);
-        }
+        selections=new SelectionDbHelper(this).getSelections();
     }
 
     private BroadcastReceiver bigBangBroadcastReceiver=new BroadcastReceiver() {

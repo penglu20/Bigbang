@@ -23,13 +23,18 @@
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/app_icon"
-        android:layout_width="@dimen/card_detail_line_height"
+        android:layout_width="@dimen/height_normal"
         android:layout_height="@dimen/card_detail_line_height"
         android:layout_toRightOf="@id/app_check"
         android:layout_marginLeft="@dimen/white_list_margin"
-        android:scaleType="fitXY"
+        android:scaleType="centerInside"
         android:background="@null"
         />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spinner"
+        style="@style/spinnerStyle"
+        app:theme="@style/MonthDropTheme"/>
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/app_name"
@@ -39,7 +44,9 @@
         android:layout_alignParentTop="true"
         android:background="@null"
         android:textColor="@color/primary_text"
-        android:paddingLeft="@dimen/card_padding_width"
+        android:singleLine="true"
+        android:paddingLeft="@dimen/margin_normal"
+        android:layout_toLeftOf="@id/spinner"
         android:gravity="center_vertical"
         android:textSize="@dimen/text_size_title"/>
 
@@ -50,9 +57,11 @@
         android:layout_alignParentBottom="true"
         android:layout_height="@dimen/white_list_describe_height"
         android:background="@null"
+        android:layout_toLeftOf="@id/spinner"
         android:textColor="@color/secondary_text"
-        android:paddingLeft="@dimen/card_padding_width"
+        android:paddingLeft="@dimen/margin_normal"
         android:gravity="center_vertical"
         android:textSize="@dimen/text_size_small" />
+
 
 </RelativeLayout>

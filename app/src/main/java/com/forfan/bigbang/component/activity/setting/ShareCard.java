@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.animation.AnticipateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
@@ -42,7 +43,7 @@ import java.util.ArrayList;
 /**
  * Created by penglu on 2015/11/23.
  */
-public class ShareCard extends AbsCard {
+public class ShareCard extends FrameLayout {
     private Context mContext;
     private TextView shareTV;
     private Button cancelBtn;
@@ -95,7 +96,6 @@ public class ShareCard extends AbsCard {
     protected void initView(Context context) {
         mContext = context;
         LayoutInflater.from(mContext).inflate(R.layout.card_share, this);
-        setCardBackgroundColor(getResources().getColor(R.color.primary));
         shareTV = (TextView) findViewById(R.id.share_msg);
         cancelBtn = (Button) findViewById(R.id.share_cancel);
         confirmBtn = (Button) findViewById(R.id.share_confirm);

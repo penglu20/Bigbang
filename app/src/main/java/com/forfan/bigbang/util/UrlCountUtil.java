@@ -54,10 +54,6 @@ public class UrlCountUtil {
     public static final String STATUS_FLOAT_VIEW_TRIGGER= "status_float_view_trigger";
     public static final String STATUS_ONLY_TEXT_MONITOR= "status_only_text_monitor";
 
-    public static final String STATUS_SPINNER_WEIXIN= "status_spinner_weixin";
-    public static final String STATUS_SPINNER_QQ= "status_spinner_qq";
-    public static final String STATUS_SPINNER_OTHER= "status_spinner_other";
-
     public static final String CLICK_OCR_PICK_FROM_GALLERY= "click_ocr_pick_from_gallery";
     public static final String CLICK_OCR_TAKEPICTURE= "click_ocr_takepicture";
     public static final String CLICK_OCR_FROM_SHARE= "click_ocr_from_share";
@@ -118,6 +114,7 @@ public class UrlCountUtil {
     public static final String STATUS_SET_BB_TEXT_SIZE="status_set_bb_text_size";
     public static final String STATUS_SET_BB_LINE_MARGIN="status_set_bb_line_margin";
     public static final String STATUS_SET_BB_ITEM_MARGIN="status_set_bb_item_margin";
+    public static final String STATUS_SET_BB_ITEM_PADDING="status_set_bb_item_padding";
     public static final String STATUS_SET_BB_ALPHA="status_set_bb_alpha";
     public static final String STATUS_SET_BB_BGCOLOR="status_set_bb_bgcolor";
     public static final String STATUS_SET_BB_FULL_SCREEN="status_set_bb_full_screen";
@@ -138,6 +135,15 @@ public class UrlCountUtil {
     public static final String STATUS_NOFITY_CLIPBOARD="status_nofity_clipboard";
     public static final String CLICK_NOFITY_COPY="click_nofity_copy";
     public static final String CLICK_NOFITY_SCREEN="click_nofity_screen";
+
+    //whiteListActivity
+    public static final String STATUS_WL_SELECT_ALL="status_wl_select_all";
+    public static final String CLICK_WL_SELECT_MODE="click_wl_select_mode";
+
+    public static final String STATUS_WL_SELECTION="status_wl_selection";
+
+
+    public static final String CLICK_FRAGMENT_SWITCHES="click_fragment_switches";
 
 
     public static Context mContext= BigBangApp.getInstance();

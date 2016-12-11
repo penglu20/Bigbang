@@ -137,6 +137,7 @@ public class BigBangActivity extends BaseActivity {
         int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
         int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
+        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, ConstantUtil.DEFAULT_ITEM_PADDING);
 
 
         bigBangLayout = (BigBangLayout) findViewById(R.id.bigbang);
@@ -155,6 +156,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setTextSize(text);
         bigBangLayout.setLineSpace(line);
         bigBangLayout.setItemSpace(item);
+        bigBangLayout.setTextPadding(padding);
         bigBangLayoutWrapper.setBackgroundColorWithAlpha(lastPickedColor,alpha);
 
 

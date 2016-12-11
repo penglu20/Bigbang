@@ -6,6 +6,7 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#727272</color>
     <color name="text_color_grey">#dddddd</color>
+    <color name="text_color_notify">#cdcdcd</color>
 
     <color name="trans">#00000000</color>
     <color name="primary">#FF03A9F4</color>

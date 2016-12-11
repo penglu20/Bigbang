@@ -1,0 +1,6 @@
+<resources>
+
+    <dimen name="main_toolbar_height">@dimen/margin_four</dimen>
+    <dimen name="main_tablayout_height">@dimen/height_small_32</dimen>
+
+</resources>
