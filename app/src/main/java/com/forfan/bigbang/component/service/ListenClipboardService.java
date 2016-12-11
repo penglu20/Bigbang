@@ -17,9 +17,9 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.clipboard.ClipboardManagerCompat;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
+import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
-import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.shang.commonjar.contentProvider.Global;
@@ -56,7 +56,7 @@ public final class ListenClipboardService extends Service {
         }
     };
 
-    private TipViewController.ActionListener actionListener = new TipViewController.ActionListener() {
+    private ArcTipViewController.ActionListener actionListener = new ArcTipViewController.ActionListener() {
         @Override
         public void isShow(boolean isShow) {
             showBigBang = isShow;
@@ -104,7 +104,7 @@ public final class ListenClipboardService extends Service {
         readSettingFromSp();
 
 
-        TipViewController.getInstance().addActionListener(actionListener);
+        ArcTipViewController.getInstance().addActionListener(actionListener);
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED);
@@ -118,7 +118,7 @@ public final class ListenClipboardService extends Service {
                 try {
                     startService(new Intent(ListenClipboardService.this, BigBangMonitorService.class));
                     if (showFloatView) {
-                        TipViewController.getInstance().show();
+                        ArcTipViewController.getInstance().show();
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();
@@ -133,8 +133,8 @@ public final class ListenClipboardService extends Service {
     @Override
     public void onDestroy() {
         mClipboardWatcher.removePrimaryClipChangedListener(mOnPrimaryClipChangedListener);
-        TipViewController.getInstance().removeActionListener(actionListener);
-        TipViewController.getInstance().remove();
+        ArcTipViewController.getInstance().removeActionListener(actionListener);
+        ArcTipViewController.getInstance().remove();
 //        sLastContent = null;
         isGrayGuardOn = false;
         super.onDestroy();
@@ -200,8 +200,8 @@ public final class ListenClipboardService extends Service {
 //        intent.putExtra(BigBangActivity.TO_SPLIT_STR,sLastContent);
         intent.putExtra(BigBangActivity.TO_SPLIT_STR, content);
 //        startActivity(intent);
-        //放到TipViewController中触发试试
-        TipViewController.getInstance().showTipViewForStartActivity(intent);
+        //放到ArcTipViewController中触发试试
+        ArcTipViewController.getInstance().showTipViewForStartActivity(intent);
     }
 
     Runnable cleanLaseContent = new Runnable() {
@@ -258,7 +258,7 @@ public final class ListenClipboardService extends Service {
         if (!isRun){
             monitorClipborad=false;
             showFloatView=false;
-            TipViewController.getInstance().remove();
+            ArcTipViewController.getInstance().remove();
             isForegroundShow=false;
             adjustService();
             return;
@@ -267,10 +267,10 @@ public final class ListenClipboardService extends Service {
         monitorClipborad= SPHelper.getBoolean(ConstantUtil.MONITOR_CLIP_BOARD,true);
         showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
         if (showFloatView){
-            TipViewController.getInstance().show();
+            ArcTipViewController.getInstance().show();
 
         } else {
-            TipViewController.getInstance().remove();
+            ArcTipViewController.getInstance().remove();
         }
         if (monitorClipborad) {
             mClipboardWatcher.addPrimaryClipChangedListener(mOnPrimaryClipChangedListener);

@@ -33,9 +33,9 @@ import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.copy.CopyActivity;
 import com.forfan.bigbang.copy.CopyNode;
+import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
-import com.forfan.bigbang.util.TipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.XposedEnableUtil;
@@ -86,7 +86,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
         readSettingFromSp();
 
-        TipViewController.getInstance().addActionListener(actionListener);
+        ArcTipViewController.getInstance().addActionListener(actionListener);
 
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
@@ -102,7 +102,7 @@ public class BigBangMonitorService extends AccessibilityService {
                 try {
                     startService(new Intent(BigBangMonitorService.this,ListenClipboardService.class));
                     if (showFloatView){
-                        TipViewController.getInstance().show();
+                        ArcTipViewController.getInstance().show();
                     }
                 } catch (Throwable e) {
                     e.printStackTrace();
@@ -137,8 +137,8 @@ public class BigBangMonitorService extends AccessibilityService {
 
     @Override
     public void onDestroy() {
-        TipViewController.getInstance().removeActionListener(actionListener);
-        TipViewController.getInstance().remove();
+        ArcTipViewController.getInstance().removeActionListener(actionListener);
+        ArcTipViewController.getInstance().remove();
         try {
             unregisterReceiver(bigBangBroadcastReceiver);
         } catch (Throwable e) {
@@ -146,7 +146,7 @@ public class BigBangMonitorService extends AccessibilityService {
         super.onDestroy();
     }
 
-    private TipViewController.ActionListener actionListener=new TipViewController.ActionListener() {
+    private ArcTipViewController.ActionListener actionListener=new ArcTipViewController.ActionListener() {
         @Override
         public void isShow(boolean isShow) {
             showBigBang=isShow;
@@ -373,8 +373,8 @@ public class BigBangMonitorService extends AccessibilityService {
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BigBangActivity.TO_SPLIT_STR,txt.toString());
 //            startActivity(intent);
-            //放到TipViewController中触发试试
-            TipViewController.getInstance().showTipViewForStartActivity(intent);
+            //放到ArcTipViewController中触发试试
+            ArcTipViewController.getInstance().showTipViewForStartActivity(intent);
         }
     }
 
@@ -595,7 +595,7 @@ public class BigBangMonitorService extends AccessibilityService {
             monitorClick=false;
             showFloatView=false;
             onlyText=true;
-            TipViewController.getInstance().remove();
+            ArcTipViewController.getInstance().remove();
             return;
         }
 
@@ -609,9 +609,9 @@ public class BigBangMonitorService extends AccessibilityService {
         String weixin = SPHelper.getString(ConstantUtil.WEIXIN_SELECTION,spinnerArray[1]);
         String other = SPHelper.getString(ConstantUtil.OTHER_SELECTION,spinnerArray[1]);
         if (showFloatView){
-            TipViewController.getInstance().show();
+            ArcTipViewController.getInstance().show();
         }else {
-            TipViewController.getInstance().remove();
+            ArcTipViewController.getInstance().remove();
         }
 
         qqSelection=spinnerArrayIndex(spinnerArray, qq)+1;
@@ -650,7 +650,7 @@ public class BigBangMonitorService extends AccessibilityService {
                     UniversalCopy();
                 }
             }else if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
-                TipViewController.getInstance().stopLoadingAnim();
+
             } else if(intent.getAction().equals(ConstantUtil.MONITOR_CLICK_BROADCAST)){
                 if (!isRun){
                     ToastUtil.show(R.string.open_total_switch_first);

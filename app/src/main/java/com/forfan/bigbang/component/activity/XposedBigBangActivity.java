@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.forfan.bigbang.component.base.BaseActivity;
-import com.forfan.bigbang.util.TipViewController;
+import com.forfan.bigbang.util.ArcTipViewController;
 
 /**
  * Created by wangyan-pd on 2016/12/5.
@@ -30,7 +30,7 @@ public class XposedBigBangActivity extends BaseActivity {
             intent.putExtra(BigBangActivity.TO_SPLIT_STR,str);
 //            startActivity(intent);
             //放到TipViewController中触发试试
-            TipViewController.getInstance().showTipViewForStartActivity(intent);
+            ArcTipViewController.getInstance().showTipViewForStartActivity(intent);
         }
         finish();
     }

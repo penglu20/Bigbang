@@ -54,8 +54,8 @@ public class ViewUtil {
             v.setBackgroundDrawable(drawable);
     }
 
-    public static float dp2px(float dp){
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, BigBangApp.getInstance().getResources().getDisplayMetrics());
+    public static int dp2px(float dp){
+        return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, BigBangApp.getInstance().getResources().getDisplayMetrics());
     }
 
     public static float px2dp(float px){

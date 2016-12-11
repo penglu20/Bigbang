@@ -8,4 +8,13 @@
         <attr name="textBackground" format="reference"/>
         <attr name="sectionTextBackground" format="reference"/>
     </declare-styleable>
+    <attr name="fromDegrees" format="float|reference" />
+    <attr name="toDegrees" format="float|reference" />
+    <attr name="childSize" format="dimension|reference" />
+
+    <declare-styleable name="ArcLayout">
+        <attr name="fromDegrees"/>
+        <attr name="toDegrees"/>
+        <attr name="childSize"/>
+    </declare-styleable>
 </resources>
