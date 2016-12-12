@@ -222,7 +222,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         showFloatImageView();
     }
 
-    int[] icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_screen, R.mipmap.ic_float_copy};
+    int[] icons;
 
     private void initView() {
         showBigBang = SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE, true);
@@ -231,6 +231,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         floatImageView = ((ImageView) floatView.findViewById(R.id.float_image));
         mWholeView = (RelativeLayout) View.inflate(mContext, R.layout.arc_view_float, null);
         archMenu = (ArcMenu) mWholeView.findViewById(R.id.arc_menu);
+        initIcon();
         initArcMenu(archMenu, icons);
         archMenu.setOnModeSeletedListener(new ArcMenu.OnModeSeletedListener() {
             @Override
@@ -246,6 +247,17 @@ public class ArcTipViewController implements View.OnTouchListener {
         // event listeners
         mWholeView.setOnTouchListener(this);
         floatView.setOnTouchListener(this);
+    }
+
+    private void initIcon() {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ){
+            icons = new int[]{R.mipmap.ic_float_switch };
+        }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ){
+            icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy};
+        }else {
+            icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy,R.mipmap.ic_float_screen};
+
+        }
     }
 
     private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
@@ -292,16 +304,17 @@ public class ArcTipViewController implements View.OnTouchListener {
                 }
                 initArcMenu(archMenu, icons);
                 break;
+
             case 1:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_COPY);
+                mContext.sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
+                break;
+            case 2:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SCREEN);
                 Intent intent = new Intent();
                 intent.setClass(mContext, ScreenCaptureActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
-                break;
-            case 2:
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_COPY);
-                mContext.sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST));
                 break;
         }
     }
