@@ -198,8 +198,8 @@ public class SLSettingCard extends AbsCard {
 
         File desDir= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup");
 
-        copyFile(dbDir.getAbsolutePath(),new File(desDir,"databases").getAbsolutePath());
-        copyFile(spDir.getAbsolutePath()+File.separator+"BigBang_sp_main.xml",new File(desDir,"shared_prefs").getAbsolutePath()+File.separator+"BigBang_sp_main.xml");
+        IOUtil.copyFile(dbDir.getAbsolutePath(),new File(desDir,"databases").getAbsolutePath());
+        IOUtil.copyFile(spDir.getAbsolutePath()+File.separator+"BigBang_sp_main.xml",new File(desDir,"shared_prefs").getAbsolutePath()+File.separator+"BigBang_sp_main.xml");
 
         SPHelper.save(ConstantUtil.DIY_OCR_KEY, ocr);
     }
@@ -241,15 +241,15 @@ public class SLSettingCard extends AbsCard {
         File desSpFile= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/shared_prefs/BigBang_sp_main.xml");
 
         if (desDbDir.exists()) {
-            deleteDirs(dbDir.getAbsolutePath());
-            copyFile(desDbDir.getAbsolutePath(),dbDir.getAbsolutePath());
+            IOUtil.deleteDirs(dbDir.getAbsolutePath());
+            IOUtil.copyFile(desDbDir.getAbsolutePath(),dbDir.getAbsolutePath());
         }
 
         String ocrOrigin = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
         if (desSpFile.exists()) {
             SPHelper.clear();
-            deleteDirs(spDir.getAbsolutePath());
-            copyFile(desSpFile.getAbsolutePath(),spDir.getAbsolutePath());
+            IOUtil.deleteDirs(spDir.getAbsolutePath());
+            IOUtil.copyFile(desSpFile.getAbsolutePath(),spDir.getAbsolutePath());
         }
 
 
@@ -293,53 +293,6 @@ public class SLSettingCard extends AbsCard {
     private void saveOcrKeyWithSP(String ocrKey){
         SharedPreferences sp = mContext.getSharedPreferences(MAINSPNAME, Context.MODE_PRIVATE);
         sp.edit().putString(ConstantUtil.DIY_OCR_KEY,ocrKey).commit();
-    }
-
-
-    private void deleteDirs(String themePath){
-        LinkedList<File> themeLinkedList=new LinkedList<File>();
-        File themeDir=new File(themePath);
-        if (!themeDir.exists()) {
-            return;
-        }else if (themeDir.isDirectory()){
-            themeLinkedList.addAll(Arrays.asList(themeDir.listFiles()));
-            while(!themeLinkedList.isEmpty())
-                deleteContent(themeLinkedList.pollLast());
-        }else {
-            themeDir.delete();
-        }
-    }
-
-    private void deleteContent(File file){
-        LinkedList<File> themeLinkedList=new LinkedList<File>();
-        if (file.isDirectory()) {
-            themeLinkedList.addAll(Arrays.asList(file.listFiles()));
-            while (!themeLinkedList.isEmpty()) {
-                File subFile=themeLinkedList.pollLast();
-                deleteContent(subFile);
-            }
-        }
-        file.delete();
-    }
-
-    private void copyFile(String srcPath,String desPath){
-        File srcDir=new File(srcPath);
-        File desDir=new File(desPath);
-        if (!srcDir.exists()){
-            return;
-        }
-        if (srcDir.isDirectory()) {
-            desDir.mkdirs();
-            File[] files=srcDir.listFiles();
-            for (int i=0;i<files.length;i++){
-                File file = files[i];
-                File des=new File(desDir,file.getName());
-                copyFile(file.getAbsolutePath(),des.getAbsolutePath());
-            }
-        }else {
-            desDir.getParentFile().mkdirs();
-            IOUtil.copy(srcPath,desPath);
-        }
     }
 
 }

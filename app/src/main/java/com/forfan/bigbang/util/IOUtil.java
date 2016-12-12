@@ -17,6 +17,8 @@ import java.io.OutputStreamWriter;
 import java.io.Serializable;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.Arrays;
+import java.util.LinkedList;
 
 public class IOUtil {
     public IOUtil() {
@@ -206,7 +208,6 @@ public class IOUtil {
             fileChannel=out.getChannel();
             fileLock=fileChannel.tryLock();
             if (fileLock==null){
-                LogUtil.d("tryLock failed");
                 hasBeenLocked=true;
                 fileLock=fileChannel.lock();
             }
@@ -390,5 +391,50 @@ public class IOUtil {
         return buffer;
     }
 
+    public static void deleteDirs(String themePath){
+        LinkedList<File> themeLinkedList=new LinkedList<File>();
+        File themeDir=new File(themePath);
+        if (!themeDir.exists()) {
+            return;
+        }else if (themeDir.isDirectory()){
+            themeLinkedList.addAll(Arrays.asList(themeDir.listFiles()));
+            while(!themeLinkedList.isEmpty())
+                deleteContent(themeLinkedList.pollLast());
+        }else {
+            themeDir.delete();
+        }
+    }
+
+    private static void deleteContent(File file){
+        LinkedList<File> themeLinkedList=new LinkedList<File>();
+        if (file.isDirectory()) {
+            themeLinkedList.addAll(Arrays.asList(file.listFiles()));
+            while (!themeLinkedList.isEmpty()) {
+                File subFile=themeLinkedList.pollLast();
+                deleteContent(subFile);
+            }
+        }
+        file.delete();
+    }
+
+    public static void copyFile(String srcPath,String desPath){
+        File srcDir=new File(srcPath);
+        File desDir=new File(desPath);
+        if (!srcDir.exists()){
+            return;
+        }
+        if (srcDir.isDirectory()) {
+            desDir.mkdirs();
+            File[] files=srcDir.listFiles();
+            for (int i=0;i<files.length;i++){
+                File file = files[i];
+                File des=new File(desDir,file.getName());
+                copyFile(file.getAbsolutePath(),des.getAbsolutePath());
+            }
+        }else {
+            desDir.getParentFile().mkdirs();
+            IOUtil.copy(srcPath,desPath);
+        }
+    }
 
 }
