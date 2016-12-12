@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="200dp"
+    android:layout_height="200dp">
 
     <com.forfan.bigbang.view.ArcMenu
         android:id="@+id/arc_menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="200dp"
+        android:layout_height="200dp">
 
     </com.forfan.bigbang.view.ArcMenu>
 
