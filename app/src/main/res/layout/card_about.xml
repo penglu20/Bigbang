@@ -38,6 +38,7 @@
 
         android:id="@+id/donate"
         style="@style/cardViewTextView"
+        android:textColor="@color/text_color_import"
         android:layout_below="@id/divider1"
         android:text="@string/donate"/>
 
