@@ -47,6 +47,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     private ArcMenu archMenu;
     private boolean isShowIcon;
     private ImageView floatImageView;
+    private float mCurrentIconAlpha = 0.7f ;
 
     public void showTipViewForStartActivity(Intent intent) {
         boolean isNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY, false);
@@ -268,11 +269,11 @@ public class ArcTipViewController implements View.OnTouchListener {
             item.setImageResource(itemDrawables[i]);
             if (i == 0) {
                 if (showBigBang) {
-                    item.setImageLevel(0);
-                    item.setAlpha(0.8f);
+                    item.setAlpha(0.7f);
+                    mCurrentIconAlpha = 0.7f;
                 } else {
-                    item.setImageLevel(1);
                     item.setAlpha(0.3f);
+                    mCurrentIconAlpha = 0.3f;
                 }
             }
             item.setPadding(ViewUtil.dp2px(8), ViewUtil.dp2px(8), ViewUtil.dp2px(8), ViewUtil.dp2px(8));
@@ -444,7 +445,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                     reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), ViewUtil.dp2px(MIN_LENGTH));
                     removeAllView();
                     LogUtil.e("shang","addView1");
-                    floatView.setAlpha(0.8f);
+                    floatView.setAlpha(mCurrentIconAlpha);
                     floatView.setScaleX(1);
                     floatView.setScaleY(1);
                     floatView.setOnTouchListener(ArcTipViewController.this);
