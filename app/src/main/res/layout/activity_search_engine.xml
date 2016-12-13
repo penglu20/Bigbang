@@ -34,6 +34,16 @@
         android:layout_below="@+id/hint"
         android:background="@drawable/divider_recycler" />
 
+
+
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
+        android:id="@+id/recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/hint"
+        android:orientation="vertical"
+        android:overScrollMode="never"
+        android:scrollbars="vertical" />
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_search"
         android:layout_width="wrap_content"
@@ -44,15 +54,5 @@
         android:layout_marginRight="15dp"
         app:theme="@style/fabTheme"
         android:src="@mipmap/add" />
-
-    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/hint"
-        android:orientation="vertical"
-        android:overScrollMode="never"
-        android:scrollbars="vertical" />
-
 
 </RelativeLayout>
