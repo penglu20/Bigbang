@@ -18,15 +18,15 @@
             android:text="@string/float_setting_card"/>
     </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
     <RelativeLayout
         android:id="@+id/show_float_view_rl"
         android:duplicateParentState="false"
         style="@style/hintTextViewRelativeLayoutSelector">
 
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
 
         <com.forfan.bigbang.view.HintTextView
             android:id="@+id/show_float_view_tv"
@@ -39,16 +39,16 @@
             style="@style/hintTextViewswitchStyle" />
     </RelativeLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
 
     <RelativeLayout
         android:id="@+id/show_notify_rl"
         android:duplicateParentState="false"
         style="@style/hintTextViewRelativeLayoutSelector">
 
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
 
         <com.forfan.bigbang.view.HintTextView
             android:id="@+id/show_notify_tv"
@@ -61,16 +61,17 @@
             style="@style/hintTextViewswitchStyle" />
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
     <LinearLayout
         android:id="@+id/show_float_request_ll"
         android:duplicateParentState="false"
         android:orientation="vertical"
         android:visibility="gone"
         style="@style/cardViewRelativeLayoutSelector">
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
 
         <android.support.v7.widget.AppCompatTextView
             style="@style/cardViewTextViewInLayoutLeft"

@@ -21,7 +21,7 @@
     <string name="white_list">设置触发方式</string>
     <string name="share_mode_help">分享\n将选择的词句分享到其他APP</string>
     <string name="monitor_clipboard">监控剪贴板</string>
-    <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。\n\t\t\t由于本产品是通过一些技术手段获取您点击或复制的文字，而有些应用并不是完全符合标准的，所以无法正确获取到文字,切换“只监控文本”可能可以解决部分问题。\n\t\t\t如果发现任何问题，麻烦通过反馈功能与我们联系，我们会尽快解决您的问题！</string>
+    <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。\n\t\t\t由于本产品是通过一些技术手段获取您点击或复制的文字，而有些应用并不是完全符合标准的，所以无法正确获取到文字，切换“只监控文本”可能可以解决部分问题。\n\t\t\t如果发现任何问题，麻烦通过反馈功能与我们联系，我们会尽快解决您的问题！</string>
     <string name="loading">加载中...</string>
     <string name="stringValue1">BigBang 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
     <string name="recover_tips">重新显示使用提示</string>
@@ -47,7 +47,7 @@
     <string name="setting_bigbang">设置BigBang样式</string>
     <string name="setting_bigbang_intro">您可以调节爆炸出的文字的间距，大小，背景等</string>
     <string name="setting_search_engine">设置默认搜索引擎</string>
-    <string name="setting_search_engine_into">您可以设置,添加内置浏览器使用的默认搜索引擎</string>
+    <string name="setting_search_engine_into">您可以设置，添加内置浏览器使用的默认搜索引擎</string>
     <string name="confirm_known">我知道了</string>
     <string name="go_set_msg">下面的设置入口有助于提高程序的存活性，但并不是手机管家的清理白名单，可能无法彻底解决问题！</string>
     <string name="share_request_cancel">无感...</string>
@@ -55,7 +55,7 @@
     <string name="search_mode_help">搜索\n将选中的词句通过默认浏览器进行百度搜索</string>
     <string name="try_click_text">请点击或滑动上方文字</string>
     <string name="share_request_cancel_like">算了吧...</string>
-    <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡,然后就会打开 BigBang 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>
+    <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡，然后就会打开 BigBang 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>
     <string name="qq_monitor">在QQ中监控</string>
     <string name="ok">我知道了</string>
     <string name="translate_mode_help">翻译\n使用有道词典进行中英互译</string>
@@ -111,7 +111,7 @@
     <string name="wait_until_loaded">加载中，请稍后再操作</string>
 
     <string name="white_list_tip">此处设置不影响复制触发功能</string>
-    <string name="sorry_for_ocr_parse_fail">抱歉,识别失败，请选用更清晰地图片</string>
+    <string name="sorry_for_ocr_parse_fail">抱歉，识别失败，请选用更清晰地图片</string>
     <string name="ocr_recognize">Ocr识别中</string>
 
     <string name="action_copy">"复制"</string>
@@ -207,7 +207,7 @@
     <string name="pre_setting_title">请先设置 &lt;控制和触发&gt;方式</string>
     <string name="pre_setting_intro1">如果您选择悬浮窗常驻或通知栏\n可以在其中设置BigBang的开关\n\n如果您选择&lt;点击悬浮窗触发&gt;\n或者&lt;关闭悬浮窗和通知栏&gt;\n在触发Bigbang时会先弹出悬浮窗\n您需要&lt;点击悬浮窗激活Bigbang&gt;</string>
     <string name="pre_setting_intro2">&lt;点击上面的文字&gt;可以验证设置的效果。\n您也可以随时在设置页面中更改</string>
-    <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改, 或者从“如果使用”中进入本页面</string>
+    <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改， 或者从“如果使用”中进入本页面</string>
     <string name="pre_setting_cancel">再看看效果</string>
 
     <string name="capture_tips">在屏幕上划取区域截图</string>
@@ -255,7 +255,7 @@
     <string name="edit">编辑</string>
     <string name="set_search_pre">已将</string>
     <string name="set_search_end">设置为默认搜索引擎</string>
-    <string name="can_not_delete"><![CDATA[不能再删啦,%>_<%]]></string>
+    <string name="can_not_delete"><![CDATA[不能再删啦，%>_<%]]></string>
     <string name="xiugai">修改</string>
     <string name="search_name_hint">名字(不超过5个字)</string>
     <string name="search_url_hint">地址(最后会拼接上 搜索词 )</string>
@@ -278,7 +278,7 @@
     <string name="fragment_segment">分词</string>
 
     <string name="open_access_setting">进入系统辅助服务设置</string>
-    <string name="open_access_hint">进程被杀或手机重启以后，需要重新开启辅助服务</string>
+    <string name="open_access_hint">进程被杀或手机重启以后，需要重新开启辅助服务，建议您将该应用放到清理白名单</string>
 
     <string name="save_setting">保存设置到SD卡</string>
     <string name="load_setting">从SD卡恢复设置</string>
@@ -295,8 +295,8 @@
 
     <string name="restore_ocr_origin">OCR秘钥保持不变，</string>
     <string name="restore_ocr_back">已恢复OCR秘钥，</string>
-    <string name="restore_failed">恢复设置失败,</string>
-    <string name="restore_success">已恢复设置,</string>
+    <string name="restore_failed">恢复设置失败，</string>
+    <string name="restore_success">已恢复设置，</string>
 
     <string name="save_success">保存成功</string>
     <string name="save_fail">保存失败</string>
