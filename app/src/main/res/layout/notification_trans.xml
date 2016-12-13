@@ -10,6 +10,7 @@
     <LinearLayout
         android:id="@+id/Layout_notify_msearch"
         android:layout_width="match_parent"
+        android:gravity="center"
         android:layout_height="67dp">
 
         <include layout="@layout/notification_box_trans" />

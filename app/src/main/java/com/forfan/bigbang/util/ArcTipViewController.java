@@ -42,7 +42,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     private static final int HIDETOEDGE = 10011;
 
 
-    private static final float MAX_LENGTH = 200;
+    private static final float MAX_LENGTH = 146;
     private static final float MIN_LENGTH = 50;
     private ArcMenu archMenu;
     private boolean isShowIcon;
@@ -158,10 +158,19 @@ public class ArcTipViewController implements View.OnTouchListener {
     private boolean isTempAdd = false;
 
     private List<ActionListener> mActionListener;
+    private int mStatusBarHeight = 0;
 
     private ArcTipViewController(Context application) {
         mContext = application;
         mWindowManager = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
+
+
+        int resourceId = application.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            mStatusBarHeight = application.getResources().getDimensionPixelSize(resourceId);
+        }
+
+
         mainHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
@@ -220,7 +229,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         mActionListener = new ArrayList<>();
         mScaledTouchSlop = ViewUtil.dp2px(20);
         initView();
-       // showFloatImageView();
+        isRemoved=true;
     }
 
     int[] icons;
@@ -330,6 +339,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             public void run() {
                 synchronized (ArcTipViewController.this) {
                     mWholeView.setVisibility(View.VISIBLE);
+                    mWholeView.setOnTouchListener(ArcTipViewController.this);
                     int position = getArcPostion(layoutParams);
                     mWindowManager.addView(mWholeView, layoutParams);
                     reMeasureHeight(position, layoutParams);
@@ -382,10 +392,16 @@ public class ArcTipViewController implements View.OnTouchListener {
         }
         if (archMenu != null)
             archMenu.reset();
-        if (mWholeView != null)
+        if (mWholeView != null) {
             mWholeView.setVisibility(View.GONE);
-        if (floatView != null)
+            mWholeView.setOnTouchListener(null);
+        }
+        if (floatView != null) {
             floatView.setVisibility(View.INVISIBLE);
+            floatView.setOnTouchListener(null);
+        }
+
+
     }
 
     private int getArcPostion(WindowManager.LayoutParams layoutParams) {
@@ -402,11 +418,12 @@ public class ArcTipViewController implements View.OnTouchListener {
             mScreenWidth = mWindowManager.getDefaultDisplay().getWidth();
             mScreenHeight = mWindowManager.getDefaultDisplay().getHeight();
         }
+        mScreenHeight=mScreenHeight-mStatusBarHeight;
         if (wmX <= mScreenWidth / 3) //左边  竖区域
         {
-            if (wmY <= ViewUtil.dp2px(MAX_LENGTH / 2)) {
+            if (wmY <= ViewUtil.dp2px((MAX_LENGTH -MIN_LENGTH)/ 2)) {
                 position = PathMenu.LEFT_TOP;//左上
-            } else if (wmY > mScreenHeight - ViewUtil.dp2px(MAX_LENGTH / 2)) {
+            } else if (wmY > mScreenHeight - ViewUtil.dp2px((MAX_LENGTH +MIN_LENGTH) / 2)) {
                 position = PathMenu.LEFT_BOTTOM;//左下
             } else {
                 position = PathMenu.LEFT_CENTER;//左中
@@ -425,9 +442,9 @@ public class ArcTipViewController implements View.OnTouchListener {
 //        }
         else if (wmX >= mScreenWidth * 2 / 3)//右边竖区域
         {
-            if (wmY <= ViewUtil.dp2px(MAX_LENGTH / 2)) {
+            if (wmY <= ViewUtil.dp2px((MAX_LENGTH -MIN_LENGTH) / 2)) {
                 position = PathMenu.RIGHT_TOP;//左上
-            } else if (wmY > mScreenHeight - ViewUtil.dp2px(MAX_LENGTH / 2)) {
+            } else if (wmY > mScreenHeight - ViewUtil.dp2px((MAX_LENGTH +MIN_LENGTH) / 2)) {
                 position = PathMenu.RIGHT_BOTTOM;//左下
             } else {
                 position = PathMenu.RIGHT_CENTER;//左中
@@ -449,7 +466,6 @@ public class ArcTipViewController implements View.OnTouchListener {
                     floatView.setScaleX(1);
                     floatView.setScaleY(1);
                     floatView.setOnTouchListener(ArcTipViewController.this);
-                    mWholeView.setOnTouchListener(ArcTipViewController.this);
                     floatView.setVisibility(View.VISIBLE);
                     mWindowManager.addView(floatView, layoutParams);
 

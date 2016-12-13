@@ -20,6 +20,7 @@ import android.view.animation.RotateAnimation;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.ViewUtil;
 
 /**
  * 子菜单项布局
@@ -33,7 +34,7 @@ public class ArcLayout extends ViewGroup {
     public static final float DEFAULT_TO_DEGREES = 360.0f;
     private float mFromDegrees = DEFAULT_FROM_DEGREES;
     private float mToDegrees = DEFAULT_TO_DEGREES;
-    private static final int MIN_RADIUS = 200;
+    private static final int MIN_RADIUS = ViewUtil.dp2px(50);
     private int mRadius;// 中心菜单圆点到子菜单中心的距离
     private boolean mExpanded = false;
 

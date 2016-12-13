@@ -4,8 +4,8 @@
     <com.forfan.bigbang.view.ArcLayout
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/item_layout"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="146dp"
+        android:layout_height="146dp"
         android:layout_alignParentLeft="true"
         custom:childSize="40dp"
         custom:fromDegrees="270.0"
