@@ -60,9 +60,6 @@ public final class ListenClipboardService extends Service {
         @Override
         public void isShow(boolean isShow) {
             showBigBang = isShow;
-            int text = isShow ? R.string.bigbang_open : R.string.bigbang_close;
-            ToastUtil.show(text);
-
         }
 
         @Override
@@ -254,6 +251,7 @@ public final class ListenClipboardService extends Service {
     }
 
     private void readSettingFromSp(){
+        showBigBang = SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE, true);
         isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         if (!isRun){
             monitorClipborad=false;

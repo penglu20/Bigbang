@@ -290,6 +290,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
 
             final int position = i;
+
             menu.addItem(item, new View.OnClickListener() {
 
                 @Override
@@ -574,6 +575,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 }
             }
         });
+
         return;
 
     }
@@ -773,6 +775,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
     public synchronized void addActionListener(ActionListener actionListener) {
         mActionListener.add(actionListener);
+
     }
 
     public synchronized void removeActionListener(ActionListener actionListener) {

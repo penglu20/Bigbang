@@ -147,8 +147,8 @@ public class BigBangMonitorService extends AccessibilityService {
         @Override
         public void isShow(boolean isShow) {
             showBigBang=isShow;
-//            int text = isShow ? R.string.bigbang_open: R.string.bigbang_close;
-//            ToastUtil.show(text);
+            int text = isShow ? R.string.bigbang_open: R.string.bigbang_close;
+            ToastUtil.show(text);
         }
 
         @Override
@@ -544,6 +544,7 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private synchronized void readSettingFromSp(){
+        showBigBang = SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE, true);
         isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         if (!isRun){
             monitorClick=false;
