@@ -371,8 +371,10 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             item.height = child.getMeasuredHeight();
             if (currentLine.getItems() == null && (isEnter && showSection)) {
                 child.setBackgroundResource(mSectionTextBgRes);
+                child.setPadding(mTextPadding,0,mTextPadding,0);
             } else {
                 child.setBackgroundResource(mTextBgRes);
+                child.setPadding(mTextPadding,0,mTextPadding,0);
             }
             currentLine.addItem(item);
             isEnter = false;

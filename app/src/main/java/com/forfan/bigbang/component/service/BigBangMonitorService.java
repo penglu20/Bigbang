@@ -64,7 +64,6 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private CharSequence mWindowClassName;
 
-    private boolean showBigBang = true;
     private boolean monitorClick = true;
     private boolean showFloatView = true;
     private boolean onlyText = true;
@@ -146,7 +145,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private ArcTipViewController.ActionListener actionListener=new ArcTipViewController.ActionListener() {
         @Override
         public void isShow(boolean isShow) {
-            showBigBang=isShow;
+            isRun=isShow;
             int text = isShow ? R.string.bigbang_open: R.string.bigbang_close;
             ToastUtil.show(text);
         }
@@ -268,16 +267,16 @@ public class BigBangMonitorService extends AccessibilityService {
         if (!monitorClick || event==null ) {
             return;
         }
-        if (showFloatView && !showBigBang) {
+        if (showFloatView && !isRun) {
             return;
         }
         int type=getClickType(event);
         CharSequence className = event.getClassName();
-        if (mWindowClassName.toString().startsWith("com.forfan.bigbang")){
-            //自己的应用不监控
+        if (mWindowClassName==null){
             return;
         }
-        if (mWindowClassName==null){
+        if (mWindowClassName.toString().startsWith("com.forfan.bigbang")){
+            //自己的应用不监控
             return;
         }
         if (mCurrentPackage.equals(event.getPackageName())){
@@ -544,13 +543,12 @@ public class BigBangMonitorService extends AccessibilityService {
     }
 
     private synchronized void readSettingFromSp(){
-        showBigBang = SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE, true);
         isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         if (!isRun){
             monitorClick=false;
             showFloatView=false;
             onlyText=true;
-            ArcTipViewController.getInstance().remove();
+//            ArcTipViewController.getInstance().remove();
             return;
         }
 

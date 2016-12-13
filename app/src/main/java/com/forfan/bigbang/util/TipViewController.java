@@ -221,7 +221,7 @@ public class TipViewController implements  View.OnTouchListener {
         // event listeners
         mWholeView.setOnTouchListener(this);
 
-        showBigBang= SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE,true);
+        showBigBang= SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         floatSwitch.setChecked(showBigBang);
         floatSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -232,7 +232,7 @@ public class TipViewController implements  View.OnTouchListener {
                     for (ActionListener listener:mActionListener) {
                         listener.isShow(showBigBang);
                     }
-                    SPHelper.save(ConstantUtil.FLOAT_SWITCH_STATE,showBigBang);
+                    SPHelper.save(ConstantUtil.TOTAL_SWITCH,showBigBang);
                 }
                 refreshViewState(false);
             }

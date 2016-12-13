@@ -44,7 +44,6 @@ public final class ListenClipboardService extends Service {
 
 
 
-    private boolean showBigBang = true;
     private boolean monitorClipborad = true;
     private boolean showFloatView = true;
 
@@ -59,7 +58,9 @@ public final class ListenClipboardService extends Service {
     private ArcTipViewController.ActionListener actionListener = new ArcTipViewController.ActionListener() {
         @Override
         public void isShow(boolean isShow) {
-            showBigBang = isShow;
+            isRun = isShow;
+            isForegroundShow=false;
+            adjustService();
         }
 
         @Override
@@ -163,7 +164,7 @@ public final class ListenClipboardService extends Service {
         if (!isRun){
             return;
         }
-        if (showFloatView && !showBigBang) {
+        if (showFloatView && !isRun) {
             return;
         }
         boolean isValidString = true;
@@ -251,12 +252,18 @@ public final class ListenClipboardService extends Service {
     }
 
     private void readSettingFromSp(){
-        showBigBang = SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE, true);
-        isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        isRun = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
+        showFloatView =SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
+        if (showFloatView){
+            ArcTipViewController.getInstance().show();
+
+        } else {
+            ArcTipViewController.getInstance().remove();
+        }
         if (!isRun){
             monitorClipborad=false;
             showFloatView=false;
-            ArcTipViewController.getInstance().remove();
+//            ArcTipViewController.getInstance().remove();
             isForegroundShow=false;
             adjustService();
             return;
@@ -301,6 +308,7 @@ public final class ListenClipboardService extends Service {
             } else if(intent.getAction().equals(ConstantUtil.TOTAL_SWITCH_BROADCAST)){
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_NOFITY_SWITCH,!isRun);
                 SPHelper.save(ConstantUtil.TOTAL_SWITCH,!isRun);
+                ArcTipViewController.getInstance().syncStates();
                 sendBroadcast(new Intent(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                 readSettingFromSp();
                 if (isRun){

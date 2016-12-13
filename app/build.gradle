@@ -41,8 +41,8 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 18
-        versionName "1.7.2"
+        versionCode 19
+        versionName "2.0.0"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -158,7 +158,7 @@ android {
         }
         coolapk{
             resources.srcDirs += ['src/coolapk/res']
-            res.srcDirs += ['src/xposed/res']
+            res.srcDirs += ['src/coolapk/res']
             java.srcDirs += ['src/Normal/java']
         }
     }

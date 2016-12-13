@@ -235,7 +235,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     int[] icons;
 
     private void initView() {
-        showBigBang = SPHelper.getBoolean(ConstantUtil.FLOAT_SWITCH_STATE, true);
+        showBigBang = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
 
         floatView = (LinearLayout) View.inflate(mContext, R.layout.arc_float_icon, null);
         floatImageView = ((ImageView) floatView.findViewById(R.id.float_image));
@@ -307,11 +307,11 @@ public class ArcTipViewController implements View.OnTouchListener {
             case 0:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_TIPVIEW_SWITCH);
                 showBigBang = !showBigBang;
+                SPHelper.save(ConstantUtil.TOTAL_SWITCH, showBigBang);
                 if (mActionListener != null) {
                     for (ActionListener listener : mActionListener) {
                         listener.isShow(showBigBang);
                     }
-                    SPHelper.save(ConstantUtil.FLOAT_SWITCH_STATE, showBigBang);
                 }
                 initArcMenu(archMenu, icons);
                 break;
@@ -327,6 +327,14 @@ public class ArcTipViewController implements View.OnTouchListener {
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
                 break;
+        }
+    }
+
+    public void syncStates(){
+        showBigBang=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        initArcMenu(archMenu, icons);
+        if (floatView!=null){
+            floatView.setAlpha(mCurrentIconAlpha);
         }
     }
 
