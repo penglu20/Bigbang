@@ -77,8 +77,8 @@ public class CropParams {
         compressQuality = DEFAULT_COMPRESS_QUALITY;
         compressWidth = DEFAULT_COMPRESS_WIDTH;
         compressHeight = DEFAULT_COMPRESS_HEIGHT;
-        aspectX = 1;
-        aspectY = 2;
+//        aspectX = 1;
+//        aspectY = 2;
         outputX = DEFAULT_OUTPUT;
         outputY = DEFAULT_OUTPUT;
         refreshUri();

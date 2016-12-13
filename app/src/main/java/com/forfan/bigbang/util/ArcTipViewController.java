@@ -219,7 +219,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         mActionListener = new ArrayList<>();
         mScaledTouchSlop = ViewUtil.dp2px(20);
         initView();
-        showFloatImageView();
+       // showFloatImageView();
     }
 
     int[] icons;
@@ -444,7 +444,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                     reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), ViewUtil.dp2px(MIN_LENGTH));
                     removeAllView();
                     LogUtil.e("shang","addView1");
-                    floatView.setAlpha(1);
+                    floatView.setAlpha(0.8f);
                     floatView.setScaleX(1);
                     floatView.setScaleY(1);
                     floatView.setOnTouchListener(ArcTipViewController.this);

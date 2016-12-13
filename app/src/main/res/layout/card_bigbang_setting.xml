@@ -19,6 +19,10 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
     <RelativeLayout
         android:id="@+id/setting_search_engine"
         style="@style/hintTextViewRelativeLayoutSelector"
