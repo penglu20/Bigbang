@@ -153,10 +153,12 @@ android {
         }
         xposed{
             resources.srcDirs += ['src/xposed/res']
+            res.srcDirs += ['src/xposed/res']
             java.srcDirs += ['src/xposed/java']
         }
         coolapk{
             resources.srcDirs += ['src/coolapk/res']
+            res.srcDirs += ['src/xposed/res']
             java.srcDirs += ['src/Normal/java']
         }
     }

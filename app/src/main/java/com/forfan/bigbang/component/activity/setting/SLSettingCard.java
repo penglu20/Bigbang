@@ -198,9 +198,13 @@ public class SLSettingCard extends AbsCard {
 
         File desDir= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup");
 
-        IOUtil.copyFile(dbDir.getAbsolutePath(),new File(desDir,"databases").getAbsolutePath());
-        IOUtil.copyFile(spDir.getAbsolutePath()+File.separator+"BigBang_sp_main.xml",new File(desDir,"shared_prefs").getAbsolutePath()+File.separator+"BigBang_sp_main.xml");
-
+        try {
+            IOUtil.copyFile(dbDir.getAbsolutePath(),new File(desDir,"databases").getAbsolutePath());
+            IOUtil.copyFile(spDir.getAbsolutePath()+File.separator+"BigBang_sp_main.xml",new File(desDir,"shared_prefs").getAbsolutePath()+File.separator+"BigBang_sp_main.xml");
+            ToastUtil.show(R.string.save_success);
+        } catch (IOException e) {
+            ToastUtil.show(R.string.save_fail);
+        }
         SPHelper.save(ConstantUtil.DIY_OCR_KEY, ocr);
     }
 
@@ -218,8 +222,9 @@ public class SLSettingCard extends AbsCard {
         InputStream inputStream=new ByteArrayInputStream(ocrEncrypt.getBytes());
         try {
             IOUtil.saveToFile(inputStream,desOCRFile);
+            ToastUtil.show(R.string.save_success);
         } catch (IOException e) {
-            e.printStackTrace();
+            ToastUtil.show(R.string.save_fail);
         }finally {
             try {
                 inputStream.close();
@@ -232,7 +237,10 @@ public class SLSettingCard extends AbsCard {
 
 
     private void loadSettings(){
-        String toast=mContext.getString(R.string.effect_after_reboot);
+        boolean dbRestore=true;
+        boolean spRestore=true;
+        String toast="";
+        String toastEnd=mContext.getString(R.string.effect_after_reboot);
         File file = mContext.getFilesDir();
         File dbDir=new File(file.getParentFile(),"databases");
         File spDir=new File(file.getParentFile().getAbsolutePath()+"/shared_prefs/BigBang_sp_main.xml");
@@ -242,14 +250,25 @@ public class SLSettingCard extends AbsCard {
 
         if (desDbDir.exists()) {
             IOUtil.deleteDirs(dbDir.getAbsolutePath());
-            IOUtil.copyFile(desDbDir.getAbsolutePath(),dbDir.getAbsolutePath());
+            try {
+                IOUtil.copyFile(desDbDir.getAbsolutePath(),dbDir.getAbsolutePath());
+                dbRestore=true;
+            } catch (IOException e) {
+                dbRestore=false;
+
+            }
         }
 
         String ocrOrigin = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
         if (desSpFile.exists()) {
             SPHelper.clear();
             IOUtil.deleteDirs(spDir.getAbsolutePath());
-            IOUtil.copyFile(desSpFile.getAbsolutePath(),spDir.getAbsolutePath());
+            try {
+                IOUtil.copyFile(desSpFile.getAbsolutePath(),spDir.getAbsolutePath());
+                spRestore=true;
+            } catch (IOException e) {
+                spRestore=false;
+            }
         }
 
 
@@ -271,17 +290,22 @@ public class SLSettingCard extends AbsCard {
         }
 
         String ocr="";
+        if (!dbRestore||!spRestore){
+            toast=mContext.getString(R.string.restore_failed);
+        }else {
+            toast=mContext.getString(R.string.restore_success);
+        }
         if (!TextUtils.isEmpty(ocrOrigin)){
             ocr=ocrOrigin;
-            toast=mContext.getString(R.string.restore_ocr_origin)+toast;
+            toast+=mContext.getString(R.string.restore_ocr_origin);
         }else if (!TextUtils.isEmpty(ocrBackup)){
             ocr=ocrBackup;
-            toast=mContext.getString(R.string.restore_ocr_back)+toast;
+            toast+=mContext.getString(R.string.restore_ocr_back);
         }
         saveOcrKeyWithSP(ocr);
 
         mContext.sendBroadcast(new Intent(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST));
-        ToastUtil.show(toast);
+        ToastUtil.show(toast+toastEnd);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

@@ -122,7 +122,7 @@ public class IOUtil {
         writeString(new File(file), str);
     }
 
-    public static boolean copy(InputStream in, String target) throws IOException {
+    public static void copy(InputStream in, String target) throws IOException {
         FileOutputStream out = null;
 
         try {
@@ -145,11 +145,9 @@ public class IOUtil {
             }
 
         }
-
-        return true;
     }
 
-    public static boolean copy(String source, String target) {
+    public static void copy(String source, String target) throws IOException {
         FileInputStream in = null;
         FileOutputStream out = null;
 
@@ -164,12 +162,6 @@ public class IOUtil {
                 out.write(e, 0, c1);
             }
 
-            return true;
-        } catch (FileNotFoundException var21) {
-            var21.printStackTrace();
-            return false;
-        } catch (IOException var22) {
-            var22.printStackTrace();
         } finally {
             if(in != null) {
                 try {
@@ -189,8 +181,6 @@ public class IOUtil {
             }
 
         }
-
-        return false;
     }
 
     public static boolean copyWithFileLock(String source, String target) {
@@ -417,7 +407,7 @@ public class IOUtil {
         file.delete();
     }
 
-    public static void copyFile(String srcPath,String desPath){
+    public static void copyFile(String srcPath,String desPath) throws IOException {
         File srcDir=new File(srcPath);
         File desDir=new File(desPath);
         if (!srcDir.exists()){

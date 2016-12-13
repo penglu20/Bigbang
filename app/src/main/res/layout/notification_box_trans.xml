@@ -26,7 +26,8 @@
 		<TextView
 			android:layout_width="1dp"
 			android:background="@color/divider"
-			android:layout_margin="8dp"
+			android:layout_marginTop="8dp"
+			android:layout_marginBottom="8dp"
 			android:layout_height="match_parent"/>
 
 		<TextView
@@ -43,7 +44,8 @@
 		<TextView
 			android:layout_width="1dp"
 			android:background="@color/divider"
-			android:layout_margin="8dp"
+			android:layout_marginTop="8dp"
+			android:layout_marginBottom="8dp"
 			android:layout_height="match_parent"/>
 		<TextView
 			android:id="@+id/monitor_clipboard"
@@ -59,7 +61,8 @@
 		<TextView
 			android:layout_width="1dp"
 			android:background="@color/divider"
-			android:layout_margin="8dp"
+			android:layout_marginTop="8dp"
+			android:layout_marginBottom="8dp"
 			android:layout_height="match_parent"/>
 		<TextView
 			android:id="@+id/universal_copy"
@@ -75,7 +78,8 @@
 		<TextView
 			android:layout_width="1dp"
 			android:background="@color/divider"
-			android:layout_margin="8dp"
+			android:layout_marginTop="8dp"
+			android:layout_marginBottom="8dp"
 			android:layout_height="match_parent"/>
 		<TextView
 			android:id="@+id/screen_cap"

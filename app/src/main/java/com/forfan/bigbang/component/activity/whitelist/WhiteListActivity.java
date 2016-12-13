@@ -325,8 +325,10 @@ public class WhiteListActivity extends BaseActivity {
 
 
     private void saveSelectedApp() {
-        mSelectionDbHelper.insertAll(mCanOpenApplicationInfos);
-        sendBroadcast(new Intent(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST));
+        if (mCanOpenApplicationInfos!=null) {
+            mSelectionDbHelper.insertAll(mCanOpenApplicationInfos);
+            sendBroadcast(new Intent(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST));
+        }
     }
 
     private void initAppList() {
