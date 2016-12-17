@@ -147,7 +147,7 @@ public class UrlCountUtil {
     
     
     public static final String STATUS_FLOATVIEW_SET_SIZE="status_floatview_set_size";
-    public static final java.lang.String STATUS_FLOATVIEW_SET_ALPHA = "status_floatview_set_alpha";
+    public static final String STATUS_FLOATVIEW_SET_ALPHA = "status_floatview_set_alpha";
     public static final String STATUS_SET_FLOATVIEW_BGCOLOR="status_set_floatview_bgcolor";
 
     public static Context mContext= BigBangApp.getInstance();

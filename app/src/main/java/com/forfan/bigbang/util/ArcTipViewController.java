@@ -170,7 +170,6 @@ public class ArcTipViewController implements View.OnTouchListener {
         mContext = application;
         mWindowManager = (WindowManager) application.getSystemService(Context.WINDOW_SERVICE);
 
-
         int resourceId = application.getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             mStatusBarHeight = application.getResources().getDimensionPixelSize(resourceId);
@@ -248,7 +247,6 @@ public class ArcTipViewController implements View.OnTouchListener {
         mWholeView = (RelativeLayout) View.inflate(mContext, R.layout.arc_view_float, null);
         archMenu = (ArcMenu) mWholeView.findViewById(R.id.arc_menu);
         initIcon();
-        initArcMenu(archMenu, icons);
         archMenu.setOnModeSeletedListener(new ArcMenu.OnModeSeletedListener() {
             @Override
             public void onModeSelected() {
@@ -487,6 +485,8 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     private void showFloatImageView() {
+        if(layoutParams == null)
+            reuseSavedWindowMangerPosition();
         showFloatIcon();
         mainHandler.post(new Runnable() {
             @Override
