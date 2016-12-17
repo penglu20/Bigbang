@@ -44,6 +44,8 @@ public class SettingFloatViewActivity extends BaseActivity {
 
     private static final int MIN_ITEM_PADDING =30;
     private static final int MAX_ITEM_PADDING =80;
+    private static final int ALPHA_MIN = 20;
+    private static final int ALPHA_MAX = 100;
 
 
     private SeekBar mItemPaddingSeekBar;
@@ -86,7 +88,7 @@ public class SettingFloatViewActivity extends BaseActivity {
 
 
         mItemPaddingSeekBar.setMax(MAX_ITEM_PADDING - MIN_ITEM_PADDING);
-
+        mBigbangAlphaSeekBar.setMax(ALPHA_MAX -ALPHA_MIN);
 
         mItemPaddingSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -108,10 +110,12 @@ public class SettingFloatViewActivity extends BaseActivity {
 
             }
         });
+
+        ;
         mBigbangAlphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (progress);
+                int value = progress + ALPHA_MIN ;
 //                mBigBangLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,value);
 //                cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
                 bigbangAlpha.setText(getString(R.string.setting_floatview_alpha_percent) + value + "%");
@@ -142,19 +146,16 @@ public class SettingFloatViewActivity extends BaseActivity {
 
 
         int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
-        alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
+        alpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#000000"));
 
 
         mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
         mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
-
-
         mItemPaddingSeekBar.setProgress((int) ((padding - MIN_ITEM_PADDING)));
-        bigbangAlpha.setText(getString(R.string.setting_floatview_alpha_percent) + alpha + "%");
 
-
-        mBigbangAlphaSeekBar.setProgress(alpha);
+        mBigbangAlphaSeekBar.setProgress(ALPHA_MAX -ALPHA_MIN);
+        mBigbangAlphaSeekBar.setProgress(alpha-ALPHA_MIN);
 
 
         applyColor(lastPickedColor);
