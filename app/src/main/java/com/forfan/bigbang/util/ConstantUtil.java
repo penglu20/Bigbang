@@ -89,6 +89,9 @@ public class ConstantUtil {
     public static final String IS_FULL_SCREEN ="is_full_screen";
     public static final String IS_STICK_HEADER ="is_stick_header";
 
+    public static final String FLOATVIEW_SIZE ="floatview_size";
+    public static final String FLOATVIEW_ALPHA ="floatview_alpha";
+    public static final String FLOATVIEW_DIY_BG_COLOR ="bigbang_diy_bg_color";
 
 
     public static final int DEFAULT_TEXT_SIZE=14;

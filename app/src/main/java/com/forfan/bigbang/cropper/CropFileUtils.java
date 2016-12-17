@@ -4,12 +4,16 @@ import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import com.forfan.bigbang.cropper.handler.CropImage;
 
 import java.io.*;
 
@@ -194,4 +198,28 @@ public class CropFileUtils {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
 
+    public static void copyRoundImageFile(String path, String floatviewImagePath) {
+        File destFile = new File(floatviewImagePath);
+        Bitmap bitmap = CropImage.toOvalBitmap(BitmapFactory.decodeFile(path));
+
+        try {
+            if (!destFile.exists()) {
+                boolean result = destFile.createNewFile();
+                Log.d(TAG, "create new file result: " + result + " file : " + floatviewImagePath);
+            }
+            FileOutputStream out = new FileOutputStream(destFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.flush();
+            out.close();
+            Log.i(TAG, "已经保存");
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+    }
 }

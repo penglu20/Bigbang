@@ -5,7 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,13 +27,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.flask.colorpicker.CircleColorDrawable;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
 import com.forfan.bigbang.view.ArcMenu;
 import com.forfan.bigbang.view.PathMenu;
 import com.shang.commonjar.contentProvider.SPHelper;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +48,12 @@ public class ArcTipViewController implements View.OnTouchListener {
     private static final int HIDETOEDGE = 10011;
 
 
-    private static final float MAX_LENGTH = 146;
-    private static final float MIN_LENGTH = 50;
+    private static float MAX_LENGTH = 146;
+    private static float MIN_LENGTH = 50;
     private ArcMenu archMenu;
     private boolean isShowIcon;
     private ImageView floatImageView;
-    private float mCurrentIconAlpha = 0.7f ;
+    private float mCurrentIconAlpha = 0.7f;
 
     public void showTipViewForStartActivity(Intent intent) {
         boolean isNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY, false);
@@ -219,7 +225,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                             //TODO 不贴边的问题
 //                            layoutParams.width = (int) ViewUtil.dp2px(20);
                             reuseSavedWindowMangerPosition(ViewUtil.dp2px(20), WindowManager.LayoutParams.WRAP_CONTENT);
-                            updateViewPosition(layoutParams.x,layoutParams.y);
+                            updateViewPosition(layoutParams.x, layoutParams.y);
 
                             break;
                     }
@@ -229,7 +235,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         mActionListener = new ArrayList<>();
         mScaledTouchSlop = ViewUtil.dp2px(20);
         initView();
-        isRemoved=true;
+        isRemoved = true;
     }
 
     int[] icons;
@@ -260,12 +266,12 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     private void initIcon() {
-        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN ){
-            icons = new int[]{R.mipmap.ic_float_switch };
-        }else if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP ){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+            icons = new int[]{R.mipmap.ic_float_switch};
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy};
-        }else {
-            icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy,R.mipmap.ic_float_screen};
+        } else {
+            icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy, R.mipmap.ic_float_screen};
 
         }
     }
@@ -273,6 +279,13 @@ public class ArcTipViewController implements View.OnTouchListener {
     private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
         menu.removeAllItemViews();
         final int itemCount = itemDrawables.length;
+        if(archMenu != null){
+            if (SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0) != 0) {
+                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0));
+                archMenu.getHintView().setBackground(circleColorDrawable);
+            }
+
+        }
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(mWholeView.getContext());
             item.setImageResource(itemDrawables[i]);
@@ -286,8 +299,18 @@ public class ArcTipViewController implements View.OnTouchListener {
                 }
             }
             item.setPadding(ViewUtil.dp2px(8), ViewUtil.dp2px(8), ViewUtil.dp2px(8), ViewUtil.dp2px(8));
-            item.setBackgroundResource(R.drawable.float_view_image_bg);
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            if (SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0) != 0) {
+                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0));
+                item.setBackground(circleColorDrawable);
+            } else {
+                item.setBackgroundResource(R.drawable.float_view_image_bg);
+            }
+            if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
+                item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f);
+            }
+
+
 
             final int position = i;
 
@@ -330,10 +353,10 @@ public class ArcTipViewController implements View.OnTouchListener {
         }
     }
 
-    public void syncStates(){
-        showBigBang=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+    public void syncStates() {
+        showBigBang = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
         initArcMenu(archMenu, icons);
-        if (floatView!=null){
+        if (floatView != null) {
             floatView.setAlpha(mCurrentIconAlpha);
         }
     }
@@ -352,6 +375,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                     int position = getArcPostion(layoutParams);
                     mWindowManager.addView(mWholeView, layoutParams);
                     reMeasureHeight(position, layoutParams);
+                    initArcMenu(archMenu,icons);
                     archMenu.refreshPathMenu(position);
                     mWindowManager.updateViewLayout(mWholeView, layoutParams);
                     archMenu.performClickShowMenu(position);
@@ -375,7 +399,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             } else {
                 mScreenWidth = mWindowManager.getDefaultDisplay().getWidth();
             }
-            if (layoutParams.x > mScreenWidth/2) {
+            if (layoutParams.x > mScreenWidth / 2) {
                 layoutParams.x = mScreenWidth;
             } else {
                 layoutParams.x = 0;
@@ -427,12 +451,12 @@ public class ArcTipViewController implements View.OnTouchListener {
             mScreenWidth = mWindowManager.getDefaultDisplay().getWidth();
             mScreenHeight = mWindowManager.getDefaultDisplay().getHeight();
         }
-        mScreenHeight=mScreenHeight-mStatusBarHeight;
+        mScreenHeight = mScreenHeight - mStatusBarHeight;
         if (wmX <= mScreenWidth / 3) //左边  竖区域
         {
-            if (wmY <= ViewUtil.dp2px((MAX_LENGTH -MIN_LENGTH)/ 2)) {
+            if (wmY <= ViewUtil.dp2px((MAX_LENGTH - MIN_LENGTH) / 2)) {
                 position = PathMenu.LEFT_TOP;//左上
-            } else if (wmY > mScreenHeight - ViewUtil.dp2px((MAX_LENGTH +MIN_LENGTH) / 2)) {
+            } else if (wmY > mScreenHeight - ViewUtil.dp2px((MAX_LENGTH + MIN_LENGTH) / 2)) {
                 position = PathMenu.LEFT_BOTTOM;//左下
             } else {
                 position = PathMenu.LEFT_CENTER;//左中
@@ -451,9 +475,9 @@ public class ArcTipViewController implements View.OnTouchListener {
 //        }
         else if (wmX >= mScreenWidth * 2 / 3)//右边竖区域
         {
-            if (wmY <= ViewUtil.dp2px((MAX_LENGTH -MIN_LENGTH) / 2)) {
+            if (wmY <= ViewUtil.dp2px((MAX_LENGTH - MIN_LENGTH) / 2)) {
                 position = PathMenu.RIGHT_TOP;//左上
-            } else if (wmY > mScreenHeight - ViewUtil.dp2px((MAX_LENGTH +MIN_LENGTH) / 2)) {
+            } else if (wmY > mScreenHeight - ViewUtil.dp2px((MAX_LENGTH + MIN_LENGTH) / 2)) {
                 position = PathMenu.RIGHT_BOTTOM;//左下
             } else {
                 position = PathMenu.RIGHT_CENTER;//左中
@@ -470,7 +494,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 synchronized (ArcTipViewController.this) {
                     reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), ViewUtil.dp2px(MIN_LENGTH));
                     removeAllView();
-                    LogUtil.e("shang","addView1");
+                    LogUtil.e("shang", "addView1");
                     floatView.setAlpha(mCurrentIconAlpha);
                     floatView.setScaleX(1);
                     floatView.setScaleY(1);
@@ -491,19 +515,23 @@ public class ArcTipViewController implements View.OnTouchListener {
             @Override
             public void run() {
                 mainHandler.removeMessages(HIDETOEDGE);
-                LogUtil.e("shang","addView0");
-                floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
+                LogUtil.e("shang", "addView0");
+                if (new File(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH).exists()) {
+                    floatImageView.setImageURI(Uri.parse(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH));
+                } else {
+                    floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
+                }
                 LinearLayout.LayoutParams floatImageViewlayoutParams = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
-                floatImageViewlayoutParams.width = ViewUtil.dp2px(50);
+                floatImageViewlayoutParams.width = ViewUtil.dp2px(MIN_LENGTH);
                 floatImageView.setLayoutParams(floatImageViewlayoutParams);
 
-                reuseSavedWindowMangerPosition(ViewUtil.dp2px(50), WindowManager.LayoutParams.WRAP_CONTENT);
+                reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), WindowManager.LayoutParams.WRAP_CONTENT);
                 try {
                     mWindowManager.updateViewLayout(floatView, layoutParams);
-                }catch (Throwable e){
-                    LogUtil.e("shang","showFloatIcon e="+e);
+                } catch (Throwable e) {
+                    LogUtil.e("shang", "showFloatIcon e=" + e);
                 }
-                mainHandler.sendEmptyMessageDelayed(HIDETOEDGE,  5000);
+                mainHandler.sendEmptyMessageDelayed(HIDETOEDGE, 5000);
             }
         });
 
@@ -517,7 +545,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         //获取windowManager
         int w = width_vale;
         int h = height_value;
-        if (layoutParams==null){
+        if (layoutParams == null) {
             DisplayMetrics displayMetrics = new DisplayMetrics();
             mWindowManager.getDefaultDisplay().getMetrics(displayMetrics);
             density = displayMetrics.density;
@@ -556,16 +584,20 @@ public class ArcTipViewController implements View.OnTouchListener {
             layoutParams.gravity = Gravity.TOP | Gravity.LEFT;
             layoutParams.x = x;
             layoutParams.y = y;
-        }else {
-            layoutParams.width=w;
-            layoutParams.height=h;
+        } else {
+            layoutParams.width = w;
+            layoutParams.height = h;
         }
 
     }
 
+    public synchronized void showForSettings() {
+        isRemoved = true;
+    }
+
     public synchronized void show() {
         if (isRemoved) {
-            LogUtil.e("shang","添加floatview");
+            LogUtil.e("shang", "添加floatview");
             showFloatImageView();
             isRemoved = false;
         }
@@ -593,9 +625,9 @@ public class ArcTipViewController implements View.OnTouchListener {
         mainHandler.removeCallbacks(showViewRunnable);
         mainHandler.removeMessages(HIDETOEDGE);
         if (mWindowManager != null && floatView != null && !isRemoved) {
-             removeAllView();
+            removeAllView();
             isRemoved = true;
-            LogUtil.e("shang","移除floatview");
+            LogUtil.e("shang", "移除floatview");
         }
     }
 
@@ -652,7 +684,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         LogUtil.e("shang", "event:" + event);
-        if(!isShowIcon){
+        if (!isShowIcon) {
             showFloatImageView();
             return false;
         }
@@ -714,7 +746,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 moveToEdge();
 
             case MotionEvent.ACTION_OUTSIDE:
-                if(!isShowIcon){
+                if (!isShowIcon) {
                     showFloatImageView();
                 }
                 break;

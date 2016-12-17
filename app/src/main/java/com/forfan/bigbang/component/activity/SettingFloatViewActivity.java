@@ -1,18 +1,16 @@
 package com.forfan.bigbang.component.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,48 +21,43 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.cropper.CropFileUtils;
+import com.forfan.bigbang.cropper.CropHelper;
+import com.forfan.bigbang.cropper.handler.CropImage;
+import com.forfan.bigbang.cropper.handler.CropImageView;
+import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
-import com.forfan.bigbang.view.BigBangLayout;
-import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
+
+import java.io.File;
 
 /**
  * Created by penglu on 2016/11/9.
  */
 
 public class SettingFloatViewActivity extends BaseActivity {
-    private static final int BIGBANG_BACKGROUND_COLOR_ARRAY_RES=R.array.bigbang_background_color;
-
-    private static final int MIN_TEXT_SIZE = 8;
-    private static final int MAX_TEXT_SIZE = 25;
-
-    private static final int MIN_LINE_MARGIN = (int) ViewUtil.dp2px(0);
-    private static final int MAX_LINE_MARGIN = (int) ViewUtil.dp2px(25);
+    private static final int BIGBANG_BACKGROUND_COLOR_ARRAY_RES = R.array.bigbang_background_color;
 
 
-    private static final int MIN_ITEM_MARGIN = (int) ViewUtil.dp2px(0);
-    private static final int MAX_ITEM_MARGIN = (int) ViewUtil.dp2px(20);
-
-
-    private static final int MIN_ITEM_PADDING = (int) ViewUtil.dp2px(2);
-    private static final int MAX_ITEM_PADDING = (int) ViewUtil.dp2px(25);
+    private static final int MIN_ITEM_PADDING =30;
+    private static final int MAX_ITEM_PADDING =80;
 
 
     private SeekBar mItemPaddingSeekBar;
 
-    private TextView textSize, lineMargin, itemMargin,itemPadding;
+    private TextView textSize, lineMargin, itemMargin, itemPadding;
     private TextView bigbangAlpha;
     private SeekBar mBigbangAlphaSeekBar;
-
 
 
     private RecyclerView backgroundRV;
     private int[] bigbangBackgroungColors;
     private int lastPickedColor;//只存rgb
     private int alpha;//只存alpha，0-100
+    public static String FLOATVIEW_IMAGE_PATH = "/data/data/com.forfan.bigbang/files" + File.separator + "floatview.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +73,6 @@ public class SettingFloatViewActivity extends BaseActivity {
         getSupportActionBar().setTitle(R.string.setting_floatview);
 
 
-
-
         mItemPaddingSeekBar = (SeekBar) findViewById(R.id.set_item_padding);
         mBigbangAlphaSeekBar = (SeekBar) findViewById(R.id.set_bigbang_alpha);
 
@@ -91,8 +82,7 @@ public class SettingFloatViewActivity extends BaseActivity {
         itemPadding = (TextView) findViewById(R.id.item_padding);
         bigbangAlpha = (TextView) findViewById(R.id.bigbang_alpha);
 
-        backgroundRV= (RecyclerView) findViewById(R.id.bigbang_background);
-
+        backgroundRV = (RecyclerView) findViewById(R.id.bigbang_background);
 
 
         mItemPaddingSeekBar.setMax(MAX_ITEM_PADDING - MIN_ITEM_PADDING);
@@ -103,9 +93,10 @@ public class SettingFloatViewActivity extends BaseActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value = (int) (MIN_ITEM_PADDING + progress);
                 //mBigBangLayout.setTextPadding(value);
-                itemPadding.setText(getString(R.string.setting_item_padding) + value);
-                SPHelper.save(ConstantUtil.ITEM_PADDING, value);
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ITEM_PADDING,value+"");
+                itemPadding.setText(getString(R.string.setting_floatview_size) + value);
+                SPHelper.save(ConstantUtil.FLOATVIEW_SIZE, (float)value);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_FLOATVIEW_SET_SIZE, value + "");
+                ArcTipViewController.getInstance().showForSettings();
             }
 
             @Override
@@ -120,13 +111,14 @@ public class SettingFloatViewActivity extends BaseActivity {
         mBigbangAlphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                int value = (int) (  progress);
+                int value = (int) (progress);
 //                mBigBangLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,value);
 //                cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
-                bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + value +"%");
-                SPHelper.save(ConstantUtil.BIGBANG_ALPHA, value);
-                alpha=value;
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ALPHA,value+"");
+                bigbangAlpha.setText(getString(R.string.setting_floatview_alpha_percent) + value + "%");
+                SPHelper.save(ConstantUtil.FLOATVIEW_ALPHA, value);
+                alpha = value;
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_FLOATVIEW_SET_ALPHA, value + "");
+                ArcTipViewController.getInstance().showForSettings();
             }
 
             @Override
@@ -139,44 +131,41 @@ public class SettingFloatViewActivity extends BaseActivity {
 
             }
         });
+        findViewById(R.id.select_pic).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/*");
+                startActivityForResult(intent, CropHelper.REQUEST_CROP);
+            }
+        });
 
 
-
-
-
-        int text = SPHelper.getInt(ConstantUtil.TEXT_SIZE, ConstantUtil.DEFAULT_TEXT_SIZE);
-        int line = SPHelper.getInt(ConstantUtil.LINE_MARGIN, ConstantUtil.DEFAULT_LINE_MARGIN);
-        int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
         int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
-
+        lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#000000"));
 
 
         mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
-
         mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
 
 
-        mItemPaddingSeekBar.setProgress((int) ((padding-MIN_ITEM_PADDING)));
-
-        bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + alpha +"%");
+        mItemPaddingSeekBar.setProgress((int) ((padding - MIN_ITEM_PADDING)));
+        bigbangAlpha.setText(getString(R.string.setting_floatview_alpha_percent) + alpha + "%");
 
 
         mBigbangAlphaSeekBar.setProgress(alpha);
 
 
-
-
         applyColor(lastPickedColor);
 
-        bigbangBackgroungColors=getResources().getIntArray(BIGBANG_BACKGROUND_COLOR_ARRAY_RES);
-        backgroundRV.setLayoutManager(new GridLayoutManager(this,4));
-        backgroundRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.GRID_LIST));
+        bigbangBackgroungColors = getResources().getIntArray(BIGBANG_BACKGROUND_COLOR_ARRAY_RES);
+        backgroundRV.setLayoutManager(new GridLayoutManager(this, 4));
+        backgroundRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.GRID_LIST));
         backgroundRV.setAdapter(backgroundColorAdapter);
     }
 
-    private RecyclerView.Adapter backgroundColorAdapter=new RecyclerView.Adapter() {
+    private RecyclerView.Adapter backgroundColorAdapter = new RecyclerView.Adapter() {
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ColorVIewHolder(new TextView(SettingFloatViewActivity.this));
@@ -184,9 +173,9 @@ public class SettingFloatViewActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            TextView view= (TextView) holder.itemView;
+            TextView view = (TextView) holder.itemView;
             view.setMinimumHeight((int) ViewUtil.dp2px(40));
-            if (position==bigbangBackgroungColors.length){
+            if (position == bigbangBackgroungColors.length) {
                 view.setBackgroundColor(getResources().getColor(R.color.white));
                 view.setText(R.string.set_background_myself);
                 view.setTextColor(getResources().getColor(R.color.black));
@@ -199,17 +188,18 @@ public class SettingFloatViewActivity extends BaseActivity {
                         UrlCountUtil.onEvent(UrlCountUtil.CLICK_SET_BB_BGCOLOR_DIY);
                     }
                 });
-            }else {
+            } else {
                 view.setText("");
                 view.setBackgroundColor(bigbangBackgroungColors[position]);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (bigbangBackgroungColors.length>position) {
+                        if (bigbangBackgroungColors.length > position) {
                             applyColor(bigbangBackgroungColors[position]);
-                            lastPickedColor=bigbangBackgroungColors[position];
-                            SPHelper.save(ConstantUtil.BIGBANG_DIY_BG_COLOR,bigbangBackgroungColors[position] );
-                            UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR,lastPickedColor+"");
+                            lastPickedColor = bigbangBackgroungColors[position];
+                            SPHelper.save(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, bigbangBackgroungColors[position]);
+                            UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_BGCOLOR, lastPickedColor + "");
+                            ArcTipViewController.getInstance().showForSettings();
                         }
                     }
                 });
@@ -218,10 +208,10 @@ public class SettingFloatViewActivity extends BaseActivity {
 
         @Override
         public int getItemCount() {
-            return bigbangBackgroungColors.length+1;
+            return bigbangBackgroungColors.length + 1;
         }
 
-        class ColorVIewHolder extends RecyclerView.ViewHolder{
+        class ColorVIewHolder extends RecyclerView.ViewHolder {
             public ColorVIewHolder(View itemView) {
                 super(itemView);
             }
@@ -229,14 +219,14 @@ public class SettingFloatViewActivity extends BaseActivity {
 
     };
 
-    private void applyColor(int color){
+    private void applyColor(int color) {
     }
 
 
-    private void applyColor(int color,int alpha){
+    private void applyColor(int color, int alpha) {
     }
 
-    private void showColorPickDialog(){
+    private void showColorPickDialog() {
         ColorPickerDialogBuilder
                 .with(this)
                 .setTitle(R.string.set_background_myself)
@@ -246,18 +236,21 @@ public class SettingFloatViewActivity extends BaseActivity {
                 .setOnColorSelectedListener(new OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int selectedColor) {
-                        applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)),(int) (Color.alpha(selectedColor)*100.0/255));
+                        applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)), (int) (Color.alpha(selectedColor) * 100.0 / 255));
                     }
                 })
                 .setPositiveButton(R.string.confirm, new ColorPickerClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int selectedColor, Integer[] allColors) {
-                        lastPickedColor=Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
-                        alpha= (int) (Color.alpha(selectedColor)*100.0/255);
+                        lastPickedColor = Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor));
+                        alpha = (int) (Color.alpha(selectedColor) * 100.0 / 255);
                         applyColor(Color.rgb(Color.red(selectedColor), Color.green(selectedColor), Color.blue(selectedColor)));
-                        SPHelper.save(ConstantUtil.BIGBANG_DIY_BG_COLOR,lastPickedColor );
-                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR,lastPickedColor+"");
+//                        SPHelper.save(ConstantUtil.BIGBANG_DIY_BG_COLOR, lastPickedColor);
+//                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BGCOLOR, lastPickedColor + "");
+                        SPHelper.save(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, lastPickedColor);
+                        UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_BGCOLOR, lastPickedColor + "");
                         mBigbangAlphaSeekBar.setProgress(alpha);
+                        ArcTipViewController.getInstance().showForSettings();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -272,4 +265,22 @@ public class SettingFloatViewActivity extends BaseActivity {
                 .show();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == -1) {
+            CropImage.ActivityResult result = data.getExtras().getParcelable(CropImage.CROP_IMAGE_EXTRA_RESULT);
+            CropFileUtils.copyRoundImageFile(result.getUri().getPath(),FLOATVIEW_IMAGE_PATH);
+            ArcTipViewController.getInstance().showForSettings();
+        } else if (requestCode == CropHelper.REQUEST_CROP && resultCode == -1) {
+            if (data.getData() != null) {
+                CropImage.activity(data.getData())
+                        .setCropShape(CropImageView.CropShape.OVAL)
+                        .setFixAspectRatio(true)
+                        .setMultiTouchEnabled(true)
+                        .start(SettingFloatViewActivity.this);
+            }
+            // CropHelper.handleResult(this, requestCode, resultCode, data);
+        }
+    }
 }

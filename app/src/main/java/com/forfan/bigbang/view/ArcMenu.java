@@ -33,6 +33,7 @@ import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 
@@ -278,6 +279,10 @@ public class ArcMenu extends FrameLayout {
 
     public void removeAllItemViews() {
         mArcLayout.removeAllViews();
+    }
+
+    public ImageView getHintView() {
+        return mHintView;
     }
 
     public interface OnModeSeletedListener{

@@ -204,7 +204,7 @@
 
     <string name="control_by_float">Control by float view</string>
     <string name="control_by_notify">Control by notification</string>
-    <string name="trigger_by_float">Trigger through click float view</string>
+    <string name="trigger_by_float">Trigger by click float view</string>
 
     <string name="pre_setting_title">Set the &lt; Control and Trigger &gt;method first</string>
     <string name="pre_setting_intro1">If you select the Suspension Window Resident or Notification Bar \n You can set BigBang\'s switch in it \n If you select &lt;Click Floating Window Trigger&gt; \n or &lt; Close Suspension Window and  Notification Bar &gt; When you trigger Bigbang, a pop-up window will pop up \n You need to &lt; click on a floating window to activate Bigbang &gt;</string>
@@ -219,7 +219,7 @@
     <string name="save_sd_card_fail">Save fail</string>
 
 
-    <string name="float_trigger">Click the float view trigger Bigbang</string>
+    <string name="float_trigger"> Floatview trigger Bigbang</string>
     <string name="float_trigger_request">After copy or click, you need to click on the ball before the trigger Bigbang, reduce mis-triggering</string>
 
     <string name="float_setting_card">FloatView Notification Setting</string>
@@ -313,7 +313,7 @@
     <string name="restore_failed">Recovery failed,</string>
     <string name="restore_success">Recovery success,</string>
     <string name="setting_float_intro">to set bigbang FloatView theme,picture,alpha</string>
-    <string name="setting_floatview">Setting Bigbang FloatView Theme</string>
+    <string name="setting_floatview">Set Style of FloatView</string>
     <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
     <string name="crop_image_menu_rotate_right">Rotate</string>
     <string name="crop_image_menu_crop">Crop</string>
@@ -321,4 +321,9 @@
     <string name="save_success">Save success</string>
     <string name="save_fail">Save failed</string>
     <string name="title_cropper">Crop Picture</string>
+    <string name="setting_floatview_size">Suspended window size</string>
+    <string name="set_floatview_image">Customize the floatview image</string>
+    <string name="set_floatview_background">Expand button background set</string>
+    <string name="setting_floatview_alpha_percent">Expand Button Background Opacity：</string>
+    <string name="setting_alpha_percent">Background Opacity：</string>
 </resources>
