@@ -14,7 +14,7 @@ import com.forfan.bigbang.util.LogUtil;
 public class WakeUpBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        LogUtil.e("shang","xposed wake");
+        LogUtil.d("shang","xposed wake");
         try {
             context.startService(new Intent(context,ListenClipboardService.class));
         } catch (Exception e) {

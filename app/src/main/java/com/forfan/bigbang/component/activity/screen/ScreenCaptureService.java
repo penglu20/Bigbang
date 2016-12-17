@@ -145,17 +145,17 @@ public class ScreenCaptureService extends Service {
         mScreenDensity = metrics.densityDpi;
         mImageReader = ImageReader.newInstance(windowWidth, windowHeight, 0x1, 2); //ImageFormat.RGB_565
 
-        LogUtil.e(TAG, "prepared the virtual environment");
+        LogUtil.d(TAG, "prepared the virtual environment");
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void startVirtual() {
         if (mMediaProjection != null) {
-            LogUtil.e(TAG, "want to display virtual");
+            LogUtil.d(TAG, "want to display virtual");
             virtualDisplay();
         } else {
-            LogUtil.e(TAG, "start screen capture intent");
-            LogUtil.e(TAG, "want to build mediaprojection and display virtual");
+            LogUtil.d(TAG, "start screen capture intent");
+            LogUtil.d(TAG, "want to build mediaprojection and display virtual");
             setUpMediaProjection();
 
             virtualDisplay();
@@ -171,7 +171,7 @@ public class ScreenCaptureService extends Service {
             mMediaProjection = mMediaProjectionManager1.getMediaProjection(mResultCode, mResultData);
         } catch (Exception e) {
             e.printStackTrace();
-            LogUtil.e(TAG, "mMediaProjection defined");
+            LogUtil.d(TAG, "mMediaProjection defined");
         }
 
     }
@@ -182,7 +182,7 @@ public class ScreenCaptureService extends Service {
             mVirtualDisplay = mMediaProjection.createVirtualDisplay("screen-mirror",
                     windowWidth, windowHeight, mScreenDensity, DisplayManager.VIRTUAL_DISPLAY_FLAG_AUTO_MIRROR,
                     mImageReader.getSurface(), null, null);
-            LogUtil.e(TAG, "virtual displayed");
+            LogUtil.d(TAG, "virtual displayed");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -214,7 +214,7 @@ public class ScreenCaptureService extends Service {
         Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_4444);
         bitmap.copyPixelsFromBuffer(buffer);
         image.close();
-        LogUtil.e(TAG, "image data captured");
+        LogUtil.d(TAG, "image data captured");
 
         int totalHeight=height+mNavigationBarHeight;
         double multipleHeight= totalHeight*1.0/height;
@@ -259,7 +259,7 @@ public class ScreenCaptureService extends Service {
 //            OcrAnalsyser.getInstance().analyse(result, new OcrAnalsyser.CallBack() {
 //                @Override
 //                public void onSucess(OCR ocr) {
-//                    LogUtil.e(TAG, "ocr--success");
+//                    LogUtil.d(TAG, "ocr--success");
 //
 //
 //                    String str = OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr);
@@ -272,7 +272,7 @@ public class ScreenCaptureService extends Service {
 //
 //                @Override
 //                public void onFail() {
-//                    LogUtil.e(TAG, "ocr--fail");
+//                    LogUtil.d(TAG, "ocr--fail");
 //                    ToastUtil.show(R.string.sorry_for_ocr_parse_fail);
 //                    stopSelf();
 //                }
@@ -315,7 +315,7 @@ public class ScreenCaptureService extends Service {
             mMediaProjection.stop();
             mMediaProjection = null;
         }
-        LogUtil.e(TAG, "mMediaProjection undefined");
+        LogUtil.d(TAG, "mMediaProjection undefined");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -325,7 +325,7 @@ public class ScreenCaptureService extends Service {
         }
         mVirtualDisplay.release();
         mVirtualDisplay = null;
-        LogUtil.e(TAG, "virtual display stopped");
+        LogUtil.d(TAG, "virtual display stopped");
     }
 
     @Override
@@ -333,6 +333,6 @@ public class ScreenCaptureService extends Service {
         // to remove mFloatLayout from windowManager
         super.onDestroy();
         tearDownMediaProjection();
-        LogUtil.e(TAG, "application destroy");
+        LogUtil.d(TAG, "application destroy");
     }
 }

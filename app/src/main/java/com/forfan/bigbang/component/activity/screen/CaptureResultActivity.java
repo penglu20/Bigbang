@@ -94,7 +94,7 @@ public class CaptureResultActivity extends BaseActivity {
             finish();
             return;
         }
-        LogUtil.e("CaptureResultActivity", fileName);
+        LogUtil.d("CaptureResultActivity", fileName);
         File capturedFile = new File(fileName);
         if (capturedFile.exists()) {
             bitmap = BitmapFactory.decodeFile(fileName);

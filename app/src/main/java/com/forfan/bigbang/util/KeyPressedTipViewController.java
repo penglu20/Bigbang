@@ -163,7 +163,7 @@ public class KeyPressedTipViewController implements  View.OnTouchListener {
         mWholeView.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
-                LogUtil.e("setOnKeyListener",event.toString());
+                LogUtil.d("setOnKeyListener",event.toString());
                 if (event.getKeyCode()!=KeyEvent.KEYCODE_BACK){
                     isLongPressedCancel =false;
                 }

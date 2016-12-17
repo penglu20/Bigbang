@@ -172,7 +172,7 @@ public class BigBangMonitorService extends AccessibilityService {
         if (!isRun){
             return;
         }
-        LogUtil.e(TAG,"onAccessibilityEvent:"+event);
+        LogUtil.d(TAG,"onAccessibilityEvent:"+event);
         int type=event.getEventType();
         switch (type){
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
@@ -219,7 +219,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private synchronized void getText(AccessibilityEvent event){
         if(XposedEnableUtil.isEnable())
             return;
-        LogUtil.e(TAG,"getText:"+event);
+        LogUtil.d(TAG,"getText:"+event);
         if (!monitorClick || event==null ) {
             return;
         }
@@ -469,7 +469,7 @@ public class BigBangMonitorService extends AccessibilityService {
                     android.provider.Settings.Secure.ACCESSIBILITY_ENABLED);
             LogUtil.v(TAG, "accessibilityEnabled = " + accessibilityEnabled);
         } catch (Settings.SettingNotFoundException e) {
-            LogUtil.e(TAG, "Error finding setting, default accessibility to not found: "
+            LogUtil.d(TAG, "Error finding setting, default accessibility to not found: "
                     + e.getMessage());
         }
         TextUtils.SimpleStringSplitter mStringColonSplitter = new TextUtils.SimpleStringSplitter(':');

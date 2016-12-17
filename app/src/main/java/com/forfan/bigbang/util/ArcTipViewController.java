@@ -494,7 +494,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 synchronized (ArcTipViewController.this) {
                     reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), ViewUtil.dp2px(MIN_LENGTH));
                     removeAllView();
-                    LogUtil.e("shang", "addView1");
+                    LogUtil.d("shang", "addView1");
                     floatView.setAlpha(mCurrentIconAlpha);
                     floatView.setScaleX(1);
                     floatView.setScaleY(1);
@@ -515,7 +515,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             @Override
             public void run() {
                 mainHandler.removeMessages(HIDETOEDGE);
-                LogUtil.e("shang", "addView0");
+                LogUtil.d("shang", "addView0");
                 if (new File(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH).exists()) {
                     floatImageView.setImageURI(Uri.parse(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH));
                 } else {
@@ -529,7 +529,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 try {
                     mWindowManager.updateViewLayout(floatView, layoutParams);
                 } catch (Throwable e) {
-                    LogUtil.e("shang", "showFloatIcon e=" + e);
+                    LogUtil.d("shang", "showFloatIcon e=" + e);
                 }
                 mainHandler.sendEmptyMessageDelayed(HIDETOEDGE, 5000);
             }
@@ -597,7 +597,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
     public synchronized void show() {
         if (isRemoved) {
-            LogUtil.e("shang", "添加floatview");
+            LogUtil.d("shang", "添加floatview");
             showFloatImageView();
             isRemoved = false;
         }
@@ -627,7 +627,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 //        if (mWindowManager != null && floatView != null && !isRemoved) {
             removeAllView();
             isRemoved = true;
-            LogUtil.e("shang", "移除floatview");
+            LogUtil.d("shang", "移除floatview");
 //        }
     }
 
@@ -683,7 +683,7 @@ public class ArcTipViewController implements View.OnTouchListener {
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        LogUtil.e("shang", "event:" + event);
+        LogUtil.d("shang", "event:" + event);
         if (!isShowIcon) {
             showFloatImageView();
             return false;
@@ -706,7 +706,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 mTouchStartY = y;
                 isMoving = false;
                 isLongPressed = false;
-                LogUtil.e(TAG, "ACTION_DOWN time=" + System.currentTimeMillis());
+                LogUtil.d(TAG, "ACTION_DOWN time=" + System.currentTimeMillis());
                 if (isShowIcon)
                     mainHandler.postDelayed(longPressRunnable, 500);
                 break;
@@ -722,7 +722,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 updateViewPosition(x - floatView.getWidth() / 2, y - floatView.getHeight());
                 break;
             case MotionEvent.ACTION_UP:
-                LogUtil.e(TAG, "ACTION_UP time=" + System.currentTimeMillis());
+                LogUtil.d(TAG, "ACTION_UP time=" + System.currentTimeMillis());
                 if (isMoving || Math.abs(x - mTouchStartX) > mScaledTouchSlop || Math.abs(y - mTouchStartY) > mScaledTouchSlop) {
                     mainHandler.removeCallbacks(longPressRunnable);
                 } else {
@@ -831,7 +831,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     private Runnable longPressRunnable = new Runnable() {
         @Override
         public void run() {
-            LogUtil.e(TAG, "longPressRunnable time=" + System.currentTimeMillis());
+            LogUtil.d(TAG, "longPressRunnable time=" + System.currentTimeMillis());
             isLongPressed = true;
             if (mActionListener != null) {
                 Vibrator vibrator = (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);

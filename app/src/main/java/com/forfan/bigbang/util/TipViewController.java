@@ -659,7 +659,7 @@ public class TipViewController implements  View.OnTouchListener {
                 setFloatViewToDefault();
                 isMoving=false;
                 isLongPressed=false;
-                LogUtil.e(TAG,"ACTION_DOWN time="+System.currentTimeMillis());
+                LogUtil.d(TAG,"ACTION_DOWN time="+System.currentTimeMillis());
                 mainHandler.postDelayed(longPressRunnable, 500);
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -671,7 +671,7 @@ public class TipViewController implements  View.OnTouchListener {
                 updateViewPosition(x-mWholeView.getWidth()/2,y-mWholeView.getHeight());
                 break;
             case MotionEvent.ACTION_UP:
-                LogUtil.e(TAG,"ACTION_UP time="+System.currentTimeMillis());
+                LogUtil.d(TAG,"ACTION_UP time="+System.currentTimeMillis());
                 if (isMoving||Math.abs(x-mTouchStartX)>mScaledTouchSlop||Math.abs(y-mTouchStartY)>mScaledTouchSlop){
                     mainHandler.removeCallbacks(longPressRunnable);
                 }else {
@@ -788,7 +788,7 @@ public class TipViewController implements  View.OnTouchListener {
     private Runnable longPressRunnable = new Runnable() {
         @Override
         public void run() {
-            LogUtil.e(TAG,"longPressRunnable time="+System.currentTimeMillis());
+            LogUtil.d(TAG,"longPressRunnable time="+System.currentTimeMillis());
             isLongPressed=true;
             if (mActionListener!=null){
                 Vibrator vibrator= (Vibrator) mContext.getSystemService(Context.VIBRATOR_SERVICE);

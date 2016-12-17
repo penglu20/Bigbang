@@ -199,7 +199,7 @@ public class ScreenCaptureActivity extends BaseActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtil.e("shang", "进入了");
+        LogUtil.d("shang", "进入了");
         if (requestCode == REQUEST_MEDIA_PROJECTION) {
             if (resultCode != Activity.RESULT_OK) {
                 return;

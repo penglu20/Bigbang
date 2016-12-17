@@ -303,7 +303,7 @@ public class ArcLayout extends ViewGroup {
                 + index * perDegrees, mChildSize);
         final int toXDelta = frame.left - child.getLeft();//展开或收缩动画,child沿X轴位移距离
         final int toYDelta = frame.top - child.getTop();//展开或收缩动画,child沿Y轴位移距离
-        LogUtil.e("arcLayout","toX:"+ toXDelta+" toY:"+toYDelta);
+        LogUtil.d("arcLayout","toX:"+ toXDelta+" toY:"+toYDelta);
         Interpolator interpolator = mExpanded ? new AccelerateInterpolator()
                 : new OvershootInterpolator(1.5f);
         final long startOffset = computeStartOffset(childCount, mExpanded,
