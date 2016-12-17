@@ -8,6 +8,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.forfan.bigbang.cropper.handler.CropImage;
+
 import java.io.File;
 
 /**
@@ -95,28 +97,30 @@ public class CropHelper {
                         }
                     }
                 case REQUEST_CAMERA:
-                    if (cropParams.enable) {
-                        // Send this Uri to Crop
-                        Intent intent = buildCropFromUriIntent(cropParams);
-                        handler.handleIntent(intent, REQUEST_CROP);
-                    } else {
+//                    if (cropParams.enable) {
+//                        // Send this Uri to Crop
+//                        Intent intent = buildCropFromUriIntent(cropParams);
+//                        handler.handleIntent(intent, REQUEST_CROP);
+//                    } else {
                         Log.d(TAG, "Photo cropped!");
                         onPhotoCropped(handler, cropParams);
-                    }
+//                    }
                     break;
             }
         }
     }
 
     private static void onPhotoCropped(CropHandler handler, CropParams cropParams) {
-        if (cropParams.compress) {
-            Uri originUri = cropParams.uri;
-            Uri compressUri = CropHelper.generateUri();
-            CompressImageUtils.compressImageFile(cropParams, originUri, compressUri);
-            handler.onCompressed(compressUri);
-        } else {
-            handler.onPhotoCropped(cropParams.uri);
-        }
+
+        handler.onPhotoCropped(cropParams.uri);
+//        if (cropParams.compress) {
+//            Uri originUri = cropParams.uri;
+//            Uri compressUri = CropHelper.generateUri();
+//            CompressImageUtils.compressImageFile(cropParams, originUri, compressUri);
+//            handler.onCompressed(compressUri);
+//        } else {
+//            handler.onPhotoCropped(cropParams.uri);
+//        }
     }
 
     // None-Crop Intents
@@ -126,9 +130,11 @@ public class CropHelper {
         if (params.enable) {
             intent = buildCropIntent(Intent.ACTION_PICK, params);
         } else {
-            intent = new Intent(Intent.ACTION_GET_CONTENT)
-                    .setType("image/*")
-                    .putExtra(MediaStore.EXTRA_OUTPUT, params.uri);
+//            intent = new Intent(Intent.ACTION_GET_CONTENT)
+//                    .setType("image/*")
+//                    .putExtra(MediaStore.EXTRA_OUTPUT, params.uri);
+            intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
 //            Intent albumIntent = new Intent(Intent.ACTION_PICK, null);
 //               albumIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         }

@@ -177,6 +177,9 @@
             android:name=".component.activity.SettingBigBangActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
+            android:name=".component.activity.SettingFloatViewActivity"
+            android:theme="@style/BaseAppTheme" />
+        <activity
             android:name=".component.activity.searchengine.SearchEngineActivity"
             android:theme="@style/SearchEngineAppTheme" />
         <activity
@@ -214,6 +217,8 @@
         <activity
             android:name=".component.activity.screen.DiyOcrKeyActivity"
             android:theme="@style/DiyOcrKeyAppTheme" />
+        <activity android:name=".cropper.handler.CropImageActivity"
+            android:theme="@style/BaseAppTheme"/>
 
     </application>
 

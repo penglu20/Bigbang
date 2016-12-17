@@ -300,4 +300,11 @@
 
     <string name="save_success">保存成功</string>
     <string name="save_fail">保存失败</string>
+    <string name="setting_float_intro">您可以更改悬浮球的样式，满足您的个性化需求</string>
+    <string name="setting_floatview">设置悬浮球样式</string>
+    <string name="crop_image_menu_rotate_left">左旋转</string>
+    <string name="crop_image_menu_rotate_right">右旋转</string>
+    <string name="crop_image_menu_crop">剪裁</string>
+    <string name="pick_image_intent_chooser_title">选择来源</string>
+    <string name="title_cropper">剪裁图片</string>
 </resources>

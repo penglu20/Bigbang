@@ -8,6 +8,7 @@
     <color name="text_color_grey">#dddddd</color>
     <color name="text_color_notify">#cdcdcd</color>
     <color name="text_color_import">#E64A19</color>
+    <color name="text_color_import_donate">#88E64A19</color>
     <color name="text_color_half_trans">#80FFFFFF</color>
 
     <color name="trans">#00000000</color>

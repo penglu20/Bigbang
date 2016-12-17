@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.forfan.bigbang.R;
-import com.forfan.bigbang.component.activity.screen.CaptureResultActivity;
 import com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.cropper.BitmapUtil;
@@ -22,6 +21,7 @@ import com.forfan.bigbang.cropper.CropHandler;
 import com.forfan.bigbang.cropper.CropHelper;
 import com.forfan.bigbang.cropper.CropParams;
 import com.forfan.bigbang.cropper.ImageUriUtil;
+import com.forfan.bigbang.cropper.handler.CropImage;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.SnackBarUtil;
@@ -49,7 +49,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     private Button mPicReOcr;
     private Uri mCurrentUri;
 
-    private boolean shouldShowDialog=false;
+    private boolean shouldShowDialog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 startActivity(intent);
             }
         });
-       // editText.setOnTouchListener(forceTouchListener);
+        // editText.setOnTouchListener(forceTouchListener);
     }
 
 //    final ForceTouchListener forceTouchListener = new ForceTouchListener(this, 70, 0.27f, true, true, new Callback() {
@@ -140,7 +140,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     @Override
     protected void onResume() {
         super.onResume();
-        if (shouldShowDialog){
+        if (shouldShowDialog) {
             showBeyondQuoteDialog();
         }
     }
@@ -166,7 +166,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
                 try {
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_OCR_PICK_FROM_GALLERY);
-                    mCropParams.enable = true;
+                    mCropParams.enable = false;
                     mCropParams.compress = false;
                     Intent intent1 = CropHelper.buildGalleryIntent(mCropParams);
                     startActivityForResult(intent1, CropHelper.REQUEST_CROP);
@@ -185,7 +185,15 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        CropHelper.handleResult(this, requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == -1) {
+            CropImage.ActivityResult result = data.getExtras().getParcelable(CropImage.CROP_IMAGE_EXTRA_RESULT);
+            mCurrentUri = result.getUri();
+            showBitmapandOcr(mCurrentUri);
+
+        } else {
+
+            CropHelper.handleResult(this, requestCode, resultCode, data);
+        }
         if (requestCode == 1) {
             Log.e(TAG, "");
         }
@@ -206,11 +214,13 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     public void onPhotoCropped(Uri uri) {
         // Original or Cropped uri
         Log.d(TAG, "Crop Uri in path: " + uri.getPath());
-
-        if (!mCropParams.compress) {
-            showBitmapandOcr(uri);
-
-        }
+//
+//        if (!mCropParams.compress) {
+//            showBitmapandOcr(uri);
+//
+//        }
+        CropImage.activity(uri)
+                .start(OcrActivity.this);
 
     }
 
@@ -222,14 +232,14 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
                 // 这里是保持开启
                 super.onPositiveActionClicked(fragment);
                 Intent intent = new Intent();
-                intent.setClass(OcrActivity.this,DiyOcrKeyActivity.class);
+                intent.setClass(OcrActivity.this, DiyOcrKeyActivity.class);
                 startActivity(intent);
             }
 
             @Override
             public void onDismiss(DialogInterface dialog) {
                 super.onCancel(dialog);
-                shouldShowDialog=false;
+                shouldShowDialog = false;
             }
         };
         builder.message(this.getString(R.string.ocr_quote_beyond_time))
@@ -244,13 +254,13 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         findViewById(R.id.hint).setVisibility(View.VISIBLE);
         if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
 //            showBeyondQuoteDialog();
-            shouldShowDialog=true;
+            shouldShowDialog = true;
             int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
             SPHelper.save(ConstantUtil.OCR_TIME, time);
             return;
         }
         editText.setText(R.string.recognize);
-        OcrAnalsyser.getInstance().analyse(this, img_path,true, new OcrAnalsyser.CallBack() {
+        OcrAnalsyser.getInstance().analyse(this, img_path, true, new OcrAnalsyser.CallBack() {
             @Override
             public void onSucess(OCR ocr) {
                 editText.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
@@ -259,7 +269,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             @Override
             public void onFail(Throwable throwable) {
 
-                if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
+                if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
                     ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
                 }
                 editText.setText(R.string.sorry_for_parse_fail);

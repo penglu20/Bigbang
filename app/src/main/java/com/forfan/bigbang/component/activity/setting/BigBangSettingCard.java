@@ -10,6 +10,7 @@ import android.widget.CompoundButton;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.SettingBigBangActivity;
+import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.component.activity.searchengine.SearchEngineActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
@@ -47,6 +48,14 @@ public class BigBangSettingCard extends AbsCard {
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
                 Intent intent = new Intent(mContext, SettingBigBangActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+        findViewById(R.id.setting_floatview).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
+                Intent intent = new Intent(mContext, SettingFloatViewActivity.class);
                 mContext.startActivity(intent);
             }
         });

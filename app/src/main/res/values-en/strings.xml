@@ -312,7 +312,13 @@
     <string name="restore_ocr_back">Recovery CR keys success,</string>
     <string name="restore_failed">Recovery failed,</string>
     <string name="restore_success">Recovery success,</string>
-
+    <string name="setting_float_intro">to set bigbang FloatView theme,picture,alpha</string>
+    <string name="setting_floatview">Setting Bigbang FloatView Theme</string>
+    <string name="crop_image_menu_rotate_left">Rotate counter clockwise</string>
+    <string name="crop_image_menu_rotate_right">Rotate</string>
+    <string name="crop_image_menu_crop">Crop</string>
+    <string name="pick_image_intent_chooser_title">Select source</string>
     <string name="save_success">Save success</string>
     <string name="save_fail">Save failed</string>
+    <string name="title_cropper">Crop Picture</string>
 </resources>
