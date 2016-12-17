@@ -127,4 +127,6 @@ public class ConstantUtil {
 
 
     public static final String EFFECT_AFTER_REBOOT_BROADCAST ="effect_after_reboot_broadcast";
+
+    public static final String LONG_PRESS_KEY_INDEX ="long_press_key_index";
 }

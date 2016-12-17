@@ -624,11 +624,11 @@ public class ArcTipViewController implements View.OnTouchListener {
     public synchronized void remove() {
         mainHandler.removeCallbacks(showViewRunnable);
         mainHandler.removeMessages(HIDETOEDGE);
-        if (mWindowManager != null && floatView != null && !isRemoved) {
+//        if (mWindowManager != null && floatView != null && !isRemoved) {
             removeAllView();
             isRemoved = true;
             LogUtil.e("shang", "移除floatview");
-        }
+//        }
     }
 
     Runnable removeViewRunnanble = new Runnable() {

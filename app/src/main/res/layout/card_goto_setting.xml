@@ -13,13 +13,32 @@
 
         <com.forfan.bigbang.view.HintTextView
             android:layout_centerVertical="true"
-            android:id="@+id/total_switch_tv"
             app:hint="@string/open_access_hint"
             app:hintTextColor="@color/text_color_import"
             app:msg="@string/open_access_setting"
             android:layout_width="match_parent"
             style="@style/cardViewTextViewInLayoutLeft"
             />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/goto_voice_rl"
+        android:visibility="gone"
+        android:duplicateParentState="false"
+        style="@style/hintTextViewRelativeLayoutSelector">
+
+        <com.forfan.bigbang.view.HintTextView
+            android:layout_centerVertical="true"
+            app:hint="@string/open_voice_hint"
+            app:hintTextColor="@color/secondary_text"
+            app:msg="@string/open_voice_setting"
+            android:layout_width="match_parent"
+            style="@style/cardViewTextViewInLayoutLeft"
+            />
+
 
     </RelativeLayout>
 

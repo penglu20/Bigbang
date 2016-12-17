@@ -7,23 +7,23 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
+import android.content.SharedPreferences;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Process;
+import android.os.Vibrator;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.inputmethod.InputMethodInfo;
-import android.view.inputmethod.InputMethodManager;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
@@ -35,6 +35,7 @@ import com.forfan.bigbang.copy.CopyNode;
 import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.KeyPressedTipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.XposedEnableUtil;
@@ -43,10 +44,8 @@ import com.shang.commonjar.contentProvider.SPHelper;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_GENERIC;
 import static com.forfan.bigbang.component.activity.setting.MonitorSettingCard.SPINNER_ARRAY;
@@ -75,7 +74,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private boolean hasShowTipToast;
     private boolean hasShowTooShortToast;
-            
+
     private Handler handler;
     private Map<String,Integer> selections;
     private String mCurrentPackage;
@@ -121,14 +120,17 @@ public class BigBangMonitorService extends AccessibilityService {
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.LOLLIPOP){
             flag=flag|AccessibilityServiceInfo.FLAG_RETRIEVE_INTERACTIVE_WINDOWS;
         }
-//        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2){
-//            flag=flag|AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
-//        }
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.JELLY_BEAN_MR2){
+            flag=flag|AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS;
+        }
         mAccessibilityServiceInfo.flags=flag;
         mAccessibilityServiceInfo.notificationTimeout=100;
         setServiceInfo(mAccessibilityServiceInfo);
 
         readWhiteList();
+
+
+
     }
 
     @Override
@@ -175,7 +177,7 @@ public class BigBangMonitorService extends AccessibilityService {
         switch (type){
             case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
                 mWindowClassName = event.getClassName();
-                mCurrentPackage = event.getPackageName().toString();
+                mCurrentPackage = event.getPackageName()==null?"":event.getPackageName().toString();
                 Integer selectType=selections.get(mCurrentPackage);
                 mCurrentType = selectType==null?TYPE_VIEW_NONE:(selectType+1);
                 if ("com.tencent.mm.plugin.sns.ui.SnsTimeLineUI".equals(mWindowClassName)){
@@ -202,58 +204,12 @@ public class BigBangMonitorService extends AccessibilityService {
         this.setServiceInfo(mAccessibilityServiceInfo);
     }
 
-//    @Override
-//    protected boolean onKeyEvent(KeyEvent paramKeyEvent) {
-//        SharedPreferences localSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-//        String str = localSharedPreferences.getString("long_click_button", "NONE");
-//        try
-//        {
-//            int k = Integer.parseInt(str);
-//            int i;
-//            int j=0;
-//            if (paramKeyEvent.getKeyCode() == k)
-//            {
-//                i = 1;
-//                j = i;
-//                if (k == 187)
-//                {
-//                    if (i == 0)
-//                    {
-//                        i = paramKeyEvent.getKeyCode();
-//                        if (i != 82)
-//                            j=0;
-//                    }
-//                    j = 1;
-//                }
-//            }
-//            while (true)
-//                if (j != 0)
-//                {
-//                    if (paramKeyEvent.getAction() == KeyEvent.ACTION_UP)
-//                    {
-////                        if (paramKeyEvent.getEventTime() - this.b < 400L)
-////                            this.handler.removeCallbacks(this.c);
-////                        this.b = 0L;
-////                        return false;
-////                        i = 0;
-//                        break;
-////                        label140: j = 0;
-////                        continue;
-//                    }
-//                    if ((paramKeyEvent.getAction() == 0) && (localSharedPreferences.getBoolean("service_active", false)))
-//                    {
-////                        this.b = paramKeyEvent.getEventTime();
-////                        this.c.a(k);
-////                        this.e.postDelayed(this.c, 400L);
-//                    }
-//                }
-//            return super.onKeyEvent(paramKeyEvent);
-//        }
-//        catch (NumberFormatException e)
-//        {
-//        }
-//        return false;
-//    }
+    @Override
+    protected boolean onKeyEvent(KeyEvent paramKeyEvent) {
+        KeyPressedTipViewController.getInstance().onKeyEvent(paramKeyEvent);
+        return false;
+    }
+
 
     @Override
     public void onInterrupt() {
@@ -457,7 +413,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private ArrayList<CopyNode> traverseNode(AccessibilityNodeInfoCompat nodeInfo, int var2, int var3) {
         ArrayList nodeList = new ArrayList();
         if(nodeInfo != null && nodeInfo.getInfo() != null) {
-                 nodeInfo.refresh();
+            nodeInfo.refresh();
 
             for(int var4 = 0; var4 < nodeInfo.getChildCount(); ++var4) {
                 nodeList.addAll(this.traverseNode(nodeInfo.getChild(var4), var2, var3));
@@ -544,6 +500,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private synchronized void readSettingFromSp(){
         isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+        KeyPressedTipViewController.getInstance().updateTriggerType();
         if (!isRun){
             monitorClick=false;
             showFloatView=false;
@@ -624,6 +581,8 @@ public class BigBangMonitorService extends AccessibilityService {
             }
         }
     };
+
+
 
     private class LongClickRunnable implements Runnable {
         private int keyCode;

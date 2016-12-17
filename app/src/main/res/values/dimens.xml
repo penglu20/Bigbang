@@ -96,4 +96,7 @@
 
     <dimen name="recylerview_padding_bottom">@dimen/margin_double</dimen>
     <dimen name="recylerview_padding_top">@dimen/margin_double</dimen>
+
+
+    <dimen name="main_tablayout_height">@dimen/height_normal</dimen>
 </resources>

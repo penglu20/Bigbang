@@ -429,7 +429,7 @@ public class BigBangActivity extends BaseActivity {
         toTrans.setText(text);
         transResult.setText("正在翻译");
         RetrofitHelper.getTranslationService()
-                .getTranslationItem(text)
+                .getTranslationItem(text.replaceAll("\n",""))
                 .compose(BigBangActivity.this.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

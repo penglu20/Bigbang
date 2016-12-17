@@ -155,7 +155,7 @@
     <string name="recognize">识别中...</string>
     <string name="click_show_bigbang">点击炸开文字</string>
 
-    <string name="monitor_setting_card">辅助模式相关设置</string>
+    <string name="monitor_setting_card">点击触发相关设置</string>
     <string name="donate_title">一分也是情</string>
 
 
@@ -221,7 +221,7 @@
     <string name="float_trigger_request">在复制或点击以后，需要先点击悬浮球才会触发Bigbang，多一步操作，减少误触发</string>
 
 
-    <string name="float_setting_card">悬浮窗和通知栏设置</string>
+    <string name="float_setting_card">控制界面相关设置</string>
 
 
     <string name="confirm_setting">我选好了</string>
@@ -311,4 +311,16 @@
     <string name="set_floatview_image">自定义悬浮球图片</string>
     <string name="set_floatview_background">设置展开时按钮背景</string>
     <string name="setting_floatview_alpha_percent">展开按钮背景不透明度:</string>
+
+
+    <string name="open_voice_setting">设置辅助应用程序</string>
+    <string name="open_voice_hint">设置完成后，请尝试能否通过长按Home键呼出菜单，如果不能，则该功能在您的手机上无效，请关闭该项设置。</string>
+
+
+    <string name="long_press">设置组合键打开菜单</string>
+    <string name="long_press_request">需开启辅助服务和悬浮窗权限，在有些手机上可能会与系统自带功能冲突</string>
+    <string name="long_press_toast">如果Home键无法触发，请“设置辅助应用程序”</string>
+
+
+    <string name="bigbang_setting_card_title">分词界面相关设置</string>
 </resources>

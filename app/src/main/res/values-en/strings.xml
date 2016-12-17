@@ -156,7 +156,7 @@
     <string name="recognize">recognizing...</string>
     <string name="click_show_bigbang">click to show bigbang</string>
 
-    <string name="monitor_setting_card">Accessibility Settings</string>
+    <string name="monitor_setting_card">Click type Settings</string>
     <string name="donate_title">We can use any coin</string>
 
 
@@ -222,7 +222,7 @@
     <string name="float_trigger"> Floatview trigger Bigbang</string>
     <string name="float_trigger_request">After copy or click, you need to click on the ball before the trigger Bigbang, reduce mis-triggering</string>
 
-    <string name="float_setting_card">FloatView Notification Setting</string>
+    <string name="float_setting_card">Control interface settings</string>
 
     <string name="confirm_setting">Done</string>
 
@@ -326,4 +326,17 @@
     <string name="set_floatview_background">Expand button background set</string>
     <string name="setting_floatview_alpha_percent">Expand Button Background Opacity：</string>
     <string name="setting_alpha_percent">Background Opacity：</string>
+
+
+
+    <string name="open_voice_setting">Set up the Assist application</string>
+    <string name="open_voice_hint">After setting, please try to press the Home button to call out the menu, if not, the function is invalid on your phone,so turn it off.</string>
+
+
+    <string name="long_press">Set the keys to open the menu</string>
+    <string name="long_press_request">Need to open the accessibility services and window permissions, in some phones may be conflict with the system function.</string>
+    <string name="long_press_toast">If the Home key does not work, "Set up a helper application"</string>
+
+
+    <string name="bigbang_setting_card_title">Word segmentation interface settings</string>
 </resources>

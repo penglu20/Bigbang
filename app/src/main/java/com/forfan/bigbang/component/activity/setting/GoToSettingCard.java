@@ -26,14 +26,20 @@ public class GoToSettingCard extends AbsCard {
         findViewById(R.id.goto_access_rl).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                gotoAccessbilitySetting();
+                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                mContext.startActivity(intent);
             }
         });
-    }
-
-    private void gotoAccessbilitySetting() {
-        Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-        mContext.startActivity(intent);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            findViewById(R.id.goto_voice_rl).setVisibility(VISIBLE);
+            findViewById(R.id.goto_voice_rl).setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS);
+                    mContext.startActivity(intent);
+                }
+            });
+        }
     }
 
 }

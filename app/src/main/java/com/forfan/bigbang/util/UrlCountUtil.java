@@ -150,6 +150,13 @@ public class UrlCountUtil {
     public static final String STATUS_FLOATVIEW_SET_ALPHA = "status_floatview_set_alpha";
     public static final String STATUS_SET_FLOATVIEW_BGCOLOR="status_set_floatview_bgcolor";
 
+
+    public static final String CLICK_KEY_PRESS_TIPVIEW_SWITCH= "click_key_press_tipview_switch";
+    public static final String CLICK_KEY_PRESS_TIPVIEW_CLICK= "click_key_press_tipview_click";
+    public static final String CLICK_KEY_PRESS_TIPVIEW_CLIPBOARD= "click_key_press_tipview_clipboard";
+    public static final String CLICK_KEY_PRESS_TIPVIEW_COPY= "click_key_press_tipview_copy";
+    public static final String CLICK_KEY_PRESS_TIPVIEW_SCREEN= "click_key_press_tipview_screen";
+
     public static Context mContext= BigBangApp.getInstance();
     /*
         context指当前的Activity，eventId为当前统计的事件ID。

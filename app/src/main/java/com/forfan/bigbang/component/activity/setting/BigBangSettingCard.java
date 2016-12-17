@@ -51,14 +51,6 @@ public class BigBangSettingCard extends AbsCard {
                 mContext.startActivity(intent);
             }
         });
-        findViewById(R.id.setting_floatview).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
-                Intent intent = new Intent(mContext, SettingFloatViewActivity.class);
-                mContext.startActivity(intent);
-            }
-        });
         findViewById(R.id.setting_search_engine).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

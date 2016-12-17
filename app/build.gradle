@@ -107,6 +107,9 @@ android {
         wandoujia{
             java.srcDirs += ['src/Normal/java']
         }
+//        gfan{
+//            java.srcDirs += ['src/Normal/java']
+//        }
 
         _360{
             java.srcDirs += ['src/Normal/java']

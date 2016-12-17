@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.forfan.bigbang.view.KeyRelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp">
+
+
+    <LinearLayout
+        android:id="@+id/long_pressed_ll"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_height="90dp">
+
+        <include layout="@layout/long_press_box_trans" />
+    </LinearLayout>
+
+</com.forfan.bigbang.view.KeyRelativeLayout>

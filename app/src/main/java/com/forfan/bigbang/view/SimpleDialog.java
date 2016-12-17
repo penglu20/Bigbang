@@ -19,6 +19,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.util.ViewUtil;
 
 
 /**

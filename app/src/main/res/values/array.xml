@@ -27,4 +27,15 @@
         <item >@color/back_brown</item>
         <item >@color/back_grey</item>
     </integer-array>
+
+    <string-array name="long_press_key">
+        <item>不使用</item>
+        <item>长按返回键</item>
+        <item>长按HOME键</item>
+        <item>长按多任务键</item>
+        <item>长按菜单键</item>
+        <item>长按音量增键</item>
+        <item>长按音量减键</item>
+        <item>音量增+音量减</item>
+    </string-array>
 </resources>

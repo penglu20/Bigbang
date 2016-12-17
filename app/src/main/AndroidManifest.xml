@@ -220,6 +220,18 @@
         <activity android:name=".cropper.handler.CropImageActivity"
             android:theme="@style/BaseAppTheme"/>
 
+        <service android:name=".component.service.voiceInteraction.BBVoiceInteractionService"
+            android:process=":monitor"
+            android:permission="android.permission.BIND_VOICE_INTERACTION">
+            <meta-data android:name="android.voice_interaction" android:resource="@xml/assist_service"/>
+            <intent-filter>
+                <action android:name="android.service.voice.VoiceInteractionService"/>
+            </intent-filter>
+        </service>
+        <service android:name=".component.service.voiceInteraction.BBVoiceInteractionSessionService"
+            android:process=":monitor"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"/>
+
     </application>
 
 </manifest>

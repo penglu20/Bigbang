@@ -14,6 +14,7 @@
             style="@style/cardViewTextViewInLayoutLeft"
             android:textSize="@dimen/text_size_title"
             android:textStyle="bold"
+            android:textColor="@color/text_color_notify"
             android:text="@string/monitor_setting_card"/>
     </RelativeLayout>
 

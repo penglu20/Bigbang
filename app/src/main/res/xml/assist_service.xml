@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<voice-interaction-service
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:sessionService="com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionSessionService"
+    android:recognitionService="com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionService"
+    android:supportsAssist="true"/>

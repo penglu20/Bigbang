@@ -22,10 +22,12 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.NotificationCheckUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
+import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
@@ -45,6 +47,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
     private RelativeLayout showFloatViewRL;
     private RelativeLayout showNotifyRL;
+    private RelativeLayout longPressRL;
 
     private HintTextView showFloatViewTV;
     private HintTextView showNotifyTV;
@@ -87,10 +90,15 @@ public class FloatAndNotifySettingCard extends AbsCard {
         showNotifySwitch = (SwitchCompat) findViewById(R.id.show_notify_switch);
         showNotifyTV = (HintTextView) findViewById(R.id.show_notify_tv);
 
+        longPressRL = (RelativeLayout) findViewById(R.id.long_press_rl);
+
         showFloatRequestLL= (LinearLayout) findViewById(R.id.show_float_request_ll);
 
 //        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
 
+        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.JELLY_BEAN_MR2){
+            longPressRL.setVisibility(GONE);
+        }
         showFloarViewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -176,27 +184,55 @@ public class FloatAndNotifySettingCard extends AbsCard {
             }
         });
 
+
+        findViewById(R.id.setting_floatview).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
+                Intent intent = new Intent(mContext, SettingFloatViewActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+
+        longPressRL.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showLongPressDialog();
+            }
+        });
+
         showFloatViewRL.setOnClickListener(myOnClickListerner);
         showNotifyRL.setOnClickListener(myOnClickListerner);
         refresh();
     }
 
 
-    private void showLongClickDialog() {
+    private void showLongPressDialog() {
+        String[] longpress=mContext.getResources().getStringArray(R.array.long_press_key);
+        int index=SPHelper.getInt(ConstantUtil.LONG_PRESS_KEY_INDEX,0);
+
         SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){
 
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
                 super.onPositiveActionClicked(fragment);
+                int index=getSelectedIndex();
+                SPHelper.save(ConstantUtil.LONG_PRESS_KEY_INDEX,index);
+                mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
+                if (index==2){
+                    ToastUtil.show(R.string.long_press_toast);
+                }
             }
             @Override
             public void onDismiss(DialogInterface dialog) {
                 super.onCancel(dialog);
             }
         };
-        builder.message(mContext.getString(R.string.access_open_tips))
-                .positiveAction(mContext.getString(R.string.ok));
+        builder.items(longpress,index)
+                .title(mContext.getString(R.string.long_press))
+                .positiveAction(mContext.getString(R.string.confirm))
+                .negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
         fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
