@@ -1,18 +1,27 @@
 package com.forfan.bigbang.component.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -23,13 +32,23 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.ClipboardUtils;
+import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.SearchEngineUtil;
+import com.forfan.bigbang.util.SharedIntentHelper;
+import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
+
+import java.net.URLEncoder;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by penglu on 2016/11/9.
@@ -250,6 +269,7 @@ public class SettingBigBangActivity extends BaseActivity {
         isFullScreen.setChecked(fullScreen);
         boolean stickHeader=SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER,false);
         isStickHeader.setChecked(stickHeader);
+        boolean remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL, true);
 
 
         mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
@@ -274,7 +294,9 @@ public class SettingBigBangActivity extends BaseActivity {
         mBigbangAlphaSeekBar.setProgress(alpha);
 
         mBigBangLayoutWrap.setStickHeader(stickHeader);
-
+        mBigBangLayoutWrap.setShowSymbol(remainSymbol);
+        mBigBangLayoutWrap.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION, false));
+        mBigBangLayoutWrap.setActionListener(bigBangActionListener);
 
         String[] txts = new String[]{"BigBang", "可以", "进行","文本", "分词", "。","\n",
                 "也","支持", "复制",  "翻译", "和", "调整","…"};
@@ -389,5 +411,68 @@ public class SettingBigBangActivity extends BaseActivity {
                 .build()
                 .show();
     }
+
+
+    BigBangLayoutWrapper.ActionListener bigBangActionListener = new BigBangLayoutWrapper.ActionListener() {
+
+        @Override
+        public void onSelected(String text) {
+        }
+
+        @Override
+        public void onSearch(String text) {
+        }
+
+        @Override
+        public void onShare(String text) {
+        }
+
+        @Override
+        public void onCopy(String text) {
+        }
+
+        @Override
+        public void onTrans(String text) {
+        }
+
+        @Override
+        public void onDrag() {
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_DRAG);
+        }
+
+        @Override
+        public void onSwitchType(boolean isLocal) {
+            //
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SWITCH_TYPE);
+            mBigBangLayout.reset();
+            if (isLocal) {
+                String[] txts = new String[]{"BigBang", "可","以", "进","行","文","本", "分","词", "。","\n",
+                        "也","支","持", "复","制",  "翻","译", "和", "调","整","…"};
+
+                for (String t : txts) {
+                    mBigBangLayout.addTextItem(t);
+                }
+            } else {
+                String[] txts = new String[]{"BigBang", "可以", "进行","文本", "分词", "。","\n",
+                        "也","支持", "复制",  "翻译", "和", "调整","…"};
+
+                for (String t : txts) {
+                    mBigBangLayout.addTextItem(t);
+                }
+            }
+        }
+
+        @Override
+        public void onSwitchSymbol(boolean isShow) {
+            SPHelper.save(ConstantUtil.REMAIN_SYMBOL, isShow);
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_REMAIN_SYMBOL);
+        }
+
+        @Override
+        public void onSwitchSection(boolean isShow) {
+            SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_REMAIN_SECTION);
+        }
+    };
 
 }
