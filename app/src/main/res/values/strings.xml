@@ -323,4 +323,5 @@
 
 
     <string name="bigbang_setting_card_title">分词界面相关设置</string>
+    <string name="no_query" >无搜索词</string>
 </resources>

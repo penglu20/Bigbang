@@ -54,12 +54,12 @@ public class ArcTipViewController implements View.OnTouchListener {
     private boolean isShowIcon;
     private ImageView floatImageView;
     private float mCurrentIconAlpha = 0.7f;
+    int padding = ViewUtil.dp2px(3);
 
     public void showTipViewForStartActivity(Intent intent) {
-        boolean isNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY, false);
-        boolean showFloat = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW, false);
+
         boolean floatTrigger = SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER, false);
-        if (!floatTrigger && (isNotify || showFloat)) {
+        if (!floatTrigger) {
             //直接打开bigbang
             try {
                 mContext.startActivity(intent);
@@ -67,7 +67,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             }
             return;
         }
-        if (floatTrigger || mWholeView == null || isRemoved || isTempAdd || (!isNotify && !showFloat)) {
+        if (floatTrigger || mWholeView == null || isRemoved || isTempAdd ) {
             isTempAdd = true;
             //没显示悬浮窗的情况下，用户点击才打开Bigbang
 //            show();
@@ -221,6 +221,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                             layoutParams_.width = (int) ViewUtil.dp2px(20);
                             layoutParams_.gravity = Gravity.NO_GRAVITY;
                             floatImageView.setLayoutParams(layoutParams_);
+                            floatImageView.setPadding(0,0,0,0);
                             //TODO 不贴边的问题
 //                            layoutParams.width = (int) ViewUtil.dp2px(20);
                             reuseSavedWindowMangerPosition(ViewUtil.dp2px(20), WindowManager.LayoutParams.WRAP_CONTENT);
@@ -285,17 +286,23 @@ public class ArcTipViewController implements View.OnTouchListener {
             if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
                 archMenu.getHintView().setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f);
             }
-
         }
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(mWholeView.getContext());
             item.setImageResource(itemDrawables[i]);
             if (i == 0) {
                 if (showBigBang) {
-                    item.setAlpha(0.7f);
+                    if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
+                        item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f);
+                    }
                     mCurrentIconAlpha = 0.7f;
                 } else {
-                    item.setAlpha(0.3f);
+
+                    if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
+                        item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f * 0.3f);
+                    }else {
+                        item.setAlpha(0.3f);
+                    }
                     mCurrentIconAlpha = 0.3f;
                 }
             }
@@ -524,11 +531,12 @@ public class ArcTipViewController implements View.OnTouchListener {
                     floatImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
                 } else {
                     floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
+
                 }
                 LinearLayout.LayoutParams floatImageViewlayoutParams = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
                 floatImageViewlayoutParams.width = ViewUtil.dp2px(MIN_LENGTH);
                 floatImageView.setLayoutParams(floatImageViewlayoutParams);
-
+                floatImageView.setPadding(padding,padding,padding,padding);
                 reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), WindowManager.LayoutParams.WRAP_CONTENT);
                 try {
                     mWindowManager.updateViewLayout(floatView, layoutParams);

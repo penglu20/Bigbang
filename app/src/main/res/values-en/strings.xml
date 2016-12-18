@@ -339,4 +339,5 @@
 
 
     <string name="bigbang_setting_card_title">Word segmentation interface settings</string>
+    <string name="no_query">no query</string>
 </resources>

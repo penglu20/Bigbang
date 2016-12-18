@@ -21,9 +21,9 @@
         <ImageView
             android:layout_margin="1dp"
             android:id="@+id/control_hint"
-            android:layout_width="50dp"
+            android:layout_width="47dp"
             android:padding="10dp"
-            android:layout_height="50dp"
+            android:layout_height="47dp"
             android:scaleType="centerCrop"
             android:background="@drawable/float_view_image_bg"
             android:src="@mipmap/ic_arrow_back_white_24dp"

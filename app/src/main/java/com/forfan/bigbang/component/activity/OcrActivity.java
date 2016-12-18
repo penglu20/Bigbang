@@ -49,7 +49,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     private Button mPicReOcr;
     private Uri mCurrentUri;
 
-    private boolean shouldShowDialog = false;
+   // private boolean shouldShowDialog = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,9 +140,9 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
     @Override
     protected void onResume() {
         super.onResume();
-        if (shouldShowDialog) {
-            showBeyondQuoteDialog();
-        }
+//        if (shouldShowDialog) {
+//            showBeyondQuoteDialog();
+//        }
     }
 
     @Override
@@ -239,7 +239,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
             @Override
             public void onDismiss(DialogInterface dialog) {
                 super.onCancel(dialog);
-                shouldShowDialog = false;
+              //  shouldShowDialog = false;
             }
         };
         builder.message(this.getString(R.string.ocr_quote_beyond_time))
@@ -254,7 +254,7 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         findViewById(R.id.hint).setVisibility(View.VISIBLE);
         if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
 //            showBeyondQuoteDialog();
-            shouldShowDialog = true;
+           // shouldShowDialog = true;
             int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
             SPHelper.save(ConstantUtil.OCR_TIME, time);
             return;

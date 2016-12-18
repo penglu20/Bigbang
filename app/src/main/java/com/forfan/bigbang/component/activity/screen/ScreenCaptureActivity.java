@@ -151,7 +151,11 @@ public class ScreenCaptureActivity extends BaseActivity {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);
+                try {
+                    startActivityForResult(mMediaProjectionManager.createScreenCaptureIntent(), REQUEST_MEDIA_PROJECTION);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 //ScreenCaptureService.mMediaProjectionManager1 = mMediaProjectionManager;
                 ((BigBangApp) getApplication()).setMediaProjectionManager(mMediaProjectionManager);
 

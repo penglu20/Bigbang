@@ -30,6 +30,7 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.SearchEngineUtil;
+import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -97,6 +98,7 @@ public class WebActivity
                         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent);
+                        finish();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -185,9 +187,12 @@ public class WebActivity
     private void toLoadUrl(String url, String query) {
         if (!TextUtils.isEmpty(url)) {
             mWebView.loadUrl(url);
-        } else {
+        } else if(!TextUtils.isEmpty(query)) {
             String url_ = getUrlStrBySelect(query);
             mWebView.loadUrl(url_);
+        }else {
+            ToastUtil.show(R.string.no_query);
+            mWebView.loadUrl("http://www.baidu.com");
         }
 
     }
