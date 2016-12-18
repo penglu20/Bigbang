@@ -148,6 +148,9 @@ public class WhiteListActivity extends BaseActivity {
     }
 
     private void refreshMenu(boolean isEditMode){
+        if (mSelectedApplicationInfos==null){
+            return;
+        }
         if (mSelectedApplicationInfos.size()>0 || isEditMode){
             selectAll.setVisible(true);
             setSelection.setVisible(true);
@@ -185,9 +188,11 @@ public class WhiteListActivity extends BaseActivity {
             selectAll.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
-                    mAppAdapter.setEditMode(true);
-                    refreshMenu(true);
-                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_WL_SELECT_MODE);
+                    if (mAppAdapter!=null) {
+                        mAppAdapter.setEditMode(true);
+                        refreshMenu(true);
+                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_WL_SELECT_MODE);
+                    }
                     return true;
                 }
             });
@@ -210,6 +215,9 @@ public class WhiteListActivity extends BaseActivity {
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                if (mAppAdapter==null){
+                    return false;
+                }
                 int id = item.getItemId();
                 if (id<spinnerArray.length){
                     for (AppListAdapter.ApplicationInfoWrap app:mSelectedApplicationInfos){

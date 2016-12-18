@@ -231,6 +231,7 @@ public class FunctionSettingCard extends AbsCard {
                     Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
                     mContext.startActivity(intent);
                 } catch (Throwable e) {
+                    SnackBarUtil.show(totalSwitchRL, R.string.open_setting_failed_diy);
                 }
                 isPositive = true;
                 super.onPositiveActionClicked(fragment);

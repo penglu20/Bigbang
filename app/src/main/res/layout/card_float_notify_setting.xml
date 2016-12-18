@@ -99,24 +99,4 @@
 
     </RelativeLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/divider" />
-
-    <LinearLayout
-        android:id="@+id/show_float_request_ll"
-        android:duplicateParentState="false"
-        android:orientation="vertical"
-        android:visibility="gone"
-        style="@style/cardViewRelativeLayoutSelector">
-
-        <android.support.v7.widget.AppCompatTextView
-            style="@style/cardViewTextViewInLayoutLeft"
-            android:textSize="@dimen/text_size_small"
-            android:textColor="@color/text_color_import"
-            android:text="@string/show_float_close_tip"/>
-
-    </LinearLayout>
-
 </LinearLayout>

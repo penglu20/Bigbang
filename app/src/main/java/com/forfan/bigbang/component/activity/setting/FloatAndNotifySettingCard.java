@@ -1,35 +1,27 @@
 package com.forfan.bigbang.component.activity.setting;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
-import android.os.Looper;
 import android.provider.Settings;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.NotificationCheckUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
-import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.HintTextView;
 import com.forfan.bigbang.view.SimpleDialog;
@@ -54,8 +46,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
     private SwitchCompat showFloarViewSwitch;
     private SwitchCompat showNotifySwitch;
-
-    private LinearLayout showFloatRequestLL;
 
     private boolean showFloatView =true;
     private boolean showNotify =false;
@@ -91,8 +81,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
         showNotifyTV = (HintTextView) findViewById(R.id.show_notify_tv);
 
         longPressRL = (RelativeLayout) findViewById(R.id.long_press_rl);
-
-        showFloatRequestLL= (LinearLayout) findViewById(R.id.show_float_request_ll);
 
 //        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
 
@@ -144,7 +132,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 }
                 isInFirst = false;
                 showFloatViewTV.setShowHint(!showFloatView);
-                showFloatTip();
             }
         });
 
@@ -157,7 +144,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.IS_SHOW_NOTIFY, showNotify);
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 showNotifyTV.setShowHint(!showNotify);
-                showFloatTip();
                 if (isClickNotify&&isChecked){
                     if (!NotificationCheckUtil.areNotificationsEnabled(mContext.getApplicationContext())) {
                         SnackBarUtil.show(buttonView,
@@ -257,59 +243,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
         }
     };
 
-    private void showFloatTip(){
-        showFloatRequestLL.clearAnimation();
-        if (!showFloatView && !showNotify) {
-            showFloatRequestLL.setVisibility(VISIBLE);
-            showFloatRequestLL.setAlpha(0);
-            showFloatRequestLL.animate().alpha(1).setDuration(300).setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    showFloatRequestLL.setVisibility(VISIBLE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            }).start();
-        }else {
-            showFloatRequestLL.setAlpha(1);
-            showFloatRequestLL.animate().alpha(0).setDuration(300).setListener(new Animator.AnimatorListener() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    showFloatRequestLL.setVisibility(GONE);
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-
-                }
-
-                @Override
-                public void onAnimationRepeat(Animator animation) {
-
-                }
-            }).start();
-        }
-    }
-
-
     private void refresh(){
         showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
         showNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
@@ -317,8 +250,6 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
         showFloarViewSwitch.setChecked(showFloatView);
         showNotifySwitch.setChecked(showNotify);
-
-        showFloatTip();
 
         showNotifyTV.setShowAnimation(true);
         showFloatViewTV.setShowAnimation(true);

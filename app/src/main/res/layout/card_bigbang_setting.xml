@@ -101,6 +101,7 @@
         <com.forfan.bigbang.view.HintTextView
             android:id="@+id/float_trigger_tv"
             style="@style/hintTextViewInLayoutLeft"
+            app:hintTextColor="@color/text_color_import"
             app:hint="@string/float_trigger_request"
             app:msg="@string/float_trigger" />
 

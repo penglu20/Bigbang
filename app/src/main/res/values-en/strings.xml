@@ -207,7 +207,7 @@
     <string name="trigger_by_float">Trigger by click float view</string>
 
     <string name="pre_setting_title">Set the &lt; Control and Trigger &gt;method first</string>
-    <string name="pre_setting_intro1">If you select the Suspension Window Resident or Notification Bar \n You can set BigBang\'s switch in it \n If you select &lt;Click Floating Window Trigger&gt; \n or &lt; Close Suspension Window and  Notification Bar &gt; When you trigger Bigbang, a pop-up window will pop up \n You need to &lt; click on a floating window to activate Bigbang &gt;</string>
+    <string name="pre_setting_intro1">With &lt;float view Window or notification bar&gt; \n You can set BigBang\'s switch in it \n If you select &lt;Click Floating Window Trigger&gt; \n When you trigger Bigbang, a pop-up window will pop up \n You need to &lt; click on a floating window to activate Bigbang &gt;</string>
     <string name="pre_setting_intro2">&lt;Click the text above&gt; to verify the effect of the settings. \n You can also change it at any time in the settings page</string>
     <string name="pre_setting_intro3">Have you selected the appropriate triggering method? \nYou can also change it at any time in the settings page</string>
     <string name="pre_setting_cancel">Checkout again</string>

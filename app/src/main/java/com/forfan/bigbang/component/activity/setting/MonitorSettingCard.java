@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.SwitchCompat;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -93,34 +94,39 @@ public class MonitorSettingCard extends AbsCard {
             int id = v.getId();
             switch (id) {
                 case R.id.text_only_rl:
-                        onlyTextSwitch.setChecked(!onlyTextSwitch.isChecked());
-                        break;
+                    onlyTextSwitch.setChecked(!onlyTextSwitch.isChecked());
+                    break;
                 case R.id.white_list:
-                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_WHITELIST);
-                        mContext.startActivity(new Intent(mContext, WhiteListActivity.class));
-                        break;
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_WHITELIST);
+                    mContext.startActivity(new Intent(mContext, WhiteListActivity.class));
+                    break;
                 case R.id.double_click_setting:
-                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING);
-                        doubleClickIntervalRl.setVisibility(VISIBLE);
-                        mDoubleClick.setVisibility(GONE);
-                        int t = SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL, ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
-                        doubleClickEditText.setText(t + "");
-                        doubleClickEditText.requestFocus();
-                        break;
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING);
+                    doubleClickIntervalRl.setVisibility(VISIBLE);
+                    mDoubleClick.setVisibility(GONE);
+                    int t = SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL, ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
+                    doubleClickEditText.setText(t + "");
+                    doubleClickEditText.requestFocus();
+                    break;
                 case R.id.double_click_confirm:
-                        UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM);
-                        int time = Integer.parseInt(doubleClickEditText.getText().toString());
+                    UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_DOUBLECLICK_SETTING_CONFORM);
+                    int time =0;
+                    if (doubleClickEditText.getText()==null|| TextUtils.isEmpty(doubleClickEditText.getText())){
+                        time = SPHelper.getInt(ConstantUtil.DOUBLE_CLICK_INTERVAL, ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL);
+                    }else {
+                        time = Integer.parseInt(doubleClickEditText.getText().toString());
                         SPHelper.save(ConstantUtil.DOUBLE_CLICK_INTERVAL, time);
-                        String text = mContext.getString(R.string.double_click_intercal);
-                        text = text.replace("#", "<font color=\"#009688\">" + time + "</font>");
-                        mDoubleClick.setText(Html.fromHtml(text));
-                        doubleClickIntervalRl.setVisibility(GONE);
-                        mDoubleClick.setVisibility(VISIBLE);
-                        ViewUtil.hideInputMethod(mDoubleClick);
-                        mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
-                        break;
+                    }
+                    String text = mContext.getString(R.string.double_click_intercal);
+                    text = text.replace("#", "<font color=\"#009688\">" + time + "</font>");
+                    mDoubleClick.setText(Html.fromHtml(text));
+                    doubleClickIntervalRl.setVisibility(GONE);
+                    mDoubleClick.setVisibility(VISIBLE);
+                    ViewUtil.hideInputMethod(mDoubleClick);
+                    mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
+                    break;
                 default:
-                        break;
+                    break;
                 }
         }
     };

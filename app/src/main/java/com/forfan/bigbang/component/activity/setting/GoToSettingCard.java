@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.util.SnackBarUtil;
 
 /**
  * Created by penglu on 2016/12/11.
@@ -26,8 +27,12 @@ public class GoToSettingCard extends AbsCard {
         findViewById(R.id.goto_access_rl).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
-                mContext.startActivity(intent);
+                try {
+                    Intent intent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
+                    mContext.startActivity(intent);
+                } catch (Throwable e) {
+                    SnackBarUtil.show(v, R.string.open_setting_failed_diy);
+                }
             }
         });
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
@@ -35,8 +40,12 @@ public class GoToSettingCard extends AbsCard {
             findViewById(R.id.goto_voice_rl).setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS);
-                    mContext.startActivity(intent);
+                    try {
+                        Intent intent = new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS);
+                        mContext.startActivity(intent);
+                    } catch (Throwable e) {
+                        SnackBarUtil.show(v, R.string.open_setting_failed_diy);
+                    }
                 }
             });
         }
