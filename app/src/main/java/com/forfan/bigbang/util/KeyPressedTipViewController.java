@@ -60,6 +60,7 @@ public class KeyPressedTipViewController implements  View.OnTouchListener {
     private int rotation;
     private boolean isLongPressedCancel =false;
     private boolean isLongPressedHome =false;
+    private boolean isLongPressedRecent =false;
 
     private boolean isRemoved=false;
     private boolean isToRemoved=false;
@@ -425,6 +426,10 @@ public class KeyPressedTipViewController implements  View.OnTouchListener {
                     }
                 }else if(TextUtils.equals(reason, SYSTEM_HOME_KEY_LONG)){
                     //表示长按home键,显示最近使用的程序列表
+                    if (currentKeyCode==KeyEvent.KEYCODE_APP_SWITCH && isLongPressedRecent){
+                        isLongPressedRecent=false;
+                        return;
+                    }
                 }else {
                     return;
                 }
@@ -445,6 +450,9 @@ public class KeyPressedTipViewController implements  View.OnTouchListener {
             }
             if (currentKeyCode==KeyEvent.KEYCODE_HOME){
                 isLongPressedHome = true;
+            }
+            if (currentKeyCode==KeyEvent.KEYCODE_APP_SWITCH){
+                isLongPressedRecent = true;
             }
             KeyPressedTipViewController.getInstance().show(null);
         }
@@ -472,6 +480,19 @@ public class KeyPressedTipViewController implements  View.OnTouchListener {
                 if (keyEvent.getAction() == KeyEvent.ACTION_UP) {
                     mainHandler.removeCallbacks(longPressRunnable);
                 }
+            }
+        }
+    }
+
+    public void onKeyLongPress(int keyCode){
+        if (keyPressIndex==0){
+            return;
+        }
+        if (keyPressIndex==7){
+            return;
+        }else {
+            if (keyCode == currentKeyCode) {
+                longPressRunnable.run();
             }
         }
     }

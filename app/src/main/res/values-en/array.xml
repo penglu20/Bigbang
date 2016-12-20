@@ -13,4 +13,15 @@
         <item>Taobao</item>
     </string-array>
 
+
+    <string-array name="long_press_key">
+        <item>NONE</item>
+        <item>Long press the Back key</item>
+        <item>Long press the Home key</item>
+        <item>Long press the Recent-Task key</item>
+        <item>Long press the Menu key</item>
+        <item>Long press the Volume Up key</item>
+        <item>Long press the Volume Down key</item>
+        <item>Volume Up + Volume Down</item>
+    </string-array>
 </resources>

@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -82,10 +84,16 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private AccessibilityServiceInfo mAccessibilityServiceInfo;
 
+    String back ;
+    String home ;
+    String recent ;
+
     @Override
     public void onCreate() {
         super.onCreate();
-
+        back = getVitualNavigationKey(this, "accessibility_back", "com.android.systemui", "");
+        home = getVitualNavigationKey(this, "accessibility_home", "com.android.systemui", "");
+        recent = getVitualNavigationKey(this, "accessibility_recent", "com.android.systemui", "");
         readSettingFromSp();
 
         ArcTipViewController.getInstance().addActionListener(actionListener);
@@ -167,10 +175,33 @@ public class BigBangMonitorService extends AccessibilityService {
         setServiceInfo(mAccessibilityServiceInfo);
     }
 
+    public static String getVitualNavigationKey(Context paramContext, String paramString1, String paramString2, String paramString3)
+    {
+        try
+        {
+            Resources packageManager = paramContext.getPackageManager().getResourcesForApplication(paramString2);
+            String key = packageManager.getString(packageManager.getIdentifier(paramString1, "string", paramString2));
+            return key;
+        }
+        catch (PackageManager.NameNotFoundException e) {}
+        return paramString3;
+    }
+
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
         if (!isRun){
             return;
+        }
+        if ((event.getEventType() == TYPE_VIEW_LONG_CLICKED) && ("com.android.systemui".equals(event.getPackageName())))
+        {
+            //长按虚拟机触发的，需要转到按键处理去
+            if (!TextUtils.isEmpty(back) && event.getContentDescription().equals(back)){
+                KeyPressedTipViewController.getInstance().onKeyLongPress(KeyEvent.KEYCODE_BACK);
+            }else if (!TextUtils.isEmpty(home) && event.getContentDescription().equals(home)){
+                KeyPressedTipViewController.getInstance().onKeyLongPress(KeyEvent.KEYCODE_HOME);
+            }else if (!TextUtils.isEmpty(recent) && event.getContentDescription().equals(recent)){
+                KeyPressedTipViewController.getInstance().onKeyLongPress(KeyEvent.KEYCODE_APP_SWITCH);
+            }
         }
         LogUtil.d(TAG,"onAccessibilityEvent:"+event);
         int type=event.getEventType();
