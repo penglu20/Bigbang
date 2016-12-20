@@ -28,7 +28,7 @@
     <RelativeLayout
         android:id="@+id/monitor_click_rl"
         android:duplicateParentState="false"
-        style="@style/cardViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector">
 
         <com.forfan.bigbang.view.HintTextView
             android:id="@+id/monitor_click_tv"

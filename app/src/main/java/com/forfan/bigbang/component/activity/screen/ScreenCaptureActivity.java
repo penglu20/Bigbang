@@ -20,9 +20,7 @@ import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.BigBangApp;
@@ -32,7 +30,6 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.view.MarkSizeView;
-import com.shang.commonjar.contentProvider.SPHelper;
 
 public class ScreenCaptureActivity extends BaseActivity {
     private String TAG = "Service";
@@ -42,8 +39,11 @@ public class ScreenCaptureActivity extends BaseActivity {
     private MediaProjectionManager mMediaProjectionManager;
     private MarkSizeView markSizeView;
     private Rect markedArea;
+    private MarkSizeView.GraphicPath mGraphicPath;
     private TextView captureTips;
     private Button captureAll;
+    private Button markType;
+    private boolean isMarkRect=true;
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -66,7 +66,16 @@ public class ScreenCaptureActivity extends BaseActivity {
         markSizeView = (MarkSizeView) findViewById(R.id.mark_size);
         captureTips = (TextView) findViewById(R.id.capture_tips);
         captureAll = (Button) findViewById(R.id.capture_all);
+        markType = (Button) findViewById(R.id.mark_type);
 
+        markType.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isMarkRect=!isMarkRect;
+                markSizeView.setIsMarkRect(isMarkRect);
+                markType.setText(isMarkRect?R.string.capture_type_rect:R.string.capture_type_free);
+            }
+        });
 
         markSizeView.setmOnClickListener(new MarkSizeView.onClickListener() {
             @Override
@@ -83,15 +92,26 @@ public class ScreenCaptureActivity extends BaseActivity {
             }
 
             @Override
+            public void onConfirm(MarkSizeView.GraphicPath path) {
+                mGraphicPath=path;
+                markSizeView.reset();
+                markSizeView.setUnmarkedColor(getResources().getColor(R.color.transparent));
+                markSizeView.setEnabled(false);
+                startIntent();
+            }
+
+            @Override
             public void onCancel() {
                 captureTips.setVisibility(View.VISIBLE);
                 captureAll.setVisibility(View.VISIBLE);
+                markType.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onTouch() {
                 captureTips.setVisibility(View.GONE);
                 captureAll.setVisibility(View.GONE);
+                markType.setVisibility(View.GONE);
             }
         });
 
@@ -195,7 +215,11 @@ public class ScreenCaptureActivity extends BaseActivity {
 
     private void startScreenCapture() {
         Intent intent = new Intent(getApplicationContext(), ScreenCaptureService.class);
-        intent.putExtra(ScreenCaptureService.SCREEN_CUT_RECT, markedArea);
+        if (isMarkRect) {
+            intent.putExtra(ScreenCaptureService.SCREEN_CUT_RECT, markedArea);
+        }else {
+            intent.putExtra(ScreenCaptureService.SCREEN_CUT_GRAPHIC_PATH, mGraphicPath);
+        }
         intent.putExtra(ScreenCaptureService.NAVIGATION_BAR_HEIGHT,getNavigationBarHeight(this) );
         startService(intent);
     }

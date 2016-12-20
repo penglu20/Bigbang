@@ -215,6 +215,9 @@
     <string name="capture_tips">Take a screenshot of the area on the screen</string>
     <string name="capture_all">Click TO Capture Full Screen</string>
 
+    <string name="capture_type_rect">Rectangular selection</string>
+    <string name="capture_type_free">Curve selection</string>
+
     <string name="save_sd_card">Saved in Sdcard/Pictures/</string>
     <string name="save_sd_card_fail">Save fail</string>
 

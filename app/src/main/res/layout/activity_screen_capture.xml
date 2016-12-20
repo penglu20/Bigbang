@@ -8,6 +8,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/mark_type"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:textColor="@color/white"
+        android:text="@string/capture_type_rect"
+        android:textSize="@dimen/text_size_huge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/capture_tips"
         android:layout_width="match_parent"

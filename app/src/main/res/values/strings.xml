@@ -212,6 +212,8 @@
 
     <string name="capture_tips">在屏幕上划取区域截图</string>
     <string name="capture_all">点我截取全屏</string>
+    <string name="capture_type_rect">矩形选取</string>
+    <string name="capture_type_free">曲线选取</string>
 
     <string name="save_sd_card">已保存sd卡 Pictures 目录下</string>
     <string name="save_sd_card_fail">保存失败</string>

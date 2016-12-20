@@ -8,6 +8,7 @@
         android:id="@+id/introduction"
 
         style="@style/cardViewTextView"
+        android:textColor="@color/text_color_import"
 
         android:text="@string/introduction" />
 

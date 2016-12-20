@@ -157,7 +157,7 @@ public class SelectionDbHelper extends SQLiteOpenHelper {
 
 
     public void deleteAll(){
-        SQLiteDatabase database=getReadableDatabase();
+        SQLiteDatabase database=getWritableDatabase();
         database.delete(TABLE_NAME,null,null);
         database.close();
     }

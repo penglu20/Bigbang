@@ -5,6 +5,12 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
@@ -23,12 +29,10 @@ import android.util.Log;
 import android.view.WindowManager;
 
 import com.forfan.bigbang.BigBangApp;
-import com.forfan.bigbang.R;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
-import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.view.MarkSizeView;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -38,6 +42,7 @@ import java.text.SimpleDateFormat;
 public class ScreenCaptureService extends Service {
     private static final String TAG = "ScreenCaptureActivity";
     public static final String SCREEN_CUT_RECT = "screen_cut";
+    public static final String SCREEN_CUT_GRAPHIC_PATH = "graph_path";
     public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
     public static final String MESSAGE = "message";
     public static final String FILE_NAME = "temp_file";
@@ -63,6 +68,7 @@ public class ScreenCaptureService extends Service {
 
     Handler handler = new Handler(Looper.getMainLooper());
     private Rect mRect;
+    private MarkSizeView.GraphicPath mGraphicPath;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -114,6 +120,7 @@ public class ScreenCaptureService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
+            mGraphicPath = intent.getParcelableExtra(SCREEN_CUT_GRAPHIC_PATH);
             mNavigationBarHeight = intent.getIntExtra(NAVIGATION_BAR_HEIGHT, 0);
         } catch (Exception e) {
             e.printStackTrace();
@@ -224,13 +231,15 @@ public class ScreenCaptureService extends Service {
         }
         double multipleWidth =width*1.0/ bitmap.getWidth();
 
+        if (mGraphicPath!=null){
+            mRect=new Rect(mGraphicPath.getLeft(),mGraphicPath.getTop(),mGraphicPath.getRight(),mGraphicPath.getBottom());
+        }
         if (mRect != null) {
             mRect.left= (int) (mRect.left/multipleWidth);
             mRect.right= (int) (mRect.right/multipleWidth);
 
             mRect.top= (int) (mRect.top/multipleHeight);
             mRect.bottom= (int) (mRect.bottom/multipleHeight);
-
 
             if (mRect.left < 0)
                 mRect.left = 0;
@@ -244,9 +253,36 @@ public class ScreenCaptureService extends Service {
             int cut_height = Math.abs(mRect.top - mRect.bottom);
             if (cut_height > 0 && cut_height > 0) {
                 Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
-                saveCutBitmap(cutBitmap);
-            }
+                if (mGraphicPath!=null){
+                    // 准备画笔
+                    Paint paint = new Paint();
+                    paint.setAntiAlias(true);
+                    paint.setStyle(Paint.Style.FILL_AND_STROKE);
+                    paint.setColor(Color.WHITE);
+                    Bitmap temp = Bitmap.createBitmap(cut_width, cut_height, Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(temp);
 
+                    Path path = new Path();
+                    if (mGraphicPath.size() > 1) {
+                        path.moveTo((float) ((mGraphicPath.pathX.get(0)/multipleWidth-mRect.left)), (float) ((mGraphicPath.pathY.get(0)/multipleHeight- mRect.top)));
+                        for (int i = 1; i < mGraphicPath.size(); i++) {
+                            path.lineTo((float) ((mGraphicPath.pathX.get(i)/multipleWidth-mRect.left)), (float) ((mGraphicPath.pathY.get(i)/multipleHeight- mRect.top)));
+                        }
+                    } else {
+                        return;
+                    }
+                    canvas.drawPath(path, paint);
+                    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
+                    // 关键代码，关于Xfermode和SRC_IN请自行查阅
+                    canvas.drawBitmap(cutBitmap, 0 , 0, paint);
+
+                    saveCutBitmap(temp);
+
+                }else {
+                    saveCutBitmap(cutBitmap);
+                }
+            }
         } else {
             saveCutBitmap(bitmap);
         }

@@ -17,7 +17,7 @@
             app:hintTextColor="@color/text_color_import"
             app:msg="@string/open_access_setting"
             android:layout_width="match_parent"
-            style="@style/cardViewTextViewInLayoutLeft"
+            style="@style/hintTextViewInLayoutLeft"
             />
 
 
@@ -36,7 +36,7 @@
             app:hintTextColor="@color/secondary_text"
             app:msg="@string/open_voice_setting"
             android:layout_width="match_parent"
-            style="@style/cardViewTextViewInLayoutLeft"
+            style="@style/hintTextViewInLayoutLeft"
             />
 
 
