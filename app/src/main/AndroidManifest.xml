@@ -43,7 +43,7 @@
 
         <activity
             android:name=".component.activity.setting.SettingActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -97,6 +97,7 @@
             android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
+            android:clearTaskOnLaunch="true"
             android:noHistory="true"
             android:theme="@style/OverlayTheme" />
         <activity
