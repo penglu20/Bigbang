@@ -218,119 +218,123 @@ public class BigBangActivity extends BaseActivity {
 
         @Override
         public void onSearch(String text) {
-            if (!TextUtils.isEmpty(text)) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SEARCH);
-                boolean isUrl = false;
-                Uri uri = null;
-                try {
+            if (TextUtils.isEmpty(text)) {
+                text = originString;
+            }
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SEARCH);
+            boolean isUrl = false;
+            Uri uri = null;
+            try {
 //                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
-                    Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = p.matcher(text);
-                    if (!matcher.matches()) {
-                        uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0)).url + URLEncoder.encode(text, "utf-8"));
-                        isUrl = false;
-                    } else {
-                        uri = Uri.parse(text);
-                        if (!text.startsWith("http"))
-                            text = "http://" + text;
-                        isUrl = true;
-                    }
+                Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = p.matcher(text);
+                if (!matcher.matches()) {
+                    uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0)).url + URLEncoder.encode(text, "utf-8"));
+                    isUrl = false;
+                } else {
+                    uri = Uri.parse(text);
+                    if (!text.startsWith("http"))
+                        text = "http://" + text;
+                    isUrl = true;
+                }
 
-                    boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
-                    Intent intent;
-                    if (t) {
-                        intent = new Intent();
-                        if (isUrl) {
-                            intent.putExtra("url", text);
-                        } else {
-                            intent.putExtra("query", text);
-                        }
-                        intent.setClass(BigBangActivity.this, WebActivity.class);
-                    } else {
-                        intent = new Intent(Intent.ACTION_VIEW, uri);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    }
-                    startActivity(intent);
-                    finish();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Intent intent = new Intent();
+                boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
+                Intent intent;
+                if (t) {
+                    intent = new Intent();
                     if (isUrl) {
                         intent.putExtra("url", text);
                     } else {
                         intent.putExtra("query", text);
                     }
+                    intent.setClass(BigBangActivity.this, WebActivity.class);
+                } else {
                     intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent);
-
                 }
+                startActivity(intent);
+                finish();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Intent intent = new Intent();
+                if (isUrl) {
+                    intent.putExtra("url", text);
+                } else {
+                    intent.putExtra("query", text);
+                }
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+
             }
         }
 
         @Override
         public void onShare(String text) {
-            if (!TextUtils.isEmpty(text)) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SHARAE);
+            if (TextUtils.isEmpty(text)) {
+                text = originString;
+            }
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SHARAE);
 
 //                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
 //                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                sharingIntent.setType("text/plain");
 //                sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
-                SharedIntentHelper.sendShareIntent(BigBangActivity.this,text);
+            SharedIntentHelper.sendShareIntent(BigBangActivity.this,text);
 //                finish();
-            }
         }
 
         @Override
         public void onCopy(String text) {
-            if (!TextUtils.isEmpty(text)) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_COPY);
-
-                Intent intent = new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
-                intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG, text);
-                sendBroadcast(intent);
-                new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ClipboardUtils.setText(getApplicationContext(), text);
-                        ToastUtil.show("已复制");
-                        finish();
-                    }
-                }, 100);
-
+            if (TextUtils.isEmpty(text)) {
+                text = originString;
             }
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_COPY);
+
+            Intent intent = new Intent(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD);
+            intent.putExtra(ConstantUtil.BROADCAST_SET_TO_CLIPBOARD_MSG, text);
+            sendBroadcast(intent);
+            String finalText = text;
+            new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    ClipboardUtils.setText(getApplicationContext(), finalText);
+                    ToastUtil.show("已复制");
+                    finish();
+                }
+            }, 100);
         }
 
         @Override
         public void onTrans(String text) {
-            if (!TextUtils.isEmpty(text)) {
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_TRANSLATE);
+            if (TextUtils.isEmpty(text)) {
+                text = originString;
+            }
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_TRANSLATE);
 
 //                loading.show();
-                if (transRl == null) {
-                    ViewStub viewStub = (ViewStub) findViewById(R.id.trans_view_stub);
-                    viewStub.inflate();
-                    transRl = (RelativeLayout) findViewById(R.id.trans_rl);
-                    toTrans = (EditText) findViewById(R.id.to_translate);
-                    transResult = (EditText) findViewById(R.id.translate_result);
-                    TextView title = (TextView) findViewById(R.id.title);
+            if (transRl == null) {
+                ViewStub viewStub = (ViewStub) findViewById(R.id.trans_view_stub);
+                viewStub.inflate();
+                transRl = (RelativeLayout) findViewById(R.id.trans_rl);
+                toTrans = (EditText) findViewById(R.id.to_translate);
+                transResult = (EditText) findViewById(R.id.translate_result);
+                TextView title = (TextView) findViewById(R.id.title);
 
 
-                    title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
-                    toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
-                    transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
-                    ImageView transAgain = (ImageView) findViewById(R.id.trans_again);
-                    transAgain.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            ViewUtil.hideInputMethod(toTrans);
-                            translate(toTrans.getText().toString());
-                        }
-                    });
-                }
-                translate(text);
+                title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                ImageView transAgain = (ImageView) findViewById(R.id.trans_again);
+                transAgain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ViewUtil.hideInputMethod(toTrans);
+                        translate(toTrans.getText().toString());
+                    }
+                });
             }
+            translate(text);
         }
 
         @Override
