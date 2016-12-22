@@ -505,7 +505,7 @@ public class TipViewController implements  View.OnTouchListener {
     public synchronized void showTipViewForStartActivity(Intent intent){
         boolean isNotify=SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
         boolean showFloat=SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
-        boolean floatTrigger=SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,false);
+        boolean floatTrigger=SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,true);
         if (!floatTrigger && (isNotify || showFloat)){
             //直接打开bigbang
             try {

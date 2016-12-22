@@ -6,6 +6,8 @@ import android.text.TextUtils;
 
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ArcTipViewController;
+import com.forfan.bigbang.util.ConstantUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 /**
  * Created by wangyan-pd on 2016/12/5.
@@ -28,9 +30,12 @@ public class XposedBigBangActivity extends BaseActivity {
             Intent intent=new Intent(this, BigBangActivity.class);
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BigBangActivity.TO_SPLIT_STR,str);
-//            startActivity(intent);
-            //放到TipViewController中触发试试
-            ArcTipViewController.getInstance().showTipViewForStartActivity(intent);
+            boolean click = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
+            if(click){
+                //放到TipViewController中触发试试
+                ArcTipViewController.getInstance().showTipViewForStartActivity(intent);
+            }
+//
         }
         finish();
     }

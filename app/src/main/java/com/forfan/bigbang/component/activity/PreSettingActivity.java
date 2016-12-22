@@ -59,7 +59,7 @@ public class PreSettingActivity extends BaseActivity {
     private void refresh(){
         controlByFloat.setChecked(SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false));
         controlByNotify.setChecked(SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false));
-        triggerByFloat.setChecked(SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,false));
+        triggerByFloat.setChecked(SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER,true));
         isClickFloat=true;
         isClickNotify=true;
     }

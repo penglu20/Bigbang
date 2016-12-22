@@ -82,6 +82,7 @@ public class BigBangActivity extends BaseActivity {
             setContentView(R.layout.activity_big_bang);
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.bigbang_activity_window_full));
             getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
+            showAppList4OneStep();
         } else {
             CardView cardView = new CardView(this);
             View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
@@ -95,7 +96,6 @@ public class BigBangActivity extends BaseActivity {
             setContentView(cardView);
 
         }
-        showAppList4OneStep();
 
 
 //        CardView cardView = new CardView(this);

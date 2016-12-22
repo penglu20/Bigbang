@@ -58,7 +58,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
     public void showTipViewForStartActivity(Intent intent) {
 
-        boolean floatTrigger = SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER, false);
+        boolean floatTrigger = SPHelper.getBoolean(ConstantUtil.USE_FLOAT_VIEW_TRIGGER, true);
         if (!floatTrigger) {
             //直接打开bigbang
             try {

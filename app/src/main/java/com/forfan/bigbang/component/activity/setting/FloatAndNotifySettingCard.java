@@ -22,7 +22,6 @@ import com.forfan.bigbang.util.NotificationCheckUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
-import com.forfan.bigbang.util.XposedEnableUtil;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.HintTextView;
 import com.forfan.bigbang.view.SimpleDialog;
@@ -48,10 +47,10 @@ public class FloatAndNotifySettingCard extends AbsCard {
     private SwitchCompat showFloarViewSwitch;
     private SwitchCompat showNotifySwitch;
 
-    private boolean showFloatView =true;
-    private boolean showNotify =false;
+    private boolean showFloatView = true;
+    private boolean showNotify = false;
     private boolean isInFirst = true;
-    private boolean isClickFloat=false,isClickNotify = false;
+    private boolean isClickFloat = false, isClickNotify = false;
 
     private Handler handler;
 
@@ -66,12 +65,12 @@ public class FloatAndNotifySettingCard extends AbsCard {
         super.onDetachedFromWindow();
     }
 
-    private void initView(Context context){
-        mContext=context;
+    private void initView(Context context) {
+        mContext = context;
 
-        handler=new Handler();
+        handler = new Handler();
 
-        LayoutInflater.from(context).inflate(R.layout.card_float_notify_setting,this);
+        LayoutInflater.from(context).inflate(R.layout.card_float_notify_setting, this);
 
         showFloatViewRL = (RelativeLayout) findViewById(R.id.show_float_view_rl);
         showFloarViewSwitch = (SwitchCompat) findViewById(R.id.show_float_view_switch);
@@ -84,16 +83,13 @@ public class FloatAndNotifySettingCard extends AbsCard {
         longPressRL = (RelativeLayout) findViewById(R.id.long_press_rl);
 
 //        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
-        if (XposedEnableUtil.isEnable()) {
-            longPressRL.setVisibility(GONE);
-        }
-        if (Build.VERSION.SDK_INT<Build.VERSION_CODES.JELLY_BEAN_MR2){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
             longPressRL.setVisibility(GONE);
         }
         showFloarViewSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_FLOAT_WINDOW,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_FLOAT_WINDOW, isChecked);
 
                 showFloatView = isChecked;
                 SPHelper.save(ConstantUtil.SHOW_FLOAT_VIEW, showFloatView);
@@ -141,13 +137,13 @@ public class FloatAndNotifySettingCard extends AbsCard {
         showNotifySwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_NOTIFY,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SHOW_NOTIFY, isChecked);
 
                 showNotify = isChecked;
                 SPHelper.save(ConstantUtil.IS_SHOW_NOTIFY, showNotify);
                 mContext.sendBroadcast(new Intent(BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
                 showNotifyTV.setShowHint(!showNotify);
-                if (isClickNotify&&isChecked){
+                if (isClickNotify && isChecked) {
                     if (!NotificationCheckUtil.areNotificationsEnabled(mContext.getApplicationContext())) {
                         SnackBarUtil.show(buttonView,
                                 mContext.getString(R.string.notify_enable),
@@ -161,8 +157,8 @@ public class FloatAndNotifySettingCard extends AbsCard {
                                             intent.putExtra("app_package", mContext.getPackageName());
                                             intent.putExtra("app_uid", mContext.getApplicationInfo().uid);
                                             mContext.startActivity(intent);
-                                        }catch (Throwable e){
-                                            SnackBarUtil.show(buttonView,R.string.open_setting_failed_diy);
+                                        } catch (Throwable e) {
+                                            SnackBarUtil.show(buttonView, R.string.open_setting_failed_diy);
                                         }
                                     }
                                 });
@@ -197,47 +193,48 @@ public class FloatAndNotifySettingCard extends AbsCard {
 
 
     private void showLongPressDialog() {
-        String[] longpress=mContext.getResources().getStringArray(R.array.long_press_key);
-        int index=SPHelper.getInt(ConstantUtil.LONG_PRESS_KEY_INDEX,0);
+        String[] longpress = mContext.getResources().getStringArray(R.array.long_press_key);
+        int index = SPHelper.getInt(ConstantUtil.LONG_PRESS_KEY_INDEX, 0);
 
-        SimpleDialog.Builder builder=new SimpleDialog.Builder(R.style.SimpleDialogLight){
+        SimpleDialog.Builder builder = new SimpleDialog.Builder(R.style.SimpleDialogLight) {
 
             @Override
             public void onPositiveActionClicked(DialogFragment fragment) {
                 // 这里是保持开启
                 super.onPositiveActionClicked(fragment);
-                int index=getSelectedIndex();
-                SPHelper.save(ConstantUtil.LONG_PRESS_KEY_INDEX,index);
+                int index = getSelectedIndex();
+                SPHelper.save(ConstantUtil.LONG_PRESS_KEY_INDEX, index);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
-                if (index==2){
+                if (index == 2) {
                     ToastUtil.show(R.string.long_press_toast);
                 }
             }
+
             @Override
             public void onDismiss(DialogInterface dialog) {
                 super.onCancel(dialog);
             }
         };
-        builder.items(longpress,index)
+        builder.items(longpress, index)
                 .title(mContext.getString(R.string.long_press))
                 .positiveAction(mContext.getString(R.string.confirm))
                 .negativeAction(mContext.getString(R.string.cancel));
         DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
+        fragment.show(((AppCompatActivity) mContext).getSupportFragmentManager(), null);
     }
 
-    private OnClickListener myOnClickListerner=new OnClickListener(){
+    private OnClickListener myOnClickListerner = new OnClickListener() {
 
         @Override
         public void onClick(View v) {
-            int id=v.getId();
+            int id = v.getId();
             switch (id) {
                 case R.id.show_float_view_rl:
-                    isClickFloat=true;
+                    isClickFloat = true;
                     showFloarViewSwitch.setChecked(!showFloarViewSwitch.isChecked());
                     break;
                 case R.id.show_notify_rl:
-                    isClickNotify=true;
+                    isClickNotify = true;
                     showNotifySwitch.setChecked(!showNotifySwitch.isChecked());
                     break;
                 default:
@@ -246,9 +243,9 @@ public class FloatAndNotifySettingCard extends AbsCard {
         }
     };
 
-    private void refresh(){
-        showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW,false);
-        showNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY,false);
+    private void refresh() {
+        showFloatView = SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW, false);
+        showNotify = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY, false);
 
 
         showFloarViewSwitch.setChecked(showFloatView);
