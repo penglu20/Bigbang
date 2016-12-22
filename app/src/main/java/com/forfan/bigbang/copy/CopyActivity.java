@@ -26,6 +26,7 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class CopyActivity extends BaseActivity {
+    private static final String IS_FULL_SCREEN="is_full_screen";
     private FrameLayout copyNodeViewContainer;
     private FloatingActionButton copyFab;
     private FloatingActionButton exitFab;
@@ -71,13 +73,13 @@ public class CopyActivity extends BaseActivity {
         this.menu.setGroupVisible(R.id.copy_actions, var2);
         if(this.isFullScreen) {
             if(var2) {
-                this.exitFab.hide();
+                this.exitFab.show();
                 this.copyFab.show();
                 this.exitFullScreenFab.show();
             } else {
-                this.copyFab.hide();
-                this.exitFullScreenFab.hide();
                 this.exitFab.show();
+                this.copyFab.hide();
+                this.exitFullScreenFab.show();
             }
         }
 
@@ -146,6 +148,7 @@ public class CopyActivity extends BaseActivity {
             this.exitFab.hide();
             this.exitFullScreenFab.hide();
         }
+        SPHelper.save(IS_FULL_SCREEN,var1);
     }
 
     private void showSelectedText() {
@@ -192,6 +195,7 @@ public class CopyActivity extends BaseActivity {
             }
         });
         this.bottomSheetDialog.show();
+
     }
 
     private void adjustActionBarWrap() {
@@ -336,8 +340,14 @@ public class CopyActivity extends BaseActivity {
             ToastUtil.show(R.string.error_in_copy);
             this.finish();
         }
-
+        exitFab.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fullScreenMode(SPHelper.getBoolean(IS_FULL_SCREEN,false));
+            }
+        }, 10);
     }
+
 
     public boolean onCreateOptionsMenu(Menu var1) {
         this.getMenuInflater().inflate(R.menu.universal_copy, var1);

@@ -44,7 +44,7 @@
         android:layout_width="36.0dip"
         android:layout_height="36.0dip"
         android:layout_marginBottom="@dimen/margin_normal"
-        android:layout_marginRight="@dimen/margin_normal"
+        android:layout_marginRight="76dp"
         android:src="@mipmap/ic_arrow_back_white_24dp"
         android:contentDescription="@android:string/cancel"
         app:fabSize="mini"
