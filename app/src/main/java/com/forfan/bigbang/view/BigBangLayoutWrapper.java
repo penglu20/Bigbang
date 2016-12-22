@@ -202,7 +202,7 @@ public class BigBangLayoutWrapper extends FrameLayout  {
         int height = MeasureSpec.getSize(heightMeasureSpec);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         mHeader.measure(widthMeasureSpec,MeasureSpec.makeMeasureSpec(0,MeasureSpec.EXACTLY));
-        int childHeight=mBottom.getMeasuredHeight()+mBigBangLayout.getMeasuredHeight() + (stickHeader?mHeader.getMeasuredHeight():0);
+        int childHeight= (int) (mBottom.getMeasuredHeight()+mBigBangLayout.getMeasuredHeight() + (stickHeader?mHeader.getMeasuredHeight()*4.0/3:0));
         if (fullScreenMode){
             setMeasuredDimension(MeasureSpec.makeMeasureSpec(width,MeasureSpec.AT_MOST),MeasureSpec.makeMeasureSpec(height,MeasureSpec.AT_MOST));
         }else {
