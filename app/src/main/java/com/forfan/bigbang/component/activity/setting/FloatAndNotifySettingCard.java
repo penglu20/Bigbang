@@ -22,6 +22,7 @@ import com.forfan.bigbang.util.NotificationCheckUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
+import com.forfan.bigbang.util.XposedEnableUtil;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.HintTextView;
 import com.forfan.bigbang.view.SimpleDialog;
@@ -83,7 +84,9 @@ public class FloatAndNotifySettingCard extends AbsCard {
         longPressRL = (RelativeLayout) findViewById(R.id.long_press_rl);
 
 //        requestFloatViewTv= (TextView) findViewById(R.id.show_float_view_request);
-
+        if (XposedEnableUtil.isEnable()) {
+            longPressRL.setVisibility(GONE);
+        }
         if (Build.VERSION.SDK_INT<Build.VERSION_CODES.JELLY_BEAN_MR2){
             longPressRL.setVisibility(GONE);
         }

@@ -26,7 +26,7 @@ public class PickWordFragment extends BaseRecyclerFragment {
             if (isChecked) {
                 int index = 0;
                 if (!newAdapter.containsView(settingCard))
-                    index = cardViews.size() ;
+                    index = cardViews.size();
                 if (XposedEnableUtil.isEnable())
                     index = index - 1;
                 newAdapter.addView(settingCard, index);
@@ -41,22 +41,24 @@ public class PickWordFragment extends BaseRecyclerFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            BaseActivity baseActivity=((BaseActivity)getActivity());
+            BaseActivity baseActivity = ((BaseActivity) getActivity());
             baseActivity.getSupportActionBar().setTitle(R.string.fragment_segment);
         }
     }
 
     @Override
     protected void prepareCardView() {
-        settingCard=new MonitorSettingCard(getActivity());
-        cardViews.add(new GoToSettingCard(getActivity()));
+        settingCard = new MonitorSettingCard(getActivity());
+        if (!XposedEnableUtil.isEnable()) {
+            cardViews.add(new GoToSettingCard(getActivity()));
+        }
         cardViews.add(new FunctionSettingCard(getActivity()));
         if (XposedEnableUtil.isEnable()) {
-                cardViews.add(new XposedCard(getActivity()));
-            }
+            cardViews.add(new XposedCard(getActivity()));
+        }
         if (SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK, true) && !XposedEnableUtil.isEnable()) {
-                cardViews.add(settingCard);
-            }
+            cardViews.add(settingCard);
+        }
         initLocalBroadcast();
     }
 
