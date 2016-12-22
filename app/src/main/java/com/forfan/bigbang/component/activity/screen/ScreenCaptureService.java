@@ -337,6 +337,7 @@ public class ScreenCaptureService extends Service {
         } catch (IOException e) {
             e.printStackTrace();
             intent.putExtra(MESSAGE, "保存失败");
+            sendBroadcast(intent);
             return;
         }
         intent.putExtra(MESSAGE, "保存成功");

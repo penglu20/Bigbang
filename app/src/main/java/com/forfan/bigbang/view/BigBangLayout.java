@@ -10,8 +10,9 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.NestedScrollingChild;
@@ -81,6 +82,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private ActionListener mActionListener;
     private int mScaledTouchSlop;
     private float mDownX;
+    private float mDownY;
     private boolean mDisallowedParentIntercept;
 
 
@@ -152,7 +154,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 //                }
 //                String txt=event.getClipDescription().getLabel().toString();
                 try {
-                    if (dragItem == null || !((TextView) dragItem.view).getText().equals(event.getClipDescription().getLabel())) {
+                    if (dragItem == null || !(dragItem.getText().equals(event.getClipDescription().getLabel()))) {
                         return false;
                     }
                 } catch (Throwable e) {
@@ -246,7 +248,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             for (Line line : mLines) {
                 List<Item> items = line.getItems();
                 for (Item item : items) {
-                    ((TextView) item.view).setPadding(mTextPadding,0,mTextPadding,0);
+                    (item.view).setPadding(mTextPadding,0,mTextPadding,0);
                 }
             }
         }
@@ -336,8 +338,9 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 continue;
             }
 
-            TextView child = (TextView) v;
-            String content = child.getText().toString();
+            View child = (View) v;
+            String content;
+            content=((TextView)child).getText().toString();
 
             child.setVisibility(VISIBLE);
             if (!showSymbol) {
@@ -370,11 +373,13 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             item.width = child.getMeasuredWidth();
             item.height = child.getMeasuredHeight();
             if (currentLine.getItems() == null && (isEnter && showSection)) {
+                int padding = child.getPaddingLeft();
                 child.setBackgroundResource(mSectionTextBgRes);
-                child.setPadding(mTextPadding,0,mTextPadding,0);
+                child.setPadding(padding, 0, padding, 0);
             } else {
+                int padding = child.getPaddingLeft();
                 child.setBackgroundResource(mTextBgRes);
-                child.setPadding(mTextPadding,0,mTextPadding,0);
+                child.setPadding(padding, 0, padding, 0);
             }
             currentLine.addItem(item);
             isEnter = false;
@@ -486,11 +491,12 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 case MotionEvent.ACTION_DOWN:
                     showAnimation = true;
                     mDownX = x;
+                    mDownY = y;
                     mDisallowedParentIntercept = false;
                     Item item = findItemByPoint(x, y);
                     if (item != null) {
                         dragItem = new Item(item);
-                        ClipData clipData = ClipData.newPlainText(((TextView) dragItem.view).getText(), ((TextView) dragItem.view).getText());
+                        ClipData clipData = ClipData.newPlainText(item.getText(), item.getText());
                         View.DragShadowBuilder myShadow = new DragShadowBuilder(dragItem.view);
                         dragItem.view.startDrag(clipData, myShadow, null, 0);
                         removeView(dragItem.view);
@@ -520,17 +526,25 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             }
         } else {
             int x = (int) event.getX();
+            int y = (int) event.getY();
             switch (actionMasked) {
                 case MotionEvent.ACTION_DOWN:
+                    longPressedHandler.removeCallbacks(mLongPressedRunnable);
+                    mLongPressedRunnable.setPosition(x,y);
+                    longPressedHandler.postDelayed(mLongPressedRunnable,500);
                     showAnimation = true;
                     mDownX = x;
+                    mDownY = y;
                     mDisallowedParentIntercept = false;
                 case MotionEvent.ACTION_MOVE:
+                    if (Math.abs(y - mDownY) > mScaledTouchSlop || Math.abs(x - mDownX) > mScaledTouchSlop) {
+                        longPressedHandler.removeCallbacks(mLongPressedRunnable);
+                    }
                     if (!mDisallowedParentIntercept && Math.abs(x - mDownX) > mScaledTouchSlop) {
                         getParent().requestDisallowInterceptTouchEvent(true);
                         mDisallowedParentIntercept = true;
                     }
-                    Item item = findItemByPoint(x, (int) event.getY());
+                    Item item = findItemByPoint(x, y);
                     if (mTargetItem != item) {
                         mTargetItem = item;
                         if (item != null) {
@@ -556,6 +570,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                         }
                     }
                 case MotionEvent.ACTION_UP:
+                    longPressedHandler.removeCallbacks(mLongPressedRunnable);
                     requestLayout();
                     invalidate();
                     mTargetItem = null;
@@ -573,6 +588,23 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             }
         }
         return true;
+    }
+
+    private Handler longPressedHandler=new Handler(Looper.getMainLooper());
+    private LongPressedRunnable mLongPressedRunnable=new LongPressedRunnable();
+    private class LongPressedRunnable implements Runnable{
+        int x,y;
+        public void setPosition(int x,int y){
+            this.x=x;
+            this.y=y;
+        }
+        @Override
+        public void run() {
+            Item item=findItemByPoint(x,y);
+            if (item!=null){
+                item.longPressed();
+            }
+        }
     }
 
     ItemState mItemState;
@@ -725,7 +757,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         for (Line line : mLines) {
             List<Item> items = line.getItems();
             for (Item item : items) {
-                item.setSelected(!item.isSelected());
+//                item.setSelected(!item.isSelected());
+                item.triggerSelected();
             }
         }
         requestLayout();
@@ -790,7 +823,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     }
 
-    static class Item {
+    class Item {
         Line line;
         int index;
         int height;
@@ -825,8 +858,44 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             view.setSelected(selected);
         }
 
+        void triggerSelected() {
+            view.setSelected(!view.isSelected());
+        }
+
         CharSequence getText() {
+            return ((TextView)view).getText().toString();
+        }
+
+        CharSequence getSelectText() {
             return ((TextView) view).getText();
+        }
+
+        void longPressed(){
+            if ( !(((TextView)view).getText().toString().matches("[a-zA-Z]*"))){
+                String text=getText().toString();
+                int size=text.length();
+                if (size<=1){
+                    return;
+                }
+                ViewGroup viewgroup= (ViewGroup) view.getParent();
+                viewgroup.removeView(view);
+                int newPadding=(mTextPadding*2- mItemSpace*(size-1))/(size*2) ;
+                for (int i=0;i<size;i++){
+                    TextView newTextView = new TextView(getContext());
+                    newTextView.setText(text.substring(size-i-1,size-i));
+                    newTextView.setBackgroundResource(mTextBgRes);
+                    if (mColorStateList == null) {
+                        newTextView.setTextColor(ContextCompat.getColorStateList(getContext(), mTextColorRes));
+                    } else {
+                        newTextView.setTextColor(mColorStateList);
+                    }
+                    newTextView.setTextSize(mTextSize);
+                    newTextView.setPadding(newPadding,0,newPadding,0);
+                    newTextView.setGravity(Gravity.CENTER);
+
+                    viewgroup.addView(newTextView,index);
+                }
+            }
         }
     }
 
