@@ -90,6 +90,7 @@ public class SettingBigBangActivity extends BaseActivity {
     private int[] bigbangBackgroungColors;
     private int lastPickedColor;//只存rgb
     private int alpha;//只存alpha，0-100
+    private CheckBox isStickSharebar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +127,7 @@ public class SettingBigBangActivity extends BaseActivity {
 
         isFullScreen= (CheckBox) findViewById(R.id.is_full_screen);
         isStickHeader= (CheckBox) findViewById(R.id.is_stick_header);
+        isStickSharebar= (CheckBox) findViewById(R.id.is_stick_sharebar);
 
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
@@ -256,6 +258,14 @@ public class SettingBigBangActivity extends BaseActivity {
                 mBigBangLayoutWrap.setStickHeader(isChecked);
             }
         });
+        isStickSharebar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.IS_STICK_SHAREBAR,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_STICK_SHAREBAR,isChecked+"");
+            }
+        });
+
 
 
 
@@ -269,6 +279,8 @@ public class SettingBigBangActivity extends BaseActivity {
         isFullScreen.setChecked(fullScreen);
         boolean stickHeader=SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER,false);
         isStickHeader.setChecked(stickHeader);
+        boolean stickSharebar=SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR,true);
+        isStickSharebar.setChecked(stickSharebar);
         boolean remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL, true);
 
 

@@ -326,4 +326,5 @@
 
     <string name="bigbang_setting_card_title">分词界面相关设置</string>
     <string name="no_query" >无搜索词</string>
+    <string name="is_stick_sharebar">显示侧边分享栏(非全屏状态下不显示)</string>
 </resources>

@@ -88,6 +88,7 @@ public class ConstantUtil {
     public static final String BIGBANG_DIY_BG_COLOR ="bigbang_diy_bg_color";
     public static final String IS_FULL_SCREEN ="is_full_screen";
     public static final String IS_STICK_HEADER ="is_stick_header";
+    public static final String IS_STICK_SHAREBAR ="is_stick_sharebar";
 
     public static final String FLOATVIEW_SIZE ="floatview_size";
     public static final String FLOATVIEW_ALPHA ="floatview_alpha";

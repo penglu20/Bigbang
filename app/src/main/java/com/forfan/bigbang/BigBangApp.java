@@ -11,6 +11,7 @@ import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionService;
 import com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionSessionService;
+import com.forfan.bigbang.onestep.AppManager;
 import com.forfan.bigbang.util.KeepAliveWatcher;
 import com.shang.commonjar.contentProvider.Global;
 import com.squareup.leakcanary.LeakCanary;
@@ -42,6 +43,7 @@ public class BigBangApp extends Application {
                 return false;
             }
         });
+        AppManager.getInstance(this);
     }
 
     private int result;

@@ -238,6 +238,16 @@
                 android:textSize="@dimen/text_size_small"
                 android:textColor="@color/secondary_text"
                 android:text="@string/is_stick_header"/>
+            <android.support.v7.widget.AppCompatCheckBox
+                app:theme="@style/CheckBoxTheme"
+                android:id="@+id/is_stick_sharebar"
+                android:layout_width="match_parent"
+                android:gravity="left|center_vertical"
+                android:layout_height="@dimen/setting_bigbang_activity_line_height"
+                android:layout_marginLeft="@dimen/margin_double"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/secondary_text"
+                android:text="@string/is_stick_sharebar"/>
 
         </LinearLayout>
     </ScrollView>

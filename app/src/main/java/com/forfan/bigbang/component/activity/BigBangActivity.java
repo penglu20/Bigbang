@@ -9,24 +9,25 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.network.RetrofitHelper;
+import com.forfan.bigbang.onestep.AppsAdapter;
+import com.forfan.bigbang.onestep.ResolveInfoWrap;
 import com.forfan.bigbang.util.ClipboardUtils;
-import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.RegexUtil;
-import com.forfan.bigbang.util.SearchEngineUtil;
 import com.forfan.bigbang.util.SharedIntentHelper;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
@@ -36,12 +37,9 @@ import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -65,25 +63,27 @@ public class BigBangActivity extends BaseActivity {
     private static String lastString;
 
 
-    int alpha ;
-    int lastPickedColor ;
+    int alpha;
+    int lastPickedColor;
+    private RecyclerView mAppsRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
-        boolean fullScreen=SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN,false);
-        boolean stickHeader=SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER,false);
+        boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
+        boolean stickHeader = SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER, false);
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
         int value = (int) ((alpha / 100.0f) * 255);
 
-        if (fullScreen){
+        if (fullScreen) {
             setTheme(R.style.PreSettingTheme);
             setContentView(R.layout.activity_big_bang);
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.bigbang_activity_window_full));
             getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
-        }else {
+            showAppList4OneStep();
+        } else {
             CardView cardView = new CardView(this);
             View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
             cardView.setRadius(ViewUtil.dp2px(10));
@@ -123,17 +123,17 @@ public class BigBangActivity extends BaseActivity {
             }
         }
 
-        if (TextUtils.isEmpty(str)){
-            str=lastString;
+        if (TextUtils.isEmpty(str)) {
+            str = lastString;
         }
-
 
         if (TextUtils.isEmpty(str)) {
             finish();
             return;
         }
 
-        lastString=str;
+        lastString = str;
+        mSelectText = lastString;
 
         str = str.replaceAll("@", " @ ");
 
@@ -163,7 +163,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setLineSpace(line);
         bigBangLayout.setItemSpace(item);
         bigBangLayout.setTextPadding(padding);
-        bigBangLayoutWrapper.setBackgroundColorWithAlpha(lastPickedColor,alpha);
+        bigBangLayoutWrapper.setBackgroundColorWithAlpha(lastPickedColor, alpha);
 
 
 //        if (!remainSymbol){
@@ -175,6 +175,33 @@ public class BigBangActivity extends BaseActivity {
         String finalStr = str;
         getSegment(str);
         bigBangLayoutWrapper.setActionListener(bigBangActionListener);
+    }
+
+    private void showAppList4OneStep() {
+        mAppsRecyclerView = (RecyclerView) findViewById(R.id.app_list);
+        if (SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, true)) {
+            mAppsRecyclerView.setVisibility(View.VISIBLE);
+            mAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            List<ResolveInfoWrap> addedItems = SharedIntentHelper.listIntents(this);
+            AppsAdapter appsAdapter = new AppsAdapter(this);
+            appsAdapter.setItems(addedItems);
+            appsAdapter.setOnItemClickListener(new AppsAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClicked(ResolveInfoWrap item) {
+                    if (!TextUtils.isEmpty(mSelectText)) {
+                        SharedIntentHelper.share(BigBangActivity.this, item, mSelectText);
+                    } else {
+                        ToastUtil.show("请选择文字");
+                    }
+
+                }
+            });
+            mAppsRecyclerView.setAdapter(appsAdapter);
+
+        } else {
+            mAppsRecyclerView.setVisibility(View.GONE);
+        }
+
     }
 
     private void getSegment(String str) {
@@ -216,10 +243,13 @@ public class BigBangActivity extends BaseActivity {
                 });
     }
 
+    private String mSelectText;
     BigBangLayoutWrapper.ActionListener bigBangActionListener = new BigBangLayoutWrapper.ActionListener() {
+
 
         @Override
         public void onSelected(String text) {
+            mSelectText = text;
         }
 
         @Override
@@ -232,17 +262,6 @@ public class BigBangActivity extends BaseActivity {
             Uri uri = null;
             try {
 //                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
-                Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
-                Matcher matcher = p.matcher(text);
-                if (!matcher.matches()) {
-                    uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0)).url + URLEncoder.encode(text, "utf-8"));
-                    isUrl = false;
-                } else {
-                    uri = Uri.parse(text);
-                    if (!text.startsWith("http"))
-                        text = "http://" + text;
-                    isUrl = true;
-                }
 
                 boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
                 Intent intent;
@@ -286,8 +305,7 @@ public class BigBangActivity extends BaseActivity {
 //                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                sharingIntent.setType("text/plain");
 //                sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
-            SharedIntentHelper.sendShareIntent(BigBangActivity.this,text);
-//                finish();
+            SharedIntentHelper.sendShareIntent(BigBangActivity.this, text);//                finish();
         }
 
         @Override
@@ -328,17 +346,6 @@ public class BigBangActivity extends BaseActivity {
                 TextView title = (TextView) findViewById(R.id.title);
 
 
-                title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
-                toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
-                transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
-                ImageView transAgain = (ImageView) findViewById(R.id.trans_again);
-                transAgain.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        ViewUtil.hideInputMethod(toTrans);
-                        translate(toTrans.getText().toString());
-                    }
-                });
             }
             translate(text);
         }
@@ -399,7 +406,7 @@ public class BigBangActivity extends BaseActivity {
             }
             char next = str.charAt(i + 1);
             if ((RegexUtil.isChinese(first) && !RegexUtil.isChinese(next)) || (!RegexUtil.isChinese(first) && RegexUtil.isChinese(next)) ||
-                    (Character.isLetter(first) && !Character.isLetter(next)) ||    (Character.isDigit(first) && !Character.isDigit(next))) {
+                    (Character.isLetter(first) && !Character.isLetter(next)) || (Character.isDigit(first) && !Character.isDigit(next))) {
                 s = s + first + " ";
             } else if (RegexUtil.isSymbol(first)) {
                 s = s + " " + first + " ";
@@ -439,7 +446,7 @@ public class BigBangActivity extends BaseActivity {
         toTrans.setText(text);
         transResult.setText("正在翻译");
         RetrofitHelper.getTranslationService()
-                .getTranslationItem(text.replaceAll("\n",""))
+                .getTranslationItem(text.replaceAll("\n", ""))
                 .compose(BigBangActivity.this.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -457,9 +464,9 @@ public class BigBangActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-         if (bigBangLayoutWrapper != null && bigBangLayoutWrapper.getVisibility() == View.GONE) {
+        if (bigBangLayoutWrapper != null && bigBangLayoutWrapper.getVisibility() == View.GONE) {
             bigBangLayoutWrapper.setVisibility(View.VISIBLE);
-            if (transRl!=null) {
+            if (transRl != null) {
                 transRl.setVisibility(View.GONE);
             }
         } else {

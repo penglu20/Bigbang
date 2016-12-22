@@ -8,13 +8,21 @@ import android.net.Uri;
 import android.os.Parcelable;
 import android.widget.Toast;
 
+import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.onestep.ResolveInfoWrap;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class SharedIntentHelper {
-    public static List<ResolveInfo> listIntents(Context paramContext) {
+    public static final int TYPE_URL = 0;
+    private static final int TYPE_GEO = 1;
+    private static final int TYPE_TEL = 2;
+    private static final int TYPE_SEND = 3;
+
+    public static List<ResolveInfoWrap> listIntents(Context paramContext) {
         ArrayList localArrayList = new ArrayList();
         Intent localIntent1 = new Intent("android.intent.action.VIEW", Uri.parse("geo:0,0"));
         Intent localIntent2 = new Intent("android.intent.action.DIAL", Uri.parse("tel:10086"));
@@ -23,14 +31,21 @@ public class SharedIntentHelper {
         while (((Iterator) localObject).hasNext()) {
             ResolveInfo localResolveInfo = (ResolveInfo) ((Iterator) localObject).next();
             if (localResolveInfo.activityInfo.name.contains("taobao")) {
-                localArrayList.add(localResolveInfo);
+                localArrayList.add(new ResolveInfoWrap(localResolveInfo, TYPE_URL));
             }
         }
-        localArrayList.addAll(paramContext.getPackageManager().queryIntentActivities(localIntent1, 0));
-        localArrayList.addAll(paramContext.getPackageManager().queryIntentActivities(localIntent2, 0));
+        for (ResolveInfo r : paramContext.getPackageManager().queryIntentActivities(localIntent1, 0)) {
+            localArrayList.add(new ResolveInfoWrap(r, TYPE_GEO));
+        }
+        for (ResolveInfo r : paramContext.getPackageManager().queryIntentActivities(localIntent2, 0)) {
+            localArrayList.add(new ResolveInfoWrap(r, TYPE_TEL));
+        }
+
         localIntent1 = new Intent("android.intent.action.SEND");
         localIntent1.setType("text/plain");
-        localArrayList.addAll(paramContext.getPackageManager().queryIntentActivities(localIntent1, 0));
+        for (ResolveInfo r : paramContext.getPackageManager().queryIntentActivities(localIntent1, 0)) {
+            localArrayList.add(new ResolveInfoWrap(r, TYPE_SEND));
+        }
         return localArrayList;
     }
 
@@ -70,6 +85,13 @@ public class SharedIntentHelper {
             intent.setClassName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name);
             intentArrayList.add(intent);
         }
+        for(ResolveInfo resolveInfo :urlResolves){
+            if(resolveInfo.activityInfo.packageName.equalsIgnoreCase("com.taobao.taobao")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://s.taobao.com/search?q=" + paramString));
+                intent.setPackage(resolveInfo.activityInfo.packageName);
+                intentArrayList.add(intent);
+            }
+        }
         if (callResoves.size() > 0) {
             intentArrayList.add(new Intent("android.intent.action.DIAL", Uri.parse("tel:" + paramString)));
         }
@@ -95,4 +117,31 @@ public class SharedIntentHelper {
         }
     }
 
+    public static void share(BigBangActivity bigBangActivity, ResolveInfoWrap item, String mSelectText) {
+        if(item.type == TYPE_GEO){
+            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("geo:0,0?q=" + mSelectText));
+            intent.setClassName(item.resolveInfo.activityInfo.packageName, item.resolveInfo.activityInfo.name);
+            bigBangActivity.startActivity(intent);
+        }else if(item.type == TYPE_SEND){
+            Intent intent = new Intent("android.intent.action.SEND");
+            intent.setType("text/plain");
+            intent.putExtra("android.intent.extra.TEXT", mSelectText);
+            intent.setPackage(item.resolveInfo.activityInfo.packageName);
+            bigBangActivity.startActivity(intent);
+        }else if(item.type == TYPE_TEL){
+           Intent intent =  new Intent("android.intent.action.DIAL", Uri.parse("tel:" + mSelectText));
+            intent.setPackage(item.resolveInfo.activityInfo.packageName);
+            bigBangActivity.startActivity(intent);
+        }else if(item.type ==TYPE_URL){
+            if(item.resolveInfo.activityInfo.packageName.equalsIgnoreCase("com.taobao.taobao")){
+                Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse("https://s.taobao.com/search?q="+mSelectText));
+                intent.setPackage(item.resolveInfo.activityInfo.packageName);
+                bigBangActivity.startActivity(intent);
+            }else {
+                Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse(mSelectText));
+                intent.setPackage(item.resolveInfo.activityInfo.packageName);
+                bigBangActivity.startActivity(intent);
+            }
+        }
+    }
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/selectableItemBackgrond"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/app_icon"
+        android:layout_width="@dimen/height_normal"
+        android:layout_height="@dimen/card_detail_line_height"
+        android:background="@null"
+        android:scaleType="centerInside" />
+
+
+</RelativeLayout>
