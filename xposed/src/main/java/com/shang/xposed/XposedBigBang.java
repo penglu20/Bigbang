@@ -20,6 +20,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XSharedPreferences;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static com.shang.xposed.TouchEventHandler.BIG_BANG_RESPONSE_TIME;
@@ -83,8 +84,8 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
         // installer  不注入。 防止代码出错。进不去installer 中。
         if (!"de.robv.android.xposed.installer".equals(loadPackageParam.packageName)) {
-            //findAndHookMethod(Activity.class, "onTouchEvent", MotionEvent.class, new ActivityTouchEvent());
-            findAndHookMethod(View.class, "onTouchEvent", MotionEvent.class, new TextViewTouchEvent(loadPackageParam.packageName));
+            findAndHookMethod(Activity.class, "onTouchEvent", MotionEvent.class, new ActivityTouchEvent());
+            findAndHookMethod(View.class, "dispatchTouchEvent", MotionEvent.class, new ViewTouchEvent(loadPackageParam.packageName));
         }
     }
 //        } else {
@@ -161,6 +162,11 @@ public class XposedBigBang implements IXposedHookLoadPackage {
         private boolean intercept = false;
 
         @Override
+        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+            super.afterHookedMethod(param);
+        }
+
+        @Override
         protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
             super.beforeHookedMethod(param);
             //拦截聊天界面快速点击进入信息详情
@@ -233,6 +239,9 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             //拦截聊天界面快速点击进入信息详情
             View view = (View) param.thisObject;
             MotionEvent event = (MotionEvent) param.args[0];
+
+            Log.e("shang", "xposed-packageName:" + event);
+
             if (isKeyBoardOrLauncher(view.getContext(), packageName))
                 return;
 
@@ -293,15 +302,32 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
     private class ViewTouchEvent extends XC_MethodHook {
 
+        private final String packageName;
+
+        public ViewTouchEvent(String packageName) {
+            this.packageName = packageName;
+        }
+
+//        @Override
+//        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+//            super.beforeHookedMethod(param);
+//            View view = (View) param.thisObject;
+//            if (isKeyBoardOrLauncher(view.getContext(), packageName))
+//                return;
+//            MotionEvent event = (MotionEvent) param.args[0];
+//            Log.e(TAG,"before->View:"+ view.getClass().getSimpleName()+ " viewTouchEvent: " + event);
+//        }
+
         @Override
         protected void afterHookedMethod(MethodHookParam param) throws Throwable {
             super.afterHookedMethod(param);
+            View view = (View) param.thisObject;
+            if (isKeyBoardOrLauncher(view.getContext(), packageName))
+                return;
+            MotionEvent event = (MotionEvent) param.args[0];
+            Log.e(TAG,"after->View:"+ view.getClass().getSimpleName()+ " viewTouchEvent: " + event);
 
             if ((Boolean) param.getResult()) {
-                View view = (View) param.thisObject;
-                MotionEvent event = (MotionEvent) param.args[0];
-                Logger.d(TAG, view.getClass().getSimpleName());
-                Logger.d(TAG, "viewTouchEvent: " + event.getAction());
                 mTouchHandler.hookTouchEvent(view, event, mFilters, false, appXSP.getInt(SP_DOBLUE_CLICK, 1000));
             }
         }

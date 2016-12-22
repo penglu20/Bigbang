@@ -37,6 +37,7 @@ public class TouchEventHandler {
     private static final Comparator<View> TOP_SORTED_CHILDREN_COMPARATOR;
 
     private final List<View> topmostChildList = new ArrayList<>();
+    private View mCurrentView;
 
 
     public boolean hookTouchEvent(View v, MotionEvent event, List<Filter> filters, boolean needVerify, int anInt) {
@@ -63,6 +64,9 @@ public class TouchEventHandler {
                             }
                         }
                         if (msg != null && (needVerify || verifyText(msg))) {
+                            if(mCurrentView != null && targetTextView != mCurrentView)
+                                return false;
+
                             handle = true;
                             Context context = targetTextView.getContext();
                             try {
@@ -77,7 +81,7 @@ public class TouchEventHandler {
                 }
                 targetTextView.setTag(R.id.bigBang_$$, currentTimeMillis);
                 // setClickTimeMillis(targetTextView, currentTimeMillis);
-
+                mCurrentView = targetTextView;
             }
         }
         return handle;
