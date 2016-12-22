@@ -15,10 +15,11 @@ import com.forfan.bigbang.util.ViewUtil;
 
 public class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
+    ImageView mDragSelect;
     ImageView mDrag;
-    ImageView mType;
     ImageView mSelectOther;
 
+    ImageView mType;
     ImageView mSection;
     ImageView mSymbol;
 
@@ -54,6 +55,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         Context context = getContext();
 
 
+        mDragSelect=new ImageView(context);
+        mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_n);
+        mDragSelect.setOnClickListener(this);
+        
         mDrag=new ImageView(context);
         mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
         mDrag.setOnClickListener(this);
@@ -75,6 +80,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         mSection.setImageResource(R.mipmap.bigbang_action_enter);
         mSection.setOnClickListener(this);
 
+        addView(mDragSelect, createLayoutParams());
         addView(mDrag, createLayoutParams());
         addView(mType, createLayoutParams());
         addView(mSelectOther, createLayoutParams());
@@ -121,8 +127,9 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         layoutSubView(mType,  mActionGap * 3 + mSymbol.getMeasuredWidth()*2  , mContentPadding);
 
 
-        layoutSubView(mSelectOther, width - mActionGap * 2 - mDrag.getMeasuredWidth() - mDrag.getMeasuredWidth(), mContentPadding);
-        layoutSubView(mDrag, width - mActionGap - mDrag.getMeasuredWidth(), mContentPadding);
+        layoutSubView(mSelectOther, width - mActionGap * 3 - mSelectOther.getMeasuredWidth() - mDragSelect.getMeasuredWidth() - mDrag.getMeasuredWidth(), mContentPadding);
+        layoutSubView(mDrag, width - mActionGap * 2 - mDragSelect.getMeasuredWidth() - mDrag.getMeasuredWidth(), mContentPadding);
+        layoutSubView(mDragSelect, width - mActionGap - mDragSelect.getMeasuredWidth(), mContentPadding);
 
     }
 
@@ -144,6 +151,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         mActionListener = actionListener;
     }
 
+    public void onDragSelectEnd(){
+        mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_n);
+    }
+    
     @Override
     public void onClick(View v) {
         if (mActionListener == null) {
@@ -168,6 +179,9 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         }else if (v==mSymbol){
             showSymbol=!showSymbol;
             setShowSymbol(showSymbol);
+        }else if (v==mDragSelect){
+            mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_p);
+            mActionListener.onDragSelect();
         }
     }
 
@@ -207,6 +221,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
     interface ActionListener {
         void onDrag();
+        void onDragSelect();
         void onSwitchType(boolean isLocal);
         void onSelectOther();
         void onSwitchSymbol(boolean isShow);

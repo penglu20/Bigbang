@@ -108,6 +108,11 @@ public class BigBangLayoutWrapper extends FrameLayout  {
                     mActionListener.onDrag();
                 }
             }
+
+            @Override
+            public void onDragSelectEnd() {
+                mBottom.onDragSelectEnd();
+            }
         });
 
         mHeader.setActionListener(new BigBangHeader.ActionListener() {
@@ -135,6 +140,11 @@ public class BigBangLayoutWrapper extends FrameLayout  {
             @Override
             public void onDrag() {
                 mBigBangLayout.onDrag();
+            }
+
+            @Override
+            public void onDragSelect() {
+                mBigBangLayout.onDragSelect();
             }
 
             @Override

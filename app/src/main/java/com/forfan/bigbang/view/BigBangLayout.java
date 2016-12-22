@@ -7,8 +7,11 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.PathEffect;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
@@ -32,7 +35,9 @@ import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.ViewUtil;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionListener, NestedScrollingChild {
 
@@ -62,6 +67,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private boolean showAnimation = false;
     private Paint dragPaint;
     private boolean dragMode = false;
+    private boolean dragModeSelect = false;
     private Item dragItem;
 
     private ColorStateList mColorStateList;
@@ -88,6 +94,13 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     private boolean showSymbol = false;
     private boolean showSection = false;
+
+    private Rect mDragSelectRect;
+    private Paint mDragSelectPaint;
+    private float mDragSelectX,mDragSelectY;
+    private Set<ItemState> mDragSelectSet;
+    private boolean mDragSelection;
+    private boolean mDragSelectionSetted;
 
     public BigBangLayout(Context context) {
         super(context);
@@ -186,6 +199,17 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             }
         });
         mSectionIndex = new ArrayList<>();
+        mDragSelectRect=new Rect();
+        mDragSelectPaint = new Paint();
+        mDragSelectPaint.setColor(getResources().getColor(R.color.colorPrimary));
+        mDragSelectPaint.setStyle(Paint.Style.STROKE);
+        mDragSelectPaint.setStrokeWidth(ViewUtil.dp2px(2));
+        PathEffect effects = new DashPathEffect(new float[]{5,5,5,5},1);
+        mDragSelectPaint.setPathEffect(effects);
+        mDragSelectPaint.setAntiAlias(true);
+        mDragSelectSet=new HashSet<>();
+
+        setWillNotDraw(false);
     }
 
 
@@ -312,6 +336,14 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     public void setShowSection(boolean showSection) {
         this.showSection = showSection;
         requestLayout();
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        if (dragModeSelect){
+            canvas.drawRect(mDragSelectRect,mDragSelectPaint);
+        }
     }
 
     @Override
@@ -484,6 +516,44 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     public boolean onTouchEvent(MotionEvent event) {
         Log.e("onTouchEvent", "onTouchEvent:" + event);
         int actionMasked = MotionEventCompat.getActionMasked(event);
+        if (dragModeSelect){
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            switch (actionMasked) {
+                case MotionEvent.ACTION_DOWN:
+                    showAnimation = true;
+                    mDownX = x;
+                    mDownY = y;
+                    mDisallowedParentIntercept = false;
+                    mDragSelectSet.clear();
+                case MotionEvent.ACTION_MOVE:
+                    if (!mDisallowedParentIntercept) {
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                        mDisallowedParentIntercept = true;
+                    }
+                    mDragSelectX=x;
+                    mDragSelectY=y;
+                    mDragSelectRect.set((int)Math.min(mDownX,mDragSelectX),(int)Math.min(mDownY,mDragSelectY),(int)Math.max(mDownX,mDragSelectX),(int)Math.max(mDownY,mDragSelectY));
+                    setSelectionByRect(mDragSelectRect);
+                    invalidate();
+                    break;
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    mDragSelectionSetted=false;
+                    dragModeSelect=false;
+                    mItemState=null;
+                    if (mActionListener!=null){
+                        mActionListener.onDragSelectEnd();
+                    }
+                    requestLayout();
+                    invalidate();
+                    if (mDisallowedParentIntercept) {
+                        getParent().requestDisallowInterceptTouchEvent(false);
+                    }
+                    break;
+            }
+            return true;
+        }
         if (dragMode) {
             int x = (int) event.getX();
             int y = (int) event.getY();
@@ -549,9 +619,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                         mTargetItem = item;
                         if (item != null) {
                             item.setSelected(!item.isSelected());
-                            ItemState state = new ItemState();
-                            state.item = item;
-                            state.isSelected = item.isSelected();
+                            ItemState state = new ItemState(item,item.isSelected());
                             if (mItemState == null) {
                                 mItemState = state;
                             } else {
@@ -615,9 +683,29 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     }
 
     class ItemState {
+        public ItemState(Item item,boolean isSelected){
+            this.item=item;
+            this.isSelected=isSelected;
+        }
         Item item;
         boolean isSelected;
         ItemState next;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof ItemState)) return false;
+
+            ItemState itemState = (ItemState) o;
+
+            return item != null ? item.equals(itemState.item) : itemState.item == null;
+
+        }
+
+        @Override
+        public int hashCode() {
+            return item != null ? item.hashCode() : 0;
+        }
     }
 
     private Item findItemByPoint(int x, int y) {
@@ -630,6 +718,30 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             }
         }
         return null;
+    }
+
+    private void setSelectionByRect(Rect rect){
+        for (Line line : mLines) {
+            List<Item> items = line.getItems();
+            for (Item item : items) {
+                if (item.getRect().intersect(rect)) {
+                    if (!mDragSelectionSetted){
+                        mDragSelectionSetted=true;
+                        mDragSelection=!item.view.isSelected();
+                    }
+                    ItemState state=new ItemState(item,item.view.isSelected());
+                    if (!mDragSelectSet.contains(state)) {
+                        mDragSelectSet.add(state);
+                    }
+                    item.view.setSelected(mDragSelection);
+                }
+            }
+        }
+        for (ItemState item:mDragSelectSet){
+            if (!item.item.getRect().intersect(rect)) {
+                item.item.view.setSelected(item.isSelected);
+            }
+        }
     }
 
     private Item findItemIndexByPoint(int x, int y) {
@@ -743,6 +855,10 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         if (mActionListener != null) {
             mActionListener.onDrag();
         }
+    }
+
+    public void onDragSelect(){
+        dragModeSelect=true;
     }
 
     @Override
@@ -915,6 +1031,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
         void onDrag();
 
+        void onDragSelectEnd();
     }
 
 }
