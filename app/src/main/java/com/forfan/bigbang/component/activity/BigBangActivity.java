@@ -82,7 +82,6 @@ public class BigBangActivity extends BaseActivity {
             setContentView(R.layout.activity_big_bang);
             getWindow().setBackgroundDrawable(getResources().getDrawable(R.drawable.bigbang_activity_window_full));
             getWindow().getDecorView().setBackgroundColor(Color.argb(value, Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
-            showAppList4OneStep();
         } else {
             CardView cardView = new CardView(this);
             View view = LayoutInflater.from(this).inflate(R.layout.activity_big_bang, null, false);
@@ -96,6 +95,7 @@ public class BigBangActivity extends BaseActivity {
             setContentView(cardView);
 
         }
+        showAppList4OneStep();
 
 
 //        CardView cardView = new CardView(this);
@@ -331,6 +331,7 @@ public class BigBangActivity extends BaseActivity {
 
         @Override
         public void onTrans(String text) {
+            mAppsRecyclerView.setVisibility(View.GONE);
             if (TextUtils.isEmpty(text)) {
                 text = originString;
             }
@@ -465,6 +466,9 @@ public class BigBangActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (bigBangLayoutWrapper != null && bigBangLayoutWrapper.getVisibility() == View.GONE) {
+            boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
+            if (mAppsRecyclerView != null)
+                mAppsRecyclerView.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
             bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             if (transRl != null) {
                 transRl.setVisibility(View.GONE);
