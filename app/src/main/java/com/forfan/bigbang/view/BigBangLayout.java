@@ -857,8 +857,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         }
     }
 
-    public void onDragSelect(){
-        dragModeSelect=true;
+    public void onDragSelect(boolean isDragSelcetion){
+        dragModeSelect=isDragSelcetion;
     }
 
     @Override

@@ -485,6 +485,11 @@ public class SettingBigBangActivity extends BaseActivity {
             SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_REMAIN_SECTION);
         }
+
+        @Override
+        public void onDragSelection() {
+
+        }
     };
 
 }

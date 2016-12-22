@@ -143,8 +143,12 @@ public class BigBangLayoutWrapper extends FrameLayout  {
             }
 
             @Override
-            public void onDragSelect() {
-                mBigBangLayout.onDragSelect();
+            public void onDragSelect(boolean isDragSelcetion) {
+                mBigBangLayout.onDragSelect(isDragSelcetion);
+                if (mActionListener!=null){
+                    mActionListener.onDragSelection();
+                }
+
             }
 
             @Override
@@ -276,5 +280,7 @@ public class BigBangLayoutWrapper extends FrameLayout  {
         void onSwitchSymbol(boolean isShow);
 
         void onSwitchSection(boolean isShow);
+
+        void onDragSelection();
     }
 }

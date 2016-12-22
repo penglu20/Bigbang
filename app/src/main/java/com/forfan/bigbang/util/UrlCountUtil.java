@@ -92,6 +92,7 @@ public class UrlCountUtil {
     public static final String CLICK_BIGBANG_SWITCH_TYPE= "click_bigbang_switch_type";
     public static final String CLICK_BIGBANG_REMAIN_SYMBOL= "click_bigbang_remain_symbol";
     public static final String CLICK_BIGBANG_REMAIN_SECTION= "click_bigbang_remain_section";
+    public static final String CLICK_BIGBANG_DRAG_SELECTION= "click_bigbang_drag_selection";
 
 
     public static final String CLICK_PRE_CONFIRM= "click_pre_confirm";

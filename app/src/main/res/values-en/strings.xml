@@ -27,7 +27,7 @@
     <string name="stringValue2">Open the trip of BigBang</string>
     <string name="copy_mode_help">Copy mode \n will choose words are copied to the clipboard</string>
     <string name="remain_symbol">Keep punctuation</string>
-    <string name="choose_sentences_mode">Word choice mode \ n by sliding and click to select words</string>
+    <string name="choose_sentences_mode">Word choice mode \n by sliding and click to select words</string>
     <string name="stringValue5">re-ocr</string>
     <string name="stringValue4">take  a picture for Ocr</string>
     <string name="stringValue7">Copyright ©2016 BigBang.All Rights  Reserved</string>
@@ -151,6 +151,8 @@
     <string name="show_symbol">Weather Keep punctuation</string>
     <string name="show_section">Whether to keep the original paragraph \n If open, the first paragraph of the text color to deepen the time to keep fragmented state</string>
 
+    <string name="show_drag_selection">Rectangle selection mode \n The selected state of the word in the box selection mode is determined by the first selected word</string>
+
 
     <string name="open_setting_failed">open system setting failed</string>
     <string name="recognize">recognizing...</string>
@@ -248,8 +250,8 @@
     <string name="set_diy_ocr_key">Set OCR KEY For Free</string>
     <string name="set_diy_ocr_key_ok">Set OCR KEY Success</string>
     <string name="set_diy_ocr_key_hint">Input your KEY</string>
-    <string name="ocr_step1">In the next few steps, you can use the free OCR feature 5000 times per month. \ n You can also donate 10 yuan to the author, and postscript need KEY, by the author to help you apply.</string>
-    <string name="ocr_step2">Step 1: Use your browser to open the URL: https://www.microsoft.com/cognitive-services/ \ n (Click to Copy URL)</string>
+    <string name="ocr_step1">In the next few steps, you can use the free OCR feature 5000 times per month. \nYou can also donate 10 yuan to the author, and postscript need KEY, by the author to help you apply.</string>
+    <string name="ocr_step2">Step 1: Use your browser to open the URL: https://www.microsoft.com/cognitive-services/ \n(Click to Copy URL)</string>
     <string name="ocr_step3">Step 2: Click "My account" in the upper right corner of the page, as shown below.</string>
     <string name="ocr_step4">Step 3: Select a suitable way to register / log on the site, the following account to log on Microsoft as an example.</string>
     <string name="ocr_step5">Step 4: If you do not have Microsoft accounts, you need to use the mailbox to register Microsoft accounts. And then authorize the use of Microsoft account to log on to this website, as shown below.</string>
@@ -344,4 +346,58 @@
     <string name="bigbang_setting_card_title">Word segmentation interface settings</string>
     <string name="no_query">no query</string>
     <string name="is_stick_sharebar">Show sidebar(not visible in non-fullscreen mode)</string>
+
+
+
+
+    <string name="show_introduction">Display the introductory page </string>
+
+    <string name="how_to_set">How to set up and use (please see the above description first)</string>
+    <string name="how_to_set_title">How to set up and use </string>
+    <string name="how_to_set_msg">\t\t\t\t After reading the introduction, you should be on the application of the application scenarios and deficiencies have some understanding. \n\t\t\t\t
+        Because we do not have system privileges, so only through other means to provide you with a more convenient word segmentation experience, shortcomings, please understand. \n\t\t\t\t
+        In addition to the suggested usage recommendations, we have the following suggestions: \n\t\t\t\t
+        1. In the WeChat, QQ and other chat applications, the use of click to trigger the trigger is more convenient, as is the click, double-click or long press, it is their advantages and disadvantages, by your own judgment. \n\t\t\t\t
+        2. In the browsing application, the use of replication trigger segmentation, for some browsers may have to exit the interface to trigger word segmentation, multi-step operation, it is still very convenient. \n\t\t\t\t
+        3. The ability to use global replication where global replication, than the system to facilitate replication, but where can we have to try your own, and we can not count all applications. \n\t\t\t\t
+        4. In other functions are not useful when the screenshot OCR as a last weapon, but also can play a lot of role, but if the text is not clear and complete, the recognition rate may need to be improved. \n\t\t\t\t
+        5. You can also open the "click the ball trigger Bigbang" to reduce false triggering. \n\t\t\t\t
+        \n\n\t\t\t\t
+        Of course, you will have their own experience in the use of the process, we provide the greatest space,
+        You can customize your own features and segmentation interface. If there are other custom needs, you can contact us, for good advice, we have never been good! \n\t\t\t\t
+    </string>
+
+
+    <string name="about_control">Why use a floating window or a notification bar</string>
+    <string name="about_control_msg">This application can monitor clicks and system replication to trigger word segmentation, as well as global copy and capture OCR functions, to cover most of the fetching situation.  \n\t\t\t\t
+             And therefore the function of this application is relatively complex, requires the user to have some hands-on exploration capabilities. Suspended window, notification bar and long key menu, on the one hand can provide monitoring function of the switch to prevent false triggering, on the other hand is the global copy and screenshot OCR function entrance. It is recommended that you choose the most comfortable way to use. \n\t\t\t\t
+         If you do not like, do not need to use global replication and screenshots OCR, you can also choose to open the "Click the ball trigger Bigbang", so that when monitoring clicks and replication, and will not trigger the wrong word, affecting the user experience. \n\t\t\t\t
+         PS: In some mobile phones, open the suspension window will result in the application to apply for permission to fail, you can install a new application to close the suspension window, you can also use the notification bar instead.</string>
+
+
+    <string name="about_accessibility">Permissions on Accessibility service</string>
+    <string name="about_accessibility_msg">The application can trigger a click by monitoring the click, but the permissions need to be granted to the secondary mode, but the secondary schema privilege may be reclaimed by the system after the process is cleaned up, so add this application to the autostart white. List and clean up the white list.</string>
+
+    <string name="about_click">Why sometimes clicking a trigger participle does not work</string>
+    <string name="about_click_msg"> \t\t\t\t because we are monitoring the user\'s click to determine whether to trigger the word segmentation, this part of the function is achieved through the auxiliary service. A click can not be detected when: \n\t\t\t\t
+1. Some applications do not support ancillary services on the click of the capture, after the occurrence of clicks, no notice to the ancillary services, such as WeChat circle of friends. \n\t\t\t\t
+2. Some applications shielding some of the click events, such as setting some location is not clickable, such as the system settings page can not use long press trigger segmentation. \n\t\t\t\t
+3. Some seem to be the text of the place, in fact, use the picture to draw, such as some readers: iReader and so on. \n\t\t\t\t
+And sometimes some applications will abuse the click event, such as NetEase cloud music comment interface, will slip mistaken for long press. \n\t\t\t\t
+If this happens, you can try to use a copy trigger, global copy, or screenshot OCR to trigger the word segmentation.</string>
+
+    <string name="how_to_use_copy">Why some browsers do not trigger word segmentation in replication</string>
+    <string name="how_to_use_copy_msg"> \t\t\t\t In some browsers (such as WeChat comes with a browser, QQ browser, UC browser, etc.), copy text can not trigger the word segmentation. \n\t\t\t\t
+        This is because these browsers take over the system\'s copy function, the user clicks the copy, to exit the browser page when it is really set to the system\'s clipboard, so we will be able to receive notification, and then only Trigger segmentation. \n\t\t\t\t
+        The solution is, in these browsers, the copy is complete, the temporary exit the browser page (Home key back to the desktop, or enter the multi-tasking interface, or press the Back key to completely exit), you can trigger the word break. Or use our provided screenshots OCR recognition, global replication (only in the Chrome kernel browser to be useful).</string>
+
+    <string name="about_ocr">OCR on screenshots</string>
+    <string name="about_ocr_msg"> \t\t\t\t We are using Microsoft\'s services, high fees, because we do not generate revenue this application, so unbearable, but you can follow the application in the boot to apply their own key,There are 5,000 free credit each month , I believe enough to meet your needs. Of course, you can give us more than 10 yuan donated by us to provide you with key.</string>
+
+    <string name="about_universal_copy">Why universal copy does not work in some pages</string>
+    <string name="about_universal_copy_msg">\t\t\t\t The principle of global replication is through the auxiliary service to crawl the current page of text information, and this information is required to be applied to the replication service, the following circumstances may lead to global replication can not catch Text: \n\t\t\t\t
+1. If the application does not provide text information to the auxiliary service, you can not fetch the text, such as browser (Chrome browser exception) and QQ message interface, etc. At this time you can consider using normal replication. \n\t\t\t\t
+2. Some seemingly text content, in fact, as the picture is drawn, it can not grasp the text information, such as the hammer desktop, iReader, this time you can use the screenshot OCR function.</string>
+
+
 </resources>

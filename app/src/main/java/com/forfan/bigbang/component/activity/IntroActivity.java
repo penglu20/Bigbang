@@ -371,6 +371,14 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
         }
+
+        @Override
+        public void onDragSelection() {
+            mFunctionIntroTV.setText(R.string.show_drag_selection);
+            mFunctionIntroTV.setScaleY(0);
+            mFunctionIntroTV.setScaleX(0);
+            mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+        }
     };
 
     @Override

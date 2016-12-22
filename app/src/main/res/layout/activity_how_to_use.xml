@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_how_to_use"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="com.forfan.bigbang.component.activity.howtouse.HowToUseActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_height"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true"
+        android:gravity="center"
+        app:popupTheme="@style/Theme.AppCompat.Light"
+        app:subtitleTextColor="@color/white"
+        app:title="@string/introduction"
+        app:titleTextColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/intro_menu"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/introduction"
+            style="@style/cardViewTextView"
+            android:text="@string/show_introduction" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/about_accessibility"
+            style="@style/cardViewTextView"
+            android:text="@string/about_accessibility" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/about_control"
+            style="@style/cardViewTextView"
+            android:text="@string/about_control" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/about_click"
+            style="@style/cardViewTextView"
+            android:text="@string/about_click" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/how_to_use_copy"
+            style="@style/cardViewTextView"
+            android:text="@string/how_to_use_copy" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/about_universal_copy"
+            style="@style/cardViewTextView"
+            android:text="@string/about_universal_copy" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/about_ocr"
+            style="@style/cardViewTextView"
+            android:text="@string/about_ocr" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/how_to_set"
+            style="@style/cardViewTextView"
+            android:text="@string/how_to_set" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/intro_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/intro_title"
+            style="@style/cardViewTextView"
+            android:textColor="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:textSize="@dimen/text_size_title"
+            android:layout_height="@dimen/height_title"
+            android:paddingLeft="@dimen/margin_double"
+            android:paddingRight="@dimen/margin_double"
+            android:text="@string/how_to_set" />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/intro_msg"
+                android:padding="@dimen/margin_double"
+                style="@style/cardViewTextView"
+                android:lineSpacingMultiplier="1.5"
+                android:layout_height="match_parent"
+                android:text="@string/how_to_set" />
+
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

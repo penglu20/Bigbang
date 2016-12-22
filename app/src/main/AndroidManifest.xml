@@ -69,9 +69,10 @@
             android:name=".component.activity.BigBangActivity"
             android:launchMode="singleInstance"
             android:theme="@style/BigBangTheme">
-            <!--android:autoRemoveFromRecents="true"-->
-            <!--android:excludeFromRecents="true"-->
-            <!--android:noHistory="true"-->
+
+            <!-- android:autoRemoveFromRecents="true" -->
+            <!-- android:excludeFromRecents="true" -->
+            <!-- android:noHistory="true" -->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 
@@ -79,25 +80,27 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".component.activity.XposedBigBangActivity"
             android:launchMode="singleInstance"
             android:process=":monitor"
-            android:theme="@style/ScreenCaptureTheme">>
+            android:theme="@style/ScreenCaptureTheme">
+            >
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <action android:name="android.intent.action.VIEW" />
+
                 <data android:scheme="forbigBang" />
             </intent-filter>
         </activity>
         <activity
             android:name=".copy.CopyActivity"
             android:autoRemoveFromRecents="true"
+            android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:clearTaskOnLaunch="true"
             android:noHistory="true"
             android:theme="@style/OverlayTheme" />
         <activity
@@ -187,18 +190,18 @@
             android:name=".component.activity.WebActivity"
             android:launchMode="singleInstance"
             android:theme="@style/WebActivityTheme" />
-        <!--android:autoRemoveFromRecents="true"-->
-        <!--android:excludeFromRecents="true"-->
-        <!--android:noHistory="true"-->
+        <!-- android:autoRemoveFromRecents="true" -->
+        <!-- android:excludeFromRecents="true" -->
+        <!-- android:noHistory="true" -->
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.screen.ScreenCaptureActivity"
             android:launchMode="singleInstance"
-            android:theme="@style/ScreenCaptureTheme"></activity>
+            android:theme="@style/ScreenCaptureTheme" />
 
-        <service android:name=".component.activity.screen.ScreenCaptureService"></service>
+        <service android:name=".component.activity.screen.ScreenCaptureService" />
 
         <activity
             android:name=".component.activity.DonateActivity"
@@ -218,21 +221,29 @@
         <activity
             android:name=".component.activity.screen.DiyOcrKeyActivity"
             android:theme="@style/DiyOcrKeyAppTheme" />
-        <activity android:name=".cropper.handler.CropImageActivity"
-            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name=".cropper.handler.CropImageActivity"
+            android:theme="@style/BaseAppTheme" />
 
-        <service android:name=".component.service.voiceInteraction.BBVoiceInteractionService"
-            android:process=":monitor"
-            android:permission="android.permission.BIND_VOICE_INTERACTION">
-            <meta-data android:name="android.voice_interaction" android:resource="@xml/assist_service"/>
+        <service
+            android:name=".component.service.voiceInteraction.BBVoiceInteractionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"
+            android:process=":monitor">
+            <meta-data
+                android:name="android.voice_interaction"
+                android:resource="@xml/assist_service" />
+
             <intent-filter>
-                <action android:name="android.service.voice.VoiceInteractionService"/>
+                <action android:name="android.service.voice.VoiceInteractionService" />
             </intent-filter>
         </service>
-        <service android:name=".component.service.voiceInteraction.BBVoiceInteractionSessionService"
-            android:process=":monitor"
-            android:permission="android.permission.BIND_VOICE_INTERACTION"/>
+        <service
+            android:name=".component.service.voiceInteraction.BBVoiceInteractionSessionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"
+            android:process=":monitor" />
 
+        <activity android:name=".component.activity.howtouse.HowToUseActivity"
+            android:theme="@style/BaseAppTheme"/>
     </application>
 
 </manifest>

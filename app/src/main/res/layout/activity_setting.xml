@@ -29,6 +29,14 @@
         android:layout_below="@id/toolbar"
         android:layout="@layout/share_card_viewstub" />
 
+
+    <ViewStub
+        android:id="@+id/intro_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout="@layout/intro_card_viewstub" />
+
     <!--</android.support.design.widget.AppBarLayout>-->
 
 

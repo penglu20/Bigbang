@@ -52,7 +52,7 @@
     <string name="go_set_msg">下面的设置入口有助于提高程序的存活性，但并不是手机管家的清理白名单，可能无法彻底解决问题！</string>
     <string name="share_request_cancel">无感...</string>
     <string name="share_request_msg">您喜欢本应用吗？</string>
-    <string name="search_mode_help">搜索\n将选中的词句通过默认浏览器进行百度搜索</string>
+    <string name="search_mode_help">搜索\n将选中的词句通过默认浏览器进行搜索</string>
     <string name="try_click_text">请点击或滑动上方文字</string>
     <string name="share_request_cancel_like">算了吧...</string>
     <string name="accessibility_des">打开右上角开关，在弹出的对话框中点击 `确认`。\n\n开启后，即可在微信，QQ等应用聊天页面中点击或长按文字聊天气泡，然后就会打开 BigBang 页面。\n\n 此功能完全不需要root您的手机。只需您打开服务，弹窗提示您的授权时，点击确认便可。</string>
@@ -149,6 +149,7 @@
 
     <string name="show_symbol">是否显示符号</string>
     <string name="show_section">是否保持原段落\n开启时，段首的文字颜色加深，复制时保持分段状态</string>
+    <string name="show_drag_selection">框选模式\n选框内的词的选中状态由第一个选中的词决定</string>
 
 
     <string name="open_setting_failed">无法打开系统设置</string>
@@ -252,7 +253,7 @@
     <string name="ocr_step10">第九步：勾选“同意协议”，然后点击提交，如下图。</string>
     <string name="ocr_step11">第十步：将你的KEY复制(其中任何一个即可)，如下图，并填写到本页面最后的输入框中。</string>
     <string name="save_search_engine_fail">名字或网址不能为空</string>
-    <string name="add" >添加</string>
+    <string name="add">添加</string>
     <string name="delete">删除</string>
     <string name="edit">编辑</string>
     <string name="set_search_pre">已将</string>
@@ -325,6 +326,59 @@
 
 
     <string name="bigbang_setting_card_title">分词界面相关设置</string>
-    <string name="no_query" >无搜索词</string>
+    <string name="no_query">无搜索词</string>
     <string name="is_stick_sharebar">显示侧边分享栏(非全屏状态下不显示)</string>
+
+
+
+    <string name="show_introduction">显示介绍页面</string>
+
+    <string name="how_to_set">如何设置和使用(请先看上面的介绍)</string>
+    <string name="how_to_set_title">如何设置和使用</string>
+    <string name="how_to_set_msg">\t\t\t\t阅读完之前的介绍，你应该对这款应用的应用场景和不足之处有所了解了。\n\t\t\t\t
+        因为我们不具有系统权限，所以只能通过其他方式来提供给你相对更便捷的分词体验，不足之处，请谅解。\n\t\t\t\t
+        除了之前给出的使用建议，我们还有以下建议：\n\t\t\t\t
+        1.在微信、QQ等聊天应用中，使用监控点击触发分词更方便，至于是单击、双击还是长按，则是各有优劣，由你自己判断。\n\t\t\t\t
+        2.在浏览类应用中，使用复制触发分词，对于有些浏览器，可能得退出界面才能触发分词，多一步操作，也还是很方便的。\n\t\t\t\t
+        3.能够使用全局复制的地方用全局复制，比用系统复制方便，不过哪里能用，就得你自己多试试了，我们也没法统计所有应用。\n\t\t\t\t
+        4.在其他功能都不管用的时候，截图OCR作为最后的武器，也能起到不少作用，不过如果文字不清晰完整，识别率可能有待提高。\n\t\t\t\t
+        5.也可以开启“点击悬浮球触发Bigbang”，减少误触发。\n\t\t\t\t
+        \n\n\t\t\t\t
+        当然你在使用过程也会有自己的体会，我们提供了最大的空间，
+        你可以定制自己的功能和分词界面。如果有其他定制需求，可以联系我们，对于好的建议，我们从来都是从善如流的！\n\t\t\t\t
+    </string>
+
+
+    <string name="about_control">为什么要使用悬浮窗或通知栏</string>
+    <string name="about_control_msg">\t\t\t\t本应用可以监控点击和系统复制来触发分词，也包含了全局复制和截图OCR的功能，能够覆盖大部分的取词情况。\n\t\t\t\t
+        也因此本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮窗、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
+    如果你都不喜欢，也不需要使用全局复制和截图OCR，也可以选择开启“点击悬浮球触发Bigbang”，这样在监控点击和复制的时候，不至于误触发分词，影响使用体验。\n\t\t\t\t
+    PS: 在有些手机上，开启悬浮窗会导致应用申请权限失败，可以在安装新应用时关闭悬浮窗，也可以使用通知栏代替。</string>
+
+
+    <string name="about_accessibility">关于辅助模式的权限</string>
+    <string name="about_accessibility_msg">\t\t\t\t本应用可以通过监控点击触发分词，但是需要授予辅助模式的权限，但是辅助模式权限在进程被清理以后可能会被系统回收，所以请将本应用添加到自启动白名单和清理白名单中。</string>
+
+    <string name="about_click">为什么有时候点击触发分词不起作用</string>
+    <string name="about_click_msg">\t\t\t\t因为我们是通过监测用户的点击操作来判断是否触发分词的，这部分功能是通过辅助服务实现的。而以下情况就会导致无法检测到点击：\n\t\t\t\t
+1.有些应用不支持辅助服务对点击的捕获，点击发生以后，没有通知到辅助服务，比如微信朋友圈。\n\t\t\t\t
+2.有些应用屏蔽了一些点击事件，比如设置了一些位置不可点击，比如系统设置页面无法用长按触发分词。\n\t\t\t\t
+3.有些看似是文字的地方，其实是使用图片绘制的，比如一些阅读器：iReader等。\n\t\t\t\t
+而有时一些应用又会滥用点击事件，比如网易云音乐的评论界面，会把滑动误认为是长按。\n\t\t\t\t
+碰到以上情况，则可以尝试使用复制触发、全局复制或者截图OCR来触发分词。</string>
+
+    <string name="how_to_use_copy">为什么有些浏览器中复制不触发分词</string>
+    <string name="how_to_use_copy_msg">\t\t\t\t在一些浏览器中（比如微信自带浏览器，QQ浏览器，UC浏览器等），复制文字的时候无法触发分词。\n\t\t\t\t
+这是因为这些浏览器接管了系统的复制功能，用户点击的复制，要在退出浏览器页面的时候才真正被设置到系统的剪贴板中，所以我们也会到那能收到通知，然后才触发分词。\n\t\t\t\t
+解决办法是，在这些浏览器中，复制完成以后，暂时退出浏览器页面（Home键退到桌面，或者进入多任务界面，或者按返回键彻底退出），就可以触发分词了。或者使用我们提供的截图OCR识别、全局复制（只在Chrome内核的浏览器中才有用）。</string>
+
+    <string name="about_ocr">关于截图OCR</string>
+    <string name="about_ocr_msg">\t\t\t\t截图ORC我们使用的是微软的服务，收费颇高，因为我们本应用不产生收入，所以难以承受，但是你可以按照应用中的引导申请自己的key，每个月有5000次免费额度，相信足以满足你的需求。\n\t\t\t\t当然你也可以给我们捐赠10元以上，由我们给你提供key。</string>
+
+    <string name="about_universal_copy">为什么全局复制在有些页面没有用</string>
+    <string name="about_universal_copy_msg">\t\t\t\t全局复制的原理是通过辅助服务去抓取当前页面中的文字信息，而这些信息是需要应用来提供给复制服务的，所以以下情况可能会导致全局复制抓不到文字：\n\t\t\t\t
+1.如果应用没有提供文字信息给辅助服务，则无法抓取文字，比如浏览器（Chrome内核浏览器例外）和QQ消息界面等，此时可以考虑使用普通复制。\n\t\t\t\t
+2.一些看似是文字的内容，其实是当成图片绘制的，所以也抓不到文字信息，比如锤子桌面、iReader，此时可以使用截图OCR功能。</string>
+
+
 </resources>

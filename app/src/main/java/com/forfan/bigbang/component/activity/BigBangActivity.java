@@ -278,7 +278,7 @@ public class BigBangActivity extends BaseActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
                 startActivity(intent);
-                finish();
+//                finish();
             } catch (Exception e) {
                 e.printStackTrace();
                 Intent intent = new Intent();
@@ -305,7 +305,8 @@ public class BigBangActivity extends BaseActivity {
 //                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                sharingIntent.setType("text/plain");
 //                sharingIntent.putExtra(Intent.EXTRA_TEXT, text);
-            SharedIntentHelper.sendShareIntent(BigBangActivity.this, text);//                finish();
+            SharedIntentHelper.sendShareIntent(BigBangActivity.this, text);
+//                finish();
         }
 
         @Override
@@ -324,7 +325,7 @@ public class BigBangActivity extends BaseActivity {
                 public void run() {
                     ClipboardUtils.setText(getApplicationContext(), finalText);
                     ToastUtil.show("已复制");
-                    finish();
+//                    finish();
                 }
             }, 100);
         }
@@ -391,6 +392,12 @@ public class BigBangActivity extends BaseActivity {
         public void onSwitchSection(boolean isShow) {
             SPHelper.save(ConstantUtil.REMAIN_SECTION, isShow);
             UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_REMAIN_SECTION);
+        }
+
+        @Override
+        public void onDragSelection() {
+            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_DRAG_SELECTION);
+
         }
     };
 

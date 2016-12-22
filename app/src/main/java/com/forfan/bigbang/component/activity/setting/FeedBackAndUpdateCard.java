@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.IntroActivity;
+import com.forfan.bigbang.component.activity.howtouse.HowToUseActivity;
 import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
 import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.NetWorkUtil;
@@ -103,7 +104,7 @@ public class FeedBackAndUpdateCard extends AbsCard {
 
     private void showIntro() {
         Intent intent = new Intent();
-        intent.setClass(mContext, IntroActivity.class);
+        intent.setClass(mContext, HowToUseActivity.class);
         mContext.startActivity(intent);
     }
 

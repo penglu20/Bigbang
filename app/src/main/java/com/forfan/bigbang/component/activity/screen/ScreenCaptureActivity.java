@@ -124,6 +124,7 @@ public class ScreenCaptureActivity extends BaseActivity {
                 markSizeView.setUnmarkedColor(getResources().getColor(R.color.transparent));
                 captureTips.setVisibility(View.GONE);
                 captureAll.setVisibility(View.GONE);
+                markType.setVisibility(View.GONE);
                 startIntent();
             }
         });

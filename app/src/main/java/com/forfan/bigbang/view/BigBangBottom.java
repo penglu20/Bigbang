@@ -28,6 +28,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
     private int mContentPadding;
     private ActionListener mActionListener;
     private boolean dragMode=false;
+    private boolean dragSelectionMode=false;
     private boolean isLocal=false;
     private boolean showSymbol=false;
     private boolean showSection = false;
@@ -153,6 +154,9 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
     public void onDragSelectEnd(){
         mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_n);
+        mActionListener.onDragSelect(false);
+        mDrag.setVisibility(VISIBLE);
+        dragSelectionMode=false;
     }
     
     @Override
@@ -164,8 +168,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
             dragMode=!dragMode;
             if (dragMode) {
                 mDrag.setImageResource(R.mipmap.ic_done_white_36dp);
+                mDragSelect.setVisibility(INVISIBLE);
             }else {
                 mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
+                mDragSelect.setVisibility(VISIBLE);
             }
             mActionListener.onDrag();
         }else if (v==mType){
@@ -180,8 +186,15 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
             showSymbol=!showSymbol;
             setShowSymbol(showSymbol);
         }else if (v==mDragSelect){
-            mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_p);
-            mActionListener.onDragSelect();
+            if (dragSelectionMode){
+                onDragSelectEnd();
+            }else {
+                mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_p);
+                mDrag.setVisibility(INVISIBLE);
+                mActionListener.onDragSelect(true);
+                dragSelectionMode=true;
+            }
+
         }
     }
 
@@ -221,7 +234,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
     interface ActionListener {
         void onDrag();
-        void onDragSelect();
+        void onDragSelect(boolean isDragSelect);
         void onSwitchType(boolean isLocal);
         void onSelectOther();
         void onSwitchSymbol(boolean isShow);
