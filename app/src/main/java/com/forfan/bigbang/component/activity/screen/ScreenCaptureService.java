@@ -25,7 +25,6 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.RequiresApi;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.WindowManager;
 
 import com.forfan.bigbang.BigBangApp;
@@ -87,7 +86,9 @@ public class ScreenCaptureService extends Service {
 
             handler.postDelayed(new Runnable() {
                 public void run() {
+                    LogUtil.d(TAG, "before startVirtual");
                     startVirtual();
+                    LogUtil.d(TAG, "after startVirtual");
                 }
             }, 10);
 
@@ -95,8 +96,11 @@ public class ScreenCaptureService extends Service {
                 public void run() {
                     //capture the screen
                     try {
+                        LogUtil.d(TAG, "before startCapture");
                         startCapture();
+                        LogUtil.d(TAG, "after startCapture");
                     } catch (Exception e) {
+                        e.printStackTrace();
                         sendBroadcastCaptureFail();
                     }
                 }
@@ -211,6 +215,17 @@ public class ScreenCaptureService extends Service {
         nameImage = pathImage + strDate + ".png";
 
         Image image = mImageReader.acquireLatestImage();
+
+        if (image==null){
+            LogUtil.d(TAG, "image==null,restart");
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    toCapture();
+                }
+            });
+            return;
+        }
         int width = image.getWidth();
         int height = image.getHeight();
         final Image.Plane[] planes = image.getPlanes();
@@ -231,6 +246,7 @@ public class ScreenCaptureService extends Service {
         }
         double multipleWidth =width*1.0/ bitmap.getWidth();
 
+        LogUtil.d(TAG, "bitmap cuted first");
         if (mGraphicPath!=null){
             mRect=new Rect(mGraphicPath.getLeft(),mGraphicPath.getTop(),mGraphicPath.getRight(),mGraphicPath.getBottom());
         }
@@ -253,6 +269,7 @@ public class ScreenCaptureService extends Service {
             int cut_height = Math.abs(mRect.top - mRect.bottom);
             if (cut_width > 0 && cut_height > 0) {
                 Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
+                LogUtil.d(TAG, "bitmap cuted second");
                 if (mGraphicPath!=null){
                     // 准备画笔
                     Paint paint = new Paint();
@@ -276,6 +293,7 @@ public class ScreenCaptureService extends Service {
 
                     // 关键代码，关于Xfermode和SRC_IN请自行查阅
                     canvas.drawBitmap(cutBitmap, 0 , 0, paint);
+                    LogUtil.d(TAG, "bitmap cuted third");
 
                     saveCutBitmap(temp);
 
@@ -326,7 +344,7 @@ public class ScreenCaptureService extends Service {
         try {
             if (!localFile.exists()) {
                 localFile.createNewFile();
-                Log.i("ContentValues", "image file created");
+                LogUtil.d(TAG,"image file created");
             }
             FileOutputStream fileOutputStream = new FileOutputStream(localFile);
             if (fileOutputStream != null) {
@@ -335,6 +353,7 @@ public class ScreenCaptureService extends Service {
                 fileOutputStream.close();
             }
         } catch (IOException e) {
+            LogUtil.d(TAG,"saveCutBitmap failed");
             e.printStackTrace();
             intent.putExtra(MESSAGE, "保存失败");
             sendBroadcast(intent);

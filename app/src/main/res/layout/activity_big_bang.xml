@@ -36,6 +36,7 @@
         android:clipToPadding="true"
         android:layout_alignParentRight="true"
         android:layout_width="50dp"
+        android:visibility="gone"
         android:layout_centerVertical="true"
         android:layout_height="match_parent">
 

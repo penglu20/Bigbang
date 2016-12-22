@@ -14,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Display;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
@@ -32,7 +31,7 @@ import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.view.MarkSizeView;
 
 public class ScreenCaptureActivity extends BaseActivity {
-    private String TAG = "Service";
+    private String TAG = "ScreenCaptureActivity";
     private int result = 0;
     private Intent intent = null;
     private int REQUEST_MEDIA_PROJECTION = 1;
@@ -227,12 +226,12 @@ public class ScreenCaptureActivity extends BaseActivity {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtil.d("shang", "进入了");
+        LogUtil.d(TAG, "进入了");
         if (requestCode == REQUEST_MEDIA_PROJECTION) {
             if (resultCode != Activity.RESULT_OK) {
                 return;
             } else if (data != null && resultCode != 0) {
-                Log.i(TAG, "user agree the application to capture screen");
+                LogUtil.i(TAG, "user agree the application to capture screen");
                 //ScreenCaptureService.mResultCode = resultCode;
                 //ScreenCaptureService.mResultData = data;
                 result = resultCode;
@@ -240,7 +239,7 @@ public class ScreenCaptureActivity extends BaseActivity {
                 ((BigBangApp) getApplication()).setResult(resultCode);
                 ((BigBangApp) getApplication()).setIntent(data);
                 startScreenCapture();
-                Log.i(TAG, "start service ScreenCaptureService");
+                LogUtil.i(TAG, "start service ScreenCaptureService");
 
 
 //                finish();
