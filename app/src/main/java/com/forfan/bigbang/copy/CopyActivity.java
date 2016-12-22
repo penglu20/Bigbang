@@ -165,6 +165,7 @@ public class CopyActivity extends BaseActivity {
         var1.setLayoutParams(layoutParams);
         TextView var4 = (TextView)var1.findViewById(R.id.text);
         var4.setText(getSelectedText());
+//        var4.setText(new SpannableString(getSelectedText()), TextView.BufferType.NORMAL);
         var4.setCustomSelectionActionModeCallback(new MySelectionActionModeCallback(var4));
         ((FloatingActionButton)var1.findViewById(R.id.fab_copy)).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +182,7 @@ public class CopyActivity extends BaseActivity {
             @Override
             public void onShow(DialogInterface dialog) {
                 var3.setState(BottomSheetBehavior.STATE_EXPANDED);
-                var1.requestLayout();
+//                var1.requestLayout();
             }
         });
         this.bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {

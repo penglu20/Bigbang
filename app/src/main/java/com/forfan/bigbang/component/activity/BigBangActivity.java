@@ -62,6 +62,7 @@ public class BigBangActivity extends BaseActivity {
     private String originString;
 
     private List<String> netWordSegments;
+    private static String lastString;
 
 
     int alpha ;
@@ -122,12 +123,17 @@ public class BigBangActivity extends BaseActivity {
             }
         }
 
+        if (TextUtils.isEmpty(str)){
+            str=lastString;
+        }
 
 
         if (TextUtils.isEmpty(str)) {
             finish();
             return;
         }
+
+        lastString=str;
 
         str = str.replaceAll("@", " @ ");
 

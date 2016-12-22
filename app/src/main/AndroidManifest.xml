@@ -67,11 +67,11 @@
             android:theme="@style/BigBangTheme" />
         <activity
             android:name=".component.activity.BigBangActivity"
-            android:autoRemoveFromRecents="true"
-            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:noHistory="true"
             android:theme="@style/BigBangTheme">
+            <!--android:autoRemoveFromRecents="true"-->
+            <!--android:excludeFromRecents="true"-->
+            <!--android:noHistory="true"-->
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

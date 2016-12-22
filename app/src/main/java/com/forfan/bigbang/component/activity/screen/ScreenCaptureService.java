@@ -251,7 +251,7 @@ public class ScreenCaptureService extends Service {
                 mRect.bottom = 0;
             int cut_width = Math.abs(mRect.left - mRect.right);
             int cut_height = Math.abs(mRect.top - mRect.bottom);
-            if (cut_height > 0 && cut_height > 0) {
+            if (cut_width > 0 && cut_height > 0) {
                 Bitmap cutBitmap = Bitmap.createBitmap(bitmap, mRect.left, mRect.top, cut_width, cut_height);
                 if (mGraphicPath!=null){
                     // 准备画笔
