@@ -35,8 +35,9 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.forfan.bigbang.util.ConstantUtil.IS_FULL_SCREEN_COPY;
+
 public class CopyActivity extends BaseActivity {
-    private static final String IS_FULL_SCREEN="is_full_screen";
     private FrameLayout copyNodeViewContainer;
     private FloatingActionButton copyFab;
     private FloatingActionButton exitFab;
@@ -148,7 +149,7 @@ public class CopyActivity extends BaseActivity {
             this.exitFab.hide();
             this.exitFullScreenFab.hide();
         }
-        SPHelper.save(IS_FULL_SCREEN,var1);
+        SPHelper.save(IS_FULL_SCREEN_COPY,var1);
     }
 
     private void showSelectedText() {
@@ -343,7 +344,7 @@ public class CopyActivity extends BaseActivity {
         exitFab.postDelayed(new Runnable() {
             @Override
             public void run() {
-                fullScreenMode(SPHelper.getBoolean(IS_FULL_SCREEN,false));
+                fullScreenMode(SPHelper.getBoolean(IS_FULL_SCREEN_COPY,false));
             }
         }, 10);
     }

@@ -194,6 +194,9 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if ((event.getEventType() == TYPE_VIEW_LONG_CLICKED) && ("com.android.systemui".equals(event.getPackageName())))
         {
+            if (TextUtils.isEmpty(event.getContentDescription())){
+                return;
+            }
             //长按虚拟机触发的，需要转到按键处理去
             if (!TextUtils.isEmpty(back) && event.getContentDescription().equals(back)){
                 KeyPressedTipViewController.getInstance().onKeyLongPress(KeyEvent.KEYCODE_BACK);

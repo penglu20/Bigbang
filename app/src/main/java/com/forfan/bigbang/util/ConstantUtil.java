@@ -137,4 +137,7 @@ public class ConstantUtil {
     public static final String SHARE_APP_INDEX = "share_app_index";
 
     public static final String HAD_SHOW_LONG_PRESS_TOAST="had_show_long_press_toast";
+
+    //copyActivity
+    public static final String IS_FULL_SCREEN_COPY="is_full_screen_copy";
 }
