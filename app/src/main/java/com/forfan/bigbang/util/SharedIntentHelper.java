@@ -6,21 +6,98 @@ import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Parcelable;
+import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.component.activity.share.ShareAppManagerActivity;
 import com.forfan.bigbang.onestep.ResolveInfoWrap;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 public class SharedIntentHelper {
     public static final int TYPE_URL = 0;
     private static final int TYPE_GEO = 1;
     private static final int TYPE_TEL = 2;
     private static final int TYPE_SEND = 3;
+
+    public static List<ResolveInfoWrap> listFilterIntents(Context context) {
+        List<ResolveInfoWrap> list = listIntents(context);
+        removeDisApps(list, context);
+        return list;
+    }
+    private static void resort(List<ResolveInfoWrap> list, Context context) {
+        String appIndexs = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getString(ConstantUtil.SHARE_APP_INDEX, "");
+        ArrayList<String> strings = null;
+        if (!TextUtils.isEmpty(appIndexs)) {
+            try {
+                strings = new Gson().fromJson(appIndexs, new TypeToken<ArrayList<String>>() {
+                }.getType());
+            } catch (JsonSyntaxException e) {
+                e.printStackTrace();
+            }
+            if (strings == null)
+                strings = new ArrayList<>();
+            List<ResolveInfoWrap> resolveInfoWraps = new ArrayList<>();
+            //包含了则放到最前面
+            for (String str : strings) {
+                for (ResolveInfoWrap resolveInfoWrap : list) {
+                    if (resolveInfoWrap.resolveInfo.loadLabel(context.getPackageManager()).toString().equalsIgnoreCase(str)) {
+                        resolveInfoWraps.add(resolveInfoWrap);
+                    }
+                }
+            }
+            //不包含则add进去
+            for(ResolveInfoWrap resolveInfoWrap :list){
+                if(!resolveInfoWraps.contains(resolveInfoWrap)){
+                    resolveInfoWraps.add(resolveInfoWrap);
+                }
+            }
+            list.clear();
+            list.addAll(resolveInfoWraps);
+        }
+    }
+
+    public static void saveShareAppIndexs2Sp(List<ResolveInfoWrap> list, Context context) {
+        ArrayList<String> string = new ArrayList<>();
+        for (ResolveInfoWrap resolveInfoWrap : list) {
+            string.add(resolveInfoWrap.resolveInfo.loadLabel(context.getPackageManager()).toString());
+        }
+        context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).edit().
+                putString(ConstantUtil.SHARE_APP_INDEX, new Gson().toJson(string)).apply();
+    }
+
+    private static List<ResolveInfoWrap> removeDisApps(List<ResolveInfoWrap> list, Context context) {
+        Set<String> names = new HashSet<>();
+        names = context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).getStringSet(ConstantUtil.SHARE_APPS_DIS, names);
+
+
+        List<ResolveInfoWrap> removedResolveInfoWraps = new ArrayList<>();
+
+        List<ResolveInfoWrap> addedresolveInfoWraps = new ArrayList<>();
+        addedresolveInfoWraps.addAll(list);
+        for (String name : names) {
+            for (ResolveInfoWrap wrap : list) {
+                if (name != null && name.equalsIgnoreCase(wrap.resolveInfo.loadLabel(context.getPackageManager()).toString())) {
+                    removedResolveInfoWraps.add(wrap);
+                    addedresolveInfoWraps.remove(wrap);
+                }
+            }
+        }
+        list.clear();
+        list.addAll(addedresolveInfoWraps);
+        return removedResolveInfoWraps;
+    }
 
     public static List<ResolveInfoWrap> listIntents(Context paramContext) {
         ArrayList localArrayList = new ArrayList();
@@ -46,6 +123,7 @@ public class SharedIntentHelper {
         for (ResolveInfo r : paramContext.getPackageManager().queryIntentActivities(localIntent1, 0)) {
             localArrayList.add(new ResolveInfoWrap(r, TYPE_SEND));
         }
+        resort(localArrayList,paramContext);
         return localArrayList;
     }
 
@@ -85,8 +163,8 @@ public class SharedIntentHelper {
             intent.setClassName(resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name);
             intentArrayList.add(intent);
         }
-        for(ResolveInfo resolveInfo :urlResolves){
-            if(resolveInfo.activityInfo.packageName.equalsIgnoreCase("com.taobao.taobao")) {
+        for (ResolveInfo resolveInfo : urlResolves) {
+            if (resolveInfo.activityInfo.packageName.equalsIgnoreCase("com.taobao.taobao")) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://s.taobao.com/search?q=" + paramString));
                 intent.setPackage(resolveInfo.activityInfo.packageName);
                 intentArrayList.add(intent);
@@ -118,30 +196,33 @@ public class SharedIntentHelper {
     }
 
     public static void share(BigBangActivity bigBangActivity, ResolveInfoWrap item, String mSelectText) {
-        if(item.type == TYPE_GEO){
+        if (item.type == TYPE_GEO) {
             Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("geo:0,0?q=" + mSelectText));
             intent.setClassName(item.resolveInfo.activityInfo.packageName, item.resolveInfo.activityInfo.name);
             bigBangActivity.startActivity(intent);
-        }else if(item.type == TYPE_SEND){
+        } else if (item.type == TYPE_SEND) {
             Intent intent = new Intent("android.intent.action.SEND");
             intent.setType("text/plain");
             intent.putExtra("android.intent.extra.TEXT", mSelectText);
             intent.setPackage(item.resolveInfo.activityInfo.packageName);
             bigBangActivity.startActivity(intent);
-        }else if(item.type == TYPE_TEL){
-           Intent intent =  new Intent("android.intent.action.DIAL", Uri.parse("tel:" + mSelectText));
+        } else if (item.type == TYPE_TEL) {
+            Intent intent = new Intent("android.intent.action.DIAL", Uri.parse("tel:" + mSelectText));
             intent.setPackage(item.resolveInfo.activityInfo.packageName);
             bigBangActivity.startActivity(intent);
-        }else if(item.type ==TYPE_URL){
-            if(item.resolveInfo.activityInfo.packageName.equalsIgnoreCase("com.taobao.taobao")){
-                Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse("https://s.taobao.com/search?q="+mSelectText));
+        } else if (item.type == TYPE_URL) {
+            if (item.resolveInfo.activityInfo.packageName.equalsIgnoreCase("com.taobao.taobao")) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://s.taobao.com/search?q=" + mSelectText));
                 intent.setPackage(item.resolveInfo.activityInfo.packageName);
                 bigBangActivity.startActivity(intent);
-            }else {
-                Intent intent =  new Intent(Intent.ACTION_VIEW, Uri.parse(mSelectText));
+            } else {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mSelectText));
                 intent.setPackage(item.resolveInfo.activityInfo.packageName);
                 bigBangActivity.startActivity(intent);
             }
         }
     }
+
+
+
 }

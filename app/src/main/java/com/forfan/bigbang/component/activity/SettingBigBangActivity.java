@@ -1,6 +1,7 @@
 package com.forfan.bigbang.component.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -22,6 +23,7 @@ import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
+import com.forfan.bigbang.component.activity.share.ShareAppManagerActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
@@ -118,7 +120,14 @@ public class SettingBigBangActivity extends BaseActivity {
         mItemMarginSeekBar.setMax(MAX_ITEM_MARGIN - MIN_ITEM_MARGIN);
         mItemPaddingSeekBar.setMax(MAX_ITEM_PADDING - MIN_ITEM_PADDING);
         mItemMarginSeekBar.setMax(100);
-
+        findViewById(R.id.setting_share_apps).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(SettingBigBangActivity.this, ShareAppManagerActivity.class);
+                startActivity(intent);
+            }
+        });
 
         mTextSizeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

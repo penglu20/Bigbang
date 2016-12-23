@@ -244,6 +244,8 @@
 
         <activity android:name=".component.activity.howtouse.HowToUseActivity"
             android:theme="@style/BaseAppTheme"/>
+        <activity android:name=".component.activity.share.ShareAppManagerActivity"
+            android:theme="@style/BaseAppTheme"/>
     </application>
 
 </manifest>

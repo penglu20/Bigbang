@@ -13,6 +13,7 @@ import com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionS
 import com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionSessionService;
 import com.forfan.bigbang.onestep.AppManager;
 import com.forfan.bigbang.util.KeepAliveWatcher;
+import com.forfan.bigbang.util.SharedIntentHelper;
 import com.shang.commonjar.contentProvider.Global;
 import com.squareup.leakcanary.LeakCanary;
 

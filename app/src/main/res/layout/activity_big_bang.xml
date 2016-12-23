@@ -28,11 +28,11 @@
         android:layout_centerInParent="true"
         android:layout="@layout/items_translate"
         />
-    <android.support.v7.widget.RecyclerView
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
         android:id="@+id/app_list"
-        android:paddingTop="@dimen/dimen_50dp"
-        android:paddingBottom="@dimen/dimen_50dp"
-        android:clipChildren="false"
+        android:layout_marginTop="@dimen/dimen_50dp"
+        android:layout_marginBottom="@dimen/dimen_50dp"
+        android:clipChildren="true"
         android:clipToPadding="true"
         android:layout_alignParentRight="true"
         android:layout_width="40dp"
@@ -40,7 +40,7 @@
         android:layout_centerVertical="true"
         android:layout_height="match_parent">
 
-    </android.support.v7.widget.RecyclerView>
+    </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
 
 
 </RelativeLayout>

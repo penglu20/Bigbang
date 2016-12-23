@@ -261,6 +261,25 @@
                 android:textSize="@dimen/text_size_small"
                 android:textColor="@color/secondary_text"
                 android:text="@string/is_stick_sharebar"/>
+            <LinearLayout
+                android:id="@+id/setting_share_apps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:layout_margin="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_bigbang_activity_text_height"
+                    android:text="@string/share_app"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_normal" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

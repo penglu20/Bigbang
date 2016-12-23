@@ -9,6 +9,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -36,8 +37,11 @@ import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.umeng.onlineconfig.OnlineConfigAgent;
+import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
+import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -65,7 +69,7 @@ public class BigBangActivity extends BaseActivity {
 
     int alpha;
     int lastPickedColor;
-    private RecyclerView mAppsRecyclerView;
+    private SwipeMenuRecyclerView mAppsRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -178,11 +182,13 @@ public class BigBangActivity extends BaseActivity {
     }
 
     private void showAppList4OneStep() {
-        mAppsRecyclerView = (RecyclerView) findViewById(R.id.app_list);
+        mAppsRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.app_list);
         if (SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, true)) {
             mAppsRecyclerView.setVisibility(View.VISIBLE);
             mAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-            List<ResolveInfoWrap> addedItems = SharedIntentHelper.listIntents(this);
+            List<ResolveInfoWrap> addedItems = SharedIntentHelper.listFilterIntents(this);
+            mAppsRecyclerView.setHasFixedSize(true);// 如果Item够简单，高度是确定的，打开FixSize将提高性能。
+            mAppsRecyclerView.setItemAnimator(new DefaultItemAnimator());// 设置Item默认动画，加也行，不加也行。
             AppsAdapter appsAdapter = new AppsAdapter(this);
             appsAdapter.setItems(addedItems);
             appsAdapter.setOnItemClickListener(new AppsAdapter.OnItemClickListener() {
@@ -193,6 +199,23 @@ public class BigBangActivity extends BaseActivity {
                     } else {
                         ToastUtil.show("请选择文字");
                     }
+
+                }
+            });
+            mAppsRecyclerView.setLongPressDragEnabled(true);// 开启拖拽，就这么简单一句话。
+            mAppsRecyclerView.setOnItemMoveListener(new OnItemMoveListener() {
+                @Override
+                public boolean onItemMove(int fromPosition, int toPosition) {
+                    // 当Item被拖拽的时候。
+                    Collections.swap(addedItems, fromPosition, toPosition);
+                    appsAdapter.notifyItemMoved(fromPosition,toPosition);
+                    SharedIntentHelper.saveShareAppIndexs2Sp(addedItems,BigBangActivity.this);
+
+                    return true;// 返回true表示处理了，返回false表示你没有处理。
+                }
+
+                @Override
+                public void onItemDismiss(int position) {
 
                 }
             });

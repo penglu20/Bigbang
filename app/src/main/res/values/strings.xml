@@ -380,6 +380,8 @@
     <string name="about_universal_copy_msg">\t\t\t\t全局复制的原理是通过辅助服务去抓取当前页面中的文字信息，而这些信息是需要应用来提供给复制服务的，所以以下情况可能会导致全局复制抓不到文字：\n\t\t\t\t
 1.如果应用没有提供文字信息给辅助服务，则无法抓取文字，比如浏览器（Chrome内核浏览器例外）和QQ消息界面等，此时可以考虑使用普通复制。\n\t\t\t\t
 2.一些看似是文字的内容，其实是当成图片绘制的，所以也抓不到文字信息，比如锤子桌面、iReader，此时可以使用截图OCR功能。</string>
+    <string name="share_app">分享的应用</string>
+    <string name="share_long_click_move">分享侧边栏长按图标可调整顺序</string>
 
     <string name="overall_intro">软件功能介绍</string>
     <string name="overall_intro_msg">\t\t\t\t本应用主要功能是分词、选词，是为了让更多用户使用到“锤子手机Bigbang”的便捷功能。\n\t\t\t\t

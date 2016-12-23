@@ -399,6 +399,8 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <string name="about_universal_copy_msg">\t\t\t\t The principle of global replication is through the auxiliary service to crawl the current page of text information, and this information is required to be applied to the replication service, the following circumstances may lead to global replication can not catch Text: \n\t\t\t\t
 1. If the application does not provide text information to the auxiliary service, you can not fetch the text, such as browser (Chrome browser exception) and QQ message interface, etc. At this time you can consider using normal replication. \n\t\t\t\t
 2. Some seemingly text content, in fact, as the picture is drawn, it can not grasp the text information, such as the hammer desktop, iReader, this time you can use the screenshot OCR function.</string>
+    <string name="share_app">Share-to Apps</string>
+    <string name="share_long_click_move">Long press the Share sidebar icon to adjust the order</string>
 
     <string name="overall_intro">Software function introduction</string>
     <string name="overall_intro_msg">\t\t\t\t The so-called word segmentation, is a word in accordance with the phrase split, the user can split the word free sort, combination, the rapid formation of new sentences. \n\t\t\t\t

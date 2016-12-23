@@ -132,6 +132,7 @@ public class ConstantUtil {
 
     public static final String LONG_PRESS_KEY_INDEX ="long_press_key_index";
 
-    //introCard
+    public static final String SHARE_APPS_DIS ="share_app_dis";
     public static final String HAD_ENTER_INTRO="had_enter_intro";
+    public static final String SHARE_APP_INDEX = "share_app_index";
 }
