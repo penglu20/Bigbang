@@ -533,7 +533,23 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                     }
                     mDragSelectX=x;
                     mDragSelectY=y;
-                    mDragSelectRect.set((int)Math.min(mDownX,mDragSelectX),(int)Math.min(mDownY,mDragSelectY),(int)Math.max(mDownX,mDragSelectX),(int)Math.max(mDownY,mDragSelectY));
+                    if(mDragSelectX>getWidth()){
+                        mDragSelectX=getWidth();
+                    }
+                    if (mDragSelectX<0){
+                        mDragSelectX=0;
+                    }
+
+                    if(mDragSelectY>getHeight()){
+                        mDragSelectY=getHeight();
+                    }
+                    if (mDragSelectY<0){
+                        mDragSelectY=0;
+                    }
+                    mDragSelectRect.set((int)Math.min(mDownX,mDragSelectX),
+                            (int)Math.min(mDownY,mDragSelectY),
+                            (int)Math.max(mDownX,mDragSelectX),
+                            (int)Math.max(mDownY,mDragSelectY));
                     setSelectionByRect(mDragSelectRect);
                     invalidate();
                     break;
@@ -995,7 +1011,9 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 }
                 ViewGroup viewgroup= (ViewGroup) view.getParent();
                 viewgroup.removeView(view);
-                int newPadding=(mTextPadding*2- mItemSpace*(size-1))/(size*2) ;
+//                int newPadding=(mTextPadding*2- mItemSpace*(size-1))/(size*2) ;
+                //还是不考虑界面会变动的问题了，先保证好看
+                int newPadding=(mTextPadding) ;
                 for (int i=0;i<size;i++){
                     TextView newTextView = new TextView(getContext());
                     newTextView.setText(text.substring(size-i-1,size-i));

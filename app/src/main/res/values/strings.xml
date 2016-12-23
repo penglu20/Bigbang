@@ -15,7 +15,7 @@
     <string name="copyed">已复制</string>
     <string name="sort_mode_help">排序模式\n通过拖动改变词句的排列\n再次点击则返回选词模式</string>
     <string name="feed_back">反馈</string>
-    <string name="click_to_see_function">在您选择文本后，可点击文本上方的按钮进行体验</string>
+    <string name="click_to_see_function">选择文本后\n请点击功能按钮查看介绍\n请确保您掌握了每个功能</string>
     <string name="share_request_confirm_dislike">当然！</string>
     <string name="only_text">增强型监控(可能误触)</string>
     <string name="white_list">设置触发方式</string>
@@ -350,8 +350,7 @@
 
 
     <string name="about_control">为什么要使用悬浮窗或通知栏</string>
-    <string name="about_control_msg">\t\t\t\t本应用可以监控点击和系统复制来触发分词，也包含了全局复制和截图OCR的功能，能够覆盖大部分的取词情况。\n\t\t\t\t
-        也因此本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮窗、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
+    <string name="about_control_msg">t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮窗、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
     如果你都不喜欢，也不需要使用全局复制和截图OCR，也可以选择开启“点击悬浮球触发Bigbang”，这样在监控点击和复制的时候，不至于误触发分词，影响使用体验。\n\t\t\t\t
     PS: 在有些手机上，开启悬浮窗会导致应用申请权限失败，可以在安装新应用时关闭悬浮窗，也可以使用通知栏代替。</string>
 
@@ -380,5 +379,18 @@
 1.如果应用没有提供文字信息给辅助服务，则无法抓取文字，比如浏览器（Chrome内核浏览器例外）和QQ消息界面等，此时可以考虑使用普通复制。\n\t\t\t\t
 2.一些看似是文字的内容，其实是当成图片绘制的，所以也抓不到文字信息，比如锤子桌面、iReader，此时可以使用截图OCR功能。</string>
 
+    <string name="overall_intro">软件功能介绍</string>
+    <string name="overall_intro_msg">\t\t\t\t本应用主要功能是分词、选词，是为了让更多用户使用到“锤子手机Bigbang”的便捷功能。\n\t\t\t\t
+        所谓分词，就是将一句话按照词组拆分开来，用户可以对拆开的词进行自由排序，组合，快速形成新的句子。\n\t\t\t\t
+        因为本应用不具备操作系统底层的权限，所以无法完全做到锤子手机中的使用体验，但是本应用可以监控点击和系统复制来触发分词，也提供了全局复制和截图OCR的功能，能够覆盖大部分的取词情况。\n\t\t\t\t
+        分词界面不但支持锤子手机中的操作，还加入了长按词语拆分成字、拖动排序、保留分段结构等独创功能，最大程度上改进你的选词体验。\n\t\t\t\t
+        软件的设置可能比较复杂，阅读本页的介绍将会对您有所帮助，感谢您使用！
+    </string>
+
+    <string name="intro_card_msg">看看应用的介绍和设置说明吗？</string>
+    <string name="intro_card_msg_2">如果使用中遇到了问题\n也可以在“其他”设置的“如何使用”中查看</string>
+
+    <string name="intro_card_go">现在查看</string>
+    <string name="intro_card_cancel">下次再说</string>
 
 </resources>

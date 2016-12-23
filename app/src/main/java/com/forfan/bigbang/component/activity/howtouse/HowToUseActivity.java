@@ -12,11 +12,13 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.ConstantUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
 public class HowToUseActivity extends BaseActivity {
 
-    private LinearLayout introMenu;
+    private View introMenu;
     private LinearLayout introContent;
 
     private TextView introTitle;
@@ -27,6 +29,7 @@ public class HowToUseActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_how_to_use);
 
+        SPHelper.save(ConstantUtil.HAD_ENTER_INTRO, true);
         StatusBarCompat.setupStatusBarView(this, (ViewGroup) getWindow().getDecorView(), true, R.color.colorPrimary);
 
 
@@ -35,7 +38,7 @@ public class HowToUseActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.introduction);
 
-        introMenu= (LinearLayout) findViewById(R.id.intro_menu);
+        introMenu= (View) findViewById(R.id.intro_menu);
         introContent= (LinearLayout) findViewById(R.id.intro_content);
 
         introTitle = (TextView) findViewById(R.id.intro_title);
@@ -48,6 +51,16 @@ public class HowToUseActivity extends BaseActivity {
             }
         });
 
+
+        findViewById(R.id.overall_intro).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                introMenu.setVisibility(View.GONE);
+                introContent.setVisibility(View.VISIBLE);
+                introTitle.setText(R.string.overall_intro);
+                introMsg.setText(R.string.overall_intro_msg);
+            }
+        });
 
         findViewById(R.id.how_to_set).setOnClickListener(new View.OnClickListener() {
             @Override

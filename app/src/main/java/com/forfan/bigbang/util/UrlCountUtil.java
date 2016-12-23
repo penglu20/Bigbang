@@ -44,6 +44,9 @@ public class UrlCountUtil {
     public static final String CLICK_SHARE_CARD_DISLIKE = "click_share_card_dislike";
     public static final String CLICK_SHARE_CARD_FEEDBACK = "click_share_card_feedback";
 
+    public static final String CLICK_INTRO_CARD_GO = "click_intro_card_go";
+    public static final String CLICK_INTRO_CARD_CANCEL = "click_intro_card_cancel";
+
     public static final String STATUS_ACCESSABILITY = "status_accessability";
     public static final String STATUS_CLIPBOARD = "status_clipboard";
     public static final String STATUS_SHOW_FLOAT_WINDOW = "status_show_float_window";

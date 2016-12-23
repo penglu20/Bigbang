@@ -23,7 +23,7 @@ import rx.functions.Func1;
 
 public class SplashActivity extends BaseActivity {
 
-    private static final String KEY = "key" +getVersion(BigBangApp.getInstance());
+    public static final String KEY = "key" +getVersion(BigBangApp.getInstance());
     private static final java.lang.String GOTO_HOME = "go_home";
     private static final java.lang.String GOTO_INTRO = "go_intro";
 
@@ -87,7 +87,6 @@ public class SplashActivity extends BaseActivity {
                         finish();
                     } else {
                         startActivity(new Intent(SplashActivity.this, IntroActivity.class));
-                        SPHelper.save(KEY, true);
                         finish();
                     }
                 });

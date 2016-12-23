@@ -18,15 +18,20 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
+import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.forfan.bigbang.view.GuideView;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import static com.forfan.bigbang.component.activity.SplashActivity.KEY;
+
 public class IntroActivity extends BaseActivity {
+    private static final String INTRODUCED="introduced";
 
     private TextView mIntro;
     private TextView mFunctionIntroTV;
@@ -172,6 +177,8 @@ public class IntroActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.setClass(IntroActivity.this, PreSettingActivity.class);
                 startActivity(intent);
+                SPHelper.save(KEY, true);
+                SPHelper.save(INTRODUCED, true);
                 finish();
             }
         });
@@ -220,14 +227,7 @@ public class IntroActivity extends BaseActivity {
                     public void onClickedGuideView() {
                         animation.cancel();
                         guideView.hide();
-                        mEnterBtn.setVisibility(View.VISIBLE);
-                        mEnterBtn.setScaleY(0);
-                        mEnterBtn.setScaleX(0);
-                        mEnterBtn.setAlpha(0);
-                        mEnterBtn.animate().scaleX(1).scaleY(1).alpha(1)
-                                .setInterpolator(new AnticipateOvershootInterpolator())
-                                .setStartDelay(500)
-                                .start();
+                        showEnterBtn();
                         mFunctionIntroTV.setVisibility(View.VISIBLE);
                     }
                 })
@@ -242,10 +242,25 @@ public class IntroActivity extends BaseActivity {
         guideView.show();
     }
 
+    private void showEnterBtn() {
+        if (clickTimes>=5 || SPHelper.getBoolean(KEY, false) || SPHelper.getBoolean(INTRODUCED,false)){
+            if (mEnterBtn.getVisibility()!=View.VISIBLE) {
+                mEnterBtn.setVisibility(View.VISIBLE);
+                mEnterBtn.setScaleY(0);
+                mEnterBtn.setScaleX(0);
+                mEnterBtn.setAlpha(0);
+                mEnterBtn.animate().scaleX(1).scaleY(1).alpha(1)
+                        .setInterpolator(new AnticipateOvershootInterpolator())
+                        .setStartDelay(500)
+                        .start();
+            }
+        }
+    }
+
+    public int clickTimes=0;
     BigBangLayoutWrapper.ActionListener bigBangActionListener = new BigBangLayoutWrapper.ActionListener() {
 
         private boolean firstSelected = true, firstSearch = true, firstShare = true, firstCopy = true, firstTrans = true, firstDrag = true;
-
         @Override
         public void onSelected(String text) {
             if (firstSelected) {
@@ -270,6 +285,8 @@ public class IntroActivity extends BaseActivity {
                     e.printStackTrace();
                 }
             }
+            clickTimes++;
+            showEnterBtn();
 
 
         }
@@ -289,7 +306,9 @@ public class IntroActivity extends BaseActivity {
                 startActivity(sharingIntent);
 
             }
+            clickTimes++;
 
+            showEnterBtn();
         }
 
         @Override
@@ -306,6 +325,8 @@ public class IntroActivity extends BaseActivity {
                 }
             }
 
+            clickTimes++;
+            showEnterBtn();
 
         }
 
@@ -321,6 +342,8 @@ public class IntroActivity extends BaseActivity {
                     SnackBarUtil.show(mIntro, R.string.open_bang_for_translate);
                 }
             }
+            clickTimes++;
+            showEnterBtn();
         }
 
         @Override
@@ -334,6 +357,8 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.setScaleY(0);
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+            clickTimes++;
+            showEnterBtn();
         }
 
         @Override
@@ -354,6 +379,8 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.setScaleY(0);
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+            clickTimes++;
+            showEnterBtn();
         }
 
         @Override
@@ -362,6 +389,8 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.setScaleY(0);
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+            clickTimes++;
+            showEnterBtn();
         }
 
         @Override
@@ -370,6 +399,8 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.setScaleY(0);
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+            clickTimes++;
+            showEnterBtn();
         }
 
         @Override
@@ -378,6 +409,8 @@ public class IntroActivity extends BaseActivity {
             mFunctionIntroTV.setScaleY(0);
             mFunctionIntroTV.setScaleX(0);
             mFunctionIntroTV.animate().scaleY(1).scaleX(1).start();
+            clickTimes++;
+            showEnterBtn();
         }
     };
 

@@ -5,6 +5,6 @@
     <com.forfan.bigbang.component.activity.setting.IntroCard
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:id="@+id/share"
+        android:id="@+id/intro"
         />
 </FrameLayout>

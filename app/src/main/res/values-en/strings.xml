@@ -14,7 +14,7 @@
     <string name="copyed">Copied</string>
     <string name="sort_mode_help">Sorting mode \n by dragging the change the arrangement of words \n word choice mode click again</string>
     <string name="feed_back">feedback</string>
-    <string name="click_to_see_function">After you select the text,you can click on the button above the text to experience</string>
+    <string name="click_to_see_function">After selecting the text \nPlease click the function button to see the introduction \n Make sure you understand every function</string>
     <string name="share_request_confirm_dislike">of course！</string>
     <string name="only_text">Enhanced monitoring(may be mis-triggering)</string>
     <string name="share_mode_help">Share \n will choose words share to other apps</string>
@@ -369,8 +369,7 @@
 
 
     <string name="about_control">Why use a floating window or a notification bar</string>
-    <string name="about_control_msg">This application can monitor clicks and system replication to trigger word segmentation, as well as global copy and capture OCR functions, to cover most of the fetching situation.  \n\t\t\t\t
-             And therefore the function of this application is relatively complex, requires the user to have some hands-on exploration capabilities. Suspended window, notification bar and long key menu, on the one hand can provide monitoring function of the switch to prevent false triggering, on the other hand is the global copy and screenshot OCR function entrance. It is recommended that you choose the most comfortable way to use. \n\t\t\t\t
+    <string name="about_control_msg">\t\t\t\tThe function of this application is relatively complex, requires the user to have some hands-on exploration capabilities. Suspended window, notification bar and long key menu, on the one hand can provide monitoring function of the switch to prevent false triggering, on the other hand is the global copy and screenshot OCR function entrance. It is recommended that you choose the most comfortable way to use. \n\t\t\t\t
          If you do not like, do not need to use global replication and screenshots OCR, you can also choose to open the "Click the ball trigger Bigbang", so that when monitoring clicks and replication, and will not trigger the wrong word, affecting the user experience. \n\t\t\t\t
          PS: In some mobile phones, open the suspension window will result in the application to apply for permission to fail, you can install a new application to close the suspension window, you can also use the notification bar instead.</string>
 
@@ -398,6 +397,19 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <string name="about_universal_copy_msg">\t\t\t\t The principle of global replication is through the auxiliary service to crawl the current page of text information, and this information is required to be applied to the replication service, the following circumstances may lead to global replication can not catch Text: \n\t\t\t\t
 1. If the application does not provide text information to the auxiliary service, you can not fetch the text, such as browser (Chrome browser exception) and QQ message interface, etc. At this time you can consider using normal replication. \n\t\t\t\t
 2. Some seemingly text content, in fact, as the picture is drawn, it can not grasp the text information, such as the hammer desktop, iReader, this time you can use the screenshot OCR function.</string>
+
+    <string name="overall_intro">Software function introduction</string>
+    <string name="overall_intro_msg">\t\t\t\t The so-called word segmentation, is a word in accordance with the phrase split, the user can split the word free sort, combination, the rapid formation of new sentences. \n\t\t\t\t
+         Because this application does not have the underlying operating system permissions, it can not be completely hammer mobile phone experience, but the application can monitor the click and copy the system to trigger the word segmentation, also provides global replication and screenshots OCR function, to cover large Part of the word situation. \n\t\t\t\t
+         Word interface not only supports the operation of the hammer mobile phone, but also added a long press word split into words, drag the sort, retain the original structure of sub-features, the maximum extent possible to improve your election experience. \n\t\t\t\t
+         The software settings may be more complex, read this page description will be of your help, thank you!
+    </string>
+
+    <string name="intro_card_msg">Check the application description and setup instructions?</string>
+    <string name="intro_card_msg_2">If you have any problem,\n you can also view them in the "How to use" section of the "Other" settings</string>
+
+    <string name="intro_card_go">Check now</string>
+    <string name="intro_card_cancel">Next time</string>
 
 
 </resources>
