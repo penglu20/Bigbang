@@ -244,6 +244,11 @@ public class BigBangActivity extends BaseActivity {
                     }
                     loading.hide();
                     bigBangLayoutWrapper.setVisibility(View.VISIBLE);
+
+                    if (!SPHelper.getBoolean(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST,false)){
+                        ToastUtil.show(R.string.bb_long_press_toast);
+                        SPHelper.save(ConstantUtil.HAD_SHOW_LONG_PRESS_TOAST,true);
+                    }
                 }, throwable -> {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -370,6 +375,15 @@ public class BigBangActivity extends BaseActivity {
                 toTrans = (EditText) findViewById(R.id.to_translate);
                 transResult = (EditText) findViewById(R.id.translate_result);
                 TextView title = (TextView) findViewById(R.id.title);
+                findViewById(R.id.trans_again).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!TextUtils.isEmpty(toTrans.getText())) {
+                            translate(toTrans.getText().toString());
+                        }
+                        ViewUtil.hideInputMethod(toTrans);
+                    }
+                });
 
 
             }
@@ -476,6 +490,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayoutWrapper.setVisibility(View.GONE);
         transRl.setVisibility(View.VISIBLE);
         toTrans.setText(text);
+        toTrans.setSelection(text.length());
         transResult.setText("正在翻译");
         RetrofitHelper.getTranslationService()
                 .getTranslationItem(text.replaceAll("\n", ""))

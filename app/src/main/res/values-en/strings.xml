@@ -416,4 +416,5 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
     <string name="intro_card_cancel">Next time</string>
 
 
+    <string name="bb_long_press_toast">try to long press a word</string>
 </resources>

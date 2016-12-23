@@ -397,4 +397,8 @@
     <string name="intro_card_go">现在查看</string>
     <string name="intro_card_cancel">下次再说</string>
 
+
+
+    <string name="bb_long_press_toast">试试长按一个词组</string>
+
 </resources>

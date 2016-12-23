@@ -135,4 +135,6 @@ public class ConstantUtil {
     public static final String SHARE_APPS_DIS ="share_app_dis";
     public static final String HAD_ENTER_INTRO="had_enter_intro";
     public static final String SHARE_APP_INDEX = "share_app_index";
+
+    public static final String HAD_SHOW_LONG_PRESS_TOAST="had_show_long_press_toast";
 }
