@@ -30,7 +30,6 @@ import com.umeng.fb.FeedbackAgent;
 public class FeedBackAndUpdateCard extends AbsCard {
     private TextView feedback;
     private TextView checkUpdate;
-    private TextView problems;
     private TextView introduction;
 
     public FeedBackAndUpdateCard(Context context) {
@@ -54,12 +53,10 @@ public class FeedBackAndUpdateCard extends AbsCard {
         LayoutInflater.from(mContext).inflate(R.layout.card_feedback_update,this);
         checkUpdate= (TextView) findViewById(R.id.check_update);
         feedback = (TextView) findViewById(R.id.feedback);
-        problems = (TextView) findViewById(R.id.problems);
         introduction = (TextView) findViewById(R.id.introduction);
 
         checkUpdate.setOnClickListener(myOnClickListener);
         feedback.setOnClickListener(myOnClickListener);
-        problems.setOnClickListener(myOnClickListener);
         introduction.setOnClickListener(myOnClickListener);
 //        if (ChanelHandler.is360SDK(context)){
 //            feedback.setVisibility(View.GONE);
@@ -91,10 +88,6 @@ public class FeedBackAndUpdateCard extends AbsCard {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_HOW_TO_USE);
                 showIntro();
                 break;
-            case R.id.problems:
-                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_PROBLEM);
-                showProblemDialog();
-                break;
             default:
                 break;
         }
@@ -112,40 +105,6 @@ public class FeedBackAndUpdateCard extends AbsCard {
         com.umeng.fb.util.Res.setPackageName(R.class.getPackage().getName());
         FeedbackAgent agent = new FeedbackAgent(mContext);
         agent.startFeedbackActivity();
-    }
-
-    private void showProblemDialog(){
-
-        // TODO: 2016/10/29
-        Dialog.Builder builder = new SimpleDialog.Builder( R.style.SimpleDialogLight){
-            @Override
-            public void onNegativeActionClicked(DialogFragment fragment) {
-                if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
-                    try {
-                        mContext.startActivity(new Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"));
-    //                    mContext.startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS));
-                    } catch (Throwable e){
-                        SnackBarUtil.show(FeedBackAndUpdateCard.this,R.string.open_setting_failed);
-                    }
-                }else {
-                    startFeedBack();
-                }
-                super.onNegativeActionClicked(fragment);
-            }
-        };
-        String msg=mContext.getString(R.string.problem_content);
-        if (Build.VERSION.SDK_INT >= 18 && !GetAwayNotificationListenerService.checkNotificationListenerEnabled(mContext)){
-            builder.negativeAction(mContext.getString(R.string.go_set));
-            msg=msg+"\n"+mContext.getString(R.string.go_set_msg);
-        }else {
-            builder.negativeAction(mContext.getString(R.string.feed_back));
-        }
-        ((SimpleDialog.Builder) builder)
-                .message(msg)
-                .title(mContext.getString(R.string.problems))
-                .positiveAction(mContext.getString(R.string.confirm_known));
-        DialogFragment fragment = DialogFragment.newInstance(builder);
-        fragment.show(((AppCompatActivity)mContext).getSupportFragmentManager(), null);
     }
 
 }

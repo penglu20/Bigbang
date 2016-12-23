@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.component.activity.whitelist.SelectionDbHelper;
 import com.forfan.bigbang.util.AESUtils;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -174,6 +175,7 @@ public class SLSettingCard extends AbsCard {
         String ocr = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
         SPHelper.clear();
         SPHelper.save(ConstantUtil.DIY_OCR_KEY, ocr);
+        IOUtil.delete(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH);
         SelectionDbHelper helper=new SelectionDbHelper(mContext);
         helper.deleteAll();
 
@@ -200,6 +202,7 @@ public class SLSettingCard extends AbsCard {
 
         try {
             IOUtil.copyFile(dbDir.getAbsolutePath(),new File(desDir,"databases").getAbsolutePath());
+            IOUtil.copyFile(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH,new File(desDir,"floatview.png").getAbsolutePath());
             IOUtil.copyFile(spDir.getAbsolutePath()+File.separator+"BigBang_sp_main.xml",new File(desDir,"shared_prefs").getAbsolutePath()+File.separator+"BigBang_sp_main.xml");
             ToastUtil.show(R.string.save_success);
         } catch (IOException e) {
@@ -245,8 +248,18 @@ public class SLSettingCard extends AbsCard {
         File dbDir=new File(file.getParentFile(),"databases");
         File spDir=new File(file.getParentFile().getAbsolutePath()+"/shared_prefs/BigBang_sp_main.xml");
 
+
+
         File desDbDir= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/databases");
         File desSpFile= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/shared_prefs/BigBang_sp_main.xml");
+        File floatViewFile = new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/","floatview.png");
+
+        if (floatViewFile.exists()){
+            try {
+                IOUtil.copyFile(floatViewFile.getAbsolutePath(),SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH);
+            } catch (IOException e) {
+            }
+        }
 
         if (desDbDir.exists()) {
             IOUtil.deleteDirs(dbDir.getAbsolutePath());

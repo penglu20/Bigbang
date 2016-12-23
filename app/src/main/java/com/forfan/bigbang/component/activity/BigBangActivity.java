@@ -173,8 +173,8 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayoutWrapper.setShowSection(SPHelper.getBoolean(ConstantUtil.REMAIN_SECTION, false));
         originString = str;
         String finalStr = str;
-        getSegment(str);
         bigBangLayoutWrapper.setActionListener(bigBangActionListener);
+        bigBangLayoutWrapper.onSwitchType(SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false));
     }
 
     private void showAppList4OneStep() {

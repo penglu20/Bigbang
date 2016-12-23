@@ -19,7 +19,7 @@
     <string name="only_text">Enhanced monitoring(may be mis-triggering)</string>
     <string name="share_mode_help">Share \n will choose words share to other apps</string>
     <string name="monitor_clipboard">Monitoring the clipboard</string>
-    <string name="problem_content">\t\t\tIf this product have some use abnormalities, including monitor does not work, or program is often-cleaned, please ensure that you have to add this product to a list of phone housekeeping clean white-lists, and allows it starts\n\t\t\tSince this product is made by some technical means to obtain you click or copy the words, and some of the application is not fully in conformity with the standards, so I can\'t get right to the text, switch monitoring text could only a partial solution。\n\t\t\tIf you find any problems, please use feedback function to contact us, we will solve your problem as soon as possible！</string>
+    <string name="problem_content">\t\t\tIf this product have some use abnormalities, including monitor does not work, or program is often-cleaned, please ensure that you have to add this product to a list of phone housekeeping clean white-lists, and allows it starts！</string>
     <string name="loading">loading...</string>
     <string name="stringValue1">BigBang 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
     <string name="recover_tips">To display using tips</string>
@@ -278,6 +278,7 @@
     <string name="setting_search_engine_web">Setting Search Engine</string>
 
 
+    <string name="is_default_local">Use local segment as default</string>
     <string name="is_full_screen">Show in full screen</string>
     <string name="is_stick_header">Keep Header Button At The Top</string>
 
@@ -328,6 +329,7 @@
     <string name="title_cropper">Crop Picture</string>
     <string name="setting_floatview_size">Suspended window size</string>
     <string name="set_floatview_image">Customize the floatview image</string>
+    <string name="del_floatview_image">Recover default the floatview image</string>
     <string name="set_floatview_background">Expand button background set</string>
     <string name="setting_floatview_alpha_percent">Expand Button Background Opacity：</string>
     <string name="setting_alpha_percent">Background Opacity：</string>

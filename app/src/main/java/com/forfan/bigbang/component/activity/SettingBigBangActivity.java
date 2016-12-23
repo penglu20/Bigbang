@@ -1,27 +1,18 @@
 package com.forfan.bigbang.component.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -32,23 +23,13 @@ import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
-import com.forfan.bigbang.util.ClipboardUtils;
-import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.SearchEngineUtil;
-import com.forfan.bigbang.util.SharedIntentHelper;
-import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.BigBangLayout;
 import com.forfan.bigbang.view.BigBangLayoutWrapper;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
-
-import java.net.URLEncoder;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by penglu on 2016/11/9.
@@ -85,6 +66,7 @@ public class SettingBigBangActivity extends BaseActivity {
 
     private CheckBox isFullScreen;
     private CheckBox isStickHeader;
+    private CheckBox isDefaultLocal;
 
     private RecyclerView backgroundRV;
     private int[] bigbangBackgroungColors;
@@ -128,6 +110,7 @@ public class SettingBigBangActivity extends BaseActivity {
         isFullScreen= (CheckBox) findViewById(R.id.is_full_screen);
         isStickHeader= (CheckBox) findViewById(R.id.is_stick_header);
         isStickSharebar= (CheckBox) findViewById(R.id.is_stick_sharebar);
+        isDefaultLocal = (CheckBox) findViewById(R.id.is_default_local);
 
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
@@ -258,6 +241,14 @@ public class SettingBigBangActivity extends BaseActivity {
                 mBigBangLayoutWrap.setStickHeader(isChecked);
             }
         });
+
+        isDefaultLocal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.DEFAULT_LOCAL,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_DEFAULT_LOCAL,isChecked+"");
+            }
+        });
         isStickSharebar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -282,6 +273,9 @@ public class SettingBigBangActivity extends BaseActivity {
         boolean stickSharebar=SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR,true);
         isStickSharebar.setChecked(stickSharebar);
         boolean remainSymbol = SPHelper.getBoolean(ConstantUtil.REMAIN_SYMBOL, true);
+
+
+        boolean defaultLocal = SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false);
 
 
         mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
@@ -318,10 +312,13 @@ public class SettingBigBangActivity extends BaseActivity {
         }
         applyColor(lastPickedColor);
 
+        isDefaultLocal.setChecked(defaultLocal);
         bigbangBackgroungColors=getResources().getIntArray(BIGBANG_BACKGROUND_COLOR_ARRAY_RES);
         backgroundRV.setLayoutManager(new GridLayoutManager(this,4));
         backgroundRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.GRID_LIST));
         backgroundRV.setAdapter(backgroundColorAdapter);
+
+        mBigBangLayoutWrap.onSwitchType(defaultLocal);
     }
 
     private RecyclerView.Adapter backgroundColorAdapter=new RecyclerView.Adapter() {

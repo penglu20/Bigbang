@@ -58,7 +58,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private int mTextBgRes;
 
     private Item mTargetItem;
-    private List<Line> mLines;
+    private List<Line> mLines=new ArrayList<>();
     private List<Integer> mSectionIndex;
     private int mActionBarTopHeight;
     private int mActionBarBottomHeight;
@@ -101,6 +101,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private Set<ItemState> mDragSelectSet;
     private boolean mDragSelection;
     private boolean mDragSelectionSetted;
+
+    private boolean mNeedReDetectInMeasure=true;
 
     public BigBangLayout(Context context) {
         super(context);
@@ -180,6 +182,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                     item = findItemIndexByPoint(x, y);
                     if (item == null) {
                         if (eventType == DragEvent.ACTION_DRAG_ENDED) {
+                            mNeedReDetectInMeasure=true;
                             removeView(dragItem.view);
                             addView(dragItem.view, dragItem.index);
                             mTargetItem = null;
@@ -190,6 +193,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 if (mTargetItem != null && mTargetItem.view == item.view) {
                     return true;
                 } else {
+                    mNeedReDetectInMeasure=true;
                     removeView(dragItem.view);
                     addView(dragItem.view, item.index);
                     dragItem.index = item.index;
@@ -288,6 +292,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     }
 
     public void addTextItem(String text) {
+        mNeedReDetectInMeasure=true;
         if (TextUtils.isEmpty(text) || text.equals(" ")) {
             return;
         }
@@ -309,6 +314,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     }
 
     public void reset() {
+        mNeedReDetectInMeasure=true;
         showAnimation = false;
         for (int i = getChildCount() - 1; i >= 0; i--) {
             View child = getChildAt(i);
@@ -326,6 +332,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     public void setShowSymbol(boolean showSymbol) {
         this.showSymbol = showSymbol;
+        mNeedReDetectInMeasure=true;
         requestLayout();
     }
 
@@ -335,6 +342,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     public void setShowSection(boolean showSection) {
         this.showSection = showSection;
+        mNeedReDetectInMeasure=true;
         requestLayout();
     }
 
@@ -348,83 +356,85 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int widthSize = MeasureSpec.getSize(widthMeasureSpec) - getPaddingLeft() - getPaddingRight();
-        int contentWidthSize = widthSize - mHeader.getContentPadding();
-        int heightSize = 0;
+        if (mNeedReDetectInMeasure) {
 
-        int childCount = getChildCount();
+            int contentWidthSize = widthSize - mHeader.getContentPadding();
+            int heightSize = 0;
 
-        int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+            int childCount = getChildCount();
 
-        mLines = new ArrayList<>();
-        mSectionIndex.clear();
-        Line currentLine = null;
-        int currentLineWidth = contentWidthSize;
-        boolean isEnter = true;
-        for (int i = 0; i < childCount; i++) {
+            int measureSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
 
-            View v = getChildAt(i);
-
-            if (mHeader == v) {
-                continue;
-            }
-
-            View child = (View) v;
-            String content;
-            content=((TextView)child).getText().toString();
-
-            child.setVisibility(VISIBLE);
-            if (!showSymbol) {
-                if (content.matches("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]")) {
-                    child.setVisibility(GONE);
+            mLines.clear();
+            mSectionIndex.clear();
+            Line currentLine = null;
+            int currentLineWidth = contentWidthSize;
+            boolean isEnter = true;
+            for (int i = 0; i < childCount; i++) {
+                View v = getChildAt(i);
+                if (mHeader == v) {
                     continue;
                 }
-            }
-            if (content.contains(ENTER) || content.equals(ENTER_SYMBOL)) {
-                child.setVisibility(GONE);
-                mSectionIndex.add(i);
-                isEnter = true;
-                continue;
-            }
-            child.measure(measureSpec, measureSpec);
+                View child = (View) v;
+                String content;
+                content = ((TextView) child).getText().toString();
 
-            if (currentLineWidth > 0) {
-                currentLineWidth += mItemSpace;
+                child.setVisibility(VISIBLE);
+                if (!showSymbol) {
+                    if (content.matches("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]")) {
+                        child.setVisibility(GONE);
+                        continue;
+                    }
+                }
+                if (content.contains(ENTER) || content.equals(ENTER_SYMBOL)) {
+                    child.setVisibility(GONE);
+                    mSectionIndex.add(i);
+                    isEnter = true;
+                    continue;
+                }
+                child.measure(measureSpec, measureSpec);
+
+                if (currentLineWidth > 0) {
+                    currentLineWidth += mItemSpace;
+                }
+                currentLineWidth += child.getMeasuredWidth();
+                if (mLines.size() == 0 || currentLineWidth > contentWidthSize || (isEnter && showSection)) {
+                    heightSize += child.getMeasuredHeight();
+                    currentLineWidth = child.getMeasuredWidth();
+                    currentLine = new Line(mLines.size());
+                    mLines.add(currentLine);
+                }
+                Item item = new Item(currentLine);
+                item.view = child;
+                item.index = i;
+                item.width = child.getMeasuredWidth();
+                item.height = child.getMeasuredHeight();
+                if (currentLine.getItems() == null && (isEnter && showSection)) {
+                    int padding = child.getPaddingLeft();
+                    child.setBackgroundResource(mSectionTextBgRes);
+                    child.setPadding(padding, 0, padding, 0);
+                } else {
+                    int padding = child.getPaddingLeft();
+                    child.setBackgroundResource(mTextBgRes);
+                    child.setPadding(padding, 0, padding, 0);
+                }
+                currentLine.addItem(item);
+                isEnter=false;
             }
-            currentLineWidth += child.getMeasuredWidth();
-            if (mLines.size() == 0 || currentLineWidth > contentWidthSize || (isEnter && showSection)) {
-                heightSize += child.getMeasuredHeight();
-                currentLineWidth = child.getMeasuredWidth();
-                currentLine = new Line(mLines.size());
-                mLines.add(currentLine);
-            }
-            Item item = new Item(currentLine);
-            item.view = child;
-            item.index = i;
-            item.width = child.getMeasuredWidth();
-            item.height = child.getMeasuredHeight();
-            if (currentLine.getItems() == null && (isEnter && showSection)) {
-                int padding = child.getPaddingLeft();
-                child.setBackgroundResource(mSectionTextBgRes);
-                child.setPadding(padding, 0, padding, 0);
-            } else {
-                int padding = child.getPaddingLeft();
-                child.setBackgroundResource(mTextBgRes);
-                child.setPadding(padding, 0, padding, 0);
-            }
-            currentLine.addItem(item);
-            isEnter = false;
+            mNeedReDetectInMeasure = false;
         }
-
         Line firstSelectedLine = findFirstSelectedLine();
         Line lastSelectedLine = findLastSelectedLine();
         if (firstSelectedLine != null && lastSelectedLine != null) {
             int selectedLineHeight = (lastSelectedLine.maxIndex - firstSelectedLine.maxIndex + 1) * (firstSelectedLine.getHeight() + mLineSpace);
             mHeader.measure(MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(selectedLineHeight, MeasureSpec.UNSPECIFIED));
         }
-
-        int size = heightSize + getPaddingTop() + getPaddingBottom() + (mLines.size()) * mLineSpace +mActionBarTopHeight + mActionBarBottomHeight;
+//        int size = heightSize + getPaddingTop() + getPaddingBottom() + (mLines.size()) * mLineSpace + mActionBarTopHeight + mActionBarBottomHeight;
+        int size = (mLines.size()>0?(mLines.size()*mLines.get(0).getHeight()):0)
+                + getPaddingTop() + getPaddingBottom() +
+                (mLines.size()) * mLineSpace +
+                mActionBarTopHeight + mActionBarBottomHeight;
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
     }
 
@@ -585,6 +595,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                         ClipData clipData = ClipData.newPlainText(item.getText(), item.getText());
                         View.DragShadowBuilder myShadow = new DragShadowBuilder(dragItem.view);
                         dragItem.view.startDrag(clipData, myShadow, null, 0);
+                        mNeedReDetectInMeasure=true;
                         removeView(dragItem.view);
                     } else {
                         dragItem = null;
@@ -599,6 +610,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 case MotionEvent.ACTION_UP:
 //                    dragItem = null;
                     if (mTargetItem == null && dragItem != null) {
+                        mNeedReDetectInMeasure=true;
                         removeView(dragItem.view);
                         addView(dragItem.view, dragItem.index);
                     }
@@ -920,7 +932,9 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         }
 
         boolean hasSelected() {
-            for (Item item : items) {
+            int size = items.size();
+            for (int i=0;i<size;i++) {
+                Item item = items.get(i);
                 if (item.isSelected()) {
                     return true;
                 }
@@ -961,6 +975,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         int height;
         int width;
         View view;
+        Rect rect=new Rect();
 
         public Item(Line line) {
             this.line = line;
@@ -977,7 +992,6 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         }
 
         Rect getRect() {
-            Rect rect = new Rect();
             view.getHitRect(rect);
             return rect;
         }
@@ -1009,6 +1023,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 if (size<=1){
                     return;
                 }
+                mNeedReDetectInMeasure=true;
                 ViewGroup viewgroup= (ViewGroup) view.getParent();
                 viewgroup.removeView(view);
 //                int newPadding=(mTextPadding*2- mItemSpace*(size-1))/(size*2) ;

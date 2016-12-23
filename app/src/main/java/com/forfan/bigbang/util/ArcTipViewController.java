@@ -9,6 +9,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.net.Uri;
 import android.os.Build;
@@ -58,6 +59,9 @@ public class ArcTipViewController implements View.OnTouchListener {
     private float mCurrentIconAlpha = 0.7f;
     int padding = ViewUtil.dp2px(3);
     private boolean isChangedColor;
+
+    private long floatViewLastModified=-1;
+    private Drawable floatViewLastCache;
 
     public void showTipViewForStartActivity(Intent intent) {
 
@@ -529,12 +533,20 @@ public class ArcTipViewController implements View.OnTouchListener {
             public void run() {
                 mainHandler.removeMessages(HIDETOEDGE);
                 LogUtil.d("shang", "addView0");
-                if (new File(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH).exists()) {
-                    floatImageView.setImageDrawable(new BitmapDrawable(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH));
+                File floatViewImage =new File(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH);
+                if (floatViewImage.exists()) {
+                    if (floatViewImage.lastModified()!=floatViewLastModified){
+                        floatViewLastCache=new BitmapDrawable(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH);
+                        floatViewLastModified=floatViewImage.lastModified();
+                    }
                 } else {
-                    floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
+                    if (floatViewLastModified!=0) {
+                        floatViewLastCache=mContext.getResources().getDrawable(R.drawable.float_view_bg);
+                        floatViewLastModified=0;
+                    }
 
                 }
+                floatImageView.setImageDrawable(floatViewLastCache);
                 LinearLayout.LayoutParams floatImageViewlayoutParams = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
                 floatImageViewlayoutParams.width = ViewUtil.dp2px(MIN_LENGTH);
                 floatImageView.setLayoutParams(floatImageViewlayoutParams);

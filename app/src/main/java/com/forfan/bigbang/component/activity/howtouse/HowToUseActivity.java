@@ -62,6 +62,16 @@ public class HowToUseActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.problems).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                introMenu.setVisibility(View.GONE);
+                introContent.setVisibility(View.VISIBLE);
+                introTitle.setText(R.string.problems);
+                introMsg.setText(R.string.problem_content);
+            }
+        });
+
         findViewById(R.id.how_to_set).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

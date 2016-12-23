@@ -28,6 +28,7 @@ import com.forfan.bigbang.cropper.handler.CropImage;
 import com.forfan.bigbang.cropper.handler.CropImageView;
 import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.IOUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
@@ -55,6 +56,7 @@ public class SettingFloatViewActivity extends BaseActivity {
     private TextView bigbangAlpha;
     private SeekBar mBigbangAlphaSeekBar;
 
+    private View delPic;
 
     private RecyclerView backgroundRV;
     private int[] bigbangBackgroungColors;
@@ -112,7 +114,6 @@ public class SettingFloatViewActivity extends BaseActivity {
             }
         });
 
-        ;
         mBigbangAlphaSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -136,6 +137,18 @@ public class SettingFloatViewActivity extends BaseActivity {
 
             }
         });
+        delPic=findViewById(R.id.del_pic);
+        delPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IOUtil.delete(FLOATVIEW_IMAGE_PATH);
+                ArcTipViewController.getInstance().showForSettings();
+                refresh();
+            }
+        });
+
+
+
         findViewById(R.id.select_pic).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -148,7 +161,7 @@ public class SettingFloatViewActivity extends BaseActivity {
 
         int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
         alpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#000000"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#ccb9b9b9"));
 
 
         mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
@@ -165,6 +178,9 @@ public class SettingFloatViewActivity extends BaseActivity {
         backgroundRV.setLayoutManager(new GridLayoutManager(this, 4));
         backgroundRV.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.GRID_LIST));
         backgroundRV.setAdapter(backgroundColorAdapter);
+
+
+        refresh();
     }
 
     private RecyclerView.Adapter backgroundColorAdapter = new RecyclerView.Adapter() {
@@ -274,6 +290,7 @@ public class SettingFloatViewActivity extends BaseActivity {
             CropImage.ActivityResult result = data.getExtras().getParcelable(CropImage.CROP_IMAGE_EXTRA_RESULT);
             CropFileUtils.copyRoundImageFile(result.getUri().getPath(),FLOATVIEW_IMAGE_PATH);
             ArcTipViewController.getInstance().showForSettings();
+            refresh();
         } else if (requestCode == CropHelper.REQUEST_CROP && resultCode == -1) {
             if (data.getData() != null) {
                 CropImage.activity(data.getData())
@@ -283,6 +300,14 @@ public class SettingFloatViewActivity extends BaseActivity {
                         .start(SettingFloatViewActivity.this);
             }
             // CropHelper.handleResult(this, requestCode, resultCode, data);
+        }
+    }
+
+    private void refresh(){
+        if (new File(FLOATVIEW_IMAGE_PATH).exists()){
+            delPic.setVisibility(View.VISIBLE);
+        }else {
+            delPic.setVisibility(View.GONE);
         }
     }
 }
