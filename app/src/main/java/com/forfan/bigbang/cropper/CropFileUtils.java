@@ -13,6 +13,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.cropper.handler.CropImage;
 
 import java.io.*;
@@ -203,10 +204,12 @@ public class CropFileUtils {
         Bitmap bitmap = CropImage.toOvalBitmap(BitmapFactory.decodeFile(path));
 
         try {
-            if (!destFile.exists()) {
-                boolean result = destFile.createNewFile();
-                Log.d(TAG, "create new file result: " + result + " file : " + floatviewImagePath);
-            }
+            if(!BigBangApp.getInstance().getFilesDir().exists())
+                BigBangApp.getInstance().getFilesDir().mkdirs();
+//            if (!destFile.exists()) {
+//                boolean result = destFile.createNewFile();
+//                Log.d(TAG, "create new file result: " + result + " file : " + floatviewImagePath);
+//            }
             FileOutputStream out = new FileOutputStream(destFile);
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
             out.flush();

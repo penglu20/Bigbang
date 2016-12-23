@@ -332,7 +332,8 @@ public class BigBangActivity extends BaseActivity {
 
         @Override
         public void onTrans(String text) {
-            mAppsRecyclerView.setVisibility(View.GONE);
+            if (mAppsRecyclerView != null)
+                mAppsRecyclerView.setVisibility(View.GONE);
             if (TextUtils.isEmpty(text)) {
                 text = originString;
             }

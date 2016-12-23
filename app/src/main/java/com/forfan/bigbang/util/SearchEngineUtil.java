@@ -30,8 +30,8 @@ public class SearchEngineUtil {
             "\"url\":\"https://www.zhihu.com/search?q=\"\n" +
             "}\n" +
             ",{\n" +
-            "\"title\":\"有道\",\n" +
-            "\"url\":\"http://m.youdao.com/dict?q=\"\n" +
+            "\"title\":\"谷歌翻译\",\n" +
+            "\"url\":\"http://translate.google.cn/m/translate?q=\"\n" +
             "}\n" +
             "]";
     private static SearchEngineUtil searchEngineUtil;

@@ -18,6 +18,7 @@ import com.flask.colorpicker.ColorPickerView;
 import com.flask.colorpicker.OnColorSelectedListener;
 import com.flask.colorpicker.builder.ColorPickerClickListener;
 import com.flask.colorpicker.builder.ColorPickerDialogBuilder;
+import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.DividerItemDecoration;
 import com.forfan.bigbang.component.base.BaseActivity;
@@ -59,7 +60,7 @@ public class SettingFloatViewActivity extends BaseActivity {
     private int[] bigbangBackgroungColors;
     private int lastPickedColor;//只存rgb
     private int alpha;//只存alpha，0-100
-    public static String FLOATVIEW_IMAGE_PATH = "/data/data/com.forfan.bigbang/files" + File.separator + "floatview.png";
+    public static String FLOATVIEW_IMAGE_PATH = BigBangApp.getInstance().getFilesDir()+ File.separator + "floatview.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

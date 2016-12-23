@@ -3,6 +3,8 @@ package com.forfan.bigbang.util;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -55,6 +57,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     private ImageView floatImageView;
     private float mCurrentIconAlpha = 0.7f;
     int padding = ViewUtil.dp2px(3);
+    private boolean isChangedColor;
 
     public void showTipViewForStartActivity(Intent intent) {
 
@@ -527,8 +530,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                 mainHandler.removeMessages(HIDETOEDGE);
                 LogUtil.d("shang", "addView0");
                 if (new File(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH).exists()) {
-                    floatImageView.setImageURI(Uri.parse(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH));
-                    floatImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+                    floatImageView.setImageDrawable(new BitmapDrawable(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH));
                 } else {
                     floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.drawable.float_view_bg));
 
@@ -605,6 +607,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
     public synchronized void showForSettings() {
         isRemoved = true;
+        isChangedColor = true;
     }
 
     public synchronized void show() {
