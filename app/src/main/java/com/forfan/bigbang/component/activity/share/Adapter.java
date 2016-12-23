@@ -9,7 +9,8 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.shang.xposed.R;
+
+import com.forfan.bigbang.R;
 
 import java.util.List;
 
