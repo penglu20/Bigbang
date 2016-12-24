@@ -168,7 +168,7 @@ public class BigBangActivity extends BaseActivity {
         bigBangLayout.setLineSpace(line);
         bigBangLayout.setItemSpace(item);
         bigBangLayout.setTextPadding(padding);
-        bigBangLayoutWrapper.setBackgroundColorWithAlpha(lastPickedColor, alpha);
+//        bigBangLayoutWrapper.setBackgroundColorWithAlpha(lastPickedColor, alpha);
 
 
 //        if (!remainSymbol){

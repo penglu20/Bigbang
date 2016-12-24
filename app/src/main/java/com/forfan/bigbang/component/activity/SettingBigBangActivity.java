@@ -215,7 +215,7 @@ public class SettingBigBangActivity extends BaseActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 int value = (int) (  progress);
-                mBigBangLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,value);
+//                mBigBangLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,value);
                 cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
                 bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + value +"%");
                 SPHelper.save(ConstantUtil.BIGBANG_ALPHA, value);
@@ -304,7 +304,7 @@ public class SettingBigBangActivity extends BaseActivity {
 
         bigbangAlpha.setText(getString(R.string.setting_alpha_percent) + alpha +"%");
 
-        mBigBangLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,alpha);
+//        mBigBangLayoutWrap.setBackgroundColorWithAlpha(lastPickedColor,alpha);
         cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(lastPickedColor), Color.green(lastPickedColor), Color.blue(lastPickedColor)));
         mBigbangAlphaSeekBar.setProgress(alpha);
 
@@ -384,13 +384,13 @@ public class SettingBigBangActivity extends BaseActivity {
     };
 
     private void applyColor(int color){
-        mBigBangLayoutWrap.setBackgroundColorWithAlpha(color,alpha);
+//        mBigBangLayoutWrap.setBackgroundColorWithAlpha(color,alpha);
         cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(color), Color.green(color), Color.blue(color)));
     }
 
 
     private void applyColor(int color,int alpha){
-        mBigBangLayoutWrap.setBackgroundColorWithAlpha(color,alpha);
+//        mBigBangLayoutWrap.setBackgroundColorWithAlpha(color,alpha);
         cardView.setCardBackgroundColor(Color.argb((int) ((alpha / 100.0f) * 255), Color.red(color), Color.green(color), Color.blue(color)));
     }
 
