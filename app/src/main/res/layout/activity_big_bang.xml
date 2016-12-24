@@ -35,6 +35,7 @@
         android:layout_centerVertical="true"
         android:clipChildren="true"
         android:clipToPadding="true"
+        android:visibility="gone"
         android:layout_height="match_parent">
 
         <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
@@ -44,8 +45,7 @@
             android:layout_marginBottom="@dimen/dimen_50dp"
             android:layout_marginTop="@dimen/dimen_50dp"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            android:visibility="gone">
+            android:clipToPadding="false">
 
         </com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView>
     </LinearLayout>

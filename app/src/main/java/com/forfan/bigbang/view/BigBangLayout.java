@@ -260,6 +260,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     public void setTextSize(int mTextSize) {
         this.mTextSize = mTextSize;
+        mNeedReDetectInMeasure=true;
         if (mLines != null) {
             for (Line line : mLines) {
                 List<Item> items = line.getItems();
@@ -272,6 +273,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     public void setTextPadding(int padding){
         mTextPadding=padding;
+        mNeedReDetectInMeasure=true;
         if (mLines != null) {
             for (Line line : mLines) {
                 List<Item> items = line.getItems();

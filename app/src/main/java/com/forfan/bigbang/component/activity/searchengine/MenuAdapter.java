@@ -15,7 +15,6 @@
  */
 package com.forfan.bigbang.component.activity.searchengine;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +25,8 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.searchengine.listener.OnItemClickListener;
 import com.forfan.bigbang.entity.SearchEngine;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.SearchEngineUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuAdapter;
-
 
 import java.util.List;
 

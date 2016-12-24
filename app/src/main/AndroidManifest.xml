@@ -86,7 +86,7 @@
             android:launchMode="singleInstance"
             android:process=":monitor"
             android:theme="@style/ScreenCaptureTheme">
-            >
+
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -190,15 +190,15 @@
             android:name=".component.activity.WebActivity"
             android:launchMode="singleInstance"
             android:theme="@style/WebActivityTheme" />
-        <!-- android:autoRemoveFromRecents="true" -->
-        <!-- android:excludeFromRecents="true" -->
-        <!-- android:noHistory="true" -->
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.screen.ScreenCaptureActivity"
+            android:autoRemoveFromRecents="true"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
+            android:noHistory="true"
             android:theme="@style/ScreenCaptureTheme" />
 
         <service android:name=".component.activity.screen.ScreenCaptureService" />
@@ -242,10 +242,12 @@
             android:permission="android.permission.BIND_VOICE_INTERACTION"
             android:process=":monitor" />
 
-        <activity android:name=".component.activity.howtouse.HowToUseActivity"
-            android:theme="@style/BaseAppTheme"/>
-        <activity android:name=".component.activity.share.ShareAppManagerActivity"
-            android:theme="@style/BaseAppTheme"/>
+        <activity
+            android:name=".component.activity.howtouse.HowToUseActivity"
+            android:theme="@style/BaseAppTheme" />
+        <activity
+            android:name=".component.activity.share.ShareAppManagerActivity"
+            android:theme="@style/BaseAppTheme" />
     </application>
 
 </manifest>

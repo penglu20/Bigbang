@@ -393,12 +393,6 @@ public class CopyActivity extends BaseActivity {
                 return false;
         }
     }
-
-    protected void onPause() {
-        super.onPause();
-        this.overridePendingTransition(17432577, 17432577);
-    }
-
     public interface OnCopyNodeViewClickCallback {
         void onCopyNodeViewLongClick(CopyNodeView var1, boolean var2);
 

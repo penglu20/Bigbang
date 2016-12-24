@@ -70,6 +70,7 @@ public class BigBangActivity extends BaseActivity {
     int alpha;
     int lastPickedColor;
     private SwipeMenuRecyclerView mAppsRecyclerView;
+    private View mAppsRecyclerViewLL;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -178,13 +179,14 @@ public class BigBangActivity extends BaseActivity {
         originString = str;
         String finalStr = str;
         bigBangLayoutWrapper.setActionListener(bigBangActionListener);
-        bigBangLayoutWrapper.onSwitchType(SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false));
+        showSegment(SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false));
     }
 
     private void showAppList4OneStep() {
         mAppsRecyclerView = (SwipeMenuRecyclerView) findViewById(R.id.app_list);
+        mAppsRecyclerViewLL = findViewById(R.id.app_list_ll);
         if (SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, true)) {
-            mAppsRecyclerView.setVisibility(View.VISIBLE);
+            mAppsRecyclerViewLL.setVisibility(View.VISIBLE);
             mAppsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             List<ResolveInfoWrap> addedItems = SharedIntentHelper.listFilterIntents(this);
             mAppsRecyclerView.setHasFixedSize(true);// 如果Item够简单，高度是确定的，打开FixSize将提高性能。
@@ -222,7 +224,7 @@ public class BigBangActivity extends BaseActivity {
             mAppsRecyclerView.setAdapter(appsAdapter);
 
         } else {
-            mAppsRecyclerView.setVisibility(View.GONE);
+            mAppsRecyclerViewLL.setVisibility(View.GONE);
         }
 
     }
@@ -361,7 +363,7 @@ public class BigBangActivity extends BaseActivity {
         @Override
         public void onTrans(String text) {
             if (mAppsRecyclerView != null)
-                mAppsRecyclerView.setVisibility(View.GONE);
+                mAppsRecyclerViewLL.setVisibility(View.GONE);
             if (TextUtils.isEmpty(text)) {
                 text = originString;
             }
@@ -397,27 +399,7 @@ public class BigBangActivity extends BaseActivity {
 
         @Override
         public void onSwitchType(boolean isLocal) {
-            //
-            UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SWITCH_TYPE);
-            bigBangLayout.reset();
-            if (!isLocal) {
-                if (netWordSegments == null) {
-                    getSegment(originString);
-                } else {
-                    for (String t : netWordSegments) {
-                        bigBangLayout.addTextItem(t);
-                    }
-                    loading.hide();
-                    bigBangLayoutWrapper.setVisibility(View.VISIBLE);
-                }
-            } else {
-                List<String> txts = getLocalSegments(originString);
-                for (String t : txts) {
-                    bigBangLayout.addTextItem(t);
-                }
-                loading.hide();
-                bigBangLayoutWrapper.setVisibility(View.VISIBLE);
-            }
+            showSegment(isLocal);
         }
 
         @Override
@@ -438,6 +420,30 @@ public class BigBangActivity extends BaseActivity {
 
         }
     };
+
+    private void showSegment(boolean isLocal) {
+        loading.show();
+        UrlCountUtil.onEvent(UrlCountUtil.CLICK_BIGBANG_SWITCH_TYPE);
+        bigBangLayout.reset();
+        if (!isLocal) {
+            if (netWordSegments == null) {
+                getSegment(originString);
+            } else {
+                for (String t : netWordSegments) {
+                    bigBangLayout.addTextItem(t);
+                }
+                loading.hide();
+                bigBangLayoutWrapper.setVisibility(View.VISIBLE);
+            }
+        } else {
+            List<String> txts = getLocalSegments(originString);
+            for (String t : txts) {
+                bigBangLayout.addTextItem(t);
+            }
+            loading.hide();
+            bigBangLayoutWrapper.setVisibility(View.VISIBLE);
+        }
+    }
 
     @NonNull
     private List<String> getLocalSegments(String str) {
@@ -513,8 +519,8 @@ public class BigBangActivity extends BaseActivity {
     public void onBackPressed() {
         if (bigBangLayoutWrapper != null && bigBangLayoutWrapper.getVisibility() == View.GONE) {
             boolean stickSharebar = SPHelper.getBoolean(ConstantUtil.IS_STICK_SHAREBAR, false);
-            if (mAppsRecyclerView != null)
-                mAppsRecyclerView.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
+            if (mAppsRecyclerViewLL != null)
+                mAppsRecyclerViewLL.setVisibility(stickSharebar ? View.VISIBLE : View.GONE);
             bigBangLayoutWrapper.setVisibility(View.VISIBLE);
             if (transRl != null) {
                 transRl.setVisibility(View.GONE);

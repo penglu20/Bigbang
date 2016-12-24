@@ -94,6 +94,11 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
         getMenuInflater().inflate(R.menu.app_manger, menu);
         final SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setOnQueryTextListener(this);
+
+        final SearchView.SearchAutoComplete searchEditText = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+
+        searchEditText.setTextColor(getResources().getColor(R.color.white));
+
         searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
             @Override
             public void onViewAttachedToWindow(View v) {
@@ -110,7 +115,6 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        search(query);
         return false;
     }
 
@@ -134,6 +138,7 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
 
     @Override
     public boolean onQueryTextChange(String newText) {
+        search(newText);
         return false;
     }
 

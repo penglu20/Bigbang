@@ -43,6 +43,7 @@ public class ScreenCaptureService extends Service {
     public static final String SCREEN_CUT_RECT = "screen_cut";
     public static final String SCREEN_CUT_GRAPHIC_PATH = "graph_path";
     public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
+    public static final String SCREEN_WIDTH = "screen_width";
     public static final String MESSAGE = "message";
     public static final String FILE_NAME = "temp_file";
     private SimpleDateFormat dateFormat = null;
@@ -64,6 +65,7 @@ public class ScreenCaptureService extends Service {
     private DisplayMetrics metrics = null;
     private int mScreenDensity = 0;
     private int mNavigationBarHeight = 0;
+    private int mScreenWidth = 0;
 
     Handler handler = new Handler(Looper.getMainLooper());
     private Rect mRect;
@@ -126,6 +128,7 @@ public class ScreenCaptureService extends Service {
             mRect = intent.getParcelableExtra(SCREEN_CUT_RECT);
             mGraphicPath = intent.getParcelableExtra(SCREEN_CUT_GRAPHIC_PATH);
             mNavigationBarHeight = intent.getIntExtra(NAVIGATION_BAR_HEIGHT, 0);
+            mScreenWidth = intent.getIntExtra(SCREEN_WIDTH, 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -233,7 +236,7 @@ public class ScreenCaptureService extends Service {
         int pixelStride = planes[0].getPixelStride();
         int rowStride = planes[0].getRowStride();
         int rowPadding = rowStride - pixelStride * width;
-        Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_4444);
+        Bitmap bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
         bitmap.copyPixelsFromBuffer(buffer);
         image.close();
         LogUtil.d(TAG, "image data captured");
@@ -241,8 +244,28 @@ public class ScreenCaptureService extends Service {
         int totalHeight=height+mNavigationBarHeight;
         double multipleHeight= totalHeight*1.0/height;
 
-        if (mNavigationBarHeight!=0){
-            bitmap=Bitmap.createBitmap(bitmap, (int) (rowPadding / pixelStride / multipleHeight), 0, (int) (width/multipleHeight), height);
+        if (mNavigationBarHeight!=0 || width!=mScreenWidth ||rowPadding !=0){
+            int[] pixel=new int[width + rowPadding / pixelStride];
+            bitmap.getPixels(pixel,0,width + rowPadding / pixelStride,0,0,width + rowPadding / pixelStride,1);
+            int leftPadding=0;
+            int rightPadding=width + rowPadding / pixelStride;
+            for (int i=0;i<pixel.length;i++){
+                if (pixel[i]!=0){
+                    leftPadding=i;
+                    break;
+                }
+            }
+            for (int i=pixel.length-1;i>=0;i--){
+                if (pixel[i]!=0){
+                    rightPadding=i;
+                    break;
+                }
+            }
+            width=Math.min(width,mScreenWidth);
+            if (rightPadding-leftPadding>width/multipleHeight){
+                rightPadding= (int) (width/multipleHeight+leftPadding);
+            }
+            bitmap=Bitmap.createBitmap(bitmap,leftPadding, 0, rightPadding-leftPadding, height);
         }
         double multipleWidth =width*1.0/ bitmap.getWidth();
 

@@ -14,11 +14,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -166,6 +168,12 @@ public class ScreenCaptureActivity extends BaseActivity {
         return height;
     }
 
+    private int getScreenWidth(){
+        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
+        ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
+        return localDisplayMetrics.widthPixels;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startIntent() {
         new Handler().post(new Runnable() {
@@ -221,6 +229,7 @@ public class ScreenCaptureActivity extends BaseActivity {
             intent.putExtra(ScreenCaptureService.SCREEN_CUT_GRAPHIC_PATH, mGraphicPath);
         }
         intent.putExtra(ScreenCaptureService.NAVIGATION_BAR_HEIGHT,getNavigationBarHeight(this) );
+        intent.putExtra(ScreenCaptureService.SCREEN_WIDTH,getScreenWidth() );
         startService(intent);
     }
 
