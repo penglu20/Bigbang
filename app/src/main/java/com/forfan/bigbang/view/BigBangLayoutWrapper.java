@@ -230,7 +230,8 @@ public class BigBangLayoutWrapper extends FrameLayout  {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        int topPadding = 0;
+        int topPadding =0 ;
+
         if (stickHeader){
             topPadding = (int) (mHeader.getMeasuredHeight()*1.0/3);
             if (fullScreenMode){
@@ -238,6 +239,11 @@ public class BigBangLayoutWrapper extends FrameLayout  {
             }
             mHeader.layout(left,top+topPadding,right,top+topPadding+mHeader.getMeasuredHeight());
             top = top + topPadding + mHeader.getMeasuredHeight();
+        }else {
+            if (fullScreenMode) {
+                topPadding = (int) (mHeader.getMeasuredHeight() * 2.0 / 3);
+                top = top + topPadding ;
+            }
         }
         if (fullScreenMode){
             if (mBigBangLayout.getMeasuredHeight()<bottom-top- mBottom.getMeasuredHeight()*3.0/3){
