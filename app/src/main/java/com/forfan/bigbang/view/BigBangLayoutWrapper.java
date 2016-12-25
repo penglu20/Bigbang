@@ -1,6 +1,7 @@
 package com.forfan.bigbang.view;
 
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -10,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.util.ViewUtil;
 
 /**
  * Created by Administrator on 2016/11/21.
@@ -230,26 +232,26 @@ public class BigBangLayoutWrapper extends FrameLayout  {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        int topPadding =0 ;
+        int topPadding = 0;
 
         if (stickHeader){
-            topPadding = (int) (mHeader.getMeasuredHeight()*1.0/3);
+            topPadding += (int) (mHeader.getMeasuredHeight()*1.0/3);
             if (fullScreenMode){
-                topPadding=mHeader.getMeasuredHeight();
+                topPadding += mHeader.getMeasuredHeight()*2.0/3+ViewUtil.getNavigationBarHeight((Activity) getContext());
             }
             mHeader.layout(left,top+topPadding,right,top+topPadding+mHeader.getMeasuredHeight());
             top = top + topPadding + mHeader.getMeasuredHeight();
         }else {
             if (fullScreenMode) {
-                topPadding = (int) (mHeader.getMeasuredHeight() * 2.0 / 3);
+                topPadding += (int) (mHeader.getMeasuredHeight() * 2.0 / 3)+ViewUtil.getNavigationBarHeight((Activity) getContext());
                 top = top + topPadding ;
             }
         }
         if (fullScreenMode){
             if (mBigBangLayout.getMeasuredHeight()<bottom-top- mBottom.getMeasuredHeight()*3.0/3){
                 //显示在中部
-                int layoutBottom=(bottom-top)/2+mBigBangLayout.getMeasuredHeight()/2;
-                int layoutTop=(bottom-top)/2-mBigBangLayout.getMeasuredHeight()/2;
+                int layoutBottom= (int) ((bottom- mBottom.getMeasuredHeight()*3.0/3+top)/2+mBigBangLayout.getMeasuredHeight()/2);
+                int layoutTop= (int) ((bottom- mBottom.getMeasuredHeight()*3.0/3+top)/2-mBigBangLayout.getMeasuredHeight()/2);
                 mScrollView.layout(left,layoutTop,right,layoutBottom);
             }else {
                 mScrollView.layout(left, top, right, (int) (bottom - mBottom.getMeasuredHeight() * 3.0 / 3));
