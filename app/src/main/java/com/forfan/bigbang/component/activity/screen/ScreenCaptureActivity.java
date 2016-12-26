@@ -30,6 +30,7 @@ import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
+import com.forfan.bigbang.util.ViewUtil;
 import com.forfan.bigbang.view.MarkSizeView;
 
 public class ScreenCaptureActivity extends BaseActivity {
@@ -137,43 +138,6 @@ public class ScreenCaptureActivity extends BaseActivity {
         getWindow().getDecorView().setBackgroundColor(getResources().getColor(R.color.trans));
     }
 
-    public boolean isNavigationBarShow(){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            Display display = getWindowManager().getDefaultDisplay();
-            Point size = new Point();
-            Point realSize = new Point();
-            display.getSize(size);
-            display.getRealSize(realSize);
-            return realSize.y!=size.y;
-        }else {
-            boolean menu = ViewConfiguration.get(this).hasPermanentMenuKey();
-            boolean back = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-            if(menu || back) {
-                return false;
-            }else {
-                return true;
-            }
-        }
-    }
-
-    public int getNavigationBarHeight(Context activity) {
-        if (!isNavigationBarShow()){
-            return 0;
-        }
-        Resources resources = activity.getResources();
-        int resourceId = resources.getIdentifier("navigation_bar_height",
-                "dimen", "android");
-        //获取NavigationBar的高度
-        int height = resources.getDimensionPixelSize(resourceId);
-        return height;
-    }
-
-    private int getScreenWidth(){
-        DisplayMetrics localDisplayMetrics = new DisplayMetrics();
-        ((WindowManager) getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(localDisplayMetrics);
-        return localDisplayMetrics.widthPixels;
-    }
-
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void startIntent() {
         new Handler().post(new Runnable() {
@@ -228,8 +192,8 @@ public class ScreenCaptureActivity extends BaseActivity {
         }else {
             intent.putExtra(ScreenCaptureService.SCREEN_CUT_GRAPHIC_PATH, mGraphicPath);
         }
-        intent.putExtra(ScreenCaptureService.NAVIGATION_BAR_HEIGHT,getNavigationBarHeight(this) );
-        intent.putExtra(ScreenCaptureService.SCREEN_WIDTH,getScreenWidth() );
+        intent.putExtra(ScreenCaptureService.NAVIGATION_BAR_HEIGHT, ViewUtil.getNavigationBarHeight(this) );
+        intent.putExtra(ScreenCaptureService.SCREEN_WIDTH,ViewUtil.getScreenWidth(this) );
         startService(intent);
     }
 
