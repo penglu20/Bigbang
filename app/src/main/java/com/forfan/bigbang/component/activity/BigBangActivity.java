@@ -28,6 +28,7 @@ import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.RegexUtil;
+import com.forfan.bigbang.util.SearchEngineUtil;
 import com.forfan.bigbang.util.SharedIntentHelper;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
@@ -39,10 +40,13 @@ import com.umeng.onlineconfig.OnlineConfigAgent;
 import com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView;
 import com.yanzhenjie.recyclerview.swipe.touch.OnItemMoveListener;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -291,6 +295,17 @@ public class BigBangActivity extends BaseActivity {
             Uri uri = null;
             try {
 //                    Pattern p = Pattern.compile("^(http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$", Pattern.CASE_INSENSITIVE );
+                Pattern p = Pattern.compile("^((https?|ftp|news):\\/\\/)?([a-z]([a-z0-9\\-]*[\\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\\/[a-z0-9_\\-\\.~]+)*(\\/([a-z0-9_\\-\\.]*)(\\?[a-z0-9+_\\-\\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = p.matcher(text);
+                if (!matcher.matches()) {
+                    uri = Uri.parse(SearchEngineUtil.getInstance().getSearchEngines().get(SPHelper.getInt(ConstantUtil.BROWSER_SELECTION,0)).url + URLEncoder.encode(text, "utf-8"));
+                    isUrl = false;
+                } else {
+                    uri = Uri.parse(text);
+                    if (!text.startsWith("http"))
+                        text = "http://" + text;
+                    isUrl = true;
+                }
 
                 boolean t = SPHelper.getBoolean(ConstantUtil.USE_LOCAL_WEBVIEW, true);
                 Intent intent;
@@ -307,7 +322,6 @@ public class BigBangActivity extends BaseActivity {
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 }
                 startActivity(intent);
-//                finish();
             } catch (Exception e) {
                 e.printStackTrace();
                 Intent intent = new Intent();
@@ -316,11 +330,11 @@ public class BigBangActivity extends BaseActivity {
                 } else {
                     intent.putExtra("query", text);
                 }
-                intent = new Intent(Intent.ACTION_VIEW, uri);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setClass(BigBangActivity.this, WebActivity.class);
                 startActivity(intent);
 
             }
+
         }
 
         @Override
