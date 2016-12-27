@@ -81,6 +81,9 @@ ok 4.ÏÔÊ¾µ×À¸µÄÊ±ºò£¬Òª¿¼ÂÇµ×À¸¸ß¶È£¬²»È»½ØÍ¼»á´íÎ»£¬µ«ÊÇºÜ¶àÊÖ»úÊÇ¿ÉÒÔÒþ²Øµ×À¸µ
 
 
 ok 7.bibang½çÃæ£¬Èç¹û²»ÊÇbackÍË³ö£¬Ôò»áµ¼ÖÂÏÂ´Î½øÀ´»¹ÊÇÖ®Ç°µÄÎÄ×Ö
+ok 8.ÔÚ·Ö´Ê½çÃæ¶Ô¸ö±ð·Ö´Ê×öÐÞ¸Ä£¬¿É·ñÍ¨¹ý³¤°´Ä³Ò»¸ö·Ö´ÊÀ´±à¼­Ëü£¬¾ÍÏñÊó±êÑ¡ÖÐÄ³Ò»¸öµç×Ó±í¸ñ¿É±à¼­Ò»Ñù£¬Ö»²»¹ýÕâÀïÊÇ³¤°´À´ÊµÏÖ
+ok 17.È«¾Ö¸´ÖÆ½çÃæÓÅ»¯
+ok 1.½çÃæÉèÖÃÖÐ£¬Ìí¼ÓÑÕÉ«¡¢±³¾°µÈÉèÖÃ£¬
 
 
 0.ÀíÒ»ÀíÉèÖÃ½çÃæ
@@ -93,16 +96,11 @@ ok 7.bibang½çÃæ£¬Èç¹û²»ÊÇbackÍË³ö£¬Ôò»áµ¼ÖÂÏÂ´Î½øÀ´»¹ÊÇÖ®Ç°µÄÎÄ×Ö
 14.Î¢ÐÅqqÖÐÖ»¸ôÀë¡°·¢ËÍ¡±
 
 15.Í³¼Æ´òµãÉÏ´«µ½ÓÑÃË
-17.È«¾Ö¸´ÖÆ½çÃæÓÅ»¯
 
 
 
 
 
-1.½çÃæÉèÖÃÖÐ£¬Ìí¼ÓÑÕÉ«¡¢±³¾°µÈÉèÖÃ£¬
-2.com.tencent.mm.plugin.webview.ui.tools.WebViewUIµÈ (qqä¯ÀÀÆ÷£¬qq¿Õ¼ä£¬ÌÚÑ¶ÐÂÎÅ¿Í»§¶Ë¡¢ucä¯ÀÀÆ÷)ÒÉËÆQQä¯ÀÀÆ÷X5ÄÚºËµ¼ÖÂ»ñÈ¡µ½¸´ÖÆÄÚÈÝµÄÒª×öÌØÊâ´¦Àí
-5.ÔÚÎ¢ÐÅ¹«ÖÚºÅÖÐ£¬ÊÇÊ¹ÓÃµÄÆäËûÓ¦ÓÃµÄµã»÷¼à¿Ø·½Ê½£¬Òª¸Ä£»¶øÇÒµã»÷·¢ËÍÒ²»áµ¯³öBigBang£¬µÃÏëÏë½â¾ö·½°¸
-8.ÔÚ·Ö´Ê½çÃæ¶Ô¸ö±ð·Ö´Ê×öÐÞ¸Ä£¬¿É·ñÍ¨¹ý³¤°´Ä³Ò»¸ö·Ö´ÊÀ´±à¼­Ëü£¬¾ÍÏñÊó±êÑ¡ÖÐÄ³Ò»¸öµç×Ó±í¸ñ¿É±à¼­Ò»Ñù£¬Ö»²»¹ýÕâÀïÊÇ³¤°´À´ÊµÏÖ
 
 
 ¾­¼ÃÑ§ÈËÎÞ·¨·Ö¶ÎÑ¡

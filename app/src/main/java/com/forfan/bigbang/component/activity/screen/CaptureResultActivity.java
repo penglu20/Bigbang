@@ -71,6 +71,17 @@ public class CaptureResultActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        init();
+    }
+
+    private void init() {
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));

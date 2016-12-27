@@ -60,15 +60,14 @@
         </activity>
         <activity
             android:name=".component.activity.screen.CaptureResultActivity"
-            android:autoRemoveFromRecents="true"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance"
-            android:noHistory="true"
             android:process=":monitor"
             android:theme="@style/BigBangTheme" />
         <activity
             android:name=".component.activity.BigBangActivity"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:theme="@style/BigBangTheme">
 
             <!-- android:autoRemoveFromRecents="true" -->
@@ -86,6 +85,7 @@
             android:name=".component.activity.XposedBigBangActivity"
             android:launchMode="singleInstance"
             android:process=":monitor"
+            android:excludeFromRecents="true"
             android:theme="@style/ScreenCaptureTheme">
 
             <intent-filter>
@@ -191,6 +191,7 @@
         <activity
             android:name=".component.activity.WebActivity"
             android:launchMode="singleInstance"
+            android:excludeFromRecents="true"
             android:theme="@style/WebActivityTheme" />
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
