@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -53,6 +54,8 @@ public class WebActivity
     private WebView mWebView;
     private int browserSelection;
     private String mQuery;
+    private boolean isrefreshNotreload;
+    private int mHisSize;
 
     private void initAnim() {
         this.mEnterAnim = ObjectAnimator.ofFloat(this.mFrameLayout, "_enter", new float[]{0.0F, 1.0F}).setDuration(250L);
@@ -67,7 +70,9 @@ public class WebActivity
             }
         });
     }
-    private  boolean isFistIn = true;
+
+    private boolean isFistIn = true;
+
     private void initViews() {
         refreshSpinner();
 
@@ -120,6 +125,16 @@ public class WebActivity
                 return super.shouldOverrideUrlLoading(paramAnonymousWebView, paramAnonymousString);
 
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+
+                super.onPageFinished(view, url);
+                WebBackForwardList webBackForwardList = mWebView.copyBackForwardList();
+                if (webBackForwardList.getCurrentIndex() != -1 && webBackForwardList.getCurrentIndex() != webBackForwardList.getSize() - 1)
+                    refreshSpinnerTitle(url);
+
+            }
         });
         this.mWebView.setWebChromeClient(new WebChromeClient() {
             public void onProgressChanged(WebView paramAnonymousWebView, int paramAnonymousInt) {
@@ -130,8 +145,20 @@ public class WebActivity
                 WebActivity.this.mProgressBar.setProgress(paramAnonymousInt);
                 WebActivity.this.mProgressBar.show();
             }
+
         });
         this.mWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+    }
+
+    private void refreshSpinnerTitle(String mUrl) {
+        for (int i = 0; i < SearchEngineUtil.getInstance().getSearchEngines().size(); i++) {
+            String url = SearchEngineUtil.getInstance().getSearchEngines().get(i).url;
+            if (mUrl.contains(url)) {
+                isrefreshNotreload = true;
+                mTitleSpinner.setSelection(i);
+                return;
+            }
+        }
     }
 
     @NonNull
@@ -142,18 +169,22 @@ public class WebActivity
         mTitleSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==engines.size()-1){
+                if (position == engines.size() - 1) {
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SEARCH_ENGINE_WEB);
                     Intent intent = new Intent(WebActivity.this, SearchEngineActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_ENGINES, engines.get(position));
 //                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
                     if (isFistIn) {
                         isFistIn = false;
                         return;
                     }
-                    browserSelection=position;
+                    if (isrefreshNotreload) {
+                        isrefreshNotreload = false;
+                        return;
+                    }
+                    browserSelection = position;
                     toLoadUrl("", mQuery);
                 }
             }
@@ -164,11 +195,11 @@ public class WebActivity
 
             }
         });
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.simple_spinner_item,engines);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_spinner_item, engines);
         mTitleSpinner.setAdapter(adapter);
         mTitleSpinner.setSelection(browserSelection);
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
-        return ;
+        return;
     }
 
     private Uri getUri() {
@@ -187,10 +218,10 @@ public class WebActivity
     private void toLoadUrl(String url, String query) {
         if (!TextUtils.isEmpty(url)) {
             mWebView.loadUrl(url);
-        } else if(!TextUtils.isEmpty(query)) {
+        } else if (!TextUtils.isEmpty(query)) {
             String url_ = getUrlStrBySelect(query);
             mWebView.loadUrl(url_);
-        }else {
+        } else {
             ToastUtil.show(R.string.no_query);
             mWebView.loadUrl("http://www.baidu.com");
         }
@@ -199,10 +230,10 @@ public class WebActivity
 
 
     private String getUrlStrBySelect(String query) {
-        query = query.replaceAll("\n","");
+        query = query.replaceAll("\n", "");
         String url = SearchEngineUtil.getInstance().getSearchEngines().get(browserSelection).url;
-        if(!url.startsWith("http"))
-            url = "http://"+url;
+        if (!url.startsWith("http"))
+            url = "http://" + url;
         try {
             return url + URLEncoder.encode(query, "utf-8");
         } catch (UnsupportedEncodingException e) {

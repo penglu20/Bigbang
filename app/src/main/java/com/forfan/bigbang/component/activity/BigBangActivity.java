@@ -75,6 +75,7 @@ public class BigBangActivity extends BaseActivity {
     private SwipeMenuRecyclerView mAppsRecyclerView;
     private View mAppsRecyclerViewLL;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import com.flask.colorpicker.CircleColorDrawable;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
 import com.forfan.bigbang.view.ArcMenu;
@@ -216,6 +217,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                             }
                             break;
                         case HIDETOEDGE:
+
                             if (layoutParams.x == 0 && ((layoutParams.gravity & (Gravity.TOP | Gravity.LEFT)) == (Gravity.TOP | Gravity.LEFT))) {
                                 floatImageView.setImageDrawable(mContext.getResources().getDrawable(R.mipmap.floatview_hide_left));
                             } else {
@@ -526,6 +528,35 @@ public class ArcTipViewController implements View.OnTouchListener {
             }
         });
     }
+    private void showHideFloatImageView() {
+
+        if(layoutParams == null)
+            reuseSavedWindowMangerPosition();
+        if(isRemoved){
+            isRemoved = false;
+            mainHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    synchronized (ArcTipViewController.this) {
+                        reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), ViewUtil.dp2px(MIN_LENGTH));
+                        removeAllView();
+                        LogUtil.d("shang", "addView1");
+                        floatView.setAlpha(mCurrentIconAlpha);
+                        floatView.setScaleX(1);
+                        floatView.setScaleY(1);
+                        floatView.setOnTouchListener(ArcTipViewController.this);
+                        floatView.setVisibility(View.VISIBLE);
+                        mWindowManager.addView(floatView, layoutParams);
+
+//                    mWindowManager.updateViewLayout(floatView, layoutParams);
+                        isShowIcon = true;
+                        mainHandler.sendEmptyMessage(HIDETOEDGE);
+                    }
+                }
+            });
+        }
+
+    }
 
     private void showFloatIcon() {
         mainHandler.post(new Runnable() {
@@ -628,7 +659,6 @@ public class ArcTipViewController implements View.OnTouchListener {
             showFloatImageView();
             isRemoved = false;
         }
-
         mainHandler.post(new Runnable() {
             @Override
             public void run() {
@@ -646,7 +676,45 @@ public class ArcTipViewController implements View.OnTouchListener {
         return;
 
     }
+    private void moveToEdge2Hide() {
+        mainHandler.post(new Runnable() {
+            @Override
+            public void run() {
+                isMovingToEdge = true;
+                rotation = mWindowManager.getDefaultDisplay().getRotation();
 
+                int width = 0, height = 0;
+                int x = 0, y = 0;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
+                    Point point = new Point();
+                    mWindowManager.getDefaultDisplay().getSize(point);
+                    width = point.x;
+                    height = point.y;
+                } else {
+                    width = mWindowManager.getDefaultDisplay().getWidth();
+                    height = mWindowManager.getDefaultDisplay().getHeight();
+                }
+
+                if (rotation == Surface.ROTATION_0 || rotation == Surface.ROTATION_180) {
+                    x = SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_X, layoutParams.x);
+                    y = SPHelper.getInt(ConstantUtil.FLOAT_VIEW_PORT_Y, layoutParams.y);
+                } else {
+                    x = SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_X, layoutParams.x);
+                    y = SPHelper.getInt(ConstantUtil.FLOAT_VIEW_LAND_Y, layoutParams.y);
+                }
+                layoutParams.x = x;
+                layoutParams.y = y;
+                int desX = 0;
+                if (layoutParams.x > width / 2) {
+                    desX = width;
+                } else {
+                    desX = 0;
+                }
+                mainHandler.sendMessage(mainHandler.obtainMessage(HIDETOEDGE, desX));
+
+            }
+        });
+    }
 
     public synchronized void remove() {
         mainHandler.removeCallbacks(showViewRunnable);
@@ -700,7 +768,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         @Override
         public void run() {
             if (SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW, false)) {
-                show();
+               showHideFloatImageView();
             }
         }
     };
