@@ -387,6 +387,10 @@ public class CopyActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EDIT);
                 showSelectedText();
                 return true;
+            case R.id.action_select_all:
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_SELECT_ALL);
+                selectAll();
+                return true;
             case R.id.action_copy:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_COPY_ACTION);
                 setSelectTextToClipboard((TextView)null);
@@ -396,6 +400,21 @@ public class CopyActivity extends BaseActivity {
                 return false;
         }
     }
+
+    private void selectAll(){
+        int length=copyNodeViewContainer.getChildCount();
+        for (int i=0 ; i<length;i++){
+            View view=copyNodeViewContainer.getChildAt(i);
+            if (view instanceof  CopyNodeView){
+                ((CopyNodeView) view).setActiveState(true);
+                if (!selectedNodes.contains(view)){
+                    selectedNodes.add((CopyNodeView) view);
+                }
+            }
+        }
+        adjustActionBarWrap();
+    }
+
     public interface OnCopyNodeViewClickCallback {
         void onCopyNodeViewLongClick(CopyNodeView var1, boolean var2);
 

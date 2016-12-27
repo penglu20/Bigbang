@@ -83,6 +83,7 @@ public class UrlCountUtil {
     public static final String CLICK_UNIVERSAL_COPY_EXIT_FULLSCREEN_FAB= "click_universal_copy_exit_fullscreen_fab";
     public static final String CLICK_UNIVERSAL_COPY_COPY_FAB= "click_universal_copy_copy_fab";
     public static final String CLICK_UNIVERSAL_COPY_COPY_ACTION= "click_universal_copy_copy_action";
+    public static final String CLICK_UNIVERSAL_COPY_SELECT_ALL= "click_universal_copy_select_all";
 
     public static final String CLICK_DONATE_WECHAT_SAVE= "click_donate_wechat_save";
     public static final String CLICK_DONATE_ALIPAY_SAVE= "click_donate_alipay_save";

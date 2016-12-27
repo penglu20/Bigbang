@@ -47,6 +47,7 @@ public class CopyNodeView extends View {
                 return true;
             }
         });
+        setActiveState(false);
     }
 
     public void addToFrameLayout(FrameLayout var1, int var2) {
@@ -82,7 +83,8 @@ public class CopyNodeView extends View {
         if(this.selected) {
             this.setBackgroundColor(this.getContext().getResources().getColor(R.color.quarter_transparent));
         } else {
-            this.setBackgroundColor(0);
+//            this.setBackgroundColor(0);
+            this.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.universal_copy_node_bg_n));
         }
 
         this.sendAccessibilityEvent(0);

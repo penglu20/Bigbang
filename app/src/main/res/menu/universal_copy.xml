@@ -7,13 +7,19 @@
         android:title="@string/action_full_screen"
         app:showAsAction="always" />
 
+    <item android:icon="@drawable/universal_select_all"
+        android:id="@+id/action_select_all"
+        android:visible="true"
+        android:title="@string/select_all"
+        app:showAsAction="always" />
+
     <group android:id="@+id/copy_actions" android:visible="false">
         <item android:icon="@mipmap/ic_edit_white_24dp"
             android:id="@+id/action_select_mode"
             android:title="@string/action_select_mode"
             app:showAsAction="always" />
 
-        <item android:icon="@mipmap/ic_float_copy"
+        <item android:icon="@drawable/universal_copy"
             android:id="@+id/action_copy"
             android:title="@string/action_copy"
             app:showAsAction="always" />
