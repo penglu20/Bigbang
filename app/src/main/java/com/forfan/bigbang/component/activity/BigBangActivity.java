@@ -78,6 +78,10 @@ public class BigBangActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+    }
+
+    private void init() {
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
         boolean stickHeader = SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER, false);
@@ -183,6 +187,13 @@ public class BigBangActivity extends BaseActivity {
         String finalStr = str;
         bigBangLayoutWrapper.setActionListener(bigBangActionListener);
         bigBangLayoutWrapper.onSwitchType(SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false));
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        init();
     }
 
     private void showAppList4OneStep() {
@@ -317,11 +328,13 @@ public class BigBangActivity extends BaseActivity {
                         intent.putExtra("query", text);
                     }
                     intent.setClass(BigBangActivity.this, WebActivity.class);
+                    startActivity(intent);
                 } else {
                     intent = new Intent(Intent.ACTION_VIEW, uri);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
                 }
-                startActivity(intent);
             } catch (Exception e) {
                 e.printStackTrace();
                 Intent intent = new Intent();
@@ -332,7 +345,6 @@ public class BigBangActivity extends BaseActivity {
                 }
                 intent.setClass(BigBangActivity.this, WebActivity.class);
                 startActivity(intent);
-
             }
 
         }
@@ -368,7 +380,7 @@ public class BigBangActivity extends BaseActivity {
                 public void run() {
                     ClipboardUtils.setText(getApplicationContext(), finalText);
                     ToastUtil.show("已复制");
-//                    finish();
+                    finish();
                 }
             }, 100);
         }
