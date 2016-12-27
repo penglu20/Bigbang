@@ -29,6 +29,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.DonateActivity;
 import com.forfan.bigbang.component.activity.setting.AboutCard;
 
 
@@ -227,9 +228,9 @@ public class CountLinkMovementMethod extends ScrollingMovementMethod {
                         ToastUtil.show(R.string.not_foud_qq);
                     }
                     if(((URLSpan) link[0]).getURL() != null){
-                        if(AboutCard.zhifubao.startsWith(((URLSpan) link[0]).getURL())){
+                        if(DonateActivity.zhifubao.startsWith(((URLSpan) link[0]).getURL())){
                             UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_ABOUT_DONATE);
-                        }else if(AboutCard.qqJump.startsWith(((URLSpan) link[0]).getURL())){
+                        }else if(DonateActivity.qqJump.startsWith(((URLSpan) link[0]).getURL())){
                             UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_JOIN_QQ);
                         }
                     }

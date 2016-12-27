@@ -65,6 +65,7 @@
     <string name="about_content">This product is programmed by the design of Smartisan OS\'sBigBang，in order to allow more users to experience this kind of high efficient mode of operation！If you feel that just works，you can buy Smartisan M1 experience better feelings！\n This product is part of the content from the Internet and other open source components，If have to infringe your copyright，Please contact me ，Thx！\n if you have any opinion or suggestion to our products，welcoming feedback。\n Version：%1$s</string>
 
     <string name="donate">Donate A Cup of Coffee!</string>
+    <string name="donate_now">Open Alipay!</string>
     <string name="confirm">confirm</string>
     <string name="app_name">Smartisan BigBang</string>
     <string name="share_request_cancel_dislike">Let\'s forget it ...</string>
@@ -111,7 +112,7 @@
 
     <string name="white_list_tip">This setting do not include clipboard monitor.</string>
 
-    <string name="join_qq">"Please join our QQ club（290017771）"</string>
+    <string name="join_qq">"Click to join QQ club（290017771）"</string>
     <string name="action_copy">"Copy"</string>
     <string name="action_full_screen">"Full Screen"</string>
     <string name="action_select_mode">"Edit"</string>
