@@ -19,14 +19,12 @@
         app:titleTextColor="@color/white" />
 
 
-
-
     <ScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:clickable="false"
-        android:clipChildren="false"
-        android:background="@color/white">
+        android:clipChildren="false">
 
         <LinearLayout
             android:id="@+id/activity_intro"
@@ -38,18 +36,18 @@
                 android:id="@+id/del_pic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 android:layout_margin="@dimen/margin_double"
                 android:background="@drawable/button_white_stroke_green"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/setting_bigbang_activity_text_height"
-                    android:text="@string/del_floatview_image"
                     android:gravity="center_vertical|center_horizontal"
                     android:paddingLeft="@dimen/margin_double"
+                    android:text="@string/del_floatview_image"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
@@ -58,56 +56,30 @@
                 android:id="@+id/select_pic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 android:layout_margin="@dimen/margin_double"
                 android:background="@drawable/button_white_stroke_green"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/setting_bigbang_activity_text_height"
-                    android:text="@string/set_floatview_image"
                     android:gravity="center_vertical|center_horizontal"
                     android:paddingLeft="@dimen/margin_double"
+                    android:text="@string/set_floatview_image"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_normal" />
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_double"
-                android:visibility="gone"
-                android:background="@drawable/button_white_stroke_green"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/item_padding"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/setting_bigbang_activity_text_height"
-                    android:gravity="left|center_vertical"
-                    android:paddingLeft="@dimen/margin_double"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_normal" />
-
-                <android.support.v7.widget.AppCompatSeekBar
-                    android:id="@+id/set_item_padding"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/setting_bigbang_activity_line_height"
-                    android:max="100"
-                    android:paddingLeft="@dimen/margin_double"
-                    android:paddingRight="@dimen/margin_double" />
-
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_double"
                 android:background="@drawable/button_white_stroke_green"
-                android:padding="2dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="2dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -121,7 +93,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/bigbang_background"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
@@ -154,6 +126,31 @@
             </LinearLayout>
 
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/item_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_bigbang_activity_text_height"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_normal" />
+
+                <android.support.v7.widget.AppCompatSeekBar
+                    android:id="@+id/set_item_padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/setting_bigbang_activity_line_height"
+                    android:max="100"
+                    android:paddingLeft="@dimen/margin_double"
+                    android:paddingRight="@dimen/margin_double" />
+
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

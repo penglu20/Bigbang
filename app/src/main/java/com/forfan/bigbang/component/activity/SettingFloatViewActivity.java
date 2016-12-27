@@ -44,15 +44,15 @@ public class SettingFloatViewActivity extends BaseActivity {
     private static final int BIGBANG_BACKGROUND_COLOR_ARRAY_RES = R.array.bigbang_background_color;
 
 
-    private static final int MIN_ITEM_PADDING =30;
-    private static final int MAX_ITEM_PADDING =80;
+    private static final int MIN_ITEM_PADDING = 50;
+    private static final int MAX_ITEM_PADDING = 100;
     private static final int ALPHA_MIN = 20;
     private static final int ALPHA_MAX = 100;
 
 
     private SeekBar mItemPaddingSeekBar;
 
-    private TextView textSize, lineMargin, itemMargin, itemPadding;
+    private TextView  itemPadding;
     private TextView bigbangAlpha;
     private SeekBar mBigbangAlphaSeekBar;
 
@@ -81,9 +81,6 @@ public class SettingFloatViewActivity extends BaseActivity {
         mItemPaddingSeekBar = (SeekBar) findViewById(R.id.set_item_padding);
         mBigbangAlphaSeekBar = (SeekBar) findViewById(R.id.set_bigbang_alpha);
 
-        textSize = (TextView) findViewById(R.id.text_size);
-        lineMargin = (TextView) findViewById(R.id.line_margin);
-        itemMargin = (TextView) findViewById(R.id.item_margin);
         itemPadding = (TextView) findViewById(R.id.item_padding);
         bigbangAlpha = (TextView) findViewById(R.id.bigbang_alpha);
 
@@ -159,7 +156,7 @@ public class SettingFloatViewActivity extends BaseActivity {
         });
 
 
-        int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
+        int padding = (int) SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE, 100.0f);
         alpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100);
         lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#ccb9b9b9"));
 

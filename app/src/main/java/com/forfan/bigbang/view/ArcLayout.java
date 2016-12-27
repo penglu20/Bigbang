@@ -34,7 +34,8 @@ public class ArcLayout extends ViewGroup {
     public static final float DEFAULT_TO_DEGREES = 360.0f;
     private float mFromDegrees = DEFAULT_FROM_DEGREES;
     private float mToDegrees = DEFAULT_TO_DEGREES;
-    private static final int MIN_RADIUS = ViewUtil.dp2px(50);
+    private static final int DEFAULT_MIN_RADIUS = ViewUtil.dp2px(50);
+    private static int MIN_RADIUS = DEFAULT_MIN_RADIUS;
     private int mRadius;// 中心菜单圆点到子菜单中心的距离
     private boolean mExpanded = false;
 
@@ -151,6 +152,9 @@ public class ArcLayout extends ViewGroup {
         return mRadius;
     }
 
+    public void setMinRadius(float persent){
+        MIN_RADIUS= (int) (DEFAULT_MIN_RADIUS*persent);
+    }
 
     /**
      * 子菜单项大小

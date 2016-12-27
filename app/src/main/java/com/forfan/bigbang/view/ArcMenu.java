@@ -36,6 +36,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.ViewUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 /**
  * A custom view that looks like the menu in <a href="https://path.com">Path
@@ -108,6 +111,37 @@ public class ArcMenu extends FrameLayout {
             mArcLayout.setChildSize(newChildSize);
 
             a.recycle();
+        }
+    }
+    public void applySizeChange(float persents){
+        setArcLayoutSize((int) (ViewUtil.dp2px(146)* persents));
+        setMenuSize((int) (ViewUtil.dp2px(40)* persents));
+        setHintViewSize((int) (ViewUtil.dp2px(47)* persents));
+        int padding = (int) (ViewUtil.dp2px(10)*persents);
+        mHintView.setPadding(padding,padding,padding,padding);
+        mArcLayout.setMinRadius(persents);
+    }
+
+    public void setMenuSize(int radiu){
+        mArcLayout.setChildSize(radiu);
+    }
+
+    public void setHintViewSize(int width){
+        FrameLayout.LayoutParams layoutParams= (LayoutParams) mHintView.getLayoutParams();
+        if (layoutParams!=null){
+            layoutParams.width=width;
+            layoutParams.height=width;
+            mHintView.setLayoutParams(layoutParams);
+            mHintView.setMaxWidth(width);
+            mHintView.setMaxHeight(width);
+        }
+    }
+    public void setArcLayoutSize(int width){
+        ViewGroup.LayoutParams layoutParams= (LayoutParams) mArcLayout.getLayoutParams();
+        if (layoutParams!=null){
+            layoutParams.width=width;
+            layoutParams.height=width;
+            mArcLayout.setLayoutParams(layoutParams);
         }
     }
 

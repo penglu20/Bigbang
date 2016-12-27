@@ -184,6 +184,7 @@
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.SettingFloatViewActivity"
+            android:process=":monitor"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.searchengine.SearchEngineActivity"
