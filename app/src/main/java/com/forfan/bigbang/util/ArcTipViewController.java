@@ -528,8 +528,9 @@ public class ArcTipViewController implements View.OnTouchListener {
             }
         });
     }
-    private void showHideFloatImageView() {
-
+    public void showHideFloatImageView() {
+        if (!SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW, false))
+            return;
         if(layoutParams == null)
             reuseSavedWindowMangerPosition();
         if(isRemoved){
@@ -547,14 +548,12 @@ public class ArcTipViewController implements View.OnTouchListener {
                         floatView.setOnTouchListener(ArcTipViewController.this);
                         floatView.setVisibility(View.VISIBLE);
                         mWindowManager.addView(floatView, layoutParams);
-
-//                    mWindowManager.updateViewLayout(floatView, layoutParams);
                         isShowIcon = true;
-                        mainHandler.sendEmptyMessage(HIDETOEDGE);
                     }
                 }
             });
         }
+        mainHandler.sendEmptyMessage(HIDETOEDGE);
 
     }
 
@@ -767,9 +766,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     Runnable showViewRunnable = new Runnable() {
         @Override
         public void run() {
-            if (SPHelper.getBoolean(ConstantUtil.SHOW_FLOAT_VIEW, false)) {
                showHideFloatImageView();
-            }
         }
     };
 

@@ -27,6 +27,7 @@ import android.widget.TextView;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
@@ -58,6 +59,7 @@ public class ScreenCaptureActivity extends BaseActivity {
             return;
         }
 
+        ArcTipViewController.getInstance().showHideFloatImageView();
 
         initWindow();
         mMediaProjectionManager = (MediaProjectionManager) getApplication().getSystemService(Context.MEDIA_PROJECTION_SERVICE);

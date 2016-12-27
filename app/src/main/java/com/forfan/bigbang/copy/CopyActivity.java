@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
@@ -236,6 +237,8 @@ public class CopyActivity extends BaseActivity {
     protected void onCreate(Bundle var1) {
         int var3 = 0;
         super.onCreate(var1);
+        ArcTipViewController.getInstance().showHideFloatImageView();
+
         this.setContentView(R.layout.activity_copy_overlay);
         Toolbar toolbar = (Toolbar)this.findViewById(R.id.toolbar);
         if(toolbar != null) {
