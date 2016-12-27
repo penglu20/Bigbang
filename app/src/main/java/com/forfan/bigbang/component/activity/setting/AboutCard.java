@@ -105,8 +105,6 @@ public class AboutCard extends AbsCard {
         mContext.startActivity(intent);
     }
 
-    public  static String zhifubao="https://mobilecodec.alipay.com/client_download.htm?qrcode=ap13zwff7wggcfdn80";
-    public  static String qqJump= Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + "Ruk-hM-hLlIBoODmgTUpymQcrXjCPXqV").toString();
 
     private void showAboutDialog(){
         PackageManager manager = mContext.getPackageManager();
@@ -125,15 +123,10 @@ public class AboutCard extends AbsCard {
                 super.onBuildDone(dialog);
             }
         };
-        String donate=mContext.getString(R.string.donate);
-
-
-        String qq=mContext.getString(R.string.join_qq);
         ((SimpleDialog.Builder) builder).
                 message( Html.fromHtml(
                         String.format(mContext.getString(R.string.about_content),version).replaceAll("\n","<br />")
-                                +"<br /><a href='"+zhifubao+"'>"+donate+"</a>"
-                                +"<br /><br /><a href='"+qqJump+"'>"+qq+"</a>"))
+                                ))
                 .title(mContext.getString(R.string.about))
                 .positiveAction(mContext.getString(R.string.confirm));
         DialogFragment fragment = DialogFragment.newInstance(builder);
