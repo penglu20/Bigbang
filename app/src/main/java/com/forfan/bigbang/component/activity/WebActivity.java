@@ -176,6 +176,7 @@ public class WebActivity
                 } else {
                     UrlCountUtil.onEvent(UrlCountUtil.STATE_BROWSER_ENGINES, engines.get(position));
 //                SPHelper.save(ConstantUtil.BROWSER_SELECTION, position);
+                    browserSelection = position;
                     if (isFistIn) {
                         isFistIn = false;
                         return;
@@ -184,7 +185,6 @@ public class WebActivity
                         isrefreshNotreload = false;
                         return;
                     }
-                    browserSelection = position;
                     toLoadUrl("", mQuery);
                 }
             }
