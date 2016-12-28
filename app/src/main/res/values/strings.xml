@@ -401,5 +401,7 @@
 
 
     <string name="bb_long_press_toast">试试长按一个词组</string>
+    <string name="xp_monitor_click_hint">可以来设置xp双击炸词是否生效</string>
+    <string name="xp_monitor_click_msg">xposed双击炸词</string>
 
 </resources>

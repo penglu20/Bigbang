@@ -26,6 +26,7 @@ import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.XposedEnableUtil;
 import com.forfan.bigbang.view.DialogFragment;
+import com.forfan.bigbang.view.HintTextView;
 import com.forfan.bigbang.view.SimpleDialog;
 import com.shang.commonjar.contentProvider.SPHelper;
 
@@ -58,6 +59,7 @@ public class FunctionSettingCard extends AbsCard {
     private boolean isClickTotalSwitch = false;
 
     private Handler handler;
+    private HintTextView monitorClickHint;
 
     public FunctionSettingCard(Context context) {
         super(context);
@@ -79,9 +81,11 @@ public class FunctionSettingCard extends AbsCard {
 
         monitorClipBoardRl = (RelativeLayout) findViewById(R.id.monitor_clipboard_rl);
         monitorClickRl = (RelativeLayout) findViewById(R.id.monitor_click_rl);
+        monitorClickHint = (HintTextView) findViewById(R.id.monitor_click_tv);
         totalSwitchRL = (RelativeLayout) findViewById(R.id.total_switch_rl);
         if(XposedEnableUtil.isEnable()){
-            monitorClickRl.setVisibility(GONE);
+            monitorClickHint.setHint(mContext.getString(R.string.xp_monitor_click_hint));
+            monitorClickHint.setMsg(mContext.getString(R.string.xp_monitor_click_msg));
         }
         monitorClipBoardSwitch = (SwitchCompat) findViewById(R.id.monitor_clipboard_switch);
         monitorClickSwitch = (SwitchCompat) findViewById(R.id.monitor_click_switch);

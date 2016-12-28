@@ -418,4 +418,6 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
 
 
     <string name="bb_long_press_toast">try to long press a word</string>
+    <string name="xp_monitor_click_hint">can use to monitor whether double-click to bigbang</string>
+    <string name="xp_monitor_click_msg">Montior xposed double-click </string>
 </resources>

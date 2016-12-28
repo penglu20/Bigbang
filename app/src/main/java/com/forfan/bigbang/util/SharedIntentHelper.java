@@ -204,20 +204,20 @@ public class SharedIntentHelper {
             Intent intent = new Intent("android.intent.action.SEND");
             intent.setType("text/plain");
             intent.putExtra("android.intent.extra.TEXT", mSelectText);
-            intent.setPackage(item.resolveInfo.activityInfo.packageName);
+            intent.setClassName(item.resolveInfo.activityInfo.packageName, item.resolveInfo.activityInfo.name);
             bigBangActivity.startActivity(intent);
         } else if (item.type == TYPE_TEL) {
             Intent intent = new Intent("android.intent.action.DIAL", Uri.parse("tel:" + mSelectText));
-            intent.setPackage(item.resolveInfo.activityInfo.packageName);
+            intent.setClassName(item.resolveInfo.activityInfo.packageName, item.resolveInfo.activityInfo.name);
             bigBangActivity.startActivity(intent);
         } else if (item.type == TYPE_URL) {
             if (item.resolveInfo.activityInfo.packageName.equalsIgnoreCase("com.taobao.taobao")) {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://s.taobao.com/search?q=" + mSelectText));
-                intent.setPackage(item.resolveInfo.activityInfo.packageName);
+                intent.setClassName(item.resolveInfo.activityInfo.packageName, item.resolveInfo.activityInfo.name);
                 bigBangActivity.startActivity(intent);
             } else {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mSelectText));
-                intent.setPackage(item.resolveInfo.activityInfo.packageName);
+                intent.setClassName(item.resolveInfo.activityInfo.packageName, item.resolveInfo.activityInfo.name);
                 bigBangActivity.startActivity(intent);
             }
         }

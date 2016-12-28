@@ -212,7 +212,11 @@ public class BigBangActivity extends BaseActivity {
                 @Override
                 public void onItemClicked(ResolveInfoWrap item) {
                     if (!TextUtils.isEmpty(mSelectText)) {
-                        SharedIntentHelper.share(BigBangActivity.this, item, mSelectText);
+                        try {
+                            SharedIntentHelper.share(BigBangActivity.this, item, mSelectText);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     } else {
                         ToastUtil.show("请选择文字");
                     }
