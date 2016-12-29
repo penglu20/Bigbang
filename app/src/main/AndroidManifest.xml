@@ -253,6 +253,9 @@
         <activity
             android:name=".component.activity.share.ShareAppManagerActivity"
             android:theme="@style/BaseAppTheme" />
+        <activity
+            android:name=".component.activity.setting.XposedAppManagerActivity"
+            android:theme="@style/BaseAppTheme" />
     </application>
 
 </manifest>

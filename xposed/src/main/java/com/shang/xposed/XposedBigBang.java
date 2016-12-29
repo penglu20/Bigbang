@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -37,6 +38,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 public class XposedBigBang implements IXposedHookLoadPackage {
 
     private static final String TAG = "XposedBigBang";
+    public static final int NON_SELECTION=3;
 
 
     private final TouchEventHandler mTouchHandler = new TouchEventHandler();
@@ -54,8 +56,9 @@ public class XposedBigBang implements IXposedHookLoadPackage {
         // Logger.d(TAG, loadPackageParam.packageName);
         appXSP = new XSharedPreferences(PACKAGE_NAME, SP_NAME);
         appXSP.makeWorldReadable();
-        Set<String> disAppSet = appXSP.getStringSet(SP_DISABLE_KEY, null);
-        if (disAppSet != null && disAppSet.contains(loadPackageParam.packageName)) {
+
+        int type =appXSP.getInt(loadPackageParam.packageName,NON_SELECTION);
+        if (type==NON_SELECTION){
             return;
         }
 
@@ -85,7 +88,9 @@ public class XposedBigBang implements IXposedHookLoadPackage {
         // installer  不注入。 防止代码出错。进不去installer 中。
         if (!"de.robv.android.xposed.installer".equals(loadPackageParam.packageName)) {
             findAndHookMethod(Activity.class, "onTouchEvent", MotionEvent.class, new ActivityTouchEvent());
-            findAndHookMethod(View.class, "dispatchTouchEvent", MotionEvent.class, new ViewTouchEvent(loadPackageParam.packageName));
+            findAndHookMethod(View.class, "dispatchTouchEvent", MotionEvent.class, new ViewTouchEvent(loadPackageParam.packageName,type));
+            findAndHookMethod(View.class, "setOnClickListener", View.OnClickListener.class, new ViewOnClickListenerHooker(loadPackageParam.packageName,type));
+            findAndHookMethod(View.class, "setOnLongClickListener", View.OnLongClickListener.class, new ViewOnLongClickListenerHooker(loadPackageParam.packageName,type));
         }
     }
 //        } else {
@@ -269,22 +274,47 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
         }
     }
-
+    private boolean isKeyBoardOrLauncher=false;
+    private boolean isKeyBoardOrLauncherChecked=false;
     private boolean isKeyBoardOrLauncher(Context context, String packageName) {
-        if (context == null)
+        if (isKeyBoardOrLauncherChecked){
+            return isKeyBoardOrLauncher;
+        }
+        if (context == null) {
+            isKeyBoardOrLauncher=true;
+            isKeyBoardOrLauncherChecked=true;
             return true;
+        }
         for (String package_process : getInputMethodAsWhiteList(context)) {
-            if (package_process.equals(packageName))
+            if (package_process.equals(packageName)) {
+                isKeyBoardOrLauncher=true;
+                isKeyBoardOrLauncherChecked=true;
                 return true;
+            }
         }
         for (String package_process : getLauncherAsWhiteList(context)) {
-            if (package_process.equals(packageName))
+            if (package_process.equals(packageName)) {
+                isKeyBoardOrLauncher=true;
+                isKeyBoardOrLauncherChecked=true;
                 return true;
+            }
         }
-
+        isKeyBoardOrLauncher=false;
+        isKeyBoardOrLauncherChecked=true;
         return false;
     }
 
+    private void setClickTypeToTouchHandler(int type){
+        if (type == 0) {
+            mTouchHandler.setUseClick(true);
+        }else if (type == 1){
+            mTouchHandler.setUseLongClick(true);
+        }else if (type == 2){
+            mTouchHandler.setUseDoubleClick(true);
+        }else if (type == 3){
+
+        }
+    }
 
     private class ActivityTouchEvent extends XC_MethodHook {
 
@@ -304,8 +334,9 @@ public class XposedBigBang implements IXposedHookLoadPackage {
 
         private final String packageName;
 
-        public ViewTouchEvent(String packageName) {
+        public ViewTouchEvent(String packageName,int type) {
             this.packageName = packageName;
+            setClickTypeToTouchHandler(type);
         }
 
 //        @Override
@@ -325,12 +356,93 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             if (isKeyBoardOrLauncher(view.getContext(), packageName))
                 return;
             MotionEvent event = (MotionEvent) param.args[0];
-            Log.e(TAG,"after->View:"+ view.getClass().getSimpleName()+ " viewTouchEvent: " + event);
+//            Log.e(TAG,"after->View:"+ view.getClass().getSimpleName()+ " viewTouchEvent: " + event);
 
             if ((Boolean) param.getResult()) {
-                mTouchHandler.hookTouchEvent(view, event, mFilters, false, appXSP.getInt(SP_DOBLUE_CLICK, 1000));
+                mTouchHandler.hookTouchEvent(view, event, mFilters, true, appXSP.getInt(SP_DOBLUE_CLICK, 1000));
             }
         }
     }
+
+    private class ViewOnClickListenerHooker extends XC_MethodHook {
+
+        private final String packageName;
+
+        public ViewOnClickListenerHooker(String packageName,int type) {
+            this.packageName = packageName;
+            setClickTypeToTouchHandler(type);
+        }
+
+        @Override
+        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            super.beforeHookedMethod(param);
+            View view = (View) param.thisObject;
+            final View.OnClickListener listener = (View.OnClickListener) param.args[0];
+            if (isKeyBoardOrLauncher(view.getContext(), packageName))
+                return;
+//            if (TextView.class.isInstance(view)){
+                View.OnClickListener newListener=new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.onClick(v);
+                        mTouchHandler.hookOnClickListener(v,mFilters);
+                    }
+                };
+                param.args[0]=newListener;
+//            }
+        }
+
+//        @Override
+//        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+//            super.afterHookedMethod(param);
+//            View view = (View) param.thisObject;
+//            final View.OnClickListener listener = (View.OnClickListener) param.args[0];
+//            if (isKeyBoardOrLauncher(view.getContext(), packageName))
+//                return;
+//            if (TextView.class.isInstance(view)){
+//                View.OnClickListener newListener=new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        listener.onClick(v);
+//                        mTouchHandler.hookOnClickListener(v);
+//                    }
+//                };
+//                view.setOnClickListener(newListener);
+//            }
+//        }
+    }
+
+    private class ViewOnLongClickListenerHooker extends XC_MethodHook {
+
+        private final String packageName;
+
+        public ViewOnLongClickListenerHooker(String packageName,int type) {
+            this.packageName = packageName;
+            setClickTypeToTouchHandler(type);
+        }
+
+        @Override
+        protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+            super.beforeHookedMethod(param);
+            View view = (View) param.thisObject;
+            final View.OnLongClickListener listener = (View.OnLongClickListener) param.args[0];
+            if (isKeyBoardOrLauncher(view.getContext(), packageName))
+                return;
+//            if (TextView.class.isInstance(view)){
+                View.OnLongClickListener newListener=new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+//                        Log.e("ViewOnLongClickListener","onLongClick");
+                        mTouchHandler.hookOnLongClickListener(v,mFilters);
+                        return listener.onLongClick(v);
+                    }
+                };
+                param.args[0]=newListener;
+//            }
+        }
+
+    }
+
+
 
 }

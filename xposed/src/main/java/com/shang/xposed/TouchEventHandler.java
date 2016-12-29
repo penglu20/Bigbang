@@ -5,10 +5,17 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,6 +27,7 @@ import java.util.List;
  */
 
 public class TouchEventHandler {
+    private static final String TAG = "TouchEventHandler";
 
     static {
 
@@ -33,23 +41,276 @@ public class TouchEventHandler {
     public static int BIG_BANG_RESPONSE_TIME = 1000;
     public static int INVALID_INTERVAL = 60;
 
-    private static final String TAG = "TouchEventHandler";
     private static final Comparator<View> TOP_SORTED_CHILDREN_COMPARATOR;
 
     private final List<View> topmostChildList = new ArrayList<>();
     private View mCurrentView;
 
 
-    public boolean hookTouchEvent(View v, MotionEvent event, List<Filter> filters, boolean needVerify, int anInt) {
+    private Handler handler;
+    private GestureDetector gestureDetector;
+    private boolean hasTriggerLongClick=false;
+    private boolean hasTriggerClick=false;
+    private boolean hasTriggerDoubleClick=false;
+
+
+    private boolean useClick=false;
+    private boolean useLongClick=false;
+    private boolean useDoubleClick=false;
+
+    public void setUseClick(boolean useClick) {
+        this.useClick = useClick;
+    }
+
+    public void setUseLongClick(boolean useLongClick) {
+        this.useLongClick = useLongClick;
+    }
+
+    public void setUseDoubleClick(boolean useDoubleClick) {
+        this.useDoubleClick = useDoubleClick;
+    }
+
+    private class LongPressedRunnable implements Runnable{
+        private String text;
+        private float x,y;
+
+        public void setText(String text) {
+            this.text = text;
+        }
+
+        public float getX() {
+            return x;
+        }
+
+        public float getY() {
+            return y;
+        }
+
+        public void setPosition(float x, float y){
+            this.x=x;
+            this.y=y;
+        }
+
+        @Override
+        public void run() {
+            if (!TextUtils.isEmpty(text)){
+                try {
+                    text = text.replace("%","\1");
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + text.trim()));
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mCurrentView.getContext().startActivity(intent);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private LongPressedRunnable longPressedRunnable=new LongPressedRunnable();
+    private int mScaledTouchSlop;
+
+    public void hookOnClickListener(View v,List<Filter> filters){
+//        longPressedRunnable.setText(((TextView)v).getText().toString());
+        if (!useClick){
+            return;
+        }
+        if (!hasTriggerClick) {
+            hasTriggerClick=true;
+            String text=getTextFromView(v,filters);
+            Log.e(TAG,"hookOnClickListener text="+text);
+            longPressedRunnable.setText(text);
+            longPressedRunnable.run();
+        }
+    }
+
+    public void hookOnLongClickListener(View v,List<Filter> filters){
+        if (!useLongClick){
+            return;
+        }
+        if (!hasTriggerLongClick) {
+            hasTriggerLongClick=true;
+            String text=getTextFromView(v,filters);
+            longPressedRunnable.setText(text);
+            Log.e(TAG,"hookOnLongClickListener text="+text);
+            longPressedRunnable.run();
+        }
+    }
+
+    private String getTextFromView(View v,List<Filter> filters){
+        if (v instanceof ViewGroup){
+            String text="";
+            int chileCount = ((ViewGroup) v).getChildCount();
+            for (int i=0;i<chileCount;i++){
+                text +=getTextFromView(((ViewGroup) v).getChildAt(i),filters);
+            }
+            return text;
+        }else {
+            String tex = getTextInFilters(v,filters);
+            if (tex!=null){
+                return tex+"\n";
+            }
+            return "";
+        }
+    }
+
+    private String getTextInFilters(View v,List<Filter> filters){
+        for (Filter filter:filters){
+            if (filter.filter(v)){
+                return filter.getContent(v);
+            }
+        }
+        return null;
+    }
+
+    public boolean hookTouchEvent(View v, MotionEvent event, final List<Filter> filters, boolean needVerify, int anInt) {
+        hasTriggerLongClick=false;
+        hasTriggerClick=false;
+        hasTriggerDoubleClick=false;
+        if (handler==null){
+            handler=new Handler(Looper.getMainLooper());
+        }
+        if (gestureDetector==null){
+            gestureDetector=new GestureDetector(v.getContext(),new GestureDetector.SimpleOnGestureListener(){
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onSingleTapUp");
+                    if (!useClick){
+                        return false;
+                    }
+                    if (!hasTriggerClick){
+                        hasTriggerClick=true;
+                        String text=getTextFromView(mCurrentView,filters);
+                        Log.e(TAG,"onSingleTapUp text="+text);
+                        longPressedRunnable.setText(text);
+                        longPressedRunnable.run();
+                    }
+                    return super.onSingleTapUp(e);
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onLongPress");
+                    if (!useLongClick){
+                        return;
+                    }
+                    if (!hasTriggerLongClick){
+                        hasTriggerLongClick=true;
+                        String text=getTextFromView(mCurrentView,filters);
+                        Log.e(TAG,"onLongPress text="+text);
+                        longPressedRunnable.setText(text);
+                        longPressedRunnable.run();
+                    }
+                    super.onLongPress(e);
+                }
+
+                @Override
+                public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                    Log.e(TAG,"gestureDetector onScroll");
+                    return super.onScroll(e1, e2, distanceX, distanceY);
+                }
+
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                    Log.e(TAG,"gestureDetector onFling");
+                    return super.onFling(e1, e2, velocityX, velocityY);
+                }
+
+                @Override
+                public void onShowPress(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onShowPress");
+                    super.onShowPress(e);
+                }
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onDown");
+                    return super.onDown(e);
+                }
+
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onDoubleTap");
+                    return super.onDoubleTap(e);
+                }
+
+                @Override
+                public boolean onDoubleTapEvent(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onDoubleTapEvent");
+                    return super.onDoubleTapEvent(e);
+                }
+
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onSingleTapConfirmed");
+                    return super.onSingleTapConfirmed(e);
+                }
+
+                @Override
+                public boolean onContextClick(MotionEvent e) {
+                    Log.e(TAG,"gestureDetector onContextClick");
+                    return super.onContextClick(e);
+                }
+            });
+        }
+        gestureDetector.onTouchEvent(event);
         BIG_BANG_RESPONSE_TIME = anInt;
         boolean handle = false;
-        // Log.e("shang","event:"+event);
+//        Log.e(TAG,"hookTouchEvent event:"+event);
+        if (event.getAction() == MotionEvent.ACTION_DOWN){
+            if (useLongClick){
+                View targetTextView = getTargetView(v, event);
+                Log.e(TAG,"hookTouchEvent getTargetView:"+targetTextView);
+                if (targetTextView!=null && targetTextView!=mCurrentView){
+                    handler.removeCallbacks(longPressedRunnable);
+                }
+                mCurrentView=targetTextView;
+                String msg = null;
+                msg = getTextFromView(targetTextView,filters);
+                Log.e(TAG,"hookTouchEvent getTextFromView:"+msg);
+                if (msg != null && (needVerify || verifyText(msg))) {
+                    longPressedRunnable.setText(msg);
+                    longPressedRunnable.setPosition(event.getRawX(),event.getRawY());
+                }
+                handler.postDelayed(longPressedRunnable,1000);
+                return true;
+            }else if (useClick){
+                View targetTextView = getTargetView(v, event);
+                mCurrentView=targetTextView;
+            }
+        }
+        float currentX = event.getRawX();
+        float currentY = event.getRawY();
+
+        float x =longPressedRunnable.getX();
+        float y=longPressedRunnable.getY();
+        if (mScaledTouchSlop==0) {
+            mScaledTouchSlop = ViewConfiguration.get(v.getContext()).getScaledTouchSlop();
+        }
+
+        if (Math.abs(y - currentY) > mScaledTouchSlop || Math.abs(x - currentX) > mScaledTouchSlop) {
+            handler.removeCallbacks(longPressedRunnable);
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_CANCEL||event.getAction() == MotionEvent.ACTION_OUTSIDE){
+            handler.removeCallbacks(longPressedRunnable);
+        }
         if (event.getAction() == MotionEvent.ACTION_UP) {
-            View targetTextView = getTargetTextView(v, event, filters);
+            handler.removeCallbacks(longPressedRunnable);
+//            View targetTextView = getTargetTextView(v, event, filters);
+            View targetTextView = getTargetView(v, event);
+
+            long currentTimeMillis = System.currentTimeMillis();
+            if(targetTextView != mCurrentView) {
+                mCurrentView=targetTextView;
+                targetTextView.setTag(R.id.bigBang_$$, currentTimeMillis);
+                return false;
+            }
+            if (!useDoubleClick){
+                return handle;
+            }
             if (targetTextView != null) {
                 Logger.logClass(TAG, targetTextView.getClass());
                 long preClickTimeMillis = getClickTimeMillis(targetTextView);
-                long currentTimeMillis = System.currentTimeMillis();
                 if (preClickTimeMillis != 0) {
                     long interval = currentTimeMillis - preClickTimeMillis;
                     if (interval < INVALID_INTERVAL) {
@@ -57,25 +318,28 @@ public class TouchEventHandler {
                     }
                     if (interval < BIG_BANG_RESPONSE_TIME) {
                         String msg = null;
-                        for (Filter filter : filters) {
-                            msg = filter.getContent(targetTextView);
-                            if (msg != null) {
-                                break;
-                            }
-                        }
+//                        for (Filter filter : filters) {
+//                            msg = filter.getContent(targetTextView);
+//                            if (msg != null) {
+//                                break;
+//                            }
+//                        }
+                        msg=getTextFromView(targetTextView,filters);
                         if (msg != null && (needVerify || verifyText(msg))) {
-                            if(mCurrentView != null && targetTextView != mCurrentView)
-                                return false;
 
                             handle = true;
                             Context context = targetTextView.getContext();
                             try {
+                                msg = msg.replace("%","\1");
                                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + msg));
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 context.startActivity(intent);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                            mCurrentView=null;
+                            targetTextView.setTag(R.id.bigBang_$$, currentTimeMillis);
+                            return handle;
                         }
                     }
                 }
@@ -90,7 +354,7 @@ public class TouchEventHandler {
     public boolean hookAllTouchEvent(View v, MotionEvent event, List<Filter> filters, boolean needVerify, int anInt) {
         BIG_BANG_RESPONSE_TIME = anInt;
         boolean handle = false;
-        //  Log.e("shang","event:"+event);
+          Log.e("shang","event:"+event);
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             View targetTextView = getTargetTextView(v, event, filters);
             if (targetTextView != null) {
@@ -114,6 +378,7 @@ public class TouchEventHandler {
                             handle = true;
                             Context context = targetTextView.getContext();
                             try {
+                                msg = msg.replace("%","\1");
                                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + msg));
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 targetTextView.setTag(R.id.bigBang_$$, 0);
@@ -223,6 +488,28 @@ public class TouchEventHandler {
 
     public void setViewClickTimeMillis(View view, long timeMillis) {
         view.setTag(R.id.bigBang_$, timeMillis);
+    }
+
+    private View getTargetView(View view, MotionEvent event) {
+        if (isOnTouchRect(view, event)) {
+            if (view instanceof ViewGroup) {
+                getTopSortedChildren((ViewGroup) view, topmostChildList);
+                final int childCount = topmostChildList.size();
+                for (int i = 0; i < childCount; i++) {
+                    View child = topmostChildList.get(i);
+                    if (isOnTouchRect(child, event)) {
+                        if (child instanceof ViewGroup) {
+                            View target = getTargetView(child, event);
+                            return target==null?view:target;
+                        } else
+                            return child;
+                    }
+                }
+            } else {
+                return view;
+            }
+        }
+        return null;
     }
 
     private View getTargetTextView(View view, MotionEvent event, List<Filter> filters) {

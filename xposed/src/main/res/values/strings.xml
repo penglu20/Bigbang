@@ -8,8 +8,20 @@
     <string name="save">保存编辑框中的压力值</string>
     <string name="save_current_pressure">保存当前压力值</string>
     <string name="save_success">保存成功</string>
-    <string name="xposed_white_list">监控的应用</string>
+    <string name="xposed_white_list">设置触发方式</string>
     <string name="presser_hint">上方的Pressure Limit值越小，越灵敏，可能会导致误触，请适当调节</string>
     <string name="tap_screen">用力点击屏幕\n 通过多次点击\n保存压力值来触发BigBang\n 您也可以在上方的编辑框中编辑该值\n最后记得保存哦</string>
     <string name="save_pressure">请在上方编辑框中填写合适的数字并保存</string>
+
+
+
+    <string name="select_all">全选</string>
+    <string name="select_mode">多选</string>
+    <string name="set_selection">设置为</string>
+    <string name="select_cancel">取消选择</string>
+
+    <string name="system_app">系统应用</string>
+    <string name="user_app">第三方应用</string>
+    <string name="white_list_tip">此处设置不影响复制触发功能</string>
+    <string name="please_restart">保存成功，重启生效</string>
 </resources>

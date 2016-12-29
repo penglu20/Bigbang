@@ -33,7 +33,8 @@ public interface Filter {
         @Override
         public String getContent(View view) {
             if (view instanceof TextView) {
-                return ((TextView) view).getText().toString();
+                CharSequence text = ((TextView) view).getText();
+                return text==null?null:text.toString();
             }
             return null;
         }

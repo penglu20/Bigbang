@@ -13,12 +13,10 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
-import com.forfan.bigbang.component.activity.whitelist.WhiteListActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.shang.xposed.setting.XposedAppManagerActivity;
 
 import static android.content.Context.MODE_WORLD_READABLE;
 import static com.forfan.bigbang.util.ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED;
