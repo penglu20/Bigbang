@@ -3,6 +3,7 @@ package com.forfan.bigbang.util;
 import android.animation.Animator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -56,7 +57,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     private ArcMenu archMenu;
     private boolean isShowIcon;
     private ImageView floatImageView;
-    private float mCurrentIconAlpha = 0.7f;
+    private float mCurrentIconAlpha = 1f;
     int padding = ViewUtil.dp2px(3);
     int arcMenupadding = ViewUtil.dp2px(8);
     private boolean isChangedColor;
@@ -257,6 +258,12 @@ public class ArcTipViewController implements View.OnTouchListener {
     private void initView() {
         showBigBang = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
 
+        if (showBigBang) {
+            mCurrentIconAlpha =  SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
+        } else {
+            mCurrentIconAlpha = 0.6f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
+        }
+
         iconFloatView = (LinearLayout) View.inflate(mContext, R.layout.arc_float_icon, null);
         floatImageView = ((ImageView) iconFloatView.findViewById(R.id.float_image));
         acrFloatView = (RelativeLayout) View.inflate(mContext, R.layout.arc_view_float, null);
@@ -292,45 +299,23 @@ public class ArcTipViewController implements View.OnTouchListener {
     private void initArcMenu(ArcMenu menu, int[] itemDrawables) {
         menu.removeAllItemViews();
         final int itemCount = itemDrawables.length;
+        applySizeChange();
         if(archMenu != null){
-            if (SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0) != 0) {
-                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0));
-                archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
-            }
-            if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
-                archMenu.getHintView().setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f);
-            }
+            CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR,  Color.parseColor("#94a4bb")));
+            archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
+            archMenu.getHintView().setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
         }
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(acrFloatView.getContext());
             item.setImageResource(itemDrawables[i]);
             if (i == 0) {
-                if (showBigBang) {
-                    if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
-                        item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f);
-                    }
-                    mCurrentIconAlpha = 0.7f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f;
-                } else {
-
-                    if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
-                        item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f * 0.3f);
-                    }else {
-                        item.setAlpha(0.3f);
-                    }
-                    mCurrentIconAlpha = 0.3f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f;
-                }
+                item.setAlpha(mCurrentIconAlpha);
             }
             item.setPadding(arcMenupadding, arcMenupadding, arcMenupadding, arcMenupadding);
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
-            if (SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0) != 0) {
-                CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, 0));
-                item.setBackgroundDrawable(circleColorDrawable);
-            } else {
-                item.setBackgroundResource(R.drawable.float_view_image_bg);
-            }
-            if (SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) != 100) {
-                item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f);
-            }
+            CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR,  Color.parseColor("#94a4bb")));
+            item.setBackgroundDrawable(circleColorDrawable);
+            item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
 
 
 
@@ -345,7 +330,6 @@ public class ArcTipViewController implements View.OnTouchListener {
                 }
             });
         }
-        applySizeChange();
     }
 
     private void applySizeChange() {
@@ -671,9 +655,9 @@ public class ArcTipViewController implements View.OnTouchListener {
         isRemoved = true;
         isChangedColor = true;
         if (showBigBang) {
-            mCurrentIconAlpha = 0.7f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f;
+            mCurrentIconAlpha =  SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
         } else {
-            mCurrentIconAlpha = 0.3f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100) / 100f;
+            mCurrentIconAlpha = 0.6f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
         }
         MAX_LENGTH = DEFAULT_MAX_LENGTH *SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE,100)/ 100f;
         MIN_LENGTH = DEFAULT_MIN_LENGTH *SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE,100)/ 100f;
@@ -681,6 +665,8 @@ public class ArcTipViewController implements View.OnTouchListener {
         acrFloatView =null;
         remove();
         showFloatImageView();
+        mainHandler.removeCallbacks(removeViewRunnanble);
+        mainHandler.postDelayed(removeViewRunnanble,3000);
     }
 
     public synchronized void show() {

@@ -69,6 +69,7 @@ public class SettingBigBangActivity extends BaseActivity {
     private CheckBox isFullScreen;
     private CheckBox isStickHeader;
     private CheckBox isDefaultLocal;
+    private CheckBox autoAddBlanks;
 
     private RecyclerView backgroundRV;
     private int[] bigbangBackgroungColors;
@@ -113,6 +114,7 @@ public class SettingBigBangActivity extends BaseActivity {
         isStickHeader= (CheckBox) findViewById(R.id.is_stick_header);
         isStickSharebar= (CheckBox) findViewById(R.id.is_stick_sharebar);
         isDefaultLocal = (CheckBox) findViewById(R.id.is_default_local);
+        autoAddBlanks = (CheckBox) findViewById(R.id.auto_add_blanks);
 
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
@@ -258,6 +260,13 @@ public class SettingBigBangActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_DEFAULT_LOCAL,isChecked+"");
             }
         });
+        autoAddBlanks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.AUTO_ADD_BLANKS,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ADD_BLANKS,isChecked+"");
+            }
+        });
         isStickSharebar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -274,7 +283,7 @@ public class SettingBigBangActivity extends BaseActivity {
         int item = SPHelper.getInt(ConstantUtil.ITEM_MARGIN, ConstantUtil.DEFAULT_ITEM_MARGIN);
         int padding = SPHelper.getInt(ConstantUtil.ITEM_PADDING, (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING));
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
         boolean fullScreen=SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN,false);
         isFullScreen.setChecked(fullScreen);
         boolean stickHeader=SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER,false);
@@ -285,6 +294,7 @@ public class SettingBigBangActivity extends BaseActivity {
 
 
         boolean defaultLocal = SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false);
+        boolean addBlanks = SPHelper.getBoolean(ConstantUtil.AUTO_ADD_BLANKS, false);
 
 
         mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
@@ -322,6 +332,7 @@ public class SettingBigBangActivity extends BaseActivity {
         applyColor(lastPickedColor);
 
         isDefaultLocal.setChecked(defaultLocal);
+        autoAddBlanks.setChecked(addBlanks);
         bigbangBackgroungColors=getResources().getIntArray(BIGBANG_BACKGROUND_COLOR_ARRAY_RES);
         backgroundRV.setLayoutManager(new GridLayoutManager(this,4));
         backgroundRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.GRID_LIST));

@@ -157,15 +157,16 @@ public class SettingFloatViewActivity extends BaseActivity {
 
 
         int padding = (int) SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE, 100.0f);
-        alpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#ccb9b9b9"));
+        alpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70);
+        lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
 
 
         mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
-        mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
+        mItemPaddingSeekBar.setProgress((int) ((MAX_ITEM_PADDING- MIN_ITEM_PADDING)));
         mItemPaddingSeekBar.setProgress((int) ((padding - MIN_ITEM_PADDING)));
 
-        mBigbangAlphaSeekBar.setProgress(ALPHA_MAX -ALPHA_MIN);
+
+        bigbangAlpha.setText(getString(R.string.setting_floatview_alpha_percent) + alpha + "%");
         mBigbangAlphaSeekBar.setProgress(alpha-ALPHA_MIN);
 
 

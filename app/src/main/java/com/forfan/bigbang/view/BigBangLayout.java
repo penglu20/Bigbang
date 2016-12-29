@@ -33,11 +33,14 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.ViewUtil;
+import com.shang.commonjar.contentProvider.SPHelper;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static com.forfan.bigbang.util.RegexUtil.SYMBOL_REX;
 
 public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionListener, NestedScrollingChild {
 
@@ -295,7 +298,8 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
     public void addTextItem(String text) {
         mNeedReDetectInMeasure=true;
-        if (TextUtils.isEmpty(text) || text.equals(" ")) {
+//        if (TextUtils.isEmpty(text) || text.equals(" ")) {
+        if (TextUtils.isEmpty(text)) {
             return;
         }
         if (text.contains(TAB)) {
@@ -384,7 +388,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
                 child.setVisibility(VISIBLE);
                 if (!showSymbol) {
-                    if (content.matches("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]")) {
+                    if (content.matches(SYMBOL_REX)) {
                         child.setVisibility(GONE);
                         continue;
                     }
@@ -955,18 +959,21 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         String getSelectedText() {
             StringBuilder builder = new StringBuilder();
             List<Item> items = getItems();
+            boolean autoAddBlanks = SPHelper.getBoolean(ConstantUtil.AUTO_ADD_BLANKS,false);
             if (items != null && items.size() > 0) {
                 for (Item item : items) {
                     if (item.isSelected()) {
                         String txt = item.getText().toString();
                         builder.append(txt);
-                        if (txt.matches("[a-zA-Z0-9]*")) {
-                            builder.append(" ");
+                        if (autoAddBlanks) {
+                            if (txt.matches("[a-zA-Z0-9]*")) {
+                                builder.append(" ");
+                            }
                         }
                     }
                 }
             }
-            return builder.toString();
+            return builder.toString().replaceAll("  "," ");
         }
 
     }
@@ -1012,10 +1019,6 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
         CharSequence getText() {
             return ((TextView)view).getText().toString();
-        }
-
-        CharSequence getSelectText() {
-            return ((TextView) view).getText();
         }
 
         void longPressed(){

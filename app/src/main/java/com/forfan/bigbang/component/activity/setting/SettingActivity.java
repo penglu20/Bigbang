@@ -82,7 +82,7 @@ public class SettingActivity extends BaseActivity {
 
                         //// TODO: 2016/11/1 第一期先不上分享功能了
                         // TODO: 2016/10/31 如果用户选择不分享，应该短期内不再显示
-                        if (!hasShared && openTimes >= 3 && openTimes % 5 == 0) {
+                        if (!hasShared && openTimes >= 3 && openTimes % 8 == 0) {
                             ViewStub viewStub = (ViewStub) findViewById(R.id.share_card);
                             viewStub.inflate();
                             ShareCard shareCard= (ShareCard) findViewById(R.id.share);

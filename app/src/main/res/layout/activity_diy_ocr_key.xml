@@ -183,6 +183,21 @@
                     android:src="@drawable/diy_ocr_key_7" />
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_double"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    style="@style/diyOcrKeyTextStyle"
+                    android:text="@string/ocr_step12" />
+
+            </LinearLayout>
+
+
             <RelativeLayout
                 android:id="@+id/ocr_diy_key_rl"
                 android:layout_width="match_parent"

@@ -44,6 +44,7 @@ public class ConstantUtil {
     public static final String REMAIN_SYMBOL="remain_symbol";
     public static final String REMAIN_SECTION="remain_section";
     public static final String DEFAULT_LOCAL="default_local";
+    public static final String AUTO_ADD_BLANKS="auto_add_blanks";
 
     //floatview
     public static final String FLOAT_SWITCH_STATE="float_switch_state";
@@ -91,7 +92,7 @@ public class ConstantUtil {
     public static final String IS_STICK_HEADER ="is_stick_header";
     public static final String IS_STICK_SHAREBAR ="is_stick_sharebar";
 
-    public static final String FLOATVIEW_SIZE ="floatview_size";
+    public static final String FLOATVIEW_SIZE ="floatview_size_";
     public static final String FLOATVIEW_ALPHA ="floatview_alpha";
     public static final String FLOATVIEW_DIY_BG_COLOR ="floatview_diy_bg_color";
 
@@ -99,7 +100,7 @@ public class ConstantUtil {
     public static final int DEFAULT_TEXT_SIZE=14;
     public static final int DEFAULT_LINE_MARGIN=8;
     public static final int DEFAULT_ITEM_MARGIN=0;
-    public static final int DEFAULT_ITEM_PADDING=6;
+    public static final int DEFAULT_ITEM_PADDING=10;
 
 
     //whiteListActivity

@@ -250,7 +250,7 @@
 
     <string name="set_diy_ocr_key">Set OCR KEY For Free</string>
     <string name="set_diy_ocr_key_ok">Set OCR KEY Success</string>
-    <string name="set_diy_ocr_key_hint">Input your KEY</string>
+    <string name="set_diy_ocr_key_hint">Input your KEY(with no blanks)</string>
     <string name="ocr_step1">In the next few steps, you can use the free OCR feature 5000 times per month. \nYou can also donate 10 yuan to the author, and postscript need KEY, by the author to help you apply.</string>
     <string name="ocr_step2">Step 1: Use your browser to open the URL: https://www.microsoft.com/cognitive-services/ \n(Click to Copy URL)</string>
     <string name="ocr_step3">Step 2: Click "My account" in the upper right corner of the page, as shown below.</string>
@@ -261,7 +261,8 @@
     <string name="ocr_step8">Step 7: After the mail authentication is successful, it will automatically jump to the following page, click the red box button.</string>
     <string name="ocr_step9">Step 8: In the product list check the following figure shows the function, probably in the fourth row position.</string>
     <string name="ocr_step10">Step 9: Check the "Agree Agreement", then click on the submission, as shown below.</string>
-    <string name="ocr_step11">Step 10: Copy your KEY, as shown below, and fill in the final input to the page box.</string>
+    <string name="ocr_step11">Step 10: Copy your KEY, as shown below, and fill in the final input to the page box, and confirm.</string>
+    <string name="ocr_step12">Step 11: Use OCR to verify whether the success, if a 401 error, it may be filled in the KEY contains spaces, or the eighth step is not correct. If not, it may be Microsoft server needs to be synchronized, you can wait for some time to try again.</string>
     <string name="add">add</string>
     <string name="save_search_engine_fail">The name or URL can not be empty</string>
     <string name="delete">Delete</string>
@@ -279,6 +280,7 @@
     <string name="setting_search_engine_web">Setting Search Engine</string>
 
 
+    <string name="auto_add_blanks">Auto add blanks after English words\n(Spaces are treated as normal symbols by default, and are not added when unchecked)</string>
     <string name="is_default_local">Use local segment as default</string>
     <string name="is_full_screen">Show in full screen</string>
     <string name="is_stick_header">Keep Header Button At The Top</string>
@@ -328,11 +330,11 @@
     <string name="save_success">Save success</string>
     <string name="save_fail">Save failed</string>
     <string name="title_cropper">Crop Picture</string>
-    <string name="setting_floatview_size">Suspended window size</string>
+    <string name="setting_floatview_size">Floatview size</string>
     <string name="set_floatview_image">Customize the floatview image</string>
     <string name="del_floatview_image">Recover default the floatview image</string>
     <string name="set_floatview_background">Expand button background set</string>
-    <string name="setting_floatview_alpha_percent">Expand Button Background Opacity：</string>
+    <string name="setting_floatview_alpha_percent">Floatview Background Opacity：</string>
     <string name="setting_alpha_percent">Background Opacity：</string>
 
 

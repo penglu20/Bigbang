@@ -87,7 +87,7 @@ public class BigBangActivity extends BaseActivity {
         boolean fullScreen = SPHelper.getBoolean(ConstantUtil.IS_FULL_SCREEN, false);
         boolean stickHeader = SPHelper.getBoolean(ConstantUtil.IS_STICK_HEADER, false);
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
         int value = (int) ((alpha / 100.0f) * 255);
 
         if (fullScreen) {
@@ -475,6 +475,7 @@ public class BigBangActivity extends BaseActivity {
         }
     }
 
+    private static final String DEVIDER="__DEVIDER___DEVIDER__";
     @NonNull
     private List<String> getLocalSegments(String str) {
         List<String> txts = new ArrayList<String>();
@@ -489,18 +490,18 @@ public class BigBangActivity extends BaseActivity {
             char next = str.charAt(i + 1);
             if ((RegexUtil.isChinese(first) && !RegexUtil.isChinese(next)) || (!RegexUtil.isChinese(first) && RegexUtil.isChinese(next)) ||
                     (Character.isLetter(first) && !Character.isLetter(next)) || (Character.isDigit(first) && !Character.isDigit(next))) {
-                s = s + first + " ";
+                s = s + first + DEVIDER;
             } else if (RegexUtil.isSymbol(first)) {
-                s = s + " " + first + " ";
+                s = s + DEVIDER + first + DEVIDER;
             } else {
                 s = s + first;
             }
         }
         str = s;
-        str.replace("\n", " \n ");
-        String[] texts = str.split(" ");
+        str.replace("\n", DEVIDER+"\n"+DEVIDER);
+        String[] texts = str.split(DEVIDER);
         for (String text : texts) {
-            if (text.equals(" "))
+            if (text.equals(DEVIDER))
                 continue;
             //当首字母是英文字母时，默认该字符为英文
             if (RegexUtil.isEnglish(text)) {

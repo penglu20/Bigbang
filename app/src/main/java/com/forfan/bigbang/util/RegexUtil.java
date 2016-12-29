@@ -9,6 +9,8 @@ import java.util.regex.Pattern;
 
 public class RegexUtil {
 
+    public static final String SYMBOL_REX = "[ ,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]";
+
     public static boolean isEnglish(String charaString){
         return charaString.matches("^[a-zA-Z]*-*[a-zA-Z]*");
     }
@@ -76,6 +78,6 @@ public class RegexUtil {
     }
     public static boolean isSymbol(char a){
         String s = a+"";
-       return s.matches("[,\\./:\"\\\\\\[\\]\\|`~!@#\\$%\\^&\\*\\(\\)_\\+=<->\\?;'，。、；：‘’“”【】《》？\\{\\}！￥…（）—=]");
+       return s.matches(SYMBOL_REX);
     }
 }

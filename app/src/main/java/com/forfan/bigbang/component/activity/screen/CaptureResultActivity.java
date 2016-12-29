@@ -54,7 +54,7 @@ public class CaptureResultActivity extends BaseActivity {
     private TextView share, save, ocr, bigbang;
     private TextView ocrResult;
     int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
-    int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
+    int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
 
     private void initWindow() {
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
@@ -84,7 +84,7 @@ public class CaptureResultActivity extends BaseActivity {
     private void init() {
         OnlineConfigAgent.getInstance().updateOnlineConfig(getApplicationContext());
         alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
-        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#000000"));
+        lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
 
         CardView cardView = new CardView(this);
         View view = LayoutInflater.from(this).inflate(R.layout.activity_capture_result, null, false);

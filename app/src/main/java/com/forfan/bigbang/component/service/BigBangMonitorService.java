@@ -189,9 +189,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
     @Override
     public void onAccessibilityEvent(AccessibilityEvent event) {
-        if (!isRun){
-            return;
-        }
+        //虚拟手机按键处理，优先级高于是否点击分词的判断
         if ((event.getEventType() == TYPE_VIEW_LONG_CLICKED) && ("com.android.systemui".equals(event.getPackageName())))
         {
             if (TextUtils.isEmpty(event.getContentDescription())){
@@ -205,6 +203,9 @@ public class BigBangMonitorService extends AccessibilityService {
             }else if (!TextUtils.isEmpty(recent) && event.getContentDescription().equals(recent)){
                 KeyPressedTipViewController.getInstance().onKeyLongPress(KeyEvent.KEYCODE_APP_SWITCH);
             }
+        }
+        if (!isRun){
+            return;
         }
         LogUtil.d(TAG,"onAccessibilityEvent:"+event);
         int type=event.getEventType();

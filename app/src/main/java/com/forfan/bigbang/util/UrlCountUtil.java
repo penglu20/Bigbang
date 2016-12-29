@@ -126,6 +126,7 @@ public class UrlCountUtil {
     public static final String STATUS_SET_BB_STICK_HEAD="status_set_bb_stick_head";
     public static final String STATUS_SET_BB_STICK_SHAREBAR="status_set_bb_stick_sharebar";
     public static final String STATUS_SET_BB_DEFAULT_LOCAL="status_set_bb_default_local";
+    public static final String STATUS_SET_BB_ADD_BLANKS="status_set_bb_add_blanks";
 
 
     public static final String STATUS_DIY_OCR_KEY="status_diy_ocr_key";

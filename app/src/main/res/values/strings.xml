@@ -241,7 +241,7 @@
 
     <string name="set_diy_ocr_key">免费设置OCR秘钥</string>
     <string name="set_diy_ocr_key_ok">设置OCR秘钥成功</string>
-    <string name="set_diy_ocr_key_hint">请输入您的OCR秘钥</string>
+    <string name="set_diy_ocr_key_hint">请输入OCR秘钥(不能包含空格)</string>
     <string name="ocr_step1">通过下面几步，您就可以免费使用每个月5000次的图片OCR功能。\n您也可以给我们捐赠10元，我们给您提供我们付费的KEY，不过请不要传播，以防KEY过快失效。</string>
     <string name="ocr_step2">第一步：使用浏览器打开网址： https://www.microsoft.com/cognitive-services/  \n（点击复制网址）</string>
     <string name="ocr_step3">第二步：点击网页右上角的“My account（我的账户）”，如下图。</string>
@@ -252,7 +252,8 @@
     <string name="ocr_step8">第七步：邮件验证成功以后，会自动跳转到下图中的页面，点击红框中的按钮。</string>
     <string name="ocr_step9">第八步：在产品列表中勾选下图中所示的功能，大概在第四排的位置。</string>
     <string name="ocr_step10">第九步：勾选“同意协议”，然后点击提交，如下图。</string>
-    <string name="ocr_step11">第十步：将你的KEY复制(其中任何一个即可)，如下图，并填写到本页面最后的输入框中。</string>
+    <string name="ocr_step11">第十步：将你的KEY复制(其中任何一个即可)，如下图，并填写到本页面最后的输入框中，并确认。</string>
+    <string name="ocr_step12">第十一步：使用OCR验证是否成功，如果出现401错误，可能是填写的KEY包含空格，或者第八步操作不正确，也可能是微软服务器需要同步，可以稍等一段时间再试。</string>
     <string name="save_search_engine_fail">名字或网址不能为空</string>
     <string name="add">添加</string>
     <string name="delete">删除</string>
@@ -268,6 +269,7 @@
 
     <string name="setting_search_engine_web">设置搜索引擎</string>
 
+    <string name="auto_add_blanks">自动在选中的单词和数字后添加空格\n(空格默认被当做普通符号处理，不选中则不添加)</string>
     <string name="is_default_local">默认使用本地分词</string>
     <string name="is_full_screen">全屏显示分词</string>
     <string name="is_stick_header">功能键保持在顶部</string>
@@ -312,11 +314,11 @@
     <string name="crop_image_menu_crop">剪裁</string>
     <string name="pick_image_intent_chooser_title">选择来源</string>
     <string name="title_cropper">剪裁图片</string>
-    <string name="setting_floatview_size">悬浮窗大小：</string>
+    <string name="setting_floatview_size">悬浮球大小：</string>
     <string name="set_floatview_image">自定义悬浮球图片</string>
     <string name="del_floatview_image">恢复默认悬浮球图片</string>
-    <string name="set_floatview_background">设置展开时按钮背景</string>
-    <string name="setting_floatview_alpha_percent">展开按钮背景不透明度:</string>
+    <string name="set_floatview_background">设置展开时按键背景</string>
+    <string name="setting_floatview_alpha_percent">悬浮球不透明度:</string>
 
 
     <string name="open_voice_setting">设置辅助应用程序</string>
