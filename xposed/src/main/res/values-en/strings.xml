@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="cancel">cancel</string>
-    <string name="xposed_whitelist">Xposed White List</string>
-    <string name="xposed_whiteIntro">Block the Apps you donnot want to be montiored</string>
+    <string name="xposed_whitelist">Xposed Click type Settings</string>
+    <string name="xposed_whiteIntro">Set more appropriate trigger for different applications</string>
 
 
     <string name="xposed_setting">Xposed Settings</string>

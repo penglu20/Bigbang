@@ -76,6 +76,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private ColorStateList mColorStateList;
     private boolean stickHeader = false;
     private int mOriginActionBarTopHeight;
+    boolean autoAddBlanks = SPHelper.getBoolean(ConstantUtil.AUTO_ADD_BLANKS,false);
 
     private AnimatorListenerAdapter mActionBarAnimationListener = new AnimatorListenerAdapter() {
         @Override
@@ -959,7 +960,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
         String getSelectedText() {
             StringBuilder builder = new StringBuilder();
             List<Item> items = getItems();
-            boolean autoAddBlanks = SPHelper.getBoolean(ConstantUtil.AUTO_ADD_BLANKS,false);
+
             if (items != null && items.size() > 0) {
                 for (Item item : items) {
                     if (item.isSelected()) {

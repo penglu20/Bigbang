@@ -140,8 +140,8 @@
     <string name="share_no_wechat">You did not have WeChat installed</string>
     <string name="share_error">Error occurs</string>
 
-    <string name="xposed_whitelist">Xposed White List</string>
-    <string name="xposed_whiteIntro">Block the Apps you donnot want to be montiored</string>
+    <string name="xposed_whitelist">Xposed Click type Settings</string>
+    <string name="xposed_whiteIntro">Set more appropriate trigger for different applications</string>
     <string name="screen_capture_fail">Sorry for capturing screen fail</string>
     <string name="need_capture_perssion">Screenshots need to get this permission, please check no longer prompted,and click OK, click the screenshot button again</string>
 
@@ -420,6 +420,6 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
 
 
     <string name="bb_long_press_toast">try to long press a word</string>
-    <string name="xp_monitor_click_hint">can use to monitor whether double-click to bigbang</string>
-    <string name="xp_monitor_click_msg">Montior xposed double-click </string>
+    <string name="xp_monitor_click_hint">Set a more appropriate trigger for different applications first</string>
+    <string name="xp_monitor_click_msg">Montior xposed click </string>
 </resources>

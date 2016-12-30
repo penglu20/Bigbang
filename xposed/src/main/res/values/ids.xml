@@ -2,4 +2,5 @@
 <resources>
     <item name="bigBang_$$" type="id"/>
     <item name="bigBang_$" type="id"/>
+    <item name="bigBang_$_click" type="id"/>
 </resources>

@@ -23,5 +23,5 @@
     <string name="system_app">系统应用</string>
     <string name="user_app">第三方应用</string>
     <string name="white_list_tip">此处设置不影响复制触发功能</string>
-    <string name="please_restart">保存成功，重启生效</string>
+    <string name="please_restart">保存成功，重启生效！或者“强制停止”所修改的应用，再重启这个应用</string>
 </resources>

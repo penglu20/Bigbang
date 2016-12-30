@@ -140,8 +140,8 @@
     <string name="share_no_wechat">你还没有安装微信</string>
     <string name="share_error">分享失败</string>
 
-    <string name="xposed_whitelist">Xposed 应用白名单</string>
-    <string name="xposed_whiteIntro">屏蔽不想被监控的应用</string>
+    <string name="xposed_whitelist">Xposed触发方式设置</string>
+    <string name="xposed_whiteIntro">可以触发很多普通模式无法触发的文字，但是需要反复尝试找到最适合您的方式</string>
     <string name="screen_capture_fail">抱歉，截屏失败</string>
     <string name="need_capture_perssion">截屏需要获取权限，请勾选不再提示，确定后，再次点击截屏按钮</string>
 
@@ -403,7 +403,7 @@
 
 
     <string name="bb_long_press_toast">试试长按一个词组</string>
-    <string name="xp_monitor_click_hint">可以来设置xp双击炸词是否生效</string>
-    <string name="xp_monitor_click_msg">xposed双击炸词</string>
+    <string name="xp_monitor_click_hint">需要对每个应用单独设置合适的点击方式</string>
+    <string name="xp_monitor_click_msg">Xposed点击炸词</string>
 
 </resources>

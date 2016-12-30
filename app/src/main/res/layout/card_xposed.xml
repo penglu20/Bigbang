@@ -18,14 +18,6 @@
             android:textStyle="bold"
             android:text="@string/xposed_setting"
             android:textColor="@color/primary_text" />
-        <android.support.v7.widget.AppCompatTextView
-            android:layout_toRightOf="@+id/tit"
-            android:layout_marginLeft="5dp"
-            android:textColor="@color/secondary_text"
-            android:layout_centerVertical="true"
-            android:text="@string/double_click"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

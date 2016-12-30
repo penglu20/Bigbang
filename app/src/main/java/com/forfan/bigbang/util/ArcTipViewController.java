@@ -305,17 +305,23 @@ public class ArcTipViewController implements View.OnTouchListener {
             archMenu.getHintView().setBackgroundDrawable(circleColorDrawable);
             archMenu.getHintView().setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
         }
+        if (showBigBang) {
+            mCurrentIconAlpha =  SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
+        } else {
+            mCurrentIconAlpha = 0.6f * SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
+        }
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(acrFloatView.getContext());
             item.setImageResource(itemDrawables[i]);
-            if (i == 0) {
-                item.setAlpha(mCurrentIconAlpha);
-            }
             item.setPadding(arcMenupadding, arcMenupadding, arcMenupadding, arcMenupadding);
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             CircleColorDrawable circleColorDrawable = new CircleColorDrawable(SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR,  Color.parseColor("#94a4bb")));
             item.setBackgroundDrawable(circleColorDrawable);
-            item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
+            if (i == 0) {
+                item.setAlpha(mCurrentIconAlpha);
+            }else {
+                item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
+            }
 
 
 

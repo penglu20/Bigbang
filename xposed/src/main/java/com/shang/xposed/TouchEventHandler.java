@@ -98,7 +98,9 @@ public class TouchEventHandler {
                     text = text.replace("%","\1");
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("forbigBang://?extra_text=" + text.trim()));
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mCurrentView.getContext().startActivity(intent);
+                    if (mCurrentView!=null) {
+                        mCurrentView.getContext().startActivity(intent);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -109,30 +111,40 @@ public class TouchEventHandler {
     private LongPressedRunnable longPressedRunnable=new LongPressedRunnable();
     private int mScaledTouchSlop;
 
-    public void hookOnClickListener(View v,List<Filter> filters){
-//        longPressedRunnable.setText(((TextView)v).getText().toString());
+    public void hookOnClickListener(final View v, final List<Filter> filters){
         if (!useClick){
             return;
         }
         if (!hasTriggerClick) {
             hasTriggerClick=true;
-            String text=getTextFromView(v,filters);
-            Log.e(TAG,"hookOnClickListener text="+text);
-            longPressedRunnable.setText(text);
-            longPressedRunnable.run();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    String text=getTextFromView(v,filters);
+                    Log.e(TAG,"hookOnClickListener text="+text);
+                    longPressedRunnable.setText(text);
+                    longPressedRunnable.run();
+                }
+            });
+
         }
     }
 
-    public void hookOnLongClickListener(View v,List<Filter> filters){
+    public void hookOnLongClickListener(final View v, final List<Filter> filters){
         if (!useLongClick){
             return;
         }
         if (!hasTriggerLongClick) {
             hasTriggerLongClick=true;
-            String text=getTextFromView(v,filters);
-            longPressedRunnable.setText(text);
-            Log.e(TAG,"hookOnLongClickListener text="+text);
-            longPressedRunnable.run();
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    String text=getTextFromView(v,filters);
+                    longPressedRunnable.setText(text);
+                    Log.e(TAG,"hookOnLongClickListener text="+text);
+                    longPressedRunnable.run();
+                }
+            });
         }
     }
 
@@ -174,16 +186,6 @@ public class TouchEventHandler {
                 @Override
                 public boolean onSingleTapUp(MotionEvent e) {
                     Log.e(TAG,"gestureDetector onSingleTapUp");
-                    if (!useClick){
-                        return false;
-                    }
-                    if (!hasTriggerClick){
-                        hasTriggerClick=true;
-                        String text=getTextFromView(mCurrentView,filters);
-                        Log.e(TAG,"onSingleTapUp text="+text);
-                        longPressedRunnable.setText(text);
-                        longPressedRunnable.run();
-                    }
                     return super.onSingleTapUp(e);
                 }
 
@@ -242,6 +244,24 @@ public class TouchEventHandler {
                 @Override
                 public boolean onSingleTapConfirmed(MotionEvent e) {
                     Log.e(TAG,"gestureDetector onSingleTapConfirmed");
+                    if (!useClick){
+                        return false;
+                    }
+                    if (mCurrentView==null){
+                        return false;
+                    }
+                    //这里如果触发单击则会影响到qq里的单击响应，估计也会影响其他应用的单击，应该要屏蔽掉设置了单击事件的view去除才行
+//                    Boolean isSetOnClick = (Boolean) mCurrentView.getTag(R.id.bigBang_$_click);
+//                    if (isSetOnClick!=null && isSetOnClick){
+//                        return false;
+//                    }
+                    if (!hasTriggerClick){
+                        hasTriggerClick=true;
+                        String text=getTextFromView(mCurrentView,filters);
+                        Log.e(TAG,"onSingleTapUp text="+text);
+                        longPressedRunnable.setText(text);
+                        longPressedRunnable.run();
+                    }
                     return super.onSingleTapConfirmed(e);
                 }
 
@@ -258,7 +278,7 @@ public class TouchEventHandler {
 //        Log.e(TAG,"hookTouchEvent event:"+event);
         if (event.getAction() == MotionEvent.ACTION_DOWN){
             if (useLongClick){
-                View targetTextView = getTargetView(v, event);
+                View targetTextView = getTargetTextView(v, event,filters);
                 Log.e(TAG,"hookTouchEvent getTargetView:"+targetTextView);
                 if (targetTextView!=null && targetTextView!=mCurrentView){
                     handler.removeCallbacks(longPressedRunnable);
@@ -274,7 +294,7 @@ public class TouchEventHandler {
                 handler.postDelayed(longPressedRunnable,1000);
                 return true;
             }else if (useClick){
-                View targetTextView = getTargetView(v, event);
+                View targetTextView = getTargetTextView(v, event,filters);
                 mCurrentView=targetTextView;
             }
         }
@@ -297,12 +317,14 @@ public class TouchEventHandler {
         if (event.getAction() == MotionEvent.ACTION_UP) {
             handler.removeCallbacks(longPressedRunnable);
 //            View targetTextView = getTargetTextView(v, event, filters);
-            View targetTextView = getTargetView(v, event);
+            View targetTextView = getTargetTextView(v, event,filters);
 
             long currentTimeMillis = System.currentTimeMillis();
             if(targetTextView != mCurrentView) {
                 mCurrentView=targetTextView;
-                targetTextView.setTag(R.id.bigBang_$$, currentTimeMillis);
+                if (targetTextView!=null) {
+                    targetTextView.setTag(R.id.bigBang_$$, currentTimeMillis);
+                }
                 return false;
             }
             if (!useDoubleClick){

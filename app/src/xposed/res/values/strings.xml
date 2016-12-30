@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">锤子BigBang</string>
+    <string name="open_access_hint">使用全局复制，需要开启辅助服务</string>
 </resources>

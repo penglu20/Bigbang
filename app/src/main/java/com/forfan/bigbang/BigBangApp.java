@@ -35,7 +35,7 @@ public class BigBangApp extends Application {
         instance = this;
         Global.init(this);
         LeakCanary.install(this);
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {
