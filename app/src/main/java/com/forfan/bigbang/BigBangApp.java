@@ -12,6 +12,7 @@ import com.forfan.bigbang.component.service.ListenClipboardService;
 import com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionService;
 import com.forfan.bigbang.component.service.voiceInteraction.BBVoiceInteractionSessionService;
 import com.forfan.bigbang.onestep.AppManager;
+import com.forfan.bigbang.util.CrashHandler;
 import com.forfan.bigbang.util.KeepAliveWatcher;
 import com.forfan.bigbang.util.SharedIntentHelper;
 import com.shang.commonjar.contentProvider.Global;
@@ -34,6 +35,7 @@ public class BigBangApp extends Application {
         instance = this;
         Global.init(this);
         LeakCanary.install(this);
+        CrashHandler.getInstance().init(this);
         Looper.myQueue().addIdleHandler(new MessageQueue.IdleHandler() {
             @Override
             public boolean queueIdle() {

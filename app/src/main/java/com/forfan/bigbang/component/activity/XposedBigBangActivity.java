@@ -27,6 +27,7 @@ public class XposedBigBangActivity extends BaseActivity {
             }
         }
         if(!TextUtils.isEmpty(str)){
+            str = str.replace("\1","%");
             Intent intent=new Intent(this, BigBangActivity.class);
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BigBangActivity.TO_SPLIT_STR,str);
