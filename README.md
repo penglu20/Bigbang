@@ -24,15 +24,15 @@ Bigbang 是老罗设计的一种高效的文字处理方式。
 
 也可以看应用截图：
 
-![点击触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/git/click.gif)
+![点击触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/click.gif)
 
-![复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/git/copy.gif)
+![复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/copy.gif)
 
-![全局复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/git/ucopy.gif)
+![全局复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/ucopy.gif)
 
-![截屏OCR触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/git/ocr.gif)
+![截屏OCR触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/ocr.gif)
 
-![分词界面设置](https://raw.githubusercontent.com/l465659833/Bigbang/master/git/setting.gif)
+![分词界面设置](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/setting.gif)
 
 
 
