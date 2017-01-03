@@ -1,9 +1,0 @@
-click_settings_search_engine_web,CLICK_SETTINGS_SEARCH_ENGINE_WEB,0
-state_browser_engines,STATE_BROWSER_ENGINES,1
-status_set_bb_full_screen,STATUS_SET_BB_FULL_SCREEN,1
-status_set_bb_stick_head,STATUS_SET_BB_STICK_HEAD,1
-status_nofity_switch,STATUS_NOFITY_SWITCH,1
-status_nofity_click,STATUS_NOFITY_CLICK,1
-status_nofity_clipboard,STATUS_NOFITY_CLIPBOARD,1
-click_nofity_copy,CLICK_NOFITY_COPY,0
-click_nofity_screen,CLICK_NOFITY_SCREEN,0

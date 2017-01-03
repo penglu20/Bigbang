@@ -14,10 +14,12 @@ import rx.Observable;
  */
 
 public interface WordSegmentService {
+    //请自行在http://bosonnlp.com/account/register 注册账号，并用自己的API密钥替换下面的X-Token的值
+    String XToken="8LgdUIaz.11946.eK7nidaC_A_U";
     @Headers({
             "Content-Type: application/json",
             "Accept: application/json",
-            "X-Token: IZGVLxjs.10189.fkzlXn0jsUBp"
+            "X-Token: "+XToken
     })
     @POST("tag/analysis?space_mode=1&oov_level=3&t2s=0&special_char_conv=1")
     Observable<ArrayList<WordSegs>> getWordSegsList(@Body String string);
