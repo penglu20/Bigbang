@@ -25,21 +25,30 @@ Bigbang 是老罗设计的一种高效的文字处理方式。
 也可以看应用截图：
 
 ![点击触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/click.gif)
+点击触发
+
 
 ![复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/copy.gif)
+复制触发
+
 
 ![全局复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/ucopy.gif)
+全局复制触发
+
 
 ![截屏OCR触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/ocr.gif)
+截屏OCR触发
+
 
 ![分词界面设置](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/setting.gif)
+分词界面设置
 
 
 
 
 
 感谢：
-
+首先要感谢@shang1101 ，Bigbang是由我们俩配合完成的！
 https://github.com/baoyongzhang/BigBang 分词界面是基于鲍永章童鞋的代码修改的
 http://www.coolapk.com/apk/com.camel.corp.universalcopy 全局复制功能参考了这里的实现
 
