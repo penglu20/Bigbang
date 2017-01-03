@@ -49,7 +49,8 @@ Bigbang 是老罗设计的一种高效的文字处理方式。
 
 
 感谢：
-首先要感谢@shang1101 ，Bigbang是由我们俩配合完成的！
+
+首先要感谢[@shang1101](https://github.com/shang1101) ，Bigbang是由我们俩配合完成的！
 
 https://github.com/baoyongzhang/BigBang 分词界面是基于鲍永章童鞋的代码修改的
 
