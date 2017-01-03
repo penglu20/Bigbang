@@ -3,6 +3,7 @@ Bigbang 是老罗设计的一种高效的文字处理方式。
 遗憾的是Bigbang只能在锤子手机上使用。
 
 为了让更多人体验到这种高效的交互方式，我们做了这个小应用[下载地址](http://www.coolapk.com/apk/com.forfan.bigbang)。
+
 由于不具备系统权限，所以我们无法完全做到在锤子手机上的使用体验，但是我们也试图通过其他方法来进行补足。
 
 本应用中使用到的技术包括：
@@ -49,6 +50,8 @@ Bigbang 是老罗设计的一种高效的文字处理方式。
 
 感谢：
 首先要感谢@shang1101 ，Bigbang是由我们俩配合完成的！
+
 https://github.com/baoyongzhang/BigBang 分词界面是基于鲍永章童鞋的代码修改的
+
 http://www.coolapk.com/apk/com.camel.corp.universalcopy 全局复制功能参考了这里的实现
 
