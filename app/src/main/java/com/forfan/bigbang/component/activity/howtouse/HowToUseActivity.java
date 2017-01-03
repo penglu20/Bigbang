@@ -13,6 +13,7 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.IntroActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.XposedEnableUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
@@ -142,6 +143,21 @@ public class HowToUseActivity extends BaseActivity {
                 introMsg.setText(R.string.about_universal_copy_msg);
             }
         });
+
+
+        if (XposedEnableUtil.isEnable()){
+            findViewById(R.id.about_xposed).setVisibility(View.VISIBLE);
+            findViewById(R.id.about_xposed).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    introMenu.setVisibility(View.GONE);
+                    introContent.setVisibility(View.VISIBLE);
+                    introTitle.setText(R.string.about_xposed);
+                    introMsg.setText(R.string.about_xposed_msg);
+                }
+            });
+        }
+
     }
 
     private void showIntroActivity(){

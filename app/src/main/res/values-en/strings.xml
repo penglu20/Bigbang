@@ -412,6 +412,17 @@ If this happens, you can try to use a copy trigger, global copy, or screenshot O
          The software settings may be more complex, read this page description will be of your help, thank you!
     </string>
 
+    <string name="about_xposed"> The Xposed version of a variety of trigger mode settings</string>
+    <string name="about_xposed_msg">\t\t\t\tXP version with the general version of the same, providing a single-click, double-click, long press, three kinds of trigger.\n\t\t\t\t
+The trigger principle is when you click to click to the text, so some non-clickable area can also be triggered, such as the upper left corner of the QQ back. Some of the click area, if you click on the text, is also able to separate out these words.\n\t\t\t\t
+But if the use of single-click trigger, there may be some false touch, of course, with the "click on the ball trigger" will be better, so in the end how to set, or see you use habits.\n\t\t\t\t
+Known bugs：\n\t\t\t\t
+1. In qq, if the trigger with a long press, with the default long press a little conflict, resulting in long press the menu display does not come out,\n\t\t\t\t
+2. qq space can not be triggered,\n\t\t\t\t
+3. Universal copy is still relying on ancillary services to do.\n\t\t\t\t
+This is still not perfect, if you have feedback on the use of the problem.\n\t\t\t\t
+PS: xposed trigger mode and the general version is not the same, each have advantages and disadvantages, we will try to optimize.</string>
+
     <string name="intro_card_msg">Check the application description and setup instructions?</string>
     <string name="intro_card_msg_2">If you have any problem,\n you can also view them in the "How to use" section of the "Other" settings</string>
 

@@ -47,7 +47,6 @@ public class DiyOcrKeyActivity extends BaseActivity {
                 if (keyInput.getText()!=null) {
                     SPHelper.save(ConstantUtil.DIY_OCR_KEY, keyInput.getText().toString());
                     ToastUtil.show(R.string.set_diy_ocr_key_ok);
-                    UrlCountUtil.onEvent(UrlCountUtil.STATUS_DIY_OCR_KEY,keyInput.getText().toString());
                     finish();
                 }
             }

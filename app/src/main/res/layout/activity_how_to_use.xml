@@ -122,6 +122,13 @@
                 style="@style/cardViewTextView"
                 android:text="@string/about_ocr" />
 
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/about_xposed"
+                style="@style/cardViewTextView"
+                android:visibility="gone"
+                android:text="@string/about_xposed" />
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"

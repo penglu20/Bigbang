@@ -45,7 +45,7 @@ public class SettingFloatViewActivity extends BaseActivity {
 
 
     private static final int MIN_ITEM_PADDING = 50;
-    private static final int MAX_ITEM_PADDING = 100;
+    private static final int MAX_ITEM_PADDING = 150;
     private static final int ALPHA_MIN = 20;
     private static final int ALPHA_MAX = 100;
 

@@ -46,26 +46,10 @@ public class CopyActivity extends BaseActivity {
     private Menu menu;
     private List<CopyNodeView> selectedNodes;
     private OnCopyNodeViewClickCallback mOnCopyNodeViewClickCallback;
-    private int contentHeight = 0;
-    private int s = 0;
     private int actionBarHeight = 0;
     private BottomSheetDialog bottomSheetDialog;
     private boolean v = false;
-    private boolean w = false;
     private boolean isFullScreen = false;
-
-    public CopyActivity() {
-    }
-
-    private int a(TextView var1) {
-        int var3 = (int) (var1.getHeight() + this.s + this.actionBarHeight - ViewUtil.dp2px( 44));
-        int var2 = var3;
-        if(var3 > this.contentHeight) {
-            var2 = this.contentHeight;
-        }
-
-        return var2;
-    }
 
     private void addCopyNodeView(CopyNode var1, int var2) {
         (new CopyNodeView(this, var1, this.mOnCopyNodeViewClickCallback)).addToFrameLayout(this.copyNodeViewContainer, var2);
@@ -110,13 +94,6 @@ public class CopyActivity extends BaseActivity {
         startActivity(intent);
     }
 
-    private void b(boolean var1) {
-//        ActionBar var2 = this.f();
-//        if(var2 != null) {
-//            var2.a(var1);
-//        }
-
-    }
 
     private String getSelectedTextViewText(TextView var1) {
         if(var1 == null) {
@@ -156,7 +133,6 @@ public class CopyActivity extends BaseActivity {
     private void showSelectedText() {
         this.v = false;
         this.adjustActionBar(false, false);
-        this.b(false);
         this.bottomSheetDialog = new BottomSheetDialog(this){
             @Override
             protected void onCreate(Bundle savedInstanceState) {
@@ -321,8 +297,6 @@ public class CopyActivity extends BaseActivity {
             this.actionBarHeight = TypedValue.complexToDimensionPixelSize(var8.data, this.getResources().getDisplayMetrics());
         }
 
-        this.contentHeight = screenHeight - statusBarHeight;
-        this.s = (int) ViewUtil.dp2px(132);
         String var9 = this.getIntent().getStringExtra("source_package");
         screenHeight = statusBarHeight;
         if(var9 != null) {
@@ -460,7 +434,6 @@ public class CopyActivity extends BaseActivity {
                 try {
                     CopyActivity.this.bottomSheetDialog.dismiss();
                 } catch (IllegalArgumentException var2) {
-//                    Crashlytics.a(var2);
                 }
             }
 
