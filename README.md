@@ -56,3 +56,11 @@ https://github.com/baoyongzhang/BigBang 分词界面是基于鲍永章童鞋的�
 
 http://www.coolapk.com/apk/com.camel.corp.universalcopy 全局复制功能参考了这里的实现
 
+
+相关文章，可以帮助你阅读和理解本项目：
+
+[Android上如何实现矩形区域截屏](http://www.jianshu.com/p/0462dae4c808)
+
+[Android如何判断NavigationBar是否显示（获取屏幕真实的高度）](http://www.jianshu.com/p/84d951b3f079)
+
+[如何在Bitmap截取任意形状](http://www.jianshu.com/p/d64cf9f69d05)
