@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.component.activity.DiyOcrKeyActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -99,7 +100,7 @@ public class CaptureResultActivity extends BaseActivity {
         initWindow();
 
         Intent intent = getIntent();
-        String fileName = intent.getStringExtra(ScreenCaptureService.FILE_NAME);
+        String fileName = intent.getStringExtra(ScreenCapture.FILE_NAME);
         if (fileName == null) {
             ToastUtil.show(R.string.screen_capture_fail);
             finish();
@@ -277,6 +278,11 @@ public class CaptureResultActivity extends BaseActivity {
                 }
             }
         });
+
+        share.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+        save.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+        ocr.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+        bigbang.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
     }
 
     private void showBeyondQuoteDialog() {

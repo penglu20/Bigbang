@@ -19,6 +19,7 @@
         android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
         android:gravity="center"
+        android:title=""
         android:titleTextColor="@color/text_color"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 

@@ -188,7 +188,12 @@ public class SettingActivity extends BaseActivity {
     private void checkPermission() {
         checkPermission(new CheckPermListener() {
                             @Override
-                            public void superPermission() {
+                            public void grantPermission() {
+                            }
+
+                            @Override
+                            public void denyPermission() {
+
                             }
                         }, R.string.ask_again,
                 Manifest.permission.READ_PHONE_STATE,
@@ -200,5 +205,4 @@ public class SettingActivity extends BaseActivity {
         super.onPause();
         sendBroadcast(new Intent(BROADCAST_RELOAD_SETTING));
     }
-
 }

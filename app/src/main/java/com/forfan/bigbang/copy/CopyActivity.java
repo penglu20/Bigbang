@@ -9,7 +9,6 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.text.SpannableString;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -297,7 +296,10 @@ public class CopyActivity extends BaseActivity {
             this.actionBarHeight = TypedValue.complexToDimensionPixelSize(var8.data, this.getResources().getDisplayMetrics());
         }
 
-        String var9 = this.getIntent().getStringExtra("source_package");
+        Bundle extras = getIntent().getExtras();
+        extras.setClassLoader(CopyNode.class.getClassLoader());
+
+        String var9 = extras.getString("source_package");
         screenHeight = statusBarHeight;
         if(var9 != null) {
             screenHeight = statusBarHeight;
@@ -306,7 +308,7 @@ public class CopyActivity extends BaseActivity {
             }
         }
 
-        ArrayList var10 = this.getIntent().getParcelableArrayListExtra("copy_nodes");
+        ArrayList var10 = extras.getParcelableArrayList("copy_nodes");
         if(var10 != null && var10.size() > 0) {
             CopyNode[] var11 = (CopyNode[])var10.toArray(new CopyNode[0]);
             Arrays.sort(var11, new CopyNodeComparator());
@@ -377,12 +379,29 @@ public class CopyActivity extends BaseActivity {
 
     private void selectAll(){
         int length=copyNodeViewContainer.getChildCount();
-        for (int i=0 ; i<length;i++){
-            View view=copyNodeViewContainer.getChildAt(i);
-            if (view instanceof  CopyNodeView){
-                ((CopyNodeView) view).setActiveState(true);
-                if (!selectedNodes.contains(view)){
-                    selectedNodes.add((CopyNodeView) view);
+        int nodeLength=0;
+        for (int i = 0; i < length; i++) {
+            View view = copyNodeViewContainer.getChildAt(i);
+            if (view instanceof CopyNodeView) {
+                nodeLength++;
+            }
+        }
+        if (selectedNodes.size()==nodeLength && nodeLength!=0){
+            selectedNodes.clear();
+            for (int i = 0; i < length; i++) {
+                View view = copyNodeViewContainer.getChildAt(i);
+                if (view instanceof CopyNodeView) {
+                    ((CopyNodeView) view).setActiveState(false);
+                }
+            }
+        }else {
+            for (int i = 0; i < length; i++) {
+                View view = copyNodeViewContainer.getChildAt(i);
+                if (view instanceof CopyNodeView) {
+                    ((CopyNodeView) view).setActiveState(true);
+                    if (!selectedNodes.contains(view)) {
+                        selectedNodes.add((CopyNodeView) view);
+                    }
                 }
             }
         }

@@ -7,15 +7,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Process;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
@@ -36,13 +33,20 @@ import com.forfan.bigbang.copy.CopyActivity;
 import com.forfan.bigbang.copy.CopyNode;
 import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.KeyPressedTipViewController;
+import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.XposedEnableUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -61,6 +65,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private static final int TYPE_VIEW_LONG_CLICKED=AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
     private static final int TYPE_VIEW_DOUBLD_CLICKED=3;
     private static final int TYPE_VIEW_NONE=0;
+    public static final String ACCESSIBILITY_ENABLED = "settings put secure accessibility_enabled 1";
     public  int double_click_interval = ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL;
 
     private CharSequence mWindowClassName;
@@ -115,6 +120,7 @@ public class BigBangMonitorService extends AccessibilityService {
                     if (showFloatView){
                         ArcTipViewController.getInstance().show();
                     }
+                    keepAccessibilityOpen();
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
@@ -137,7 +143,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
         readWhiteList();
 
-
+        keepAccessibilityOpen();
 
     }
 
@@ -533,6 +539,85 @@ public class BigBangMonitorService extends AccessibilityService {
         return false;
     }
 
+
+    public static final String GET_ENABLED_SERVICES = "settings get secure enabled_accessibility_services\n";
+    public static final String PUT_ENABLED_SERVICES = "settings put secure enabled_accessibility_services";
+    public static final String SU = "su";
+    private static Thread keepOpenThread;
+
+    public static void keepAccessibilityOpen() {
+        boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
+        if (!isopen){
+            return;
+        }
+        if (keepOpenThread==null || keepOpenThread.isAlive()) {
+            keepOpenThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    BufferedWriter bufferedWriter = null;
+                    BufferedReader bufferedReader = null;
+                    try {
+                        Runtime runtime = Runtime.getRuntime();
+                        java.lang.Process process = runtime.exec(SU);
+                        InputStream inputStream = process.getInputStream();
+                        OutputStream outputStream = process.getOutputStream();
+                        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                        bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+
+                        while (true) {
+                            boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
+                            if (!isopen){
+                                break;
+                            }
+                            bufferedWriter.write(GET_ENABLED_SERVICES);
+                            bufferedWriter.flush();
+
+                            String current = bufferedReader.readLine();
+                            String service = BigBangApp.getInstance().getPackageName() + "/" + BigBangMonitorService.class.getCanonicalName();
+
+                            if(current!=null) {
+                                current.replaceAll(service, "");
+                                current += ":" + service;
+                            }else {
+                                current = service;
+                            }
+
+                            bufferedWriter.write(PUT_ENABLED_SERVICES + " " + current + "\n");
+                            bufferedWriter.flush();
+                            bufferedWriter.write(ACCESSIBILITY_ENABLED + "\n");
+                            bufferedWriter.flush();
+
+                            Thread.sleep(10000);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (bufferedReader != null) {
+                            try {
+                                bufferedReader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (bufferedWriter != null) {
+                            try {
+                                bufferedWriter.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            });
+            keepOpenThread.start();
+        }
+
+    }
+
     private synchronized void readSettingFromSp(){
         isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         KeyPressedTipViewController.getInstance().updateTriggerType();
@@ -562,6 +647,8 @@ public class BigBangMonitorService extends AccessibilityService {
         qqSelection=spinnerArrayIndex(spinnerArray, qq)+1;
         weixinSelection=spinnerArrayIndex(spinnerArray, weixin)+1;
         otherSelection=spinnerArrayIndex(spinnerArray, other)+1;
+
+        keepAccessibilityOpen();
     }
 
 
@@ -586,8 +673,12 @@ public class BigBangMonitorService extends AccessibilityService {
             if (intent.getAction().equals(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST)){
                 readWhiteList();
             }else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST)){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    UniversalCopy();
+                if (XposedEnableUtil.isEnable()){
+                    sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST_XP));
+                }else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        UniversalCopy();
+                    }
                 }
             }else if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
 

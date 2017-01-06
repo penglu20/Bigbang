@@ -30,6 +30,11 @@
         android:duplicateParentState="false"
         style="@style/hintTextViewRelativeLayoutSelector">
 
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
         <com.forfan.bigbang.view.HintTextView
             android:layout_centerVertical="true"
             app:hint="@string/open_voice_hint"
@@ -40,6 +45,28 @@
             />
 
 
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/auto_open_rl"
+        android:duplicateParentState="false"
+        style="@style/hintTextViewRelativeLayoutSelector">
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/divider"
+            android:layout_height="1px"/>
+
+        <com.forfan.bigbang.view.HintTextView
+            android:id="@+id/auto_open_tv"
+            style="@style/hintTextViewInLayoutLeft"
+            app:hint="@string/auto_open_hint"
+            app:msg="@string/auto_open" />
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/auto_open_switch"
+            style="@style/switchStyle"/>
     </RelativeLayout>
 
 

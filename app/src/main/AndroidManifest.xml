@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.forfan.bigbang">
 
     <uses-feature
@@ -22,6 +23,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        tools:replace="android:allowBackup"
         android:theme="@style/AppTheme">
         <activity
             android:name="com.qihoo.updatesdk.lib.UpdateTipDialogActivity"
@@ -104,6 +106,7 @@
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:process=":monitor"
+            android:exported="true"
             android:theme="@style/OverlayTheme" />
         <activity
             android:name="com.umeng.fb.ConversationActivity"
@@ -204,10 +207,6 @@
             android:process=":monitor"
             android:theme="@style/ScreenCaptureTheme" />
 
-        <service android:name=".component.activity.screen.ScreenCaptureService"
-            android:process=":monitor"
-            />
-
         <activity
             android:name=".component.activity.DonateActivity"
             android:theme="@style/BaseAppTheme" />
@@ -224,7 +223,7 @@
         </receiver>
 
         <activity
-            android:name=".component.activity.screen.DiyOcrKeyActivity"
+            android:name=".component.activity.DiyOcrKeyActivity"
             android:theme="@style/DiyOcrKeyAppTheme" />
         <activity
             android:name=".cropper.handler.CropImageActivity"
@@ -255,6 +254,9 @@
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.setting.XposedAppManagerActivity"
+            android:theme="@style/BaseAppTheme" />
+
+        <activity android:name=".component.activity.FeedbackActivity"
             android:theme="@style/BaseAppTheme" />
     </application>
 

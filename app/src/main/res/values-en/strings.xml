@@ -62,7 +62,7 @@
     <string name="ask_again">Please give application necessary permissions to let it works properly。</string>
     <string name="share_request_msg_dislike">Would you like to give us some advice？</string>
     <string name="share_request_msg_like">Willing to share with your friends？</string>
-    <string name="about_content">This product is programmed by the design of Smartisan OS\'sBigBang，in order to allow more users to experience this kind of high efficient mode of operation！If you feel that just works，you can buy Smartisan M1 experience better feelings！\n This product is part of the content from the Internet and other open source components，If have to infringe your copyright，Please contact me ，Thx！\n if you have any opinion or suggestion to our products，welcoming feedback。\n Version：%1$s</string>
+    <string name="about_content">This product is programmed by the design of Smartisan OS\'sBigBang，in order to allow more users to experience this kind of high efficient mode of operation！If you feel that just works，you can buy Smartisan M1 experience better feelings！\n This product is part of the content from the Internet and other open source components，If have to infringe your copyright，Please contact me ，Thx！\n if you have any opinion or suggestion to our products，welcoming feedback。\n\n Version：%1$s</string>
 
     <string name="donate">Donate A Cup of Coffee!</string>
     <string name="donate_now">Open Alipay!</string>
@@ -127,7 +127,7 @@
     <string name="not_foud_qq">not found QQ</string>
     <string name="my_zhifubao">My AliPay QRCode</string>
     <string name="my_weixin">My WeChat QRCode</string>
-    <string name="thinks_for_donate">Thank for your donation ，welcome to join our QQ club(290017771)，and wish you can provide us some suggestions .</string>
+    <string name="thinks_for_donate">Thank for your donation ，welcome to join our QQ club(290017771 or 607702452)，and wish you can provide us some suggestions .</string>
     <string name="picture_saved">QRCode is alreay saved</string>
     <string name="click_to_save_qrcord">click QRCode to save</string>
     <string name="share">Share To WeChat</string>
@@ -433,4 +433,10 @@ PS: xposed trigger mode and the general version is not the same, each have advan
     <string name="bb_long_press_toast">try to long press a word</string>
     <string name="xp_monitor_click_hint">Set a more appropriate trigger for different applications first</string>
     <string name="xp_monitor_click_msg">Montior xposed click </string>
+
+    <string name="is_stick_view">Fixed float view position</string>
+
+
+    <string name="auto_open">Automatically turn on accessibility service</string>
+    <string name="auto_open_hint">Need Root permission</string>
 </resources>

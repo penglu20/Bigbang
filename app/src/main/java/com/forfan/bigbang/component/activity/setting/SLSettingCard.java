@@ -17,6 +17,7 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.component.activity.whitelist.SelectionDbHelper;
+import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.util.AESUtils;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.IOUtil;

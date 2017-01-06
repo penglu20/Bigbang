@@ -157,6 +157,7 @@ public class UrlCountUtil {
     public static final String STATUS_FLOATVIEW_SET_SIZE="status_floatview_set_size";
     public static final String STATUS_FLOATVIEW_SET_ALPHA = "status_floatview_set_alpha";
     public static final String STATUS_SET_FLOATVIEW_BGCOLOR="status_set_floatview_bgcolor";
+    public static final String STATUS_SET_FLOATVIEW_IS_STICK="status_set_floatview_is_stick";
 
 
     public static final String CLICK_KEY_PRESS_TIPVIEW_SWITCH= "click_key_press_tipview_switch";

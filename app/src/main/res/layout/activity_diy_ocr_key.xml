@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity">
+    tools:context="com.forfan.bigbang.component.activity.DiyOcrKeyActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

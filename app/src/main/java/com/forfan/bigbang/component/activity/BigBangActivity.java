@@ -25,6 +25,7 @@ import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.onestep.AppsAdapter;
 import com.forfan.bigbang.onestep.ResolveInfoWrap;
 import com.forfan.bigbang.util.ClipboardUtils;
+import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.RegexUtil;
@@ -407,6 +408,11 @@ public class BigBangActivity extends BaseActivity {
                 toTrans = (EditText) findViewById(R.id.to_translate);
                 transResult = (EditText) findViewById(R.id.translate_result);
                 TextView title = (TextView) findViewById(R.id.title);
+
+                title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+
                 findViewById(R.id.trans_again).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

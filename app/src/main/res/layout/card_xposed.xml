@@ -16,8 +16,8 @@
             style="@style/cardViewTextViewInLayoutLeft"
             android:textSize="@dimen/text_size_title"
             android:textStyle="bold"
-            android:text="@string/xposed_setting"
-            android:textColor="@color/primary_text" />
+            android:textColor="@color/text_color_notify"
+            android:text="@string/xposed_setting"/>
     </RelativeLayout>
     <View
         android:layout_width="match_parent"

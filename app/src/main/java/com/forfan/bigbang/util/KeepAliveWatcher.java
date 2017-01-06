@@ -10,7 +10,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.os.Build;
 
-
 import com.forfan.bigbang.component.service.JobService;
 
 import java.io.File;
@@ -18,7 +17,7 @@ import java.lang.reflect.Method;
 
 public class KeepAliveWatcher {
 
-	private static final String TAG = "UninstallWatcher";
+    private static final String TAG = "UninstallWatcher";
 
     private static final String[] browserList = new String[]{
     	"com.qihoo.browser",
@@ -37,7 +36,6 @@ public class KeepAliveWatcher {
     	"com.baidu.browser.apps",
 
     };
-
 
     // 由于targetSdkVersion低于17，只能通过反射获取
     private static String getUserSerial(Context context)
@@ -171,5 +169,6 @@ public class KeepAliveWatcher {
             jobScheduler.schedule(uploadTask);
         }
     }
+
 
 }

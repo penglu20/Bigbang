@@ -56,5 +56,46 @@ public class CopyNode implements Parcelable {
         var1.writeString(this.content);
     }
 
+    @Override
+    public String toString() {
+        return "CopyNode{" +
+                "bound=" + bound +
+                ", content='" + content + '\'' +
+                '}';
+    }
 
+//    public static byte[] parseArrayListToByte(ArrayList<CopyNode> nodes) throws IOException {
+//
+//        ByteArrayOutputStream byteArray=new ByteArrayOutputStream();
+//        ObjectOutputStream byteArrayOutputStream=new ObjectOutputStream(byteArray);
+//        byteArrayOutputStream.writeInt(nodes.size());
+//        for (int i=0;i<nodes.size();i++){
+//            Parcel parcel=Parcel.obtain();
+//            nodes.get(i).writeToParcel(parcel, 0);
+//            byteArrayOutputStream.writeInt(parcel.dataSize());
+//            parcel.setDataPosition(0);
+//            byteArrayOutputStream.write(parcel.marshall());
+//        }
+//        byteArrayOutputStream.flush();
+//        return byteArray.toByteArray();
+//    }
+//
+//
+//    public static ArrayList<CopyNode> parseByteToArrayList(byte[] byteStream) throws IOException {
+//
+//        ByteArrayInputStream byteArray=new ByteArrayInputStream(byteStream);
+//        ObjectInputStream byteArrayOutputStream=new ObjectInputStream(byteArray);
+//        int length = byteArrayOutputStream.readInt();
+//        ArrayList<CopyNode> result=new ArrayList<>();
+//        for (int i=0;i<length;i++){
+//            int parcelLength = byteArrayOutputStream.readInt();
+//            byte[] buffer=new byte[parcelLength];
+//            byteArrayOutputStream.read(buffer);
+//            Parcel parcel = Parcel.obtain();
+//            parcel.unmarshall(buffer, 0, buffer.length);
+//            parcel.setDataPosition(0);
+//            result.add(CopyNode.CREATOR.createFromParcel(parcel));
+//        }
+//        return result;
+//    }
 }

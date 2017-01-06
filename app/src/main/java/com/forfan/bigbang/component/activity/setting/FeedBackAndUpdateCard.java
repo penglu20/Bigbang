@@ -2,8 +2,6 @@ package com.forfan.bigbang.component.activity.setting;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,18 +9,13 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
-import com.forfan.bigbang.component.activity.IntroActivity;
+import com.forfan.bigbang.component.activity.FeedbackActivity;
 import com.forfan.bigbang.component.activity.howtouse.HowToUseActivity;
-import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
 import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.NetWorkUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UpdateUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
-import com.forfan.bigbang.view.Dialog;
-import com.forfan.bigbang.view.DialogFragment;
-import com.forfan.bigbang.view.SimpleDialog;
-import com.umeng.fb.FeedbackAgent;
 
 /**
  * Created by penglu on 2015/11/23.
@@ -102,9 +95,9 @@ public class FeedBackAndUpdateCard extends AbsCard {
     }
 
     protected void startFeedBack() {
-        com.umeng.fb.util.Res.setPackageName(R.class.getPackage().getName());
-        FeedbackAgent agent = new FeedbackAgent(mContext);
-        agent.startFeedbackActivity();
+        Intent intent = new Intent();
+        intent.setClass(mContext, FeedbackActivity.class);
+        mContext.startActivity(intent);
     }
 
 }

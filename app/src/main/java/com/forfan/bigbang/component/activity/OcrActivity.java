@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.forfan.bigbang.R;
-import com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.cropper.BitmapUtil;
 import com.forfan.bigbang.cropper.CropHandler;

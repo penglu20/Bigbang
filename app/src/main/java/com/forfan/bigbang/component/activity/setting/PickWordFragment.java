@@ -29,7 +29,9 @@ public class PickWordFragment extends BaseRecyclerFragment {
                     index = cardViews.size();
                 if (XposedEnableUtil.isEnable())
                     index = index - 1;
-                newAdapter.addView(settingCard, index);
+                if (!XposedEnableUtil.isEnable()) {
+                    newAdapter.addView(settingCard, index);
+                }
             } else {
                 if (newAdapter.containsView(settingCard))
                     newAdapter.deleteView(settingCard);
