@@ -64,3 +64,5 @@ http://www.coolapk.com/apk/com.camel.corp.universalcopy 全局复制功能参考
 [Android如何判断NavigationBar是否显示（获取屏幕真实的高度）](http://www.jianshu.com/p/84d951b3f079)
 
 [如何在Bitmap截取任意形状](http://www.jianshu.com/p/d64cf9f69d05)
+
+[Xposed大法好,教你实现ForceTouch炫酷功能](http://www.jianshu.com/p/e7ea5e3bdb47)
