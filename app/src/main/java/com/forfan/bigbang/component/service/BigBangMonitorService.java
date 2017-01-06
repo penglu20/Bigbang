@@ -550,7 +550,7 @@ public class BigBangMonitorService extends AccessibilityService {
         if (!isopen){
             return;
         }
-        if (keepOpenThread==null || keepOpenThread.isAlive()) {
+        if (keepOpenThread==null || !keepOpenThread.isAlive()) {
             keepOpenThread = new Thread(new Runnable() {
                 @Override
                 public void run() {

@@ -45,20 +45,20 @@ public class GoToSettingCard extends AbsCard {
                 }
             }
         });
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            findViewById(R.id.goto_voice_rl).setVisibility(VISIBLE);
-            findViewById(R.id.goto_voice_rl).setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        Intent intent = new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS);
-                        mContext.startActivity(intent);
-                    } catch (Throwable e) {
-                        SnackBarUtil.show(v, R.string.open_setting_failed_diy);
-                    }
-                }
-            });
-        }
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+//            findViewById(R.id.goto_voice_rl).setVisibility(VISIBLE);
+//            findViewById(R.id.goto_voice_rl).setOnClickListener(new OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    try {
+//                        Intent intent = new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS);
+//                        mContext.startActivity(intent);
+//                    } catch (Throwable e) {
+//                        SnackBarUtil.show(v, R.string.open_setting_failed_diy);
+//                    }
+//                }
+//            });
+//        }
 
         autoOpenSwitch= (SwitchCompat) findViewById(R.id.auto_open_switch);
         autoOpenSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

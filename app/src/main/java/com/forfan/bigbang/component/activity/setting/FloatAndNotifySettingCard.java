@@ -182,7 +182,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
         longPressRL.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                showLongPressDialog();
+                showLongPressDialog(v);
             }
         });
 
@@ -192,7 +192,7 @@ public class FloatAndNotifySettingCard extends AbsCard {
     }
 
 
-    private void showLongPressDialog() {
+    private void showLongPressDialog(View view) {
         String[] longpress = mContext.getResources().getStringArray(R.array.long_press_key);
         int index = SPHelper.getInt(ConstantUtil.LONG_PRESS_KEY_INDEX, 0);
 
@@ -206,7 +206,17 @@ public class FloatAndNotifySettingCard extends AbsCard {
                 SPHelper.save(ConstantUtil.LONG_PRESS_KEY_INDEX, index);
                 mContext.sendBroadcast(new Intent(BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED));
                 if (index == 2) {
-                    ToastUtil.show(R.string.long_press_toast);
+                    SnackBarUtil.show(view, "", R.string.long_press_toast, new OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                Intent intent = new Intent(Settings.ACTION_VOICE_INPUT_SETTINGS);
+                                mContext.startActivity(intent);
+                            } catch (Throwable e) {
+                                SnackBarUtil.show(v, R.string.open_setting_failed_diy);
+                            }
+                        }
+                    });
                 }
             }
 
