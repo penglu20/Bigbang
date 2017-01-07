@@ -556,13 +556,15 @@ public class BigBangMonitorService extends AccessibilityService {
                 public void run() {
                     BufferedWriter bufferedWriter = null;
                     BufferedReader bufferedReader = null;
+                    java.lang.Process process=null;
                     try {
                         Runtime runtime = Runtime.getRuntime();
-                        java.lang.Process process = runtime.exec(SU);
+                        process = runtime.exec(SU);
                         InputStream inputStream = process.getInputStream();
                         OutputStream outputStream = process.getOutputStream();
                         bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
                         bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        String service = BigBangApp.getInstance().getPackageName() + "/" + BigBangMonitorService.class.getCanonicalName();
 
                         while (true) {
                             boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
@@ -573,10 +575,10 @@ public class BigBangMonitorService extends AccessibilityService {
                             bufferedWriter.flush();
 
                             String current = bufferedReader.readLine();
-                            String service = BigBangApp.getInstance().getPackageName() + "/" + BigBangMonitorService.class.getCanonicalName();
 
                             if(current!=null) {
-                                current.replaceAll(service, "");
+                                current=current.replaceAll(service, "");
+                                current=current.replaceAll("::", ":");
                                 current += ":" + service;
                             }else {
                                 current = service;
@@ -589,6 +591,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
                             Thread.sleep(10000);
                         }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -609,6 +612,9 @@ public class BigBangMonitorService extends AccessibilityService {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+                        }
+                        if (process!=null){
+                            process.destroy();
                         }
                     }
                 }

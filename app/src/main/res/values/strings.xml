@@ -22,7 +22,7 @@
     <string name="white_list">设置触发方式</string>
     <string name="share_mode_help">分享\n将选择的词句分享到其他APP</string>
     <string name="monitor_clipboard">监控剪贴板</string>
-    <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者悬浮窗或通知栏经常消失，程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。</string>
+    <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者悬浮球或通知栏经常消失，程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。</string>
     <string name="loading">加载中...</string>
     <string name="stringValue1">BigBang 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
     <string name="recover_tips">重新显示使用提示</string>
@@ -77,14 +77,14 @@
     <string name="share_request_cancel_dislike">算了吧...</string>
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
     <string name="check_update">检测更新</string>
-    <string name="show_float_view">悬浮窗常驻(自动靠边隐藏)</string>
-    <string name="show_float_view_request">悬浮窗包含多个功能入口，建议开启！</string>
+    <string name="show_float_view">悬浮球常驻(自动靠边隐藏)</string>
+    <string name="show_float_view_request">悬浮球包含多个功能入口，建议开启！</string>
     <string name="check_update_close">已是最新版本</string>
     <string name="default_setting">恢复默认设置</string>
 
 
-    <string name="punish_float_problem">悬浮窗功能已开启!</string>
-    <string name="punish_float_action">悬浮窗不显示？点击设置</string>
+    <string name="punish_float_problem">悬浮球功能已开启!</string>
+    <string name="punish_float_action">悬浮球不显示？点击设置</string>
 
     <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
     <string name="share_to">分享到：</string>
@@ -169,7 +169,7 @@
 
     <string name="too_short_to_split">文字长度小于2，不分词</string>
 
-    <string name="float_tips">单击悬浮窗切换开关，长按悬浮打开设置页。</string>
+    <string name="float_tips">单击悬浮球切换开关，长按悬浮打开设置页。</string>
     <string name="access_open_tips">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
     <string name="ocr_quote_beyond_time">\t\t非常抱歉，由于我们使用的是第三方付费OCR服务，作者每月需要为此支付数千元的费用。\n\t\t为了用户体验，本应用一直不愿接入广告，而热心用户的捐赠也有限，现已无力承担此费用.\n\t\t为了您的使用体验，麻烦您花几分钟时间进行设置，以继续免费使用OCR服务！</string>
     <string name="free_use">如何免费使用OCR</string>
@@ -197,18 +197,18 @@
 
 
     <string name="show_notify">显示通知栏</string>
-    <string name="show_notify_request">通知栏包含悬浮窗的所有功能，可作为替代方案。</string>
+    <string name="show_notify_request">通知栏包含悬浮球的所有功能，可作为替代方案。</string>
 
 
-    <string name="show_float_close_tip">通知栏和悬浮窗都关闭时，复制或点击时会暂时显示悬浮窗，通过点击悬浮窗激活Bigbang</string>
+    <string name="show_float_close_tip">通知栏和悬浮球都关闭时，复制或点击时会暂时显示悬浮球，通过点击悬浮球激活Bigbang</string>
     <string name="can_not_capture_under_5_0">Screenshots 5.0以下系统暂不支持截屏</string>
     <string name="double_click">双击分词</string>
 
-    <string name="control_by_float">使用悬浮窗控制</string>
+    <string name="control_by_float">使用悬浮球控制</string>
     <string name="control_by_notify">使用通知栏控制</string>
-    <string name="trigger_by_float">点击悬浮窗触发</string>
+    <string name="trigger_by_float">点击悬浮球触发</string>
     <string name="pre_setting_title">请先设置 &lt;控制和触发&gt;方式</string>
-    <string name="pre_setting_intro1">通过&lt;悬浮窗常驻或通知栏&gt;可以方便控制\n程序中还提供了更多控制方式\n\n如果您选择&lt;点击悬浮窗触发&gt;\n在触发分词功能时会先弹出悬浮窗\n您需要&lt;点击悬浮窗&gt;才能激活分词</string>
+    <string name="pre_setting_intro1">通过&lt;悬浮球常驻或通知栏&gt;可以方便控制\n程序中还提供了更多控制方式\n\n如果您选择&lt;点击悬浮球触发&gt;\n在触发分词功能时会先弹出悬浮球\n您需要&lt;点击悬浮球&gt;才能激活分词</string>
     <string name="pre_setting_intro2">&lt;点击上面的文字&gt;可以验证设置的效果。\n您也可以随时在设置页面中更改</string>
     <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改， 或者从“如何使用”中进入本页面</string>
     <string name="pre_setting_cancel">再看看效果</string>
@@ -355,10 +355,10 @@
     </string>
 
 
-    <string name="about_control">为什么要使用悬浮窗或通知栏</string>
-    <string name="about_control_msg">t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮窗、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
+    <string name="about_control">为什么要使用悬浮球或通知栏</string>
+    <string name="about_control_msg">t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮球、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
     如果你都不喜欢，也不需要使用全局复制和截图OCR，也可以选择开启“点击悬浮球触发Bigbang”，这样在监控点击和复制的时候，不至于误触发分词，影响使用体验。\n\t\t\t\t
-    PS: 在有些手机上，开启悬浮窗会导致应用申请权限失败，可以在安装新应用时关闭悬浮窗，也可以使用通知栏代替。</string>
+    PS: 在有些手机上，开启悬浮球会导致应用申请权限失败，可以在安装新应用时关闭悬浮球，也可以使用通知栏代替。</string>
 
 
     <string name="about_accessibility">关于辅助模式的权限</string>
