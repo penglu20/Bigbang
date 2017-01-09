@@ -552,6 +552,7 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (keepOpenThread==null || !keepOpenThread.isAlive()) {
             keepOpenThread = new Thread(new Runnable() {
+                int count=12;
                 @Override
                 public void run() {
                     BufferedWriter bufferedWriter = null;
@@ -566,10 +567,12 @@ public class BigBangMonitorService extends AccessibilityService {
                         bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
                         String service = BigBangApp.getInstance().getPackageName() + "/" + BigBangMonitorService.class.getCanonicalName();
 
-                        while (true) {
+                        do {
+                            --count;
                             boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
                             if (!isopen){
-                                break;
+                                Thread.sleep(10000);
+                                continue;
                             }
                             bufferedWriter.write(GET_ENABLED_SERVICES);
                             bufferedWriter.flush();
@@ -591,6 +594,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
                             Thread.sleep(10000);
                         }
+                        while (count>0);
 
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -1,20 +1,32 @@
 package com.forfan.bigbang.component.activity.setting;
 
 import android.Manifest;
+import android.app.Application;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationManagerCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
 
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI;
+import com.alibaba.sdk.android.feedback.util.IWxCallback;
+import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.FeedbackActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ChanelUtil;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -119,6 +131,7 @@ public class SettingActivity extends BaseActivity {
 
 
         checkPermission();
+
         int openTimes = SPHelper.getInt(ConstantUtil.SETTING_OPEN_TIMES, 0);
         SPHelper.save(ConstantUtil.SETTING_OPEN_TIMES, openTimes + 1);
     }
@@ -189,15 +202,65 @@ public class SettingActivity extends BaseActivity {
         checkPermission(new CheckPermListener() {
                             @Override
                             public void grantPermission() {
+                                checkFeedbackAnswer();
                             }
 
                             @Override
                             public void denyPermission() {
-
+                                checkFeedbackAnswer();
                             }
                         }, R.string.ask_again,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    private void checkFeedbackAnswer() {
+        FeedbackAPI.initAnnoy( BigBangApp.getInstance(), ConstantUtil.ALI_APP_KEY);
+        FeedbackAPI.getFeedbackUnreadCount(getApplicationContext(), null, new IWxCallback() {
+            @Override
+            public void onSuccess(Object... objects) {
+                int unread=((Integer) objects[0]);
+                if (unread==0){
+                    return;
+                }
+                String msg=getString(R.string.unread_feed_back,unread+"");
+                NotificationCompat.Builder notification = new NotificationCompat.Builder(BigBangApp.getInstance());
+                Bitmap notifyIcon;
+                notifyIcon= BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+                notification.setLargeIcon(notifyIcon);
+                // TODO: 2016/11/15
+                notification.setSmallIcon(R.mipmap.ic_launcher);
+                notification.setWhen(System.currentTimeMillis());
+                notification.setAutoCancel(true);
+                notification.setContentTitle(getString(R.string.app_name));
+                notification.setContentText(msg);
+                notification.setTicker(msg);
+                Intent notificationIntent = new Intent(SettingActivity.this, FeedbackActivity.class);
+                PendingIntent pendingIntent = PendingIntent.getActivity(SettingActivity.this, 1000, notificationIntent, 0);
+                notification.setContentIntent(pendingIntent);
+                int t=0;
+                t|= Notification.DEFAULT_VIBRATE;
+                t|=Notification.DEFAULT_SOUND;
+                notification.setDefaults(t);
+                NotificationManagerCompat nm= NotificationManagerCompat.from(SettingActivity.this);
+                if (Build.VERSION.SDK_INT<16){
+                    nm.notify(1008600, notification.getNotification());
+                }else{
+                    nm.notify(1008600, notification.build());
+                }
+
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+
+            @Override
+            public void onProgress(int i) {
+
+            }
+        });
     }
 
     @Override

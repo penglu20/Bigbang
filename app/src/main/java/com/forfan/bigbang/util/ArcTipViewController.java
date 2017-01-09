@@ -421,17 +421,21 @@ public class ArcTipViewController implements View.OnTouchListener {
             @Override
             public void run() {
                 synchronized (ArcTipViewController.this) {
-                    acrFloatView.setVisibility(View.VISIBLE);
-                    acrFloatView.setOnTouchListener(ArcTipViewController.this);
-                    int position = getArcPostion(layoutParams);
-                    mWindowManager.addView(acrFloatView, layoutParams);
-                    reMeasureHeight(position, layoutParams);
-                    initArcMenu(archMenu,icons);
-                    archMenu.refreshPathMenu(position);
-                    mWindowManager.updateViewLayout(acrFloatView, layoutParams);
-                    archMenu.performClickShowMenu(position);
+                    try {
+                        acrFloatView.setVisibility(View.VISIBLE);
+                        acrFloatView.setOnTouchListener(ArcTipViewController.this);
+                        int position = getArcPostion(layoutParams);
+                        mWindowManager.addView(acrFloatView, layoutParams);
+                        reMeasureHeight(position, layoutParams);
+                        initArcMenu(archMenu,icons);
+                        archMenu.refreshPathMenu(position);
+                        mWindowManager.updateViewLayout(acrFloatView, layoutParams);
+                        archMenu.performClickShowMenu(position);
 
-                    isShowIcon = false;
+                        isShowIcon = false;
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -547,15 +551,19 @@ public class ArcTipViewController implements View.OnTouchListener {
                     reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), ViewUtil.dp2px(MIN_LENGTH));
                     removeAllView();
                     LogUtil.d("shang", "addView1");
-                    iconFloatView.setAlpha(mCurrentIconAlpha);
-                    iconFloatView.setScaleX(1);
-                    iconFloatView.setScaleY(1);
-                    iconFloatView.setOnTouchListener(ArcTipViewController.this);
-                    iconFloatView.setVisibility(View.VISIBLE);
-                    mWindowManager.addView(iconFloatView, layoutParams);
+                    try {
+                        iconFloatView.setAlpha(mCurrentIconAlpha);
+                        iconFloatView.setScaleX(1);
+                        iconFloatView.setScaleY(1);
+                        iconFloatView.setOnTouchListener(ArcTipViewController.this);
+                        iconFloatView.setVisibility(View.VISIBLE);
+                        mWindowManager.addView(iconFloatView, layoutParams);
 
 //                    mWindowManager.updateViewLayout(floatView, layoutParams);
-                    isShowIcon = true;
+                        isShowIcon = true;
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
 
                 }
             }
@@ -575,13 +583,17 @@ public class ArcTipViewController implements View.OnTouchListener {
                         reuseSavedWindowMangerPosition(ViewUtil.dp2px(MIN_LENGTH), ViewUtil.dp2px(MIN_LENGTH));
                         removeAllView();
                         LogUtil.d("shang", "addView1");
-                        iconFloatView.setAlpha(mCurrentIconAlpha);
-                        iconFloatView.setScaleX(1);
-                        iconFloatView.setScaleY(1);
-                        iconFloatView.setOnTouchListener(ArcTipViewController.this);
-                        iconFloatView.setVisibility(View.VISIBLE);
-                        mWindowManager.addView(iconFloatView, layoutParams);
-                        isShowIcon = true;
+                        try {
+                            iconFloatView.setAlpha(mCurrentIconAlpha);
+                            iconFloatView.setScaleX(1);
+                            iconFloatView.setScaleY(1);
+                            iconFloatView.setOnTouchListener(ArcTipViewController.this);
+                            iconFloatView.setVisibility(View.VISIBLE);
+                            mWindowManager.addView(iconFloatView, layoutParams);
+                            isShowIcon = true;
+                        } catch (Throwable e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             });

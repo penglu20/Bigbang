@@ -297,6 +297,10 @@ public class CopyActivity extends BaseActivity {
         }
 
         Bundle extras = getIntent().getExtras();
+        if (extras==null){
+            finish();
+            return;
+        }
         extras.setClassLoader(CopyNode.class.getClassLoader());
 
         String var9 = extras.getString("source_package");
