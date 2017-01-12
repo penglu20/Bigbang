@@ -72,7 +72,7 @@
     <string name="about_content">\t\t\t本产品是根据老罗的BigBang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n\n版本号：%1$s</string>
     <string name="donate">我请作者吃辣条</string>
     <string name="donate_now">点击跳转支付宝</string>
-    <string name="join_qq">点击加入内测群（290017771）</string>
+    <string name="join_qq">点击加入内测群（607702452）</string>
     <string name="confirm">确认</string>
     <string name="share_request_cancel_dislike">算了吧...</string>
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
@@ -336,7 +336,6 @@
     <string name="is_stick_sharebar">显示侧边分享栏(非全屏状态下不显示)</string>
 
 
-
     <string name="show_introduction">显示介绍页面</string>
 
     <string name="how_to_set">如何设置和使用(请先看上面的介绍)</string>
@@ -356,7 +355,7 @@
 
 
     <string name="about_control">为什么要使用悬浮球或通知栏</string>
-    <string name="about_control_msg">t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮球、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
+    <string name="about_control_msg">\t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮球、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
     如果你都不喜欢，也不需要使用全局复制和截图OCR，也可以选择开启“点击悬浮球触发Bigbang”，这样在监控点击和复制的时候，不至于误触发分词，影响使用体验。\n\t\t\t\t
     PS: 在有些手机上，开启悬浮球会导致应用申请权限失败，可以在安装新应用时关闭悬浮球，也可以使用通知栏代替。</string>
 
@@ -406,12 +405,28 @@
 目前还不够完善，如果有使用问题欢迎反馈。\n\t\t\t\t
 PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会尽量优化的。</string>
 
+
+    <string name="open_from_outside">如何通过外部应用触发功能</string>
+    <string name="open_from_outside_msg">我们提供了悬浮窗、通知栏、快捷键等方式来控制和触发功能，如果你对这几种方法仍然不满意，或者你使用了第三方的自定义开关(比如悬浮菜单)，可以将我们的功能集成进去，方法如下：\n
+    包名：\n
+        \t\t*普通版：com.forfan.bigbang\n
+        \t\t*Xposed版：com.forfan.bigbang.coolapk\n\n
+    类名：\n
+        \t*功能总开关(包含复制和点击)：
+        \tcom.forfan.bigbang.component.activity.TotalSwitchActivity\n\n
+        \t*全局复制：
+        \tcom.forfan.bigbang.component.activity.UniversalCopyActivity\n\n
+        \t*区域截屏OCR：
+        \tcom.forfan.bigbang.component.activity.screen.ScreenCaptureActivity\n\n
+        提示：本页面可以通过全局复制来复制包名和类名。
+    </string>
+
+
     <string name="intro_card_msg">看看应用的介绍和设置说明吗？</string>
     <string name="intro_card_msg_2">如果使用中遇到了问题\n也可以在“其他”设置的“如何使用”中查看</string>
 
     <string name="intro_card_go">现在查看</string>
     <string name="intro_card_cancel">下次再说</string>
-
 
 
     <string name="bb_long_press_toast">试试长按一个词组</string>
@@ -422,5 +437,10 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="is_stick_view">固定悬浮球位置</string>
 
     <string name="auto_open">自动开启辅助服务</string>
-    <string name="auto_open_hint">需要Root权限</string>
+    <string name="auto_open_hint">需要Root权限，如果频繁提示权限，可以到SuperSU中设置</string>
+
+
+    <string name="unread_feed_back">有%s条未读回复反馈，点击查看</string>
+
+    <string name="click_to_edit">修改内容后，长按或点击炸词开始分词</string>
 </resources>

@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
@@ -54,6 +55,7 @@ public class CaptureResultActivity extends BaseActivity {
 
     private TextView share, save, ocr, bigbang;
     private TextView ocrResult;
+    private RelativeLayout ocrResultRL;
     int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
     int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
 
@@ -116,13 +118,14 @@ public class CaptureResultActivity extends BaseActivity {
             return;
         }
         ocrResult = (TextView) findViewById(R.id.ocr_result);
+        ocrResultRL = (RelativeLayout) findViewById(R.id.ocr_result_rl);
         capturedImage = (ImageView) findViewById(R.id.captured_pic);
         share = (TextView) findViewById(R.id.share);
         save = (TextView) findViewById(R.id.save);
         ocr = (TextView) findViewById(R.id.recognize);
         bigbang = (TextView) findViewById(R.id.bigbang);
 
-        ocrResult.setVisibility(View.GONE);
+        ocrResultRL.setVisibility(View.GONE);
 
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
@@ -142,10 +145,10 @@ public class CaptureResultActivity extends BaseActivity {
             }
             capturedImage.setLayoutParams(layoutParams);
 
-            layoutParams = (LinearLayout.LayoutParams) ocrResult.getLayoutParams();
+            layoutParams = (LinearLayout.LayoutParams) ocrResultRL.getLayoutParams();
             layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
             layoutParams.gravity = Gravity.CENTER_VERTICAL;
-            ocrResult.setLayoutParams(layoutParams);
+            ocrResultRL.setLayoutParams(layoutParams);
 
         }
 
@@ -205,7 +208,7 @@ public class CaptureResultActivity extends BaseActivity {
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
                     @Override
                     public void onSucess(OCR ocr) {
-                        ocrResult.setVisibility(View.VISIBLE);
+                        ocrResultRL.setVisibility(View.VISIBLE);
                         ocrResult.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
                         ocrResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
                     }
@@ -225,58 +228,71 @@ public class CaptureResultActivity extends BaseActivity {
         bigbang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
-                    showBeyondQuoteDialog();
-                    int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
-                    SPHelper.save(ConstantUtil.OCR_TIME, time);
-                    return;
-                }
-                ToastUtil.show(R.string.ocr_recognize);
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_BIGBANG);
-                OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
-                    @Override
-                    public void onSucess(OCR ocr) {
-                        if (!TextUtils.isEmpty(ocrResult.getText())) {
-                            Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
-                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
-                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra(BigBangActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
-                            startActivity(intent);
-                            finish();
-                        }
+                if (TextUtils.isEmpty(ocrResult.getText())){
+                    if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
+                        showBeyondQuoteDialog();
+                        int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
+                        SPHelper.save(ConstantUtil.OCR_TIME, time);
+                        return;
                     }
-
-                    @Override
-                    public void onFail(Throwable throwable) {
-
-                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
-                            ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
-                        }else {
-                            ToastUtil.show(throwable.getMessage());
+                    ToastUtil.show(R.string.ocr_recognize);
+                    OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
+                        @Override
+                        public void onSucess(OCR ocr) {
+                            if (!TextUtils.isEmpty(ocrResult.getText())) {
+                                Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra(BigBangActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
+                                startActivity(intent);
+                                finish();
+                            }
                         }
+
+                        @Override
+                        public void onFail(Throwable throwable) {
+
+                            if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
+                                ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+                            }else {
+                                ToastUtil.show(throwable.getMessage());
+                            }
+                        }
+                    });
+                }else {
+                    if (!TextUtils.isEmpty(ocrResult.getText())) {
+                        Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText().toString());
+                        startActivity(intent);
+                        finish();
                     }
-                });
+                }
+
             }
 
         });
 
-        ocrResult.setOnClickListener(new View.OnClickListener() {
+        ocrResult.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCRRESULT);
                 if (!TextUtils.isEmpty(ocrResult.getText())) {
                     Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
                     intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
+                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText().toString());
                     startActivity(intent);
                     finish();
                 }
+                return true;
             }
+
         });
 
         share.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));

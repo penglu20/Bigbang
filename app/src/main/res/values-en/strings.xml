@@ -112,7 +112,7 @@
 
     <string name="white_list_tip">This setting do not include clipboard monitor.</string>
 
-    <string name="join_qq">"Click to join QQ club（290017771）"</string>
+    <string name="join_qq">"Click to join QQ club（607702452）"</string>
     <string name="action_copy">"Copy"</string>
     <string name="action_full_screen">"Full Screen"</string>
     <string name="action_select_mode">"Edit"</string>
@@ -423,6 +423,25 @@ Known bugs：\n\t\t\t\t
 This is still not perfect, if you have feedback on the use of the problem.\n\t\t\t\t
 PS: xposed trigger mode and the general version is not the same, each have advantages and disadvantages, we will try to optimize.</string>
 
+
+
+    <string name="open_from_outside">How to trigger a function with an external application</string>
+    <string name="open_from_outside_msg">If you are still unsatisfied with these methods, or if you are using a third-party custom switch (such as a floating menu), you can send us a list of Function integrated into, as follows: \n
+     Package name: \n
+         \t\t * Normal: com.forfan.bigbang \n
+         \t\t * Xposed version: com.forfan.bigbang.coolapk \n \n
+     Class name: \n
+         \t\t * feature master switch (with copy and click):
+         \t\tcom.forfan.bigbang.component.activity.TotalSwitchActivity \n \n
+         \t\t * Global Replication:
+         \t\tcom.forfan.bigbang.component.activity.UniversalCopyActivity \n \n
+         \t\t * Area Screening OCR:
+         \t\tcom.forfan.bigbang.component.activity.screen.ScreenCaptureActivity \n \n
+         Tip: This page replicates package names and class names with global replication.
+
+    </string>
+
+
     <string name="intro_card_msg">Check the application description and setup instructions?</string>
     <string name="intro_card_msg_2">If you have any problem,\n you can also view them in the "How to use" section of the "Other" settings</string>
 
@@ -439,4 +458,9 @@ PS: xposed trigger mode and the general version is not the same, each have advan
 
     <string name="auto_open">Automatically turn on accessibility service</string>
     <string name="auto_open_hint">Need Root permission</string>
+
+
+    <string name="unread_feed_back">%s unread messages, click to check</string>
+
+    <string name="click_to_edit">When complete edit, long press or click the Bigbang to start word segment</string>
 </resources>

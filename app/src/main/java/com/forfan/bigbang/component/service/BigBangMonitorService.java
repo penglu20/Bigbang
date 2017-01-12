@@ -107,6 +107,7 @@ public class BigBangMonitorService extends AccessibilityService {
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
         intentFilter.addAction(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST);
         intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST);
+        intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST_DELAY);
         intentFilter.addAction(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
         intentFilter.addAction(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST);
         intentFilter.addAction(ConstantUtil.MONITOR_CLICK_BROADCAST);
@@ -690,6 +691,20 @@ public class BigBangMonitorService extends AccessibilityService {
                         UniversalCopy();
                     }
                 }
+            }else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST_DELAY)){
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (XposedEnableUtil.isEnable()){
+                            sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST_XP));
+                        }else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                UniversalCopy();
+                            }
+                        }
+                    }
+                },500);
+
             }else if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
 
             }else if (intent.getAction().equals(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST)){

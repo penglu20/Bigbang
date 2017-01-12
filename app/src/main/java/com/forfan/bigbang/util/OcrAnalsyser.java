@@ -62,7 +62,11 @@ public class OcrAnalsyser {
                     //返回403
                     currentIndex = (currentIndex + 1) % keys.size();
                     client = new VisionServiceRestClient(keys.get(currentIndex));
-                    subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                    if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                        subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                    }else {
+                        subscriber.onError(new IOException("time out"));
+                    }
                 }
 
                 @Override
@@ -99,7 +103,11 @@ public class OcrAnalsyser {
                         //返回403
                         currentIndex = (currentIndex + 1) % keys.size();
                         client = new VisionServiceRestClient(keys.get(currentIndex));
-                        subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                            subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                        }else {
+                            subscriber.onError(new IOException("time out"));
+                        }
                     }
 
                     @Override

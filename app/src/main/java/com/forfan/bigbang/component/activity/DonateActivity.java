@@ -30,8 +30,7 @@ public class DonateActivity extends BaseActivity {
     private static final String SAVE_PIC_PATH= Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED) ? Environment.getExternalStorageDirectory().getAbsolutePath() : "/mnt/sdcard";//保存到SD卡
     private static final String SAVE_REAL_PATH = SAVE_PIC_PATH+ "/Pictures";//保存的确切位置
     public  static String zhifubao="https://mobilecodec.alipay.com/client_download.htm?qrcode=ap13zwff7wggcfdn80";
-    public  static String qqJump= Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + "Ruk-hM-hLlIBoODmgTUpymQcrXjCPXqV").toString();
-
+    public  static String qqJump= Uri.parse("mqqopensdkapi://bizAgent/qm/qr?url=http%3A%2F%2Fqm.qq.com%2Fcgi-bin%2Fqm%2Fqr%3Ffrom%3Dapp%26p%3Dandroid%26k%3D" + "r3gKcodmiHhCdQC2jKXvgjUzOQvdYOt6").toString();
 
     private TextView donateMsg;
     @Override

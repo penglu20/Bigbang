@@ -68,7 +68,6 @@ public class BigBangActivity extends BaseActivity {
     private String originString;
 
     private List<String> netWordSegments;
-    private static String lastString;
 
 
     int alpha;
@@ -124,7 +123,12 @@ public class BigBangActivity extends BaseActivity {
 //        setContentView(cardView);
 
         Intent intent = getIntent();
-        String str = intent.getStringExtra(TO_SPLIT_STR);
+        String str =null;
+        try {
+            str = intent.getStringExtra(TO_SPLIT_STR);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
         if (TextUtils.isEmpty(str)) {
             String action = intent.getAction();
@@ -138,16 +142,11 @@ public class BigBangActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(str)) {
-            str = lastString;
-        }
-
-        if (TextUtils.isEmpty(str)) {
             finish();
             return;
         }
 
-        lastString = str;
-        mSelectText = lastString;
+        mSelectText = str;
 
         str = str.replaceAll("@", " @ ");
 

@@ -17,6 +17,7 @@ public class UrlCountUtil {
     public static final String CLICK_SETTINGS_OPEN_OCR ="click_settings_open_ocr";
     public static final String CLICK_SETTINGS_FEEDBACK ="click_settings_feedback";
     public static final String CLICK_SETTINGS_SET_STYLE_BIGBANG ="click_settings_set_style_bigbang";
+    public static final String CLICK_SETTINGS_OPEN_FROM_OUTSIDE ="click_settings_open_from_outside";
     public static final String CLICK_SETTINGS_SEARCH_ENGINE ="click_settings_search_engine";
     public static final String CLICK_SETTINGS_CHECK_FOR_UPDATE ="click_settings_check_for_update";
     public static final String CLICK_SETTINGS_HOW_TO_USE ="click_settings_how_to_use";

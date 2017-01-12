@@ -15,6 +15,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -23,8 +24,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        tools:replace="android:allowBackup"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:allowBackup">
         <activity
             android:name="com.qihoo.updatesdk.lib.UpdateTipDialogActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -68,8 +69,8 @@
             android:theme="@style/BigBangTheme" />
         <activity
             android:name=".component.activity.BigBangActivity"
-            android:launchMode="singleInstance"
             android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
             android:theme="@style/BigBangTheme">
 
             <!-- android:autoRemoveFromRecents="true" -->
@@ -85,11 +86,10 @@
         </activity>
         <activity
             android:name=".component.activity.XposedBigBangActivity"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:process=":monitor"
-            android:excludeFromRecents="true"
             android:theme="@style/ScreenCaptureTheme">
-
             <intent-filter>
                 <category android:name="android.intent.category.DEFAULT" />
 
@@ -103,10 +103,10 @@
             android:autoRemoveFromRecents="true"
             android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:launchMode="singleInstance"
             android:noHistory="true"
             android:process=":monitor"
-            android:exported="true"
             android:theme="@style/OverlayTheme" />
         <activity
             android:name="com.umeng.fb.ConversationActivity"
@@ -194,8 +194,8 @@
             android:theme="@style/SearchEngineAppTheme" />
         <activity
             android:name=".component.activity.WebActivity"
-            android:launchMode="singleInstance"
             android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
             android:theme="@style/WebActivityTheme" />
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
@@ -203,10 +203,10 @@
         <activity
             android:name=".component.activity.screen.ScreenCaptureActivity"
             android:excludeFromRecents="true"
+            android:exported="true"
             android:launchMode="singleInstance"
             android:process=":monitor"
             android:theme="@style/ScreenCaptureTheme" />
-
         <activity
             android:name=".component.activity.DonateActivity"
             android:theme="@style/BaseAppTheme" />
@@ -255,9 +255,22 @@
         <activity
             android:name=".component.activity.setting.XposedAppManagerActivity"
             android:theme="@style/BaseAppTheme" />
-
-        <activity android:name=".component.activity.FeedbackActivity"
+        <activity
+            android:name=".component.activity.FeedbackActivity"
             android:theme="@style/BaseAppTheme" />
+        <activity
+            android:name=".component.activity.UniversalCopyActivity"
+            android:theme="@style/ScreenCaptureTheme"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:autoRemoveFromRecents="true"
+            android:exported="true" />
+        <activity android:name=".component.activity.TotalSwitchActivity"
+            android:theme="@style/ScreenCaptureTheme"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:autoRemoveFromRecents="true"
+            android:exported="true" ></activity>
     </application>
 
 </manifest>
