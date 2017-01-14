@@ -204,6 +204,7 @@
                 android:paddingLeft="@dimen/margin_normal"
                 android:paddingRight="@dimen/margin_normal"
                 android:background="@drawable/button_white_stroke_green"
+                android:layout_marginBottom="@dimen/height_normal"
                 android:layout_height="@dimen/card_detail_line_height">
 
                 <android.support.design.widget.TextInputLayout

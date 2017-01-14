@@ -61,8 +61,8 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 26
-        versionName "2.3.2"
+        versionCode 27
+        versionName "2.4.0"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {

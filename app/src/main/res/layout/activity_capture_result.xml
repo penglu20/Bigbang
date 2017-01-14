@@ -47,6 +47,7 @@
                         android:gravity="left|center_vertical"
                         android:padding="@dimen/margin_double"
                         android:textSize="@dimen/text_size_normal"
+                        android:maxHeight="300dp"
                         android:textColor="@color/white" />
                 </android.support.design.widget.TextInputLayout>
 

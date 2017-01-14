@@ -31,8 +31,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="120dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="102dp" />
+        android:layout_marginStart="120dp"/>
     <Button
         android:text="Ocr"
         android:onClick="onOcr"
@@ -42,6 +41,15 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="120dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="102dp" />
+        android:layout_marginStart="120dp"/>
+    <Button
+        android:text="上传图片"
+        android:onClick="onUpload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="120dp"
+        android:layout_marginStart="120dp"/>
 </LinearLayout>

@@ -56,10 +56,10 @@
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".test.TestActivity">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <!--<intent-filter>-->
+             <!--<action android:name="android.intent.action.MAIN" />-->
+             <!--<category android:name="android.intent.category.LAUNCHER" />-->
+             <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".component.activity.screen.CaptureResultActivity"
@@ -257,7 +257,8 @@
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.FeedbackActivity"
-            android:theme="@style/BaseAppTheme" />
+            android:theme="@style/BaseAppTheme" /><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <activity
             android:name=".component.activity.UniversalCopyActivity"
             android:theme="@style/ScreenCaptureTheme"
@@ -271,6 +272,30 @@
             android:noHistory="true"
             android:autoRemoveFromRecents="true"
             android:exported="true" ></activity>
+        <service android:name=".quicksetting.GlobalCopyTile"
+            android:label="@string/notify_copy_title"
+            android:icon="@drawable/notify_copy"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+        <service android:name=".quicksetting.ScreenCaptureTile"
+            android:label="@string/notify_srceen_cap"
+            android:icon="@drawable/notify_screen"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
+        <service android:name=".quicksetting.TotleSwitchTile"
+            android:label="@string/notify_total_switch_on"
+            android:icon="@drawable/notify_on"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
