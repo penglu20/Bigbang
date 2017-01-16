@@ -70,11 +70,25 @@
 
 我们在做这个项目的过程中，学习到了一些知识，遇到了很多坑，记录整理成文，希望可以帮助你阅读和理解本项目：
 
+[通过辅助模式获取点击的文字](http://www.jianshu.com/p/60758b3f2c7c)
+
+[使用辅助服务实现全局复制](http://www.jianshu.com/p/c34cbef4d68e)
+
 [Android上如何实现矩形区域截屏](http://www.jianshu.com/p/0462dae4c808)
 
 [Android如何判断NavigationBar是否显示（获取屏幕真实的高度）](http://www.jianshu.com/p/84d951b3f079)
 
 [如何在Bitmap截取任意形状](http://www.jianshu.com/p/d64cf9f69d05)
+
+[4种获取前台应用的方法（肯定有你不知道的）](http://www.jianshu.com/p/a513accd40cd)
+
+[android7.0 通过代码 分享图片到朋友圈](http://www.jianshu.com/p/5b0e0310d93f)
+
+[Android中如何正确的获得所有App列表](http://www.jianshu.com/p/aee07cbb0cae)
+
+[Android的supportV7中默认按钮的颜色设置](http://www.jianshu.com/p/98214d31318d)
+
+[Android沉浸式与SearchView的坑](http://www.jianshu.com/p/f5d6bf2fc634)
 
 [Xposed大法好,教你实现ForceTouch炫酷功能](http://www.jianshu.com/p/e7ea5e3bdb47)
 
