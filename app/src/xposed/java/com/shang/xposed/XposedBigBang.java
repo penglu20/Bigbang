@@ -393,7 +393,11 @@ public class XposedBigBang implements IXposedHookLoadPackage {
                     @Override
                     public void onClick(View v) {
                         mTouchHandler.hookOnClickListener(v,mFilters);
-                        listener.onClick(v);
+                        if (listener==null){
+                            return ;
+                        }else {
+                            listener.onClick(v);
+                        }
                     }
                 };
                 param.args[0]=newListener;
@@ -442,7 +446,11 @@ public class XposedBigBang implements IXposedHookLoadPackage {
                     public boolean onLongClick(View v) {
 //                        Log.e("ViewOnLongClickListener","onLongClick");
                         mTouchHandler.hookOnLongClickListener(v,mFilters);
-                        return listener.onLongClick(v);
+                        if (listener==null){
+                            return false;
+                        }else {
+                            return listener.onLongClick(v);
+                        }
                     }
                 };
                 param.args[0]=newListener;

@@ -443,4 +443,7 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="unread_feed_back">有%s条未读回复反馈，点击查看</string>
 
     <string name="click_to_edit">修改内容后，长按或点击炸词开始分词</string>
+
+    <string name="jump_introduction">跳过</string>
+    <string name="jump_toast">如果遇到问题，你可以重新查看此页</string>
 </resources>

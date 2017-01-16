@@ -724,7 +724,9 @@ public class ArcTipViewController implements View.OnTouchListener {
                     if (iconFloatView != null) {
                         iconFloatView.setVisibility(View.VISIBLE);
                         if (rotation != mWindowManager.getDefaultDisplay().getRotation()) {
-                            moveToEdge2Hide();
+                            moveToEdge();
+                        }else {
+//                            moveToEdge2Hide();
                         }
                     }
                 }

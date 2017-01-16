@@ -81,5 +81,21 @@
                 android:textSize="@dimen/text_size_title"
                 android:visibility="gone" />
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/jump"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:text="@string/jump_introduction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margin_normal"
+                android:paddingLeft="@dimen/margin_double"
+                android:paddingRight="@dimen/margin_double"
+                android:textSize="@dimen/text_size_very_tiny"
+                android:layout_marginBottom="@dimen/margin_four"
+                android:layout_marginRight="@dimen/margin_double"
+                android:textColor="@color/white"
+                android:background="@drawable/button_introduction"
+                />
         </RelativeLayout>
 </LinearLayout>

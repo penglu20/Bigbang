@@ -259,7 +259,7 @@ public class BigBangActivity extends BaseActivity {
                     LogUtil.d(recommendInfo.toString());
                     List<String> txts = recommendInfo.get(0).getWord();
                     netWordSegments = txts;
-
+                    bigBangLayout.reset();
                     for (String t : txts) {
                         bigBangLayout.addTextItem(t);
                     }

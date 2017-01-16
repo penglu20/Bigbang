@@ -279,9 +279,11 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (mCurrentPackage.equals(event.getPackageName())){
             if (type!=mCurrentType){
+                //点击方式不匹配，直接返回
                 return;
             }
         }else {
+            //包名不匹配，直接返回
             return;
         }
         if (className==null || className.equals("android.widget.EditText")){
@@ -289,6 +291,7 @@ public class BigBangMonitorService extends AccessibilityService {
             return;
         }
         if (onlyText){
+            //onlyText方式下，只获取TextView的内容
             if (className==null || !className.equals("android.widget.TextView")){
                 if (!hasShowTipToast){
                     ToastUtil.show(R.string.toast_tip_content);
@@ -303,6 +306,8 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         CharSequence txt=info.getText();
         if (TextUtils.isEmpty(txt) && !onlyText){
+            //非onlyText方式下获取文字更多，但是可能并不是想要的文字
+            //比如系统短信页面需要这样才能获取到内容。
             List<CharSequence> txts=event.getText();
             if (txts!=null) {
                 StringBuilder sb=new StringBuilder();
@@ -314,6 +319,7 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (!TextUtils.isEmpty(txt)) {
             if (txt.length()<=2 ){
+                //对于太短的词进行屏蔽，因为这些词往往是“发送”等功能按钮，其实应该根据不同的activity进行区分
                 if (!hasShowTooShortToast) {
                     ToastUtil.show(R.string.too_short_to_split);
                     hasShowTooShortToast = true;
@@ -335,6 +341,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private long mLastClickTime;
 
     private long getSourceNodeId(AccessibilityEvent event)  {
+        //用于获取点击的View的id，用于检测双击操作
         if (getSourceNodeIdMethod==null) {
             Class<AccessibilityEvent> eventClass = AccessibilityEvent.class;
             try {
@@ -387,9 +394,9 @@ public class BigBangMonitorService extends AccessibilityService {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void UniversalCopy() {
         boolean isSuccess=false;
-        label37: {
+        labelOut: {
             AccessibilityNodeInfo rootInActiveWindow = this.getRootInActiveWindow();
-            if(this.retryTimes < 10) {
+            if(retryTimes < 10) {
                 String packageName;
                 if(rootInActiveWindow != null) {
                     packageName = String.valueOf(rootInActiveWindow.getPackageName());
@@ -398,8 +405,9 @@ public class BigBangMonitorService extends AccessibilityService {
                 }
 
                 if(rootInActiveWindow == null || packageName != null && packageName.contains("com.android.systemui")) {
-                    ++this.retryTimes;
-                    this.handler.postDelayed(new Runnable() {
+                    //如果通知栏没有收起来，则延迟进行
+                    ++retryTimes;
+                    handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             UniversalCopy();
@@ -408,21 +416,17 @@ public class BigBangMonitorService extends AccessibilityService {
                     return;
                 }
 
-                WindowManager var5 = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
-
+                //获取屏幕高宽，用于遍历数据时确定边界。
+                WindowManager windowManager = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
                 DisplayMetrics displayMetrics = new DisplayMetrics();
-                var5.getDefaultDisplay().getMetrics(displayMetrics);
-                int var1 = displayMetrics.heightPixels;
-                int var2 = displayMetrics.widthPixels;
-                ArrayList nodeList = traverseNode(new AccessibilityNodeInfoCompat(rootInActiveWindow), var2, var1);
+                windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+                int heightPixels = displayMetrics.heightPixels;
+                int widthPixels = displayMetrics.widthPixels;
+
+                ArrayList nodeList = traverseNode(new AccessibilityNodeInfoCompat(rootInActiveWindow), widthPixels, heightPixels);
                 if(nodeList.size() > 0) {
                     Intent intent = new Intent(this, CopyActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    if(!getPackageName().equals(packageName)) {
-                        // TODO: 2016/11/17 研究下这里的逻辑
-//                        intent.addFlags('耀');
-                    }
-
                     intent.putParcelableArrayListExtra("copy_nodes", nodeList);
                     intent.putExtra("source_package", packageName);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -431,10 +435,8 @@ public class BigBangMonitorService extends AccessibilityService {
                         startActivity(intent);
                     }
                     isSuccess = true;
-                    break label37;
+                    break labelOut;
                 }
-
-//                ae.a(this.getApplication(), "APP_DATA", "UC_MODE_FAILED", packageName);
             }
 
             isSuccess = false;
@@ -449,16 +451,17 @@ public class BigBangMonitorService extends AccessibilityService {
 
         }
 
-        this.retryTimes = 0;
+        retryTimes = 0;
     }
 
-    private ArrayList<CopyNode> traverseNode(AccessibilityNodeInfoCompat nodeInfo, int var2, int var3) {
-        ArrayList nodeList = new ArrayList();
+    private ArrayList<CopyNode> traverseNode(AccessibilityNodeInfoCompat nodeInfo, int width, int height) {
+        ArrayList<CopyNode> nodeList = new ArrayList();
         if(nodeInfo != null && nodeInfo.getInfo() != null) {
             nodeInfo.refresh();
 
-            for(int var4 = 0; var4 < nodeInfo.getChildCount(); ++var4) {
-                nodeList.addAll(this.traverseNode(nodeInfo.getChild(var4), var2, var3));
+            for(int i = 0; i < nodeInfo.getChildCount(); ++i) {
+                //递归遍历nodeInfo
+                nodeList.addAll(traverseNode(nodeInfo.getChild(i), width, height));
             }
 
             if(nodeInfo.getClassName() != null && nodeInfo.getClassName().equals("android.webkit.WebView")) {
@@ -482,10 +485,10 @@ public class BigBangMonitorService extends AccessibilityService {
                 }
 
                 if(content != null) {
-                    Rect var8 = new Rect();
-                    nodeInfo.getBoundsInScreen(var8);
-                    if(this.checkBound(var8, var2, var3)) {
-                        nodeList.add(new CopyNode(var8, content));
+                    Rect outBounds = new Rect();
+                    nodeInfo.getBoundsInScreen(outBounds);
+                    if(checkBound(outBounds, width, height)) {
+                        nodeList.add(new CopyNode(outBounds, content));
                     }
                 }
 
@@ -498,6 +501,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
 
     private boolean checkBound(Rect var1, int var2, int var3) {
+        //检测边界是否符合规范
         return var1.bottom >= 0 && var1.right >= 0 && var1.top <= var3 && var1.left <= var2;
     }
 
@@ -733,17 +737,4 @@ public class BigBangMonitorService extends AccessibilityService {
         }
     };
 
-
-
-    private class LongClickRunnable implements Runnable {
-        private int keyCode;
-        public LongClickRunnable(int keyCode){
-            this.keyCode=keyCode;
-        }
-
-        @Override
-        public void run() {
-
-        }
-    };
 }

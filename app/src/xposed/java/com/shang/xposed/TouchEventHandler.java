@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -15,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -585,8 +583,18 @@ public class TouchEventHandler {
     static class ViewElevationComparator implements Comparator<View> {
         @Override
         public int compare(View lhs, View rhs) {
-            final float lz = ViewCompat.getZ(lhs);
-            final float rz = ViewCompat.getZ(rhs);
+            final float lz;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                lz = lhs.getZ();
+            }else {
+                lz = 0;
+            }
+            final float rz;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                rz = rhs.getZ();
+            }else {
+                rz = 0;
+            }
             if (lz > rz) {
                 return -1;
             } else if (lz < rz) {

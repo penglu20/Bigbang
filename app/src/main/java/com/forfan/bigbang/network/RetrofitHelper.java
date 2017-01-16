@@ -1,6 +1,7 @@
 package com.forfan.bigbang.network;
 
 import com.forfan.bigbang.BigBangApp;
+import com.forfan.bigbang.network.api.ImageUploadService;
 import com.forfan.bigbang.network.api.MicSoftOcrService;
 import com.forfan.bigbang.network.api.OcrService;
 import com.forfan.bigbang.network.api.TranslationService;
@@ -31,6 +32,8 @@ public class RetrofitHelper {
     private static final String YOUDAO_URL = "http://fanyi.youdao.com/";
     private static final String OCR_URL = "https://api.ocr.space/";
     private static final String MICSOFT_OCR_URL = "https://api.projectoxford.ai/";
+   // private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
+    private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
     static {
         initOkHttpClient();
     }
@@ -108,7 +111,15 @@ public class RetrofitHelper {
                 .build();
         return retrofit.create(MicSoftOcrService.class);
     }
-
+    public static ImageUploadService getImageUploadService(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(IMAGE_UPLOAD_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(ImageUploadService.class);
+    }
     /**
      * 添加UA拦截器
      * B站请求API文档需要加上UA

@@ -47,107 +47,106 @@ public class CopyActivity extends BaseActivity {
     private OnCopyNodeViewClickCallback mOnCopyNodeViewClickCallback;
     private int actionBarHeight = 0;
     private BottomSheetDialog bottomSheetDialog;
-    private boolean v = false;
+    private boolean actionModeDestroying = false;
     private boolean isFullScreen = false;
 
-    private void addCopyNodeView(CopyNode var1, int var2) {
-        (new CopyNodeView(this, var1, this.mOnCopyNodeViewClickCallback)).addToFrameLayout(this.copyNodeViewContainer, var2);
+    private void addCopyNodeView(CopyNode copyNode, int height) {
+        (new CopyNodeView(this, copyNode, mOnCopyNodeViewClickCallback)).addToFrameLayout(copyNodeViewContainer, height);
     }
 
-    private void adjustActionBar(boolean notingSelected, boolean var2) {
-        this.menu.setGroupVisible(R.id.copy_actions, var2);
-        if(this.isFullScreen) {
-            if(var2) {
-                this.exitFab.show();
-                this.copyFab.show();
-                this.exitFullScreenFab.show();
+    private void adjustActionBar(boolean showTitle, boolean hadSelection) {
+        menu.setGroupVisible(R.id.copy_actions, hadSelection);
+        if(isFullScreen) {
+            if(hadSelection) {
+                exitFab.show();
+                copyFab.show();
+                exitFullScreenFab.show();
             } else {
-                this.exitFab.show();
-                this.copyFab.hide();
-                this.exitFullScreenFab.show();
+                exitFab.show();
+                copyFab.hide();
+                exitFullScreenFab.show();
             }
         }
 
-        ActionBar var3 = this.getSupportActionBar();
-        if(var3 != null) {
-            if(notingSelected) {
-                var3.setTitle(R.string.copy_title);
-                var3.setSubtitle(R.string.copy_subtitle);
-                var3.setHomeAsUpIndicator(R.mipmap.ic_close_white_24dp);
+        ActionBar actionBar = getSupportActionBar();
+        if(actionBar != null) {
+            if(showTitle) {
+                actionBar.setTitle(R.string.copy_title);
+                actionBar.setSubtitle(R.string.copy_subtitle);
+                actionBar.setHomeAsUpIndicator(R.mipmap.ic_close_white_24dp);
                 return;
             }
 
-            var3.setTitle((CharSequence)null);
-            var3.setSubtitle((CharSequence)null);
-            var3.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
+            actionBar.setTitle((CharSequence)null);
+            actionBar.setSubtitle((CharSequence)null);
+            actionBar.setHomeAsUpIndicator(R.mipmap.ic_arrow_back_white_24dp);
         }
 
     }
 
-    private void setSelectTextToClipboard(TextView var1) {
-//        ClipboardUtils.setText(this,this.getSelectedTextViewText(var1));
+    private void setSelectTextToClipboard(TextView textView) {
+//        ClipboardUtils.setText(this,getSelectedTextViewText(var1));
 
         Intent intent=new Intent(this, BigBangActivity.class);
         intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(BigBangActivity.TO_SPLIT_STR, getSelectedTextViewText(var1));
+        intent.putExtra(BigBangActivity.TO_SPLIT_STR, getSelectedTextViewText(textView));
         startActivity(intent);
     }
 
 
-    private String getSelectedTextViewText(TextView var1) {
-        if(var1 == null) {
+    private String getSelectedTextViewText(TextView textView) {
+        if(textView == null) {
             return getSelectedText();
         } else {
-            CharSequence var2 = var1.getText();
-            if(var1.getSelectionStart() == var1.getSelectionEnd()) {
-                return var2.toString();
+            CharSequence text = textView.getText();
+            if(textView.getSelectionStart() == textView.getSelectionEnd()) {
+                return text.toString();
             } else {
-                CharSequence var3 = var2.subSequence(var1.getSelectionStart(), var1.getSelectionEnd());
-                return var3 != null?var3.toString():var2.toString();
+                CharSequence selected = text.subSequence(textView.getSelectionStart(), textView.getSelectionEnd());
+                return selected != null?selected.toString():text.toString();
             }
         }
     }
 
-    private void fullScreenMode(boolean var1) {
-        ActionBar var2 = getSupportActionBar();
-        this.isFullScreen = var1;
-        if(var1) {
-            if(var2 != null) {
-                var2.hide();
+    private void fullScreenMode(boolean fullScreen) {
+        ActionBar actionBar = getSupportActionBar();
+        isFullScreen = fullScreen;
+        if(fullScreen) {
+            if(actionBar != null) {
+                actionBar.hide();
             }
 
-            this.adjustActionBarWrap();
+            adjustActionBarWrap();
         } else {
-            if(var2 != null) {
-                var2.show();
+            if(actionBar != null) {
+                actionBar.show();
             }
 
-            this.copyFab.hide();
-            this.exitFab.hide();
-            this.exitFullScreenFab.hide();
+            copyFab.hide();
+            exitFab.hide();
+            exitFullScreenFab.hide();
         }
-        SPHelper.save(IS_FULL_SCREEN_COPY,var1);
+        SPHelper.save(IS_FULL_SCREEN_COPY,fullScreen);
     }
 
     private void showSelectedText() {
-        this.v = false;
-        this.adjustActionBar(false, false);
-        this.bottomSheetDialog = new BottomSheetDialog(this){
+        actionModeDestroying = false;
+        adjustActionBar(false, false);
+        bottomSheetDialog = new BottomSheetDialog(this){
             @Override
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 StatusBarCompat.setTranslucentStatus(getWindow(),true);
             }
         };
-        View var1 = this.getLayoutInflater().inflate(R.layout.dialog_copy_text_editor, (ViewGroup)null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_copy_text_editor, null);
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//        layoutParams.topMargin = (int) (this.actionBarHeight - ViewUtil.dp2px(44));
-        var1.setLayoutParams(layoutParams);
-        TextView var4 = (TextView)var1.findViewById(R.id.text);
-        var4.setText(getSelectedText());
-//        var4.setText(new SpannableString(getSelectedText()), TextView.BufferType.NORMAL);
-        var4.setCustomSelectionActionModeCallback(new MySelectionActionModeCallback(var4));
-        ((FloatingActionButton)var1.findViewById(R.id.fab_copy)).setOnClickListener(new View.OnClickListener() {
+        view.setLayoutParams(layoutParams);
+        TextView textView = (TextView)view.findViewById(R.id.text);
+        textView.setText(getSelectedText());
+//        textView.setText(new SpannableString(getSelectedText()), TextView.BufferType.NORMAL);
+        textView.setCustomSelectionActionModeCallback(new MySelectionActionModeCallback(textView));
+        view.findViewById(R.id.fab_copy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setSelectTextToClipboard(null);
@@ -155,67 +154,65 @@ public class CopyActivity extends BaseActivity {
                 finish();
             }
         });
-        this.bottomSheetDialog.setContentView(var1);
-        ((View)var1.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
-        BottomSheetBehavior var3 = BottomSheetBehavior.from((View)var1.getParent());
-        this.bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+        bottomSheetDialog.setContentView(view);
+        ((View)view.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        BottomSheetBehavior behavior = BottomSheetBehavior.from((View)view.getParent());
+        bottomSheetDialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface dialog) {
-                var3.setState(BottomSheetBehavior.STATE_EXPANDED);
-//                var1.requestLayout();
+                behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }
         });
-        this.bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+        bottomSheetDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
             @Override
             public void onDismiss(DialogInterface dialog) {
                 adjustActionBarWrap();
             }
         });
-        this.bottomSheetDialog.show();
+        bottomSheetDialog.show();
 
     }
 
     private void adjustActionBarWrap() {
-        boolean var2 = true;
-        boolean var1;
-        if(this.selectedNodes.size() > 0) {
-            var1 = true;
+        boolean showTitle = true;
+        boolean hadSelection;
+        if(selectedNodes.size() > 0) {
+            hadSelection = true;
         } else {
-            var1 = false;
+            hadSelection = false;
         }
 
-        if(var1) {
-            var2 = false;
+        if(hadSelection) {
+            showTitle = false;
         }
 
-        this.adjustActionBar(var2, var1);
+        adjustActionBar(showTitle, hadSelection);
     }
 
     private String getSelectedText() {
-        StringBuilder var2 = new StringBuilder();
+        StringBuilder text = new StringBuilder();
 
-        for(int var1 = 0; var1 < this.selectedNodes.size(); ++var1) {
-            var2.append(((CopyNodeView)this.selectedNodes.get(var1)).getText());
-            if(var1 + 1 < this.selectedNodes.size()) {
-                var2.append("\n");
+        for(int i = 0; i < selectedNodes.size(); ++i) {
+            text.append(((CopyNodeView)selectedNodes.get(i)).getText());
+            if(i + 1 < selectedNodes.size()) {
+                text.append("\n");
             }
         }
 
-        return var2.toString();
+        return text.toString();
     }
 
     private int getStatusBarHeight() {
-        int var1 = this.getResources().getIdentifier("status_bar_height", "dimen", "android");
-        return var1 > 0?this.getResources().getDimensionPixelSize(var1):(int)Math.ceil((double)(25.0F * this.getResources().getDisplayMetrics().density));
+        int resId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        return resId > 0?getResources().getDimensionPixelSize(resId):(int)Math.ceil((double)(25.0F * getResources().getDisplayMetrics().density));
     }
 
-    protected void onCreate(Bundle var1) {
-        int var3 = 0;
-        super.onCreate(var1);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ArcTipViewController.getInstance().showHideFloatImageView();
 
-        this.setContentView(R.layout.activity_copy_overlay);
-        Toolbar toolbar = (Toolbar)this.findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_copy_overlay);
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         if(toolbar != null) {
 
             try {
@@ -232,33 +229,33 @@ public class CopyActivity extends BaseActivity {
 
         }
 
-        this.selectedNodes = new ArrayList();
-        this.mOnCopyNodeViewClickCallback = new OnCopyNodeViewClickCallback() {
+        selectedNodes = new ArrayList();
+        mOnCopyNodeViewClickCallback = new OnCopyNodeViewClickCallback() {
             @Override
-            public void onCopyNodeViewLongClick(CopyNodeView var1, boolean var2) {
-                if (var2){
-                    selectedNodes.add(var1);
+            public void onCopyNodeViewLongClick(CopyNodeView nodeView, boolean status) {
+                if (status){
+                    selectedNodes.add(nodeView);
                     adjustActionBarWrap();
                     showSelectedText();
                 }else {
-                    selectedNodes.remove(var1);
+                    selectedNodes.remove(nodeView);
                     adjustActionBarWrap();
                 }
             }
 
             @Override
-            public void onCopyNodeViewClick(CopyNodeView var1, boolean var2) {
-                if (var2){
-                    selectedNodes.add(var1);
+            public void onCopyNodeViewClick(CopyNodeView nodeView, boolean status) {
+                if (status){
+                    selectedNodes.add(nodeView);
                     adjustActionBarWrap();
                 }else {
-                    selectedNodes.remove(var1);
+                    selectedNodes.remove(nodeView);
                     adjustActionBarWrap();
                 }
             }
         };
-        this.copyFab = (FloatingActionButton)this.findViewById(R.id.fab_copy_main);
-        this.copyFab.setOnClickListener(new View.OnClickListener() {
+        copyFab = (FloatingActionButton)findViewById(R.id.fab_copy_main);
+        copyFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_COPY_FAB);
@@ -266,15 +263,15 @@ public class CopyActivity extends BaseActivity {
                 finish();
             }
         });
-        this.exitFab = (FloatingActionButton)this.findViewById(R.id.exit_button);
-        this.exitFab.setOnClickListener(new View.OnClickListener() {
+        exitFab = (FloatingActionButton)findViewById(R.id.exit_button);
+        exitFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT_FAB);
                 finish();
             }
         });
-        this.exitFullScreenFab = (FloatingActionButton)this.findViewById(R.id.exit_full_screen_button);
+        exitFullScreenFab = (FloatingActionButton)findViewById(R.id.exit_full_screen_button);
         exitFullScreenFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,17 +280,17 @@ public class CopyActivity extends BaseActivity {
             }
         });
 
-//        this.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+//        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int statusBarHeight = getStatusBarHeight();
-        int screenHeight = displayMetrics.heightPixels;
-        this.copyNodeViewContainer = (FrameLayout)this.findViewById(R.id.overlay_root);
-        TypedValue var8 = new TypedValue();
-        if(this.getTheme().resolveAttribute(android.R.attr.actionBarSize, var8, true)) {
-            this.actionBarHeight = TypedValue.complexToDimensionPixelSize(var8.data, this.getResources().getDisplayMetrics());
+        int height = displayMetrics.heightPixels;
+        copyNodeViewContainer = (FrameLayout)findViewById(R.id.overlay_root);
+        TypedValue typedValue = new TypedValue();
+        if(getTheme().resolveAttribute(android.R.attr.actionBarSize, typedValue, true)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
         }
 
         Bundle extras = getIntent().getExtras();
@@ -303,26 +300,25 @@ public class CopyActivity extends BaseActivity {
         }
         extras.setClassLoader(CopyNode.class.getClassLoader());
 
-        String var9 = extras.getString("source_package");
-        screenHeight = statusBarHeight;
-        if(var9 != null) {
-            screenHeight = statusBarHeight;
-            if("com.android.chrome".equals(var9)) {
-                screenHeight = (int) (this.actionBarHeight - statusBarHeight - ViewUtil.dp2px(7));
+        String packageName = extras.getString("source_package");
+        height = statusBarHeight;
+        if(packageName != null) {
+            height = statusBarHeight;
+            if("com.android.chrome".equals(packageName)) {
+                height = (int) (actionBarHeight - statusBarHeight - ViewUtil.dp2px(7));
             }
         }
 
-        ArrayList var10 = extras.getParcelableArrayList("copy_nodes");
-        if(var10 != null && var10.size() > 0) {
-            CopyNode[] var11 = (CopyNode[])var10.toArray(new CopyNode[0]);
-            Arrays.sort(var11, new CopyNodeComparator());
-
-            for(statusBarHeight = var11.length; var3 < statusBarHeight; ++var3) {
-                this.addCopyNodeView(var11[var3], screenHeight);
+        ArrayList nodesList = extras.getParcelableArrayList("copy_nodes");
+        if(nodesList != null && nodesList.size() > 0) {
+            CopyNode[] nodes = (CopyNode[])nodesList.toArray(new CopyNode[0]);
+            Arrays.sort(nodes, new CopyNodeComparator());
+            for(int i  = 0; i < nodes.length; ++i) {
+                addCopyNodeView(nodes[i], height);
             }
         } else {
             ToastUtil.show(R.string.error_in_copy);
-            this.finish();
+            finish();
         }
         exitFab.postDelayed(new Runnable() {
             @Override
@@ -333,35 +329,35 @@ public class CopyActivity extends BaseActivity {
     }
 
 
-    public boolean onCreateOptionsMenu(Menu var1) {
-        this.getMenuInflater().inflate(R.menu.universal_copy, var1);
-        this.menu = var1;
-        return super.onCreateOptionsMenu(var1);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.universal_copy, menu);
+        this.menu = menu;
+        return super.onCreateOptionsMenu(menu);
     }
 
-    public boolean onOptionsItemSelected(MenuItem var1) {
-        switch(var1.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
             case android.R.id.home:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT);
                 // TODO: 2016/11/19  
-                if(this.selectedNodes.size() <= 0) {
+                if(selectedNodes.size() <= 0) {
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT);
-                    this.finish();
+                    finish();
                     return true;
                 }
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT_RETUN);
-                Iterator var2 = this.selectedNodes.iterator();
+                Iterator iterator = selectedNodes.iterator();
 
-                while(var2.hasNext()) {
-                    ((CopyNodeView)var2.next()).setActiveState(false);
+                while(iterator.hasNext()) {
+                    ((CopyNodeView)iterator.next()).setActiveState(false);
                 }
 
-                this.selectedNodes.clear();
-                this.adjustActionBarWrap();
+                selectedNodes.clear();
+                adjustActionBarWrap();
                 return true;
             case R.id.action_full_screen:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EXIT_FULLSCREEN_ACTION);
-                this.fullScreenMode(true);
+                fullScreenMode(true);
                 return true;
             case R.id.action_select_mode:
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_EDIT);
@@ -413,32 +409,32 @@ public class CopyActivity extends BaseActivity {
     }
 
     public interface OnCopyNodeViewClickCallback {
-        void onCopyNodeViewLongClick(CopyNodeView var1, boolean var2);
+        void onCopyNodeViewLongClick(CopyNodeView nodeView, boolean status);
 
-        void onCopyNodeViewClick(CopyNodeView var1, boolean var2);
+        void onCopyNodeViewClick(CopyNodeView nodeView, boolean status);
     }
 
     public class CopyNodeComparator implements Comparator<CopyNode> {
 
-        public int compare(CopyNode var1, CopyNode var2) {
-            long var3 = var1.caculateSize();
-            long var5 = var2.caculateSize();
-            return var3 < var5?-1:(var3 == var5?0:1);
+        public int compare(CopyNode o1, CopyNode o2) {
+            long o1Size = o1.caculateSize();
+            long o2Size = o2.caculateSize();
+            return o1Size < o2Size?-1:(o1Size == o2Size?0:1);
         }
     }
 
     private class MySelectionActionModeCallback implements ActionMode.Callback {
-        private TextView b;
+        private TextView textView;
 
-        private MySelectionActionModeCallback(TextView var2) {
-            this.b = var2;
+        private MySelectionActionModeCallback(TextView view) {
+            textView = view;
         }
 
-        public boolean onActionItemClicked(ActionMode var1, MenuItem var2) {
-            switch(var2.getItemId()) {
+        public boolean onActionItemClicked(ActionMode actionMode, MenuItem item) {
+            switch(item.getItemId()) {
                 case R.id.fab_copy:
                     UrlCountUtil.onEvent(UrlCountUtil.CLICK_UNIVERSAL_COPY_COPY_FAB);
-                    setSelectTextToClipboard(this.b);
+                    setSelectTextToClipboard(textView);
                     finish();
                     return true;
                 default:
@@ -446,26 +442,26 @@ public class CopyActivity extends BaseActivity {
             }
         }
 
-        public boolean onCreateActionMode(ActionMode var1, Menu var2) {
+        public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
             return true;
         }
 
-        public void onDestroyActionMode(ActionMode var1) {
-            if(CopyActivity.this.bottomSheetDialog != null && !CopyActivity.this.v) {
-                CopyActivity.this.v = true;
+        public void onDestroyActionMode(ActionMode actionMode) {
+            if(CopyActivity.this.bottomSheetDialog != null && !CopyActivity.this.actionModeDestroying) {
+                CopyActivity.this.actionModeDestroying = true;
 
                 try {
                     CopyActivity.this.bottomSheetDialog.dismiss();
-                } catch (IllegalArgumentException var2) {
+                } catch (IllegalArgumentException e) {
                 }
             }
 
-            CopyActivity.this.v = false;
+            CopyActivity.this.actionModeDestroying = false;
         }
 
-        public boolean onPrepareActionMode(ActionMode var1, Menu var2) {
-            for(int var3 = 0; var3 < var2.size(); ++var3) {
-                var2.getItem(var3).setVisible(false);
+        public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+            for(int i = 0; i < menu.size(); ++i) {
+                menu.getItem(i).setVisible(false);
             }
 
             return false;

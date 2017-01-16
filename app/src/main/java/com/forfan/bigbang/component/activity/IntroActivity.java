@@ -14,8 +14,10 @@ import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ClipboardUtils;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -33,7 +35,7 @@ import static com.forfan.bigbang.component.activity.SplashActivity.KEY;
 public class IntroActivity extends BaseActivity {
     private static final String INTRODUCED="introduced";
 
-    private TextView mIntro;
+    private TextView mIntro,mJumpBtn;
     private TextView mFunctionIntroTV;
     private GuideView guideView;
     private BigBangLayoutWrapper mBigBangLayout;
@@ -182,6 +184,25 @@ public class IntroActivity extends BaseActivity {
                 finish();
             }
         });
+        mJumpBtn= (TextView) findViewById(R.id.jump);
+        mJumpBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.show(R.string.jump_toast);
+                Intent intent = new Intent();
+                intent.setClass(IntroActivity.this, SettingActivity.class);
+                startActivity(intent);
+                SPHelper.save(KEY, true);
+                SPHelper.save(INTRODUCED, true);
+                finish();
+            }
+        });
+
+        if (SPHelper.getBoolean(INTRODUCED,false)){
+            mJumpBtn.setVisibility(View.VISIBLE);
+        }else {
+            mJumpBtn.setVisibility(View.GONE);
+        }
     }
 
     private void showBigBangIntro() {
