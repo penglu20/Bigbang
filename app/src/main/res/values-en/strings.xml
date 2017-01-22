@@ -463,6 +463,9 @@ PS: xposed trigger mode and the general version is not the same, each have advan
     <string name="unread_feed_back">%s unread messages, click to check</string>
 
     <string name="click_to_edit">When complete edit, long press or click the Bigbang to start word segment</string>
+    <string name="search_">Search Pic</string>
+    <string name="upload_img">Upload image for search</string>
+    <string name="upload_img_fail">Sorry for uploading image fail</string>
 
     <string name="jump_introduction">Skip</string>
     <string name="jump_toast">You can check this when you get any problems.</string>

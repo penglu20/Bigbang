@@ -446,4 +446,7 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
 
     <string name="jump_introduction">跳过</string>
     <string name="jump_toast">如果遇到问题，你可以重新查看此页</string>
+    <string name="search_">以图搜图</string>
+    <string name="upload_img">开始上传图片</string>
+    <string name="upload_img_fail">抱歉，图片上传失败</string>
 </resources>

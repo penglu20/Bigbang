@@ -23,10 +23,16 @@ import rx.Observable;
 //Content-Type: image/png
 public interface ImageUploadService {
     @Headers({
-            "User-Agent: Mozilla/5.0",
-            "Content-Type: image/png"
+            "Accept:*/*",
+            "Accept-Encoding:gzip, deflate",
+            "Accept-Language:zh-CN,zh;q=0.8",
+            "Connection:keep-alive",
+            "Content-Type:multipart/form-data",
+            "User-Agent:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36"
     })
-    @POST("")
+   // @Multipart
+    @POST("/api/upload")
     Observable<ImageUpload> uploadImage4search(@Body RequestBody imgs);
    // Observable<ImageUpload> uploadImage4search(@PartMap Map<String, Object> fields, @Body RequestBody imgs);
+    //@Part("smfile; filename=\"abc.jpg\"")
 }

@@ -31,7 +31,16 @@
             app:theme="@style/BrowserMonthDropTheme"
             android:layout_gravity="center|center_horizontal"
             android:text="@string/ocr_picture" />
-
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/title_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            android:textColor="@color/secondary_text"
+            android:textSize="@dimen/text_size_normal"
+            android:text="@string/search_" />
         <ImageView
             android:id="@+id/open_chrome"
             android:layout_width="@dimen/tab_indicator_long_width"

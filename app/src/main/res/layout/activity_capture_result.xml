@@ -86,6 +86,16 @@
                 android:text="@string/save_" />
 
             <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/bigbang_action_search"
+                android:gravity="center_horizontal"
+                android:scaleType="center"
+                android:text="@string/search_" />
+            <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/recognize"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

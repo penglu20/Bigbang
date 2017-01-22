@@ -6,97 +6,134 @@ package com.forfan.bigbang.entity;
 
 public class ImageUpload {
 
+
     /**
-     * width : 1365
-     * height : 768
-     * type : jpg
-     * size : 32570
-     * ubburl : [url=http://tietuku.com/fed3e1c4dc63d1ab2][img]http://i2.piimg.com/fed3e1c4dc63d1ab.jpg[/img][/url]
-     * linkurl : http://i2.piimg.com/fed3e1c4dc63d1ab.jpg
-     * htmlurl : <a href='http://tietuku.com/fed3e1c4dc63d1ab2' target='_blank'><img src='http://i2.piimg.com/fed3e1c4dc63d1ab.jpg' /></a>
-     * s_url : http://i2.piimg.com/fed3e1c4dc63d1abs.jpg
-     * t_url : http://i2.piimg.com/fed3e1c4dc63d1abt.jpg
+     * code : success
+     * data : {"width":1157,"height":680,"filename":"image_2015-08-26_10-54-48.png","storename":"56249afa4e48b.png","size":69525,"path":"/2015/10/19/56249afa4e48b.png","hash":"nLbCw63NheaiJp1","timestamp":1445239546,"url":"https://ooo.0o0.ooo/2015/10/19/56249afa4e48b.png","delete":"https://sm.ms/api/delete/nLbCw63NheaiJp1"}
      */
 
-    private String width;
-    private String height;
-    private String type;
-    private String size;
-    private String ubburl;
-    private String linkurl;
-    private String htmlurl;
-    private String s_url;
-    private String t_url;
+    private String code;
+    /**
+     * width : 1157
+     * height : 680
+     * filename : image_2015-08-26_10-54-48.png
+     * storename : 56249afa4e48b.png
+     * size : 69525
+     * path : /2015/10/19/56249afa4e48b.png
+     * hash : nLbCw63NheaiJp1
+     * timestamp : 1445239546
+     * url : https://ooo.0o0.ooo/2015/10/19/56249afa4e48b.png
+     * delete : https://sm.ms/api/delete/nLbCw63NheaiJp1
+     */
 
-    public String getWidth() {
-        return width;
+    private DataBean data;
+
+    public String getCode() {
+        return code;
     }
 
-    public void setWidth(String width) {
-        this.width = width;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getHeight() {
-        return height;
+    public DataBean getData() {
+        return data;
     }
 
-    public void setHeight(String height) {
-        this.height = height;
+    public void setData(DataBean data) {
+        this.data = data;
     }
 
-    public String getType() {
-        return type;
-    }
+    public static class DataBean {
+        private int width;
+        private int height;
+        private String filename;
+        private String storename;
+        private int size;
+        private String path;
+        private String hash;
+        private int timestamp;
+        private String url;
+        private String delete;
 
-    public void setType(String type) {
-        this.type = type;
-    }
+        public int getWidth() {
+            return width;
+        }
 
-    public String getSize() {
-        return size;
-    }
+        public void setWidth(int width) {
+            this.width = width;
+        }
 
-    public void setSize(String size) {
-        this.size = size;
-    }
+        public int getHeight() {
+            return height;
+        }
 
-    public String getUbburl() {
-        return ubburl;
-    }
+        public void setHeight(int height) {
+            this.height = height;
+        }
 
-    public void setUbburl(String ubburl) {
-        this.ubburl = ubburl;
-    }
+        public String getFilename() {
+            return filename;
+        }
 
-    public String getLinkurl() {
-        return linkurl;
-    }
+        public void setFilename(String filename) {
+            this.filename = filename;
+        }
 
-    public void setLinkurl(String linkurl) {
-        this.linkurl = linkurl;
-    }
+        public String getStorename() {
+            return storename;
+        }
 
-    public String getHtmlurl() {
-        return htmlurl;
-    }
+        public void setStorename(String storename) {
+            this.storename = storename;
+        }
 
-    public void setHtmlurl(String htmlurl) {
-        this.htmlurl = htmlurl;
-    }
+        public int getSize() {
+            return size;
+        }
 
-    public String getS_url() {
-        return s_url;
-    }
+        public void setSize(int size) {
+            this.size = size;
+        }
 
-    public void setS_url(String s_url) {
-        this.s_url = s_url;
-    }
+        public String getPath() {
+            return path;
+        }
 
-    public String getT_url() {
-        return t_url;
-    }
+        public void setPath(String path) {
+            this.path = path;
+        }
 
-    public void setT_url(String t_url) {
-        this.t_url = t_url;
+        public String getHash() {
+            return hash;
+        }
+
+        public void setHash(String hash) {
+            this.hash = hash;
+        }
+
+        public int getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(int timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        public String getDelete() {
+            return delete;
+        }
+
+        public void setDelete(String delete) {
+            this.delete = delete;
+        }
     }
 }

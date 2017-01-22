@@ -17,10 +17,10 @@ public class CopyNodeView extends View {
 
     public CopyNodeView(Context context, CopyNode copyNode, CopyActivity.OnCopyNodeViewClickCallback clickCallback) {
         super(context);
-        this.bound = copyNode.getBound();
-        this.content = copyNode.getContent();
-        this.setContentDescription(this.content);
-        this.setOnClickListener(new OnClickListener() {
+        bound = copyNode.getBound();
+        content = copyNode.getContent();
+        setContentDescription(content);
+        setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean state;
@@ -33,7 +33,7 @@ public class CopyNodeView extends View {
                 clickCallback.onCopyNodeViewClick((CopyNodeView)v, state);
             }
         });
-        this.setOnLongClickListener(new OnLongClickListener() {
+        setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 boolean state;
@@ -51,39 +51,39 @@ public class CopyNodeView extends View {
     }
 
     public void addToFrameLayout(FrameLayout frameLayout, int height) {
-        LayoutParams var3 = new LayoutParams(this.bound.width(), this.bound.height());
-        var3.leftMargin = this.bound.left;
-        var3.topMargin = Math.max(0, this.bound.top - height);
-        var3.width = this.bound.width();
-        var3.height = this.bound.height();
+        LayoutParams var3 = new LayoutParams(bound.width(), bound.height());
+        var3.leftMargin = bound.left;
+        var3.topMargin = Math.max(0, bound.top - height);
+        var3.width = bound.width();
+        var3.height = bound.height();
         frameLayout.addView(this, 0, var3);
     }
 
     public String getText() {
-        return this.content;
+        return content;
     }
 
     public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(event);
-        event.setChecked(this.selected);
+        event.setChecked(selected);
     }
 
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
         info.setCheckable(true);
-        info.setChecked(this.selected);
+        info.setChecked(selected);
     }
 
     public void setActiveState(boolean state) {
-        this.selected = state;
-        if(this.selected) {
-            this.setBackgroundColor(this.getContext().getResources().getColor(R.color.quarter_transparent));
+        selected = state;
+        if(selected) {
+            setBackgroundColor(getContext().getResources().getColor(R.color.quarter_transparent));
         } else {
-//            this.setBackgroundColor(0);
-            this.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.universal_copy_node_bg_n));
+//            setBackgroundColor(0);
+            setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.universal_copy_node_bg_n));
         }
 
-        this.sendAccessibilityEvent(0);
-        this.invalidate();
+        sendAccessibilityEvent(0);
+        invalidate();
     }
 }

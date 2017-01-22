@@ -26,6 +26,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.screen.CaptureResultActivity;
+import com.forfan.bigbang.component.activity.screen.ScreenCaptureActivity;
 import com.forfan.bigbang.component.activity.searchengine.SearchEngineActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
@@ -283,7 +285,13 @@ public class WebActivity
         initViews();
         initAnim();
         this.mEnterAnim.start();
-
+        if(!TextUtils.isEmpty(mUrl) && mUrl.startsWith(CaptureResultActivity.HTTP_IMAGE_BAIDU_COM)){
+            mTitleSpinner.setVisibility(View.GONE);
+            findViewById(R.id.title_).setVisibility(View.VISIBLE);
+        }else {
+            mTitleSpinner.setVisibility(View.VISIBLE);
+            findViewById(R.id.title_).setVisibility(View.GONE);
+        }
         toLoadUrl(mUrl, mQuery);
         setConfigCallback((WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE));
     }

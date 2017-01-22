@@ -11,15 +11,20 @@ import android.view.View;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.network.RetrofitHelper;
+import com.forfan.bigbang.network.UploadUtil;
 import com.forfan.bigbang.util.IOUtil;
 import com.forfan.bigbang.util.LogUtil;
 
+import com.forfan.bigbang.util.UpdateUtil;
+import com.google.gson.stream.JsonReader;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;
 import com.microsoft.projectoxford.vision.contract.LanguageCodes;
 import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -133,26 +138,48 @@ public class TestActivity extends BaseActivity {
 //                });
 
     }
-
-    public void onUpload(View view) {
+//    public void onUpload1(View view) throws IOException{
+//        File file = new File("/storage/emulated/0/sharw.png");
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                UploadUtil.uploadFile(file,"http://up.imgapi.com/");
+//            }
+//        }).start();
+//    }
+    public void onUpload(View view) throws IOException {
         File file = new File("/storage/emulated/0/sharw.png");
 
-        //构建body
+        //String token ="BCBB0F5480391E6D7E4ACB9F2FA16E8924019E83:Ay7-eh7ad01W1nLuaz9TYUI6luc=:eyJkZWFkbGluZSI6MTQ4NDU2MTA2MywidWlkIjoiNTgzMjEyIiwiYWxidW0iOiIxMjcxODE1In0=";
+       // String token = "b12ac98d75cfc99e9aa5d14582a82d1e3c8f4fab:z_8GuiEyV-GFtm-pcsxjWjleup8=:eyJkZWFkbGluZSI6MTQ4NDU2OTE5MCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzMjEyIiwiYWlkIjoiMTI3MzUyNCIsImZyb20iOiJmaWxlIn0=";
+        String token = "c601d5d96c7438b7a6801f9715820bc6e561db4b:eDYtR2NnVlVpWEdRX2pDM1hJV2lwTjAwSndJPQ==:eyJkZWFkbGluZSI6MTQ0Njk3MjkxOSwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTIzMDYwIiwiYWlkIjoiMTE1MTg3NiIsImZyb20iOiJmaWxlIn0=";
         RequestBody requestBody = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                .addFormDataPart("deadline",System.currentTimeMillis()+50+"")
-                .addFormDataPart("aid",1271815+"")
-                .addFormDataPart("from","file")
-                .addFormDataPart("Token","524ed80313c4618c44f7aeb2f23666e543d11fa5:esotyeuZRmbWY_idMluKw4mq7vU=:eyJkZWFkbGluZSI6MTQ4NDEzMzQ5MCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzMjEyIiwiYWlkIjoiMTI3MTgxNSIsImZyb20iOiJmaWxlIn0=")
-               .addFormDataPart("file", file.getName(), RequestBody.create(MediaType.parse("image/*"), file))
+
+              //   .addFormDataPart("deadline",System.currentTimeMillis()+50+"")
+                //.addFormDataPart("lastModifiedDate",System.currentTimeMillis()+50+"")
+               // .addFormDataPart("album",1273524+"")
+               // .addFormDataPart("id","WU_FILE_0")
+              //  .addFormDataPart("Token",token)
+               .addFormDataPart("smfile", file.getName(), RequestBody.create(MediaType.parse("image/png"), file))
+                .addFormDataPart("file_id","0")
                 .build();
         RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
-
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("deadline",System.currentTimeMillis()+50);
-        map.put("aid",1271815);
-        map.put("from","file");
-        map.put("Token","524ed80313c4618c44f7aeb2f23666e543d11fa5:esotyeuZRmbWY_idMluKw4mq7vU=:eyJkZWFkbGluZSI6MTQ4NDEzMzQ5MCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzMjEyIiwiYWlkIjoiMTI3MTgxNSIsImZyb20iOiJmaWxlIn0=");
+                RequestBody.create(MediaType.parse("image/*"), file);
+//
+//        HashMap<String,Object> map = new HashMap<>();
+//        map.put("deadline",System.currentTimeMillis()+50);
+//        map.put("aid",1271815);
+//        map.put("from","file");
+//        map.put("Token","524ed80313c4618c44f7aeb2f23666e543d11fa5:esotyeuZRmbWY_idMluKw4mq7vU=:eyJkZWFkbGluZSI6MTQ4NDEzMzQ5MCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzMjEyIiwiYWlkIjoiMTI3MTgxNSIsImZyb20iOiJmaWxlIn0=");
+        //String token ="524ed80313c4618c44f7aeb2f23666e543d11fa5:XDgG4BjIs2yO8ZlGNqVWyhKw1Mc=:eyJkZWFkbGluZSI6MTQ4NDU1NjMwNywiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzMjEyIiwiYWlkIjoiMTI3MTgxNSIsImZyb20iOiJmaWxlIn0=";
+        //String token ="524ed80313c4618c44f7aeb2f23666e543d11fa5:pAx2PkPzpCpYdtLT379Ek6IfVX8=:eyJkZWFkbGluZSI6MTQ4NDU1OTMzOCwiYWN0aW9uIjoiZ2V0IiwidWlkIjoiNTgzMjEyIiwiYWlkIjoiMTI3MTgxNSIsImZyb20iOiJmaWxlIn0=";
+//        RequestBody requestFile =
+//                RequestBody.create(MediaType.parse("text/plain"), file);
+//
+//        MultipartBody.Part body =
+//                MultipartBody.Part.createFormData("aFile", file.getName(), requestFile);
+        FileInputStream in = new FileInputStream(file);
+        String bytes = IOUtil.readString(file);
         RetrofitHelper.getImageUploadService().uploadImage4search(requestBody)
                 .compose(this.bindToLifecycle())
                 .subscribeOn(Schedulers.io())
@@ -162,6 +189,10 @@ public class TestActivity extends BaseActivity {
                 }, throwable -> {
                     LogUtil.d(throwable.toString());
                 });
+    }
+
+    private String createToken() {
+        return null;
     }
 
 

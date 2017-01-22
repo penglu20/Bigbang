@@ -4,9 +4,12 @@ import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.network.api.ImageUploadService;
 import com.forfan.bigbang.network.api.MicSoftOcrService;
 import com.forfan.bigbang.network.api.OcrService;
+import com.forfan.bigbang.network.api.PicUploadService;
 import com.forfan.bigbang.network.api.TranslationService;
 import com.forfan.bigbang.network.api.WordSegmentService;
 import com.forfan.bigbang.util.LogUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +36,8 @@ public class RetrofitHelper {
     private static final String OCR_URL = "https://api.ocr.space/";
     private static final String MICSOFT_OCR_URL = "https://api.projectoxford.ai/";
    // private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
-    private static final String IMAGE_UPLOAD_URL = "http://up.imgapi.com/";
+    private static final String IMAGE_UPLOAD_URL = "https://sm.ms/";
+    private static final String PIC_UPLOAD_URL = "https://yotuku.cn/";
     static {
         initOkHttpClient();
     }
@@ -111,14 +115,27 @@ public class RetrofitHelper {
                 .build();
         return retrofit.create(MicSoftOcrService.class);
     }
+    static  Gson gson = new GsonBuilder()
+            .setLenient()
+            .create();
     public static ImageUploadService getImageUploadService(){
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(IMAGE_UPLOAD_URL)
                 .client(mOkHttpClient)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         return retrofit.create(ImageUploadService.class);
+    }
+    public static PicUploadService getPicUploadService(){
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(PIC_UPLOAD_URL)
+                .client(mOkHttpClient)
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        return retrofit.create(PicUploadService.class);
     }
     /**
      * 添加UA拦截器

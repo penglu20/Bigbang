@@ -61,8 +61,8 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 27
-        versionName "2.4.0"
+        versionCode 28
+        versionName "2.5.0"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
@@ -106,7 +106,9 @@ android {
         baidu {}
         taobao {}
         QQ {}
-        google {}
+        google {
+
+        }
 //        _3G {}
         _91 {}
         hiapk {}
@@ -207,6 +209,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    googleCompile 'com.google.android.gms:play-services-vision:10.0.1'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/umeng-onlineconfig_v1.0.0.jar')
     compile files('libs/com.umeng.fb.5.4.0.jar')
