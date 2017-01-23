@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">全能分词</string>
+    <string name="ali_feedback_key">23589257</string>
     <string name="cancel">取消</string>
     <string name="toast_tip_content">如果触发BigBang异常，可以切换"增强型监控"设置查看效果。</string>
     <string name="no_internet_for_fenci">网络异常，使用本地分词</string>
@@ -21,7 +22,7 @@
     <string name="white_list">设置触发方式</string>
     <string name="share_mode_help">分享\n将选择的词句分享到其他APP</string>
     <string name="monitor_clipboard">监控剪贴板</string>
-    <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者悬浮窗或通知栏经常消失，程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。</string>
+    <string name="problem_content">\t\t\t如果本产品出现一些使用异常，包括监控不工作，或者悬浮球或通知栏经常消失，程序经常被清理，请先确保您已经将本产品添加到了手机管家的清理白名单中，并允许自启动。</string>
     <string name="loading">加载中...</string>
     <string name="stringValue1">BigBang 是您的快捷助手，您可以在任意app中对文字进行编辑，包括分词，翻译，复制以及动态调整，希望您能在日常生活中获得便利</string>
     <string name="recover_tips">重新显示使用提示</string>
@@ -71,19 +72,19 @@
     <string name="about_content">\t\t\t本产品是根据老罗的BigBang进行设计开发的，旨在让更多用户体验到这种高效的操作方式！如果您觉得勉强好用，可以购买Smartisan M1体验更好的情怀！\n\t\t\t本产品中的部分内容来自网络和其他开源组件，如有侵犯到您的版权，请联系我进行修改，谢谢！\n\t\t\t如果您对本产品有任何意见或建议，欢迎反馈。\n\n版本号：%1$s</string>
     <string name="donate">我请作者吃辣条</string>
     <string name="donate_now">点击跳转支付宝</string>
-    <string name="join_qq">点击加入内测群（290017771）</string>
+    <string name="join_qq">点击加入内测群（607702452）</string>
     <string name="confirm">确认</string>
     <string name="share_request_cancel_dislike">算了吧...</string>
     <string name="snackbar_net_error">连接网络失败，请稍后再试</string>
     <string name="check_update">检测更新</string>
-    <string name="show_float_view">悬浮窗常驻(自动靠边隐藏)</string>
-    <string name="show_float_view_request">悬浮窗包含多个功能入口，建议开启！</string>
+    <string name="show_float_view">悬浮球常驻(自动靠边隐藏)</string>
+    <string name="show_float_view_request">悬浮球包含多个功能入口，建议开启！</string>
     <string name="check_update_close">已是最新版本</string>
     <string name="default_setting">恢复默认设置</string>
 
 
-    <string name="punish_float_problem">悬浮窗功能已开启!</string>
-    <string name="punish_float_action">悬浮窗不显示？点击设置</string>
+    <string name="punish_float_problem">悬浮球功能已开启!</string>
+    <string name="punish_float_action">悬浮球不显示？点击设置</string>
 
     <string name="open_setting_failed_diy">无法打开系统设置，请手动设置</string>
     <string name="share_to">分享到：</string>
@@ -126,7 +127,7 @@
     <string name="not_foud_qq">未找到QQ</string>
     <string name="my_zhifubao">我的支付宝二维码</string>
     <string name="my_weixin">我的微信二维码</string>
-    <string name="thinks_for_donate">有您的支持，我们会越做越好的，欢迎加群(290017771)，给我们提建议</string>
+    <string name="thinks_for_donate">有您的支持，我们会越做越好的，欢迎加群(290017771或607702452)，给我们提建议</string>
     <string name="picture_saved">二维码已保存到本地相册</string>
     <string name="click_to_save_qrcord">点击二维码保存到相册</string>
 
@@ -168,7 +169,7 @@
 
     <string name="too_short_to_split">文字长度小于2，不分词</string>
 
-    <string name="float_tips">单击悬浮窗切换开关，长按悬浮打开设置页。</string>
+    <string name="float_tips">单击悬浮球切换开关，长按悬浮打开设置页。</string>
     <string name="access_open_tips">监控单击/长按需要开启辅助功能，请在设置中开启！</string>
     <string name="ocr_quote_beyond_time">\t\t非常抱歉，由于我们使用的是第三方付费OCR服务，作者每月需要为此支付数千元的费用。\n\t\t为了用户体验，本应用一直不愿接入广告，而热心用户的捐赠也有限，现已无力承担此费用.\n\t\t为了您的使用体验，麻烦您花几分钟时间进行设置，以继续免费使用OCR服务！</string>
     <string name="free_use">如何免费使用OCR</string>
@@ -196,18 +197,18 @@
 
 
     <string name="show_notify">显示通知栏</string>
-    <string name="show_notify_request">通知栏包含悬浮窗的所有功能，可作为替代方案。</string>
+    <string name="show_notify_request">通知栏包含悬浮球的所有功能，可作为替代方案。</string>
 
 
-    <string name="show_float_close_tip">通知栏和悬浮窗都关闭时，复制或点击时会暂时显示悬浮窗，通过点击悬浮窗激活Bigbang</string>
+    <string name="show_float_close_tip">通知栏和悬浮球都关闭时，复制或点击时会暂时显示悬浮球，通过点击悬浮球激活Bigbang</string>
     <string name="can_not_capture_under_5_0">Screenshots 5.0以下系统暂不支持截屏</string>
     <string name="double_click">双击分词</string>
 
-    <string name="control_by_float">使用悬浮窗控制</string>
+    <string name="control_by_float">使用悬浮球控制</string>
     <string name="control_by_notify">使用通知栏控制</string>
-    <string name="trigger_by_float">点击悬浮窗触发</string>
+    <string name="trigger_by_float">点击悬浮球触发</string>
     <string name="pre_setting_title">请先设置 &lt;控制和触发&gt;方式</string>
-    <string name="pre_setting_intro1">通过&lt;悬浮窗常驻或通知栏&gt;可以方便控制\n程序中还提供了更多控制方式\n\n如果您选择&lt;点击悬浮窗触发&gt;\n在触发分词功能时会先弹出悬浮窗\n您需要&lt;点击悬浮窗&gt;才能激活分词</string>
+    <string name="pre_setting_intro1">通过&lt;悬浮球常驻或通知栏&gt;可以方便控制\n程序中还提供了更多控制方式\n\n如果您选择&lt;点击悬浮球触发&gt;\n在触发分词功能时会先弹出悬浮球\n您需要&lt;点击悬浮球&gt;才能激活分词</string>
     <string name="pre_setting_intro2">&lt;点击上面的文字&gt;可以验证设置的效果。\n您也可以随时在设置页面中更改</string>
     <string name="pre_setting_intro3">已经选好合适的触发方式了吗？\n您也可以随时在设置页面中更改， 或者从“如何使用”中进入本页面</string>
     <string name="pre_setting_cancel">再看看效果</string>
@@ -335,7 +336,6 @@
     <string name="is_stick_sharebar">显示侧边分享栏(非全屏状态下不显示)</string>
 
 
-
     <string name="show_introduction">显示介绍页面</string>
 
     <string name="how_to_set">如何设置和使用(请先看上面的介绍)</string>
@@ -354,10 +354,10 @@
     </string>
 
 
-    <string name="about_control">为什么要使用悬浮窗或通知栏</string>
-    <string name="about_control_msg">t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮窗、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
+    <string name="about_control">为什么要使用悬浮球或通知栏</string>
+    <string name="about_control_msg">\t\t\t\t本应用的功能相对复杂，需要用户具备一定的动手探索能力。悬浮球、通知栏以及长按键菜单，一方面可以提供监控功能的开关，防止误触发，另一方面也是全局复制和截图OCR功能的入口。因此建议选择你最舒适的方式使用。\n\t\t\t\t
     如果你都不喜欢，也不需要使用全局复制和截图OCR，也可以选择开启“点击悬浮球触发Bigbang”，这样在监控点击和复制的时候，不至于误触发分词，影响使用体验。\n\t\t\t\t
-    PS: 在有些手机上，开启悬浮窗会导致应用申请权限失败，可以在安装新应用时关闭悬浮窗，也可以使用通知栏代替。</string>
+    PS: 在有些手机上，开启悬浮球会导致应用申请权限失败，可以在安装新应用时关闭悬浮球，也可以使用通知栏代替。</string>
 
 
     <string name="about_accessibility">关于辅助模式的权限</string>
@@ -405,6 +405,23 @@
 目前还不够完善，如果有使用问题欢迎反馈。\n\t\t\t\t
 PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会尽量优化的。</string>
 
+
+    <string name="open_from_outside">如何通过外部应用触发功能</string>
+    <string name="open_from_outside_msg">我们提供了悬浮窗、通知栏、快捷键等方式来控制和触发功能，如果你对这几种方法仍然不满意，或者你使用了第三方的自定义开关(比如悬浮菜单)，可以将我们的功能集成进去，方法如下：\n
+    包名：\n
+        \t\t*普通版：com.forfan.bigbang\n
+        \t\t*Xposed版：com.forfan.bigbang.coolapk\n\n
+    类名：\n
+        \t*功能总开关(包含复制和点击)：
+        \tcom.forfan.bigbang.component.activity.TotalSwitchActivity\n\n
+        \t*全局复制：
+        \tcom.forfan.bigbang.component.activity.UniversalCopyActivity\n\n
+        \t*区域截屏OCR：
+        \tcom.forfan.bigbang.component.activity.screen.ScreenCaptureActivity\n\n
+        提示：本页面可以通过全局复制来复制包名和类名。
+    </string>
+
+
     <string name="intro_card_msg">看看应用的介绍和设置说明吗？</string>
     <string name="intro_card_msg_2">如果使用中遇到了问题\n也可以在“其他”设置的“如何使用”中查看</string>
 
@@ -412,9 +429,24 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="intro_card_cancel">下次再说</string>
 
 
-
     <string name="bb_long_press_toast">试试长按一个词组</string>
     <string name="xp_monitor_click_hint">需要对每个应用单独设置合适的点击方式</string>
     <string name="xp_monitor_click_msg">Xposed点击炸词</string>
 
+
+    <string name="is_stick_view">固定悬浮球位置</string>
+
+    <string name="auto_open">自动开启辅助服务</string>
+    <string name="auto_open_hint">需要Root权限，如果频繁提示权限，可以到SuperSU中设置</string>
+
+
+    <string name="unread_feed_back">有%s条未读回复反馈，点击查看</string>
+
+    <string name="click_to_edit">修改内容后，长按或点击炸词开始分词</string>
+
+    <string name="jump_introduction">跳过</string>
+    <string name="jump_toast">如果遇到问题，你可以重新查看此页</string>
+    <string name="search_">以图搜图</string>
+    <string name="upload_img">开始上传图片</string>
+    <string name="upload_img_fail">抱歉，图片上传失败</string>
 </resources>

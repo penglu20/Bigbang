@@ -76,6 +76,19 @@
                 android:textColor="@color/primary_text"
                 android:textSize="@dimen/text_size_tiny"
                 android:visibility="gone" />
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/search"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/tab_indicator_long_width"
+                android:layout_marginLeft="@dimen/margin_double"
+                android:layout_marginRight="@dimen/margin_double"
+                android:layout_marginTop="@dimen/margin_double"
+                android:background="@drawable/button_white_stroke_green_p"
+                android:gravity="center"
+                android:text="@string/search_"
+                android:textColor="@color/primary_text"
+                android:textSize="@dimen/text_size_tiny"
+                android:visibility="gone" />
 
             <android.support.v7.widget.AppCompatEditText
                 android:id="@+id/result"

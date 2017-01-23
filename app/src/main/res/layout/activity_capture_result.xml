@@ -26,13 +26,32 @@
                 android:maxHeight="400dp"
                 android:layout_height="wrap_content" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/ocr_result"
-                android:textSize="@dimen/text_size_normal"
-                android:textColor="@color/white"
-                android:padding="@dimen/margin_double"
+            <RelativeLayout
+                android:id="@+id/ocr_result_rl"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:paddingLeft="@dimen/margin_normal"
+                android:paddingRight="@dimen/margin_normal"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/ocr_result_key"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textSize="@dimen/text_size_very_tiny"
+                    android:hint="@string/click_to_edit"
+                    >
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/ocr_result"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left|center_vertical"
+                        android:padding="@dimen/margin_double"
+                        android:textSize="@dimen/text_size_normal"
+                        android:maxHeight="300dp"
+                        android:textColor="@color/white" />
+                </android.support.design.widget.TextInputLayout>
+
+            </RelativeLayout>
 
         </LinearLayout>
 
@@ -66,6 +85,16 @@
                 android:scaleType="center"
                 android:text="@string/save_" />
 
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:drawableTop="@mipmap/bigbang_action_search"
+                android:gravity="center_horizontal"
+                android:scaleType="center"
+                android:text="@string/search_" />
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/recognize"
                 android:layout_width="0dp"

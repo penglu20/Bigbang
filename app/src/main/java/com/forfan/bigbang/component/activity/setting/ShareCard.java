@@ -6,7 +6,6 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.ComponentName;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -15,8 +14,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,13 +24,12 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
-import com.forfan.bigbang.baseCard.AbsCard;
+import com.forfan.bigbang.component.activity.FeedbackActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.SnackBarUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
-import com.umeng.fb.FeedbackAgent;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -153,8 +149,10 @@ public class ShareCard extends FrameLayout {
                         hide();
                     } else {
                         // TODO: 2016/2/27 反馈
-                        FeedbackAgent agent = new FeedbackAgent(mContext);
-                        agent.startFeedbackActivity();
+
+                        Intent intent = new Intent();
+                        intent.setClass(mContext, FeedbackActivity.class);
+                        mContext.startActivity(intent);
                         UrlCountUtil.onEvent(UrlCountUtil.CLICK_SHARE_CARD_FEEDBACK);
                         hide();
                     }

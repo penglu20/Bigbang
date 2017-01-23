@@ -7,15 +7,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Process;
-import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.view.accessibility.AccessibilityNodeInfoCompat;
@@ -36,13 +33,20 @@ import com.forfan.bigbang.copy.CopyActivity;
 import com.forfan.bigbang.copy.CopyNode;
 import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
-import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.KeyPressedTipViewController;
+import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.XposedEnableUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -61,6 +65,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private static final int TYPE_VIEW_LONG_CLICKED=AccessibilityEvent.TYPE_VIEW_LONG_CLICKED;
     private static final int TYPE_VIEW_DOUBLD_CLICKED=3;
     private static final int TYPE_VIEW_NONE=0;
+    public static final String ACCESSIBILITY_ENABLED = "settings put secure accessibility_enabled 1";
     public  int double_click_interval = ConstantUtil.DEFAULT_DOUBLE_CLICK_INTERVAL;
 
     private CharSequence mWindowClassName;
@@ -102,6 +107,7 @@ public class BigBangMonitorService extends AccessibilityService {
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
         intentFilter.addAction(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST);
         intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST);
+        intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST_DELAY);
         intentFilter.addAction(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
         intentFilter.addAction(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST);
         intentFilter.addAction(ConstantUtil.MONITOR_CLICK_BROADCAST);
@@ -115,6 +121,7 @@ public class BigBangMonitorService extends AccessibilityService {
                     if (showFloatView){
                         ArcTipViewController.getInstance().show();
                     }
+                    keepAccessibilityOpen();
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }
@@ -137,7 +144,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
         readWhiteList();
 
-
+        keepAccessibilityOpen();
 
     }
 
@@ -272,9 +279,11 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (mCurrentPackage.equals(event.getPackageName())){
             if (type!=mCurrentType){
+                //点击方式不匹配，直接返回
                 return;
             }
         }else {
+            //包名不匹配，直接返回
             return;
         }
         if (className==null || className.equals("android.widget.EditText")){
@@ -282,6 +291,7 @@ public class BigBangMonitorService extends AccessibilityService {
             return;
         }
         if (onlyText){
+            //onlyText方式下，只获取TextView的内容
             if (className==null || !className.equals("android.widget.TextView")){
                 if (!hasShowTipToast){
                     ToastUtil.show(R.string.toast_tip_content);
@@ -296,6 +306,8 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         CharSequence txt=info.getText();
         if (TextUtils.isEmpty(txt) && !onlyText){
+            //非onlyText方式下获取文字更多，但是可能并不是想要的文字
+            //比如系统短信页面需要这样才能获取到内容。
             List<CharSequence> txts=event.getText();
             if (txts!=null) {
                 StringBuilder sb=new StringBuilder();
@@ -307,6 +319,7 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (!TextUtils.isEmpty(txt)) {
             if (txt.length()<=2 ){
+                //对于太短的词进行屏蔽，因为这些词往往是“发送”等功能按钮，其实应该根据不同的activity进行区分
                 if (!hasShowTooShortToast) {
                     ToastUtil.show(R.string.too_short_to_split);
                     hasShowTooShortToast = true;
@@ -328,6 +341,7 @@ public class BigBangMonitorService extends AccessibilityService {
     private long mLastClickTime;
 
     private long getSourceNodeId(AccessibilityEvent event)  {
+        //用于获取点击的View的id，用于检测双击操作
         if (getSourceNodeIdMethod==null) {
             Class<AccessibilityEvent> eventClass = AccessibilityEvent.class;
             try {
@@ -380,9 +394,9 @@ public class BigBangMonitorService extends AccessibilityService {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void UniversalCopy() {
         boolean isSuccess=false;
-        label37: {
+        labelOut: {
             AccessibilityNodeInfo rootInActiveWindow = this.getRootInActiveWindow();
-            if(this.retryTimes < 10) {
+            if(retryTimes < 10) {
                 String packageName;
                 if(rootInActiveWindow != null) {
                     packageName = String.valueOf(rootInActiveWindow.getPackageName());
@@ -391,8 +405,9 @@ public class BigBangMonitorService extends AccessibilityService {
                 }
 
                 if(rootInActiveWindow == null || packageName != null && packageName.contains("com.android.systemui")) {
-                    ++this.retryTimes;
-                    this.handler.postDelayed(new Runnable() {
+                    //如果通知栏没有收起来，则延迟进行
+                    ++retryTimes;
+                    handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             UniversalCopy();
@@ -401,21 +416,17 @@ public class BigBangMonitorService extends AccessibilityService {
                     return;
                 }
 
-                WindowManager var5 = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
-
+                //获取屏幕高宽，用于遍历数据时确定边界。
+                WindowManager windowManager = (WindowManager)this.getSystemService(Context.WINDOW_SERVICE);
                 DisplayMetrics displayMetrics = new DisplayMetrics();
-                var5.getDefaultDisplay().getMetrics(displayMetrics);
-                int var1 = displayMetrics.heightPixels;
-                int var2 = displayMetrics.widthPixels;
-                ArrayList nodeList = traverseNode(new AccessibilityNodeInfoCompat(rootInActiveWindow), var2, var1);
+                windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+                int heightPixels = displayMetrics.heightPixels;
+                int widthPixels = displayMetrics.widthPixels;
+
+                ArrayList nodeList = traverseNode(new AccessibilityNodeInfoCompat(rootInActiveWindow), widthPixels, heightPixels);
                 if(nodeList.size() > 0) {
                     Intent intent = new Intent(this, CopyActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    if(!getPackageName().equals(packageName)) {
-                        // TODO: 2016/11/17 研究下这里的逻辑
-//                        intent.addFlags('耀');
-                    }
-
                     intent.putParcelableArrayListExtra("copy_nodes", nodeList);
                     intent.putExtra("source_package", packageName);
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -424,10 +435,8 @@ public class BigBangMonitorService extends AccessibilityService {
                         startActivity(intent);
                     }
                     isSuccess = true;
-                    break label37;
+                    break labelOut;
                 }
-
-//                ae.a(this.getApplication(), "APP_DATA", "UC_MODE_FAILED", packageName);
             }
 
             isSuccess = false;
@@ -442,16 +451,17 @@ public class BigBangMonitorService extends AccessibilityService {
 
         }
 
-        this.retryTimes = 0;
+        retryTimes = 0;
     }
 
-    private ArrayList<CopyNode> traverseNode(AccessibilityNodeInfoCompat nodeInfo, int var2, int var3) {
-        ArrayList nodeList = new ArrayList();
+    private ArrayList<CopyNode> traverseNode(AccessibilityNodeInfoCompat nodeInfo, int width, int height) {
+        ArrayList<CopyNode> nodeList = new ArrayList();
         if(nodeInfo != null && nodeInfo.getInfo() != null) {
             nodeInfo.refresh();
 
-            for(int var4 = 0; var4 < nodeInfo.getChildCount(); ++var4) {
-                nodeList.addAll(this.traverseNode(nodeInfo.getChild(var4), var2, var3));
+            for(int i = 0; i < nodeInfo.getChildCount(); ++i) {
+                //递归遍历nodeInfo
+                nodeList.addAll(traverseNode(nodeInfo.getChild(i), width, height));
             }
 
             if(nodeInfo.getClassName() != null && nodeInfo.getClassName().equals("android.webkit.WebView")) {
@@ -475,10 +485,10 @@ public class BigBangMonitorService extends AccessibilityService {
                 }
 
                 if(content != null) {
-                    Rect var8 = new Rect();
-                    nodeInfo.getBoundsInScreen(var8);
-                    if(this.checkBound(var8, var2, var3)) {
-                        nodeList.add(new CopyNode(var8, content));
+                    Rect outBounds = new Rect();
+                    nodeInfo.getBoundsInScreen(outBounds);
+                    if(checkBound(outBounds, width, height)) {
+                        nodeList.add(new CopyNode(outBounds, content));
                     }
                 }
 
@@ -491,6 +501,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
 
     private boolean checkBound(Rect var1, int var2, int var3) {
+        //检测边界是否符合规范
         return var1.bottom >= 0 && var1.right >= 0 && var1.top <= var3 && var1.left <= var2;
     }
 
@@ -533,6 +544,95 @@ public class BigBangMonitorService extends AccessibilityService {
         return false;
     }
 
+
+    public static final String GET_ENABLED_SERVICES = "settings get secure enabled_accessibility_services\n";
+    public static final String PUT_ENABLED_SERVICES = "settings put secure enabled_accessibility_services";
+    public static final String SU = "su";
+    private static Thread keepOpenThread;
+
+    public static void keepAccessibilityOpen() {
+        boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
+        if (!isopen){
+            return;
+        }
+        if (keepOpenThread==null || !keepOpenThread.isAlive()) {
+            keepOpenThread = new Thread(new Runnable() {
+                int count=12;
+                @Override
+                public void run() {
+                    BufferedWriter bufferedWriter = null;
+                    BufferedReader bufferedReader = null;
+                    java.lang.Process process=null;
+                    try {
+                        Runtime runtime = Runtime.getRuntime();
+                        process = runtime.exec(SU);
+                        InputStream inputStream = process.getInputStream();
+                        OutputStream outputStream = process.getOutputStream();
+                        bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream));
+                        bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        String service = BigBangApp.getInstance().getPackageName() + "/" + BigBangMonitorService.class.getCanonicalName();
+
+                        do {
+                            --count;
+                            boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
+                            if (!isopen){
+                                Thread.sleep(10000);
+                                continue;
+                            }
+                            bufferedWriter.write(GET_ENABLED_SERVICES);
+                            bufferedWriter.flush();
+
+                            String current = bufferedReader.readLine();
+
+                            if(current!=null) {
+                                current=current.replaceAll(service, "");
+                                current=current.replaceAll("::", ":");
+                                current += ":" + service;
+                            }else {
+                                current = service;
+                            }
+
+                            bufferedWriter.write(PUT_ENABLED_SERVICES + " " + current + "\n");
+                            bufferedWriter.flush();
+                            bufferedWriter.write(ACCESSIBILITY_ENABLED + "\n");
+                            bufferedWriter.flush();
+
+                            Thread.sleep(10000);
+                        }
+                        while (count>0);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (bufferedReader != null) {
+                            try {
+                                bufferedReader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (bufferedWriter != null) {
+                            try {
+                                bufferedWriter.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (process!=null){
+                            process.destroy();
+                        }
+                    }
+                }
+            });
+            keepOpenThread.start();
+        }
+
+    }
+
     private synchronized void readSettingFromSp(){
         isRun=SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
         KeyPressedTipViewController.getInstance().updateTriggerType();
@@ -562,6 +662,8 @@ public class BigBangMonitorService extends AccessibilityService {
         qqSelection=spinnerArrayIndex(spinnerArray, qq)+1;
         weixinSelection=spinnerArrayIndex(spinnerArray, weixin)+1;
         otherSelection=spinnerArrayIndex(spinnerArray, other)+1;
+
+        keepAccessibilityOpen();
     }
 
 
@@ -586,9 +688,27 @@ public class BigBangMonitorService extends AccessibilityService {
             if (intent.getAction().equals(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST)){
                 readWhiteList();
             }else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST)){
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                    UniversalCopy();
+                if (XposedEnableUtil.isEnable()){
+                    sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST_XP));
+                }else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        UniversalCopy();
+                    }
                 }
+            }else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST_DELAY)){
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (XposedEnableUtil.isEnable()){
+                            sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST_XP));
+                        }else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                UniversalCopy();
+                            }
+                        }
+                    }
+                },500);
+
             }else if (intent.getAction().equals(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST)){
 
             }else if (intent.getAction().equals(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST)){
@@ -617,17 +737,4 @@ public class BigBangMonitorService extends AccessibilityService {
         }
     };
 
-
-
-    private class LongClickRunnable implements Runnable {
-        private int keyCode;
-        public LongClickRunnable(int keyCode){
-            this.keyCode=keyCode;
-        }
-
-        @Override
-        public void run() {
-
-        }
-    };
 }

@@ -17,6 +17,7 @@ import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
 import com.forfan.bigbang.component.activity.whitelist.SelectionDbHelper;
+import com.forfan.bigbang.component.service.BigBangMonitorService;
 import com.forfan.bigbang.util.AESUtils;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.IOUtil;
@@ -178,6 +179,10 @@ public class SLSettingCard extends AbsCard {
         IOUtil.delete(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH);
         SelectionDbHelper helper=new SelectionDbHelper(mContext);
         helper.deleteAll();
+        File spDir=new File(mContext.getFilesDir().getParentFile()+File.separator+"shared_prefs","sp_name.xml");
+        if (spDir.exists()) {
+            spDir.delete();
+        }
 
         mContext.sendBroadcast(new Intent(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST));
 
@@ -203,7 +208,7 @@ public class SLSettingCard extends AbsCard {
         try {
             IOUtil.copyFile(dbDir.getAbsolutePath(),new File(desDir,"databases").getAbsolutePath());
             IOUtil.copyFile(SettingFloatViewActivity.FLOATVIEW_IMAGE_PATH,new File(desDir,"floatview.png").getAbsolutePath());
-            IOUtil.copyFile(spDir.getAbsolutePath()+File.separator+"BigBang_sp_main.xml",new File(desDir,"shared_prefs").getAbsolutePath()+File.separator+"BigBang_sp_main.xml");
+            IOUtil.copyFile(spDir.getAbsolutePath(),new File(desDir,"shared_prefs").getAbsolutePath());
             ToastUtil.show(R.string.save_success);
         } catch (IOException e) {
             ToastUtil.show(R.string.save_fail);
@@ -246,12 +251,12 @@ public class SLSettingCard extends AbsCard {
         String toastEnd=mContext.getString(R.string.effect_after_reboot);
         File file = mContext.getFilesDir();
         File dbDir=new File(file.getParentFile(),"databases");
-        File spDir=new File(file.getParentFile().getAbsolutePath()+"/shared_prefs/BigBang_sp_main.xml");
+        File spDir=new File(file.getParentFile().getAbsolutePath()+"/shared_prefs");
 
 
 
         File desDbDir= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/databases");
-        File desSpFile= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/shared_prefs/BigBang_sp_main.xml");
+        File desSpFile= new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/shared_prefs");
         File floatViewFile = new File(Environment.getExternalStorageDirectory()+File.separator+"quannengfenci/backup/","floatview.png");
 
         if (floatViewFile.exists()){

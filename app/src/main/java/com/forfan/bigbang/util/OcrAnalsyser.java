@@ -4,7 +4,10 @@ import android.text.TextUtils;
 
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
+import com.forfan.bigbang.component.activity.screen.CaptureResultActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.entity.ImageUpload;
+import com.forfan.bigbang.network.UploadUtil;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.microsoft.projectoxford.vision.VisionServiceRestClient;
@@ -17,6 +20,7 @@ import com.microsoft.projectoxford.vision.rest.VisionServiceException;
 import com.microsoft.projectoxford.vision.rest.WebServiceRequest;
 import com.shang.commonjar.contentProvider.SPHelper;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -62,7 +66,11 @@ public class OcrAnalsyser {
                     //返回403
                     currentIndex = (currentIndex + 1) % keys.size();
                     client = new VisionServiceRestClient(keys.get(currentIndex));
-                    subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                    if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                        subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                    } else {
+                        subscriber.onError(new IOException("time out"));
+                    }
                 }
 
                 @Override
@@ -99,7 +107,11 @@ public class OcrAnalsyser {
                         //返回403
                         currentIndex = (currentIndex + 1) % keys.size();
                         client = new VisionServiceRestClient(keys.get(currentIndex));
-                        subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                            subscriber.onError(new IOException(BigBangApp.getInstance().getResources().getString(R.string.ocr_useup_toast)));
+                        } else {
+                            subscriber.onError(new IOException("time out"));
+                        }
                     }
 
                     @Override
@@ -123,12 +135,49 @@ public class OcrAnalsyser {
             }
         }
     };
+    Observable.OnSubscribe<ImageUpload> mOnSubscrube2 = new Observable.OnSubscribe<ImageUpload>() {
+        @Override
+        public void call(Subscriber<? super ImageUpload> subscriber) {
+
+            try {
+                String json = UploadUtil.uploadFile(new File(seachPicPath));
+                if (!TextUtils.isEmpty(json)) {
+                    ImageUpload imageUpload = new Gson().fromJson(json, new TypeToken<ImageUpload>() {
+                    }.getType());
+                    subscriber.onNext(imageUpload);
+                }else {
+                    subscriber.onError(new Throwable("上传失败"));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+            }
+        }
+    };
     private byte[] img;
+    private String seachPicPath;
 
     public static OcrAnalsyser getInstance() {
         return instance;
     }
 
+    public void uploadImage(BaseActivity activity, String fileName, ImageUploadCallBack callback) {
+        this.seachPicPath = fileName;
+        Observable.create(mOnSubscrube2)
+                .subscribeOn(Schedulers.io())
+                .compose(activity.bindToLifecycle())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s -> callback.onSucess(s),
+                        throwable -> {
+                            callback.onFail(throwable);
+                        });
+    }
+
+    public interface ImageUploadCallBack {
+        void onSucess(ImageUpload imageUpload);
+
+        void onFail(Throwable throwable);
+    }
     public interface CallBack {
         void onSucess(OCR ocr);
 
@@ -136,6 +185,7 @@ public class OcrAnalsyser {
     }
 
     public void analyse(BaseActivity activity, String img_path, boolean isVertical, CallBack callback) {
+//        TextRecognizer textRecognizer = new TextRecognizer.Builder(context).build();
         String diykey = SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "");
         if (!TextUtils.isEmpty(diykey) && !keys.contains(diykey)) {
             keys.add(0, SPHelper.getString(ConstantUtil.DIY_OCR_KEY, ""));

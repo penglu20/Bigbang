@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity">
+    tools:context="com.forfan.bigbang.component.activity.DiyOcrKeyActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -204,6 +204,7 @@
                 android:paddingLeft="@dimen/margin_normal"
                 android:paddingRight="@dimen/margin_normal"
                 android:background="@drawable/button_white_stroke_green"
+                android:layout_marginBottom="@dimen/height_normal"
                 android:layout_height="@dimen/card_detail_line_height">
 
                 <android.support.design.widget.TextInputLayout

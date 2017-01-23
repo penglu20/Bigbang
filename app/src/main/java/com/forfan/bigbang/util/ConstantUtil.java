@@ -1,5 +1,8 @@
 package com.forfan.bigbang.util;
 
+import com.forfan.bigbang.BigBangApp;
+import com.forfan.bigbang.R;
+
 /**
  * Created by l4656_000 on 2015/11/30.
  */
@@ -45,6 +48,9 @@ public class ConstantUtil {
     public static final String REMAIN_SECTION="remain_section";
     public static final String DEFAULT_LOCAL="default_local";
     public static final String AUTO_ADD_BLANKS="auto_add_blanks";
+
+
+    public static final String AUTO_OPEN_SETTING="auto_open_setting";
 
     //floatview
     public static final String FLOAT_SWITCH_STATE="float_switch_state";
@@ -95,6 +101,7 @@ public class ConstantUtil {
     public static final String FLOATVIEW_SIZE ="floatview_size_";
     public static final String FLOATVIEW_ALPHA ="floatview_alpha";
     public static final String FLOATVIEW_DIY_BG_COLOR ="floatview_diy_bg_color";
+    public static final String FLOATVIEW_IS_STICK ="floatview_is_stick";
 
 
     public static final int DEFAULT_TEXT_SIZE=14;
@@ -112,6 +119,7 @@ public class ConstantUtil {
 
 
     public static final String UNIVERSAL_COPY_BROADCAST="universal_copy_broadcast";
+    public static final String UNIVERSAL_COPY_BROADCAST_DELAY="universal_copy_broadcast_delay";
     public static final String SCREEN_CAPTURE_OVER_BROADCAST="screen_capture_over_broadcast";
 
 
@@ -141,4 +149,10 @@ public class ConstantUtil {
 
     //copyActivity
     public static final String IS_FULL_SCREEN_COPY="is_full_screen_copy";
+
+    //feedback
+    public static final String ALI_APP_KEY= BigBangApp.getInstance().getString(R.string.ali_feedback_key);
+    //xp全局复制
+    public static final String UNIVERSAL_COPY_BROADCAST_XP="universal_copy_broadcast_xp";
+
 }

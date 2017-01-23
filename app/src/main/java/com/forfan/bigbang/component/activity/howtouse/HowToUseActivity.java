@@ -18,6 +18,7 @@ import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
 
 public class HowToUseActivity extends BaseActivity {
+    public static final String GO_TO_OPEN_FROM_OUTER="go_to_open_from_outer";
 
     private View introMenu;
     private LinearLayout introContent;
@@ -144,6 +145,16 @@ public class HowToUseActivity extends BaseActivity {
             }
         });
 
+        findViewById(R.id.open_from_outside).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                introMenu.setVisibility(View.GONE);
+                introContent.setVisibility(View.VISIBLE);
+                introTitle.setText(R.string.open_from_outside);
+                introMsg.setText(R.string.open_from_outside_msg);
+            }
+        });
+
 
         if (XposedEnableUtil.isEnable()){
             findViewById(R.id.about_xposed).setVisibility(View.VISIBLE);
@@ -158,6 +169,11 @@ public class HowToUseActivity extends BaseActivity {
             });
         }
 
+        Intent intent = getIntent();
+        boolean goToOpenFromOuter=intent.getBooleanExtra(GO_TO_OPEN_FROM_OUTER,false);
+        if (goToOpenFromOuter){
+            findViewById(R.id.open_from_outside).performClick();
+        }
     }
 
     private void showIntroActivity(){

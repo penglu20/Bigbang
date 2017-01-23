@@ -99,4 +99,18 @@
 
     </RelativeLayout>
 
+
+
+    <RelativeLayout
+        android:id="@+id/open_from_outside_rl"
+        android:duplicateParentState="false"
+        style="@style/cardViewRelativeLayoutSelector">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
+            android:layout_width="match_parent"
+            android:text="@string/open_from_outside" />
+
+    </RelativeLayout>
+
 </LinearLayout>

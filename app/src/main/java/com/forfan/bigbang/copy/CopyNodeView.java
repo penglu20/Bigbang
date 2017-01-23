@@ -15,79 +15,75 @@ public class CopyNodeView extends View {
     private String content;
     private boolean selected = false;
 
-    public CopyNodeView(Context var1, CopyNode var2, CopyActivity.OnCopyNodeViewClickCallback var3) {
-        super(var1);
-        this.bound = var2.getBound();
-        this.content = var2.getContent();
-        this.setContentDescription(this.content);
-        this.setOnClickListener(new OnClickListener() {
+    public CopyNodeView(Context context, CopyNode copyNode, CopyActivity.OnCopyNodeViewClickCallback clickCallback) {
+        super(context);
+        bound = copyNode.getBound();
+        content = copyNode.getContent();
+        setContentDescription(content);
+        setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean var2;
+                boolean state;
                 if(!selected) {
-                    var2 = true;
+                    state = true;
                 } else {
-                    var2 = false;
+                    state = false;
                 }
-                setActiveState(var2);
-                var3.onCopyNodeViewClick((CopyNodeView)v, var2);
+                setActiveState(state);
+                clickCallback.onCopyNodeViewClick((CopyNodeView)v, state);
             }
         });
-        this.setOnLongClickListener(new OnLongClickListener() {
+        setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                boolean var2;
+                boolean state;
                 if(!selected) {
-                    var2 = true;
+                    state = true;
                 } else {
-                    var2 = false;
+                    state = false;
                 }
-                setActiveState(var2);
-                var3.onCopyNodeViewLongClick((CopyNodeView)v, var2);
+                setActiveState(state);
+                clickCallback.onCopyNodeViewLongClick((CopyNodeView)v, state);
                 return true;
             }
         });
         setActiveState(false);
     }
 
-    public void addToFrameLayout(FrameLayout var1, int var2) {
-        LayoutParams var3 = new LayoutParams(this.bound.width(), this.bound.height());
-        var3.leftMargin = this.bound.left;
-        var3.topMargin = Math.max(0, this.bound.top - var2);
-        var3.width = this.bound.width();
-        var3.height = this.bound.height();
-        var1.addView(this, 0, var3);
-    }
-
-    public boolean a() {
-        return this.selected;
+    public void addToFrameLayout(FrameLayout frameLayout, int height) {
+        LayoutParams var3 = new LayoutParams(bound.width(), bound.height());
+        var3.leftMargin = bound.left;
+        var3.topMargin = Math.max(0, bound.top - height);
+        var3.width = bound.width();
+        var3.height = bound.height();
+        frameLayout.addView(this, 0, var3);
     }
 
     public String getText() {
-        return this.content;
+        return content;
     }
 
-    public void onInitializeAccessibilityEvent(AccessibilityEvent var1) {
-        super.onInitializeAccessibilityEvent(var1);
-        var1.setChecked(this.selected);
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        event.setChecked(selected);
     }
 
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo var1) {
-        super.onInitializeAccessibilityNodeInfo(var1);
-        var1.setCheckable(true);
-        var1.setChecked(this.selected);
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setCheckable(true);
+        info.setChecked(selected);
     }
 
-    public void setActiveState(boolean var1) {
-        this.selected = var1;
-        if(this.selected) {
-            this.setBackgroundColor(this.getContext().getResources().getColor(R.color.quarter_transparent));
+    public void setActiveState(boolean state) {
+        selected = state;
+        if(selected) {
+            setBackgroundColor(getContext().getResources().getColor(R.color.quarter_transparent));
         } else {
-//            this.setBackgroundColor(0);
-            this.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.universal_copy_node_bg_n));
+//            setBackgroundColor(0);
+            setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.universal_copy_node_bg_n));
         }
 
-        this.sendAccessibilityEvent(0);
-        this.invalidate();
+        sendAccessibilityEvent(0);
+        invalidate();
     }
 }

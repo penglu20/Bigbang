@@ -11,6 +11,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -57,6 +59,7 @@ public class SettingFloatViewActivity extends BaseActivity {
     private SeekBar mBigbangAlphaSeekBar;
 
     private View delPic;
+    private CheckBox isStickView;
 
     private RecyclerView backgroundRV;
     private int[] bigbangBackgroungColors;
@@ -85,6 +88,8 @@ public class SettingFloatViewActivity extends BaseActivity {
         bigbangAlpha = (TextView) findViewById(R.id.bigbang_alpha);
 
         backgroundRV = (RecyclerView) findViewById(R.id.bigbang_background);
+
+        isStickView = (CheckBox) findViewById(R.id.is_stick_view);
 
 
         mItemPaddingSeekBar.setMax(MAX_ITEM_PADDING - MIN_ITEM_PADDING);
@@ -155,12 +160,21 @@ public class SettingFloatViewActivity extends BaseActivity {
             }
         });
 
+        isStickView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.FLOATVIEW_IS_STICK,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_FLOATVIEW_IS_STICK, isChecked + "");
+                ArcTipViewController.getInstance().showForSettings();
+            }
+        });
 
         int padding = (int) SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE, 100.0f);
         alpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70);
         lastPickedColor = SPHelper.getInt(ConstantUtil.FLOATVIEW_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
+        boolean isStick=SPHelper.getBoolean(ConstantUtil.FLOATVIEW_IS_STICK,false);
 
-
+        isStickView.setChecked(isStick);
         mItemPaddingSeekBar.setProgress((int) ((MIN_ITEM_PADDING)));
         mItemPaddingSeekBar.setProgress((int) ((MAX_ITEM_PADDING- MIN_ITEM_PADDING)));
         mItemPaddingSeekBar.setProgress((int) ((padding - MIN_ITEM_PADDING)));

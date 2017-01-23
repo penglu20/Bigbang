@@ -97,8 +97,6 @@ public class ViewUtil {
         imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
     }
 
-
-
     public static boolean isNavigationBarShow(Activity activity){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             Display display = activity.getWindowManager().getDefaultDisplay();
@@ -136,6 +134,11 @@ public class ViewUtil {
         return localDisplayMetrics.widthPixels;
     }
 
+
+
+    public static int getSceenHeight(Activity activity) {
+        return activity.getWindowManager().getDefaultDisplay().getHeight()+getNavigationBarHeight(activity);
+    }
 
 
 

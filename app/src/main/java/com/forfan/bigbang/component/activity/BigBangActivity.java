@@ -25,6 +25,7 @@ import com.forfan.bigbang.network.RetrofitHelper;
 import com.forfan.bigbang.onestep.AppsAdapter;
 import com.forfan.bigbang.onestep.ResolveInfoWrap;
 import com.forfan.bigbang.util.ClipboardUtils;
+import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
 import com.forfan.bigbang.util.RegexUtil;
@@ -67,7 +68,6 @@ public class BigBangActivity extends BaseActivity {
     private String originString;
 
     private List<String> netWordSegments;
-    private static String lastString;
 
 
     int alpha;
@@ -123,7 +123,12 @@ public class BigBangActivity extends BaseActivity {
 //        setContentView(cardView);
 
         Intent intent = getIntent();
-        String str = intent.getStringExtra(TO_SPLIT_STR);
+        String str =null;
+        try {
+            str = intent.getStringExtra(TO_SPLIT_STR);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
 
         if (TextUtils.isEmpty(str)) {
             String action = intent.getAction();
@@ -137,16 +142,11 @@ public class BigBangActivity extends BaseActivity {
         }
 
         if (TextUtils.isEmpty(str)) {
-            str = lastString;
-        }
-
-        if (TextUtils.isEmpty(str)) {
             finish();
             return;
         }
 
-        lastString = str;
-        mSelectText = lastString;
+        mSelectText = str;
 
         str = str.replaceAll("@", " @ ");
 
@@ -259,7 +259,7 @@ public class BigBangActivity extends BaseActivity {
                     LogUtil.d(recommendInfo.toString());
                     List<String> txts = recommendInfo.get(0).getWord();
                     netWordSegments = txts;
-
+                    bigBangLayout.reset();
                     for (String t : txts) {
                         bigBangLayout.addTextItem(t);
                     }
@@ -407,6 +407,11 @@ public class BigBangActivity extends BaseActivity {
                 toTrans = (EditText) findViewById(R.id.to_translate);
                 transResult = (EditText) findViewById(R.id.translate_result);
                 TextView title = (TextView) findViewById(R.id.title);
+
+                title.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                toTrans.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                transResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+
                 findViewById(R.id.trans_again).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

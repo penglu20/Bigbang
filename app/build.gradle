@@ -14,13 +14,33 @@ def releaseTime() {
     return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
 }
 
+def keystoreFilepath = ''
+def keystorePSW = ''
+def keystoreAlias = ''
+def keystoreAliasPSW = ''
+// default keystore file, PLZ config file path in local.properties
+def keyfile = file('s.keystore.temp')
+
+Properties properties = new Properties()
+// local.properties file in the root director
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+keystoreFilepath = properties.getProperty("keystore.path")
+
+if (keystoreFilepath) {
+    keystorePSW = properties.getProperty("keystore.password")
+    keystoreAlias = properties.getProperty("keystore.alias")
+    keystoreAliasPSW = properties.getProperty("keystore.alias_password")
+    keyfile = file(keystoreFilepath)
+}
+
 android {
     signingConfigs {
-        config {
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
-            storeFile file(RELEASE_STORE_FILE)
-            storePassword RELEASE_STORE_PASSWORD
+        config  {
+            storeFile keyfile
+            storePassword keystorePSW
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPSW
+            println("====== signingConfigs.debug ======")
         }
     }
     compileSdkVersion 24
@@ -41,10 +61,13 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 23
-        versionName "2.1.2"
+        versionCode 28
+        versionName "2.5.0"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            abiFilter "armeabi"
+        }
     }
     buildTypes {
         debug {
@@ -53,6 +76,7 @@ android {
             manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable true
+            signingConfig signingConfigs.config
         }
         release {
             minifyEnabled true
@@ -82,7 +106,9 @@ android {
         baidu {}
         taobao {}
         QQ {}
-        google {}
+        google {
+
+        }
 //        _3G {}
         _91 {}
         hiapk {}
@@ -166,7 +192,11 @@ android {
         }
     }
 }
-
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'io.reactivex:rxandroid:1.2.1'
@@ -179,6 +209,7 @@ dependencies {
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
+    googleCompile 'com.google.android.gms:play-services-vision:10.0.1'
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile files('libs/umeng-onlineconfig_v1.0.0.jar')
     compile files('libs/com.umeng.fb.5.4.0.jar')
@@ -201,8 +232,21 @@ dependencies {
     compile project(':lib')
     compile files('libs/copy.jar')
     xposedCompile project(':xposed')
+    provided 'de.robv.android.xposed:api:82'
     compile project(':commonjar')
     compile project(':colorpicker')
     compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
     compile files('libs/classes-dex2jar.jar')
+
+//    compile(name:'alisdk-feedback-2.5.0.1', ext:'aar')
+//    compile(name:'securityguardaar3-5.1.81', ext:'aar')
+//    compile files('libs/app-monitor-sdk-2.5.1.1_for_bc_proguard.jar')
+//    compile files('libs/utdid4all-1.1.5.3_proguard.jar')
+
+
+
+    compile(name:'feedbackSdk', ext:'aar')
+    compile files('libs/securityguard-3.1.27.jar')
+    compile files('libs/utdid4all-1.0.4.jar')
+    compile files('libs/alisdk-ut-5.jar')
 }

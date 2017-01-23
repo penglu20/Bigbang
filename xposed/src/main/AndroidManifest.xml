@@ -19,7 +19,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="支持在任意app中双击文字进行分词功能,另外在设置中可设置双击时长哦!\n太灵敏的建议将双击时长调小.建议在设置中将【点击悬浮球触发BigBang】打开" />
+            android:value="支持在任意APP中点击文字进行分词,可以对每个应用选择单击、双击或者长按。建议在设置中将【点击悬浮球触发BigBang】打开，以减少误触发。" />
         <meta-data
             android:name="xposedminversion"
             android:value="30" />

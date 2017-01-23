@@ -19,11 +19,15 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.component.activity.DiyOcrKeyActivity;
+import com.forfan.bigbang.component.activity.WebActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
+import com.forfan.bigbang.entity.ImageUpload;
 import com.forfan.bigbang.util.ColorUtil;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.LogUtil;
@@ -48,11 +52,13 @@ import java.util.Date;
  */
 
 public class CaptureResultActivity extends BaseActivity {
+    public static final String HTTP_IMAGE_BAIDU_COM = "http://image.baidu.com/wiseshitu?rn=30&appid=0&tag=1&isMobile=1&";
     private ImageView capturedImage;
     private Bitmap bitmap;
 
-    private TextView share, save, ocr, bigbang;
+    private TextView share, save, ocr, bigbang, search;
     private TextView ocrResult;
+    private RelativeLayout ocrResultRL;
     int alpha = SPHelper.getInt(ConstantUtil.BIGBANG_ALPHA, 100);
     int lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
 
@@ -99,7 +105,7 @@ public class CaptureResultActivity extends BaseActivity {
         initWindow();
 
         Intent intent = getIntent();
-        String fileName = intent.getStringExtra(ScreenCaptureService.FILE_NAME);
+        String fileName = intent.getStringExtra(ScreenCapture.FILE_NAME);
         if (fileName == null) {
             ToastUtil.show(R.string.screen_capture_fail);
             finish();
@@ -115,13 +121,15 @@ public class CaptureResultActivity extends BaseActivity {
             return;
         }
         ocrResult = (TextView) findViewById(R.id.ocr_result);
+        ocrResultRL = (RelativeLayout) findViewById(R.id.ocr_result_rl);
         capturedImage = (ImageView) findViewById(R.id.captured_pic);
         share = (TextView) findViewById(R.id.share);
         save = (TextView) findViewById(R.id.save);
         ocr = (TextView) findViewById(R.id.recognize);
         bigbang = (TextView) findViewById(R.id.bigbang);
+        search = (TextView) findViewById(R.id.search);
 
-        ocrResult.setVisibility(View.GONE);
+        ocrResultRL.setVisibility(View.GONE);
 
         WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
@@ -141,10 +149,10 @@ public class CaptureResultActivity extends BaseActivity {
             }
             capturedImage.setLayoutParams(layoutParams);
 
-            layoutParams = (LinearLayout.LayoutParams) ocrResult.getLayoutParams();
+            layoutParams = (LinearLayout.LayoutParams) ocrResultRL.getLayoutParams();
             layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT;
             layoutParams.gravity = Gravity.CENTER_VERTICAL;
-            ocrResult.setLayoutParams(layoutParams);
+            ocrResultRL.setLayoutParams(layoutParams);
 
         }
 
@@ -189,7 +197,37 @@ public class CaptureResultActivity extends BaseActivity {
                 }
             }
         });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.show(R.string.upload_img);
+                OcrAnalsyser.getInstance().uploadImage(CaptureResultActivity.this, fileName, new OcrAnalsyser.ImageUploadCallBack() {
+                    @Override
+                    public void onSucess(ImageUpload imageUpload) {
+                        if(imageUpload != null &&
+                                imageUpload.getData() != null &&
+                                    !TextUtils.isEmpty(imageUpload.getData().getUrl())){
 
+                            String url = HTTP_IMAGE_BAIDU_COM +
+                                    "queryImageUrl=" +imageUpload.getData().getUrl()+
+                                    "&querySign=4074500770,3618317556&fromProduct= ";
+                            Intent intent = new Intent();
+                            intent.putExtra("url",url);
+                            intent.setClass(CaptureResultActivity.this,WebActivity.class);
+                            startActivity(intent);
+                        }else {
+                            ToastUtil.show(R.string.upload_img_fail);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable throwable) {
+                        ToastUtil.show(throwable.getMessage());
+                    }
+                });
+            }
+        });
         ocr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,16 +242,16 @@ public class CaptureResultActivity extends BaseActivity {
                 OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
                     @Override
                     public void onSucess(OCR ocr) {
-                        ocrResult.setVisibility(View.VISIBLE);
+                        ocrResultRL.setVisibility(View.VISIBLE);
                         ocrResult.setText(OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
-                        ocrResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor,alpha));
+                        ocrResult.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
                     }
 
                     @Override
                     public void onFail(Throwable throwable) {
-                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
+                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
                             ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
-                        }else {
+                        } else {
                             ToastUtil.show(throwable.getMessage());
                         }
                     }
@@ -224,59 +262,78 @@ public class CaptureResultActivity extends BaseActivity {
         bigbang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
-                    showBeyondQuoteDialog();
-                    int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
-                    SPHelper.save(ConstantUtil.OCR_TIME, time);
-                    return;
-                }
-                ToastUtil.show(R.string.ocr_recognize);
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_BIGBANG);
-                OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
-                    @Override
-                    public void onSucess(OCR ocr) {
-                        if (!TextUtils.isEmpty(ocrResult.getText())) {
-                            Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
-                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
-                            startActivity(intent);
-                            finish();
-                        } else {
-                            Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
-                            intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                            intent.putExtra(BigBangActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
-                            startActivity(intent);
-                            finish();
-                        }
+                if (TextUtils.isEmpty(ocrResult.getText())) {
+                    if (SPHelper.getInt(ConstantUtil.OCR_TIME, 0) == ConstantUtil.OCR_TIME_TO_ALERT) {
+                        showBeyondQuoteDialog();
+                        int time = SPHelper.getInt(ConstantUtil.OCR_TIME, 0) + 1;
+                        SPHelper.save(ConstantUtil.OCR_TIME, time);
+                        return;
                     }
-
-                    @Override
-                    public void onFail(Throwable throwable) {
-
-                        if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY,"").equals("")) {
-                            ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
-                        }else {
-                            ToastUtil.show(throwable.getMessage());
+                    ToastUtil.show(R.string.ocr_recognize);
+                    OcrAnalsyser.getInstance().analyse(CaptureResultActivity.this, fileName, true, new OcrAnalsyser.CallBack() {
+                        @Override
+                        public void onSucess(OCR ocr) {
+                            if (!TextUtils.isEmpty(ocrResult.getText())) {
+                                Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                                intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.putExtra(BigBangActivity.TO_SPLIT_STR, OcrAnalsyser.getInstance().getPasedMiscSoftText(ocr));
+                                startActivity(intent);
+                                finish();
+                            }
                         }
+
+                        @Override
+                        public void onFail(Throwable throwable) {
+
+                            if (SPHelper.getString(ConstantUtil.DIY_OCR_KEY, "").equals("")) {
+                                ToastUtil.show(getResources().getString(R.string.ocr_useup_toast));
+                            } else {
+                                ToastUtil.show(throwable.getMessage());
+                            }
+                        }
+                    });
+                } else {
+                    if (!TextUtils.isEmpty(ocrResult.getText())) {
+                        Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
+                        intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
+                        intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText().toString());
+                        startActivity(intent);
+                        finish();
                     }
-                });
+                }
+
             }
 
         });
 
-        ocrResult.setOnClickListener(new View.OnClickListener() {
+        ocrResult.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onLongClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_CAPTURERESULT_OCRRESULT);
                 if (!TextUtils.isEmpty(ocrResult.getText())) {
                     Intent intent = new Intent(CaptureResultActivity.this, BigBangActivity.class);
                     intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText());
+                    intent.putExtra(BigBangActivity.TO_SPLIT_STR, ocrResult.getText().toString());
                     startActivity(intent);
                     finish();
                 }
+                return true;
             }
+
         });
+
+        share.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+        save.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+        ocr.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+        bigbang.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
+        search.setTextColor(ColorUtil.getPropertyTextColor(lastPickedColor, alpha));
     }
 
     private void showBeyondQuoteDialog() {
@@ -288,7 +345,7 @@ public class CaptureResultActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SHOW_BEYOND_QUOTE);
                 super.onPositiveActionClicked(fragment);
                 Intent intent = new Intent();
-                intent.setClass(CaptureResultActivity.this,DiyOcrKeyActivity.class);
+                intent.setClass(CaptureResultActivity.this, DiyOcrKeyActivity.class);
                 startActivity(intent);
 
             }

@@ -2,4 +2,5 @@
 <resources>
     <string name="app_name">锤子BigBang</string>
     <string name="open_access_hint">使用全局复制，需要开启辅助服务</string>
+    <string name="ali_feedback_key">23589273</string>
 </resources>

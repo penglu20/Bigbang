@@ -32,7 +32,8 @@ public class XposedBigBangActivity extends BaseActivity {
             intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(BigBangActivity.TO_SPLIT_STR,str);
             boolean click = SPHelper.getBoolean(ConstantUtil.MONITOR_CLICK,true);
-            if(click){
+            boolean totalSwitch = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH,true);
+            if(click && totalSwitch){
                 //放到TipViewController中触发试试
                 ArcTipViewController.getInstance().showTipViewForStartActivity(intent);
             }

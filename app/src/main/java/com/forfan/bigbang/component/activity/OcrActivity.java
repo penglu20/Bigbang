@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.forfan.bigbang.R;
-import com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity;
+import com.forfan.bigbang.component.activity.screen.CaptureResultActivity;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.cropper.BitmapUtil;
 import com.forfan.bigbang.cropper.CropHandler;
@@ -22,6 +23,7 @@ import com.forfan.bigbang.cropper.CropHelper;
 import com.forfan.bigbang.cropper.CropParams;
 import com.forfan.bigbang.cropper.ImageUriUtil;
 import com.forfan.bigbang.cropper.handler.CropImage;
+import com.forfan.bigbang.entity.ImageUpload;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.OcrAnalsyser;
 import com.forfan.bigbang.util.SnackBarUtil;
@@ -35,6 +37,8 @@ import com.microsoft.projectoxford.vision.contract.Region;
 import com.microsoft.projectoxford.vision.contract.Word;
 import com.shang.commonjar.contentProvider.SPHelper;
 import com.shang.utils.StatusBarCompat;
+
+import static com.forfan.bigbang.component.activity.screen.CaptureResultActivity.HTTP_IMAGE_BAIDU_COM;
 
 
 /**
@@ -128,6 +132,43 @@ public class OcrActivity extends BaseActivity implements View.OnClickListener, C
         mImageView.setImageBitmap(BitmapUtil.decodeUriAsBitmap(this, uri));
         uploadImage4Ocr(uri);
         mCurrentUri = uri;
+        showSearchOcr(mCurrentUri);
+    }
+
+    private void showSearchOcr(Uri uri) {
+        String img_path = ImageUriUtil.getImageAbsolutePath(this, uri);
+        findViewById(R.id.search).setVisibility(View.VISIBLE);
+        findViewById(R.id.search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastUtil.show(R.string.upload_img);
+                OcrAnalsyser.getInstance().uploadImage(OcrActivity.this, img_path, new OcrAnalsyser.ImageUploadCallBack() {
+                    @Override
+                    public void onSucess(ImageUpload imageUpload) {
+                        if(imageUpload != null &&
+                                imageUpload.getData() != null &&
+                                !TextUtils.isEmpty(imageUpload.getData().getUrl())){
+
+                            String url = HTTP_IMAGE_BAIDU_COM +
+                                    "queryImageUrl=" +imageUpload.getData().getUrl()+
+                                    "&querySign=4074500770,3618317556&fromProduct= ";
+                            Intent intent = new Intent();
+                            intent.putExtra("url",url);
+                            intent.setClass(OcrActivity.this,WebActivity.class);
+                            startActivity(intent);
+                        }else {
+                            ToastUtil.show(R.string.upload_img_fail);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFail(Throwable throwable) {
+                        ToastUtil.show(throwable.getMessage());
+                    }
+                });
+            }
+        });
     }
 
     @Override

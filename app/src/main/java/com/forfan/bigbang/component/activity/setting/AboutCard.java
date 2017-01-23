@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.AttributeSet;
@@ -16,20 +14,12 @@ import android.widget.TextView;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.DonateActivity;
-import com.forfan.bigbang.component.activity.IntroActivity;
-import com.forfan.bigbang.component.activity.screen.DiyOcrKeyActivity;
-import com.forfan.bigbang.component.service.GetAwayNotificationListenerService;
-import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.component.activity.DiyOcrKeyActivity;
 import com.forfan.bigbang.util.CountLinkMovementMethod;
-import com.forfan.bigbang.util.NetWorkUtil;
-import com.forfan.bigbang.util.SnackBarUtil;
-import com.forfan.bigbang.util.UpdateUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.view.Dialog;
 import com.forfan.bigbang.view.DialogFragment;
 import com.forfan.bigbang.view.SimpleDialog;
-import com.shang.commonjar.contentProvider.SPHelper;
-import com.umeng.fb.FeedbackAgent;
 
 /**
  * Created by penglu on 2015/11/23.
@@ -126,6 +116,8 @@ public class AboutCard extends AbsCard {
         ((SimpleDialog.Builder) builder).
                 message( Html.fromHtml(
                         String.format(mContext.getString(R.string.about_content),version).replaceAll("\n","<br />")
+                        +"<br/><a href='"+"https://github.com/l465659833/Bigbang"+"'>"+"Github: https://github.com/l465659833/Bigbang"+"</a>"
+
                                 ))
                 .title(mContext.getString(R.string.about))
                 .positiveAction(mContext.getString(R.string.confirm));

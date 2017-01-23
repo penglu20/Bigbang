@@ -2,9 +2,7 @@ package com.forfan.bigbang.component.base;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 
 
@@ -35,14 +33,15 @@ public class PermissionActivity extends RxAppCompatActivity implements
 
     public interface CheckPermListener {
         //权限通过后的回调方法
-        void superPermission();
+        void grantPermission();
+        void denyPermission();
     }
 
     public void checkPermission(CheckPermListener listener, int resString, String... mPerms) {
         mListener = listener;
         if (EasyPermissions.hasPermissions(this, mPerms)) {
             if (mListener != null)
-                mListener.superPermission();
+                mListener.grantPermission();
         } else {
             CharSequence text= Html.fromHtml("<font color=\"#000000\">"+getString(resString)+"</font>");
             EasyPermissions.requestPermissions(this, text,
@@ -79,19 +78,24 @@ public class PermissionActivity extends RxAppCompatActivity implements
     @Override
     public void onPermissionsGranted(int requestCode, List<String> perms) {
        //同意了某些权限可能不是全部
+        if (mListener != null)
+            mListener.denyPermission();
     }
 
     @Override
     public void onPermissionsAllGranted() {
         if (mListener != null)
-            mListener.superPermission();//同意了全部权限的回调
+            mListener.grantPermission();//同意了全部权限的回调
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
-        EasyPermissions.checkDeniedPermissionsNeverAskAgain(this,
+        if(!EasyPermissions.checkDeniedPermissionsNeverAskAgain(this,
                 getString(R.string.perm_tip),
-                R.string.setting, R.string.cancel, null, perms);
+                R.string.setting, R.string.cancel, null, perms)){
+            if (mListener != null)
+                mListener.denyPermission();
+        }
     }
 
 
