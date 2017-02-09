@@ -115,9 +115,6 @@ public final class ListenClipboardService extends Service {
             public void run() {
                 try {
                     startService(new Intent(ListenClipboardService.this, BigBangMonitorService.class));
-                    if (showFloatView) {
-                        ArcTipViewController.getInstance().show();
-                    }
                 } catch (Throwable e) {
                     e.printStackTrace();
                 }

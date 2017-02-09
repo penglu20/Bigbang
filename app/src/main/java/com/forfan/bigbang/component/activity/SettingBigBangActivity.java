@@ -70,6 +70,7 @@ public class SettingBigBangActivity extends BaseActivity {
     private CheckBox isStickHeader;
     private CheckBox isDefaultLocal;
     private CheckBox autoAddBlanks;
+    private CheckBox isBlankSymbol;
 
     private RecyclerView backgroundRV;
     private int[] bigbangBackgroungColors;
@@ -115,6 +116,7 @@ public class SettingBigBangActivity extends BaseActivity {
         isStickSharebar= (CheckBox) findViewById(R.id.is_stick_sharebar);
         isDefaultLocal = (CheckBox) findViewById(R.id.is_default_local);
         autoAddBlanks = (CheckBox) findViewById(R.id.auto_add_blanks);
+        isBlankSymbol = (CheckBox) findViewById(R.id.is_blank_symbol);
 
 
         mTextSizeSeekBar.setMax(MAX_TEXT_SIZE - MIN_TEXT_SIZE);
@@ -267,6 +269,13 @@ public class SettingBigBangActivity extends BaseActivity {
                 UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_ADD_BLANKS,isChecked+"");
             }
         });
+        isBlankSymbol.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SPHelper.save(ConstantUtil.TREAT_BLANKS_AS_SYMBOL,isChecked);
+                UrlCountUtil.onEvent(UrlCountUtil.STATUS_SET_BB_BLANKS_IS_SYMBOL,isChecked+"");
+            }
+        });
         isStickSharebar.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -295,6 +304,7 @@ public class SettingBigBangActivity extends BaseActivity {
 
         boolean defaultLocal = SPHelper.getBoolean(ConstantUtil.DEFAULT_LOCAL, false);
         boolean addBlanks = SPHelper.getBoolean(ConstantUtil.AUTO_ADD_BLANKS, false);
+        boolean blankIsSymbol = SPHelper.getBoolean(ConstantUtil.TREAT_BLANKS_AS_SYMBOL, true);
 
 
         mTextSizeSeekBar.setProgress((int) ((MIN_TEXT_SIZE)));
@@ -333,6 +343,7 @@ public class SettingBigBangActivity extends BaseActivity {
 
         isDefaultLocal.setChecked(defaultLocal);
         autoAddBlanks.setChecked(addBlanks);
+        isBlankSymbol.setChecked(blankIsSymbol);
         bigbangBackgroungColors=getResources().getIntArray(BIGBANG_BACKGROUND_COLOR_ARRAY_RES);
         backgroundRV.setLayoutManager(new GridLayoutManager(this,4));
         backgroundRV.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.GRID_LIST));

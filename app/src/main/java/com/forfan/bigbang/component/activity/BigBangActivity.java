@@ -90,6 +90,7 @@ public class BigBangActivity extends BaseActivity {
         lastPickedColor = SPHelper.getInt(ConstantUtil.BIGBANG_DIY_BG_COLOR, Color.parseColor("#94a4bb"));
         int value = (int) ((alpha / 100.0f) * 255);
 
+        RegexUtil.refreshSymbolSelection();
         if (fullScreen) {
             setTheme(R.style.PreSettingTheme);
             setContentView(R.layout.activity_big_bang);

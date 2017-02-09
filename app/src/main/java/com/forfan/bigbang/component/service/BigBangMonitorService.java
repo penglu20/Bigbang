@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -27,6 +28,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.component.activity.floatviewwhitelist.AppListAdapter;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.activity.whitelist.SelectionDbHelper;
 import com.forfan.bigbang.copy.CopyActivity;
@@ -35,6 +37,7 @@ import com.forfan.bigbang.util.ArcTipViewController;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.KeyPressedTipViewController;
 import com.forfan.bigbang.util.LogUtil;
+import com.forfan.bigbang.util.RunningTaskUtil;
 import com.forfan.bigbang.util.ToastUtil;
 import com.forfan.bigbang.util.UrlCountUtil;
 import com.forfan.bigbang.util.XposedEnableUtil;
@@ -89,6 +92,9 @@ public class BigBangMonitorService extends AccessibilityService {
 
     private AccessibilityServiceInfo mAccessibilityServiceInfo;
 
+    private List<String> floatWhiteList;
+    private RunningTaskUtil mRunningTaskUtil;
+
     String back ;
     String home ;
     String recent ;
@@ -103,9 +109,12 @@ public class BigBangMonitorService extends AccessibilityService {
 
         ArcTipViewController.getInstance().addActionListener(actionListener);
 
+        mRunningTaskUtil=new RunningTaskUtil(this);
+
         IntentFilter intentFilter=new IntentFilter();
         intentFilter.addAction(ConstantUtil.BROADCAST_BIGBANG_MONITOR_SERVICE_MODIFIED);
         intentFilter.addAction(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST);
+        intentFilter.addAction(ConstantUtil.FLOAT_REFRESH_WHITE_LIST_BROADCAST);
         intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST);
         intentFilter.addAction(ConstantUtil.UNIVERSAL_COPY_BROADCAST_DELAY);
         intentFilter.addAction(ConstantUtil.SCREEN_CAPTURE_OVER_BROADCAST);
@@ -119,7 +128,22 @@ public class BigBangMonitorService extends AccessibilityService {
                 try {
                     startService(new Intent(BigBangMonitorService.this,ListenClipboardService.class));
                     if (showFloatView){
-                        ArcTipViewController.getInstance().show();
+                        String packageName;
+                        if (!TextUtils.isEmpty(mCurrentPackage)){
+                            packageName=mCurrentPackage;
+                        }else {
+                            ComponentName task = mRunningTaskUtil.getTopActivtyFromLolipopOnwards();
+                            packageName = task.getPackageName();
+                        }
+                        if (floatWhiteList!=null&&floatWhiteList.contains(packageName)) {
+                            ArcTipViewController.getInstance().remove();
+                        }else {
+                            if (ArcTipViewController.getInstance().isRemoved()) {
+                                ArcTipViewController.getInstance().showHideFloatImageView();
+                            }else {
+                                ArcTipViewController.getInstance().show();
+                            }
+                        }
                     }
                     keepAccessibilityOpen();
                 } catch (Throwable e) {
@@ -143,6 +167,7 @@ public class BigBangMonitorService extends AccessibilityService {
         setServiceInfo(mAccessibilityServiceInfo);
 
         readWhiteList();
+        readFloatWhiteList();
 
         keepAccessibilityOpen();
 
@@ -682,11 +707,22 @@ public class BigBangMonitorService extends AccessibilityService {
         selections=new SelectionDbHelper(this).getSelections();
     }
 
+    public synchronized void readFloatWhiteList(){
+        int numbers = SPHelper.getInt(ConstantUtil.FLOAT_WHITE_LIST_COUNT,0);
+        List<String> selectedPackageNames=new ArrayList<>();
+        for (int i=0;i<numbers;i++){
+            selectedPackageNames.add(SPHelper.getString(ConstantUtil.FLOAT_WHITE_LIST+i,""));
+        }
+        floatWhiteList=selectedPackageNames;
+    }
+
     private BroadcastReceiver bigBangBroadcastReceiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ConstantUtil.REFRESH_WHITE_LIST_BROADCAST)){
                 readWhiteList();
+            }else if (intent.getAction().equals(ConstantUtil.FLOAT_REFRESH_WHITE_LIST_BROADCAST)){
+                readFloatWhiteList();
             }else if (intent.getAction().equals(ConstantUtil.UNIVERSAL_COPY_BROADCAST)){
                 if (XposedEnableUtil.isEnable()){
                     sendBroadcast(new Intent(ConstantUtil.UNIVERSAL_COPY_BROADCAST_XP));

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.baseCard.AbsCard;
 import com.forfan.bigbang.component.activity.SettingFloatViewActivity;
+import com.forfan.bigbang.component.activity.floatviewwhitelist.FloatViewWhiteListActivity;
 import com.forfan.bigbang.component.activity.howtouse.HowToUseActivity;
 import com.forfan.bigbang.util.ConstantUtil;
 import com.forfan.bigbang.util.NotificationCheckUtil;
@@ -176,6 +177,15 @@ public class FloatAndNotifySettingCard extends AbsCard {
             public void onClick(View v) {
                 UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_SET_STYLE_BIGBANG);
                 Intent intent = new Intent(mContext, SettingFloatViewActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.float_white_list_rl).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UrlCountUtil.onEvent(UrlCountUtil.CLICK_SETTINGS_FLOAT_WHITE_LIST);
+                Intent intent = new Intent(mContext, FloatViewWhiteListActivity.class);
                 mContext.startActivity(intent);
             }
         });

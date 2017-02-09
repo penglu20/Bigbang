@@ -10,7 +10,7 @@
 
     <dimen name="big_bang_default_item_space">0dp</dimen>
     <dimen name="big_bang_default_line_space">8dp</dimen>
-    <dimen name="big_bang_action_bar_height">42dp</dimen>
+    <dimen name="big_bang_action_bar_height">52dp</dimen>
 
     <!--tab layout size-->
     <dimen name="tab_indicator_corner_tiny_radius">1dp</dimen>

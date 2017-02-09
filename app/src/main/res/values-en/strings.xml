@@ -280,7 +280,8 @@
     <string name="setting_search_engine_web">Setting Search Engine</string>
 
 
-    <string name="auto_add_blanks">Auto add blanks after English words\n(Spaces are treated as normal symbols by default, and are not added when unchecked)</string>
+    <string name="auto_add_blanks">Auto add blanks after English words\n(You can change their visibility at anytime.)</string>
+    <string name="treat_blanks_symbol">Treat space as an ordinary symbol.\n(May cause error when copy url)</string>
     <string name="is_default_local">Use local segment as default</string>
     <string name="is_full_screen">Show in full screen</string>
     <string name="is_stick_header">Keep Header Button At The Top</string>
@@ -469,4 +470,8 @@ PS: xposed trigger mode and the general version is not the same, each have advan
 
     <string name="jump_introduction">Skip</string>
     <string name="jump_toast">You can check this when you get any problems.</string>
+
+    <string name="request_usage_setting_msg">Need usage status permission!</string>
+    <string name="float_white_list">Apps do not show float view</string>
+    <string name="float_white_list_nagetive">Without usage rights, we can not get the foreground application, the settings will not work</string>
 </resources>

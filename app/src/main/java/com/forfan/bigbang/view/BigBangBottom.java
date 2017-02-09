@@ -90,7 +90,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
         setWillNotDraw(false);
 
-        mActionGap = (int) ViewUtil.dp2px(15);
+        mActionGap = (int) ViewUtil.dp2px(5);
         mContentPadding = (int) ViewUtil.dp2px(10);
     }
 

@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.util.ConstantUtil;
+import com.forfan.bigbang.util.RegexUtil;
 import com.forfan.bigbang.util.ViewUtil;
 import com.shang.commonjar.contentProvider.SPHelper;
 
@@ -39,8 +40,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static com.forfan.bigbang.util.RegexUtil.SYMBOL_REX;
 
 public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionListener, NestedScrollingChild {
 
@@ -58,6 +57,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
     private int mSectionTextBgRes;
     private int mTextSize;
     private int mTextPadding = (int) ViewUtil.dp2px(ConstantUtil.DEFAULT_ITEM_PADDING);
+    private int mTextPaddingPort = (int) ViewUtil.dp2px(5);
     private int mTextBgRes;
 
     private Item mTargetItem;
@@ -270,6 +270,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 List<Item> items = line.getItems();
                 for (Item item : items) {
                     ((TextView) item.view).setTextSize(mTextSize);
+                    (item.view).setPadding(mTextPadding, mTextPaddingPort,mTextPadding, mTextPaddingPort);
                 }
             }
         }
@@ -282,7 +283,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             for (Line line : mLines) {
                 List<Item> items = line.getItems();
                 for (Item item : items) {
-                    (item.view).setPadding(mTextPadding,0,mTextPadding,0);
+                    (item.view).setPadding(mTextPadding, mTextPaddingPort,mTextPadding, mTextPaddingPort);
                 }
             }
         }
@@ -315,7 +316,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
             view.setTextColor(mColorStateList);
         }
         view.setTextSize(mTextSize);
-        view.setPadding(mTextPadding,0,mTextPadding,0);
+        view.setPadding(mTextPadding, mTextPaddingPort,mTextPadding, mTextPaddingPort);
         view.setGravity(Gravity.CENTER);
         addView(view);
     }
@@ -389,7 +390,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
 
                 child.setVisibility(VISIBLE);
                 if (!showSymbol) {
-                    if (content.matches(SYMBOL_REX)) {
+                    if (RegexUtil.isSymbol(content)) {
                         child.setVisibility(GONE);
                         continue;
                     }
@@ -420,11 +421,11 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                 if (currentLine.getItems() == null && (isEnter && showSection)) {
                     int padding = child.getPaddingLeft();
                     child.setBackgroundResource(mSectionTextBgRes);
-                    child.setPadding(padding, 0, padding, 0);
+                    child.setPadding(padding, mTextPaddingPort, padding, mTextPaddingPort);
                 } else {
                     int padding = child.getPaddingLeft();
                     child.setBackgroundResource(mTextBgRes);
-                    child.setPadding(padding, 0, padding, 0);
+                    child.setPadding(padding, mTextPaddingPort, padding, mTextPaddingPort);
                 }
                 currentLine.addItem(item);
                 isEnter=false;
@@ -1045,7 +1046,7 @@ public class BigBangLayout extends ViewGroup implements BigBangHeader.ActionList
                         newTextView.setTextColor(mColorStateList);
                     }
                     newTextView.setTextSize(mTextSize);
-                    newTextView.setPadding(newPadding,0,newPadding,0);
+                    newTextView.setPadding(newPadding, mTextPaddingPort,newPadding, mTextPaddingPort);
                     newTextView.setGravity(Gravity.CENTER);
 
                     viewgroup.addView(newTextView,index);

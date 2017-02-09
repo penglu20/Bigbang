@@ -1,32 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/content_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/content_view"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
         style="@style/cardViewRelativeLayoutSelector"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <android.support.v7.widget.AppCompatTextView
             style="@style/cardViewTextViewInLayoutLeft"
-            android:textSize="@dimen/text_size_title"
+            android:text="@string/float_setting_card"
             android:textColor="@color/text_color_notify"
-            android:textStyle="bold"
-            android:text="@string/float_setting_card"/>
+            android:textSize="@dimen/text_size_title"
+            android:textStyle="bold" />
     </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
     <RelativeLayout
         android:id="@+id/show_float_view_rl"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
 
         <com.forfan.bigbang.view.HintTextView
@@ -40,10 +42,28 @@
             style="@style/hintTextViewswitchStyle" />
     </RelativeLayout>
 
-        <View
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
+
+    <RelativeLayout
+        android:id="@+id/float_white_list_rl"
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
+
+        <android.support.v7.widget.AppCompatTextView
+            style="@style/cardViewTextViewInLayoutLeft"
             android:layout_width="match_parent"
-            android:background="@color/divider"
-            android:layout_height="1px"/>
+            android:layout_centerVertical="true"
+            android:text="@string/float_white_list" />
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
 
     <RelativeLayout
         android:id="@+id/setting_floatview"
@@ -64,8 +84,8 @@
 
     <RelativeLayout
         android:id="@+id/show_notify_rl"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
 
         <com.forfan.bigbang.view.HintTextView
@@ -87,8 +107,8 @@
 
     <RelativeLayout
         android:id="@+id/long_press_rl"
-        android:duplicateParentState="false"
-        style="@style/hintTextViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
 
         <com.forfan.bigbang.view.HintTextView
@@ -99,15 +119,19 @@
 
     </RelativeLayout>
 
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider" />
 
     <RelativeLayout
         android:id="@+id/open_from_outside_rl"
-        android:duplicateParentState="false"
-        style="@style/cardViewRelativeLayoutSelector">
+        style="@style/hintTextViewRelativeLayoutSelector"
+        android:duplicateParentState="false">
 
         <android.support.v7.widget.AppCompatTextView
             style="@style/cardViewTextViewInLayoutLeft"
+            android:layout_centerVertical="true"
             android:layout_width="match_parent"
             android:text="@string/open_from_outside" />
 

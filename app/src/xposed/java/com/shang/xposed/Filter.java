@@ -23,7 +23,7 @@ public interface Filter {
 
         @Override
         public boolean filter(View view) {
-            return (view instanceof TextView );
+            return (view instanceof TextView )&& !(view instanceof EditText);
 //            return (view instanceof TextView || view instanceof AppCompatTextView) && !(view instanceof Button)
 //                    && !(view instanceof EditText)
 //                    && !(view instanceof CheckedTextView)

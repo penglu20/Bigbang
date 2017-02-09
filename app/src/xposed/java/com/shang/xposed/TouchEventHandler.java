@@ -25,7 +25,7 @@ import java.util.List;
  */
 
 public class TouchEventHandler {
-    private static final String TAG = "";
+    private static final String TAG = "TouchEventHandler";
 
     static {
 
@@ -195,10 +195,15 @@ public class TouchEventHandler {
                     }
                     if (!hasTriggerLongClick){
                         hasTriggerLongClick=true;
-                        String text=getTextFromView(mCurrentView,filters);
-                        Log.e(TAG,"onLongPress text="+text);
-                        longPressedRunnable.setText(text);
-                        longPressedRunnable.run();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                String text=getTextFromView(mCurrentView,filters);
+                                Log.e(TAG,"onLongPress text="+text);
+                                longPressedRunnable.setText(text);
+                                longPressedRunnable.run();
+                            }
+                        });
                     }
                     super.onLongPress(e);
                 }
@@ -255,10 +260,15 @@ public class TouchEventHandler {
 //                    }
                     if (!hasTriggerClick){
                         hasTriggerClick=true;
-                        String text=getTextFromView(mCurrentView,filters);
-                        Log.e(TAG,"onSingleTapConfirmed text="+text);
-                        longPressedRunnable.setText(text);
-                        longPressedRunnable.run();
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                String text = getTextFromView(mCurrentView, filters);
+                                Log.e(TAG, "onSingleTapConfirmed text=" + text);
+                                longPressedRunnable.setText(text);
+                                longPressedRunnable.run();
+                            }
+                        });
                     }
                     return super.onSingleTapConfirmed(e);
                 }

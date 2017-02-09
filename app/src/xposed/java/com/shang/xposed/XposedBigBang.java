@@ -337,12 +337,18 @@ public class XposedBigBang implements IXposedHookLoadPackage {
     }
 
 
+    //1. 为什么不hook住onTouch方法呢，而且非要dispatchTouchEvent返回true的时候才进行操作呢？
     private class ViewTouchEvent extends XC_MethodHook {
 
         private final String packageName;
-
+        Class viewRootImplClass;
         public ViewTouchEvent(String packageName,int type) {
             this.packageName = packageName;
+            try {
+                viewRootImplClass = this.getClass().getClassLoader().loadClass("android.view.ViewRootImpl");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             setClickTypeToTouchHandler(type);
         }
 
@@ -365,7 +371,7 @@ public class XposedBigBang implements IXposedHookLoadPackage {
             MotionEvent event = (MotionEvent) param.args[0];
 //            Log.e(TAG,"after->View:"+ view.getClass().getSimpleName()+ " viewTouchEvent: " + event);
 
-            if ((Boolean) param.getResult()) {
+            if ((Boolean) param.getResult() || view.getParent()==null || (viewRootImplClass.isInstance(view.getParent()) )) {
                 mTouchHandler.hookTouchEvent(view, event, mFilters, true, appXSP.getInt(SP_DOBLUE_CLICK, 1000));
             }
         }

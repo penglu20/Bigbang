@@ -61,13 +61,13 @@ android {
         applicationId "com.forfan.bigbang"
         minSdkVersion 14
         targetSdkVersion 24
-        versionCode 28
-        versionName "2.5.0"
+        versionCode 29
+        versionName "2.6.0"
         manifestPlaceholders = [UMENG_CHANNEL_VALUE: "for_test"]
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
-            abiFilter "armeabi"
-        }
+//        ndk {
+//            abiFilter "armeabi"
+//        }
     }
     buildTypes {
         debug {

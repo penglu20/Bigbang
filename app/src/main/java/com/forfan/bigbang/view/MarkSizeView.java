@@ -289,6 +289,14 @@ public class MarkSizeView extends View {
                         cancelArea.set(endX - 2 * confirmBitmap.getWidth() - mActionGap * 2, endY + mActionGap, endX - confirmBitmap.getWidth() - mActionGap * 2, endY + confirmBitmap.getHeight() + mActionGap);
                     }
 
+                    if (cancelArea.left<0){
+                        int cancelAreaLeftMargin=Math.abs(cancelArea.left)+mActionGap;
+                        cancelArea.left = cancelArea.left+cancelAreaLeftMargin;
+                        cancelArea.right = cancelArea.right+cancelAreaLeftMargin;
+                        confirmArea.left = confirmArea.left+cancelAreaLeftMargin;
+                        confirmArea.right = confirmArea.right+cancelAreaLeftMargin;
+                    }
+
                     if (!isValid) {
                         if (mOnClickListener != null) {
                             mOnClickListener.onCancel();
@@ -380,6 +388,13 @@ public class MarkSizeView extends View {
                         cancelArea.set(endX - 2 * confirmBitmap.getWidth() - mActionGap * 2, endY - confirmBitmap.getHeight() - mActionGap, endX - confirmBitmap.getWidth() - mActionGap * 2, endY - mActionGap);
                     }
 
+                    if (cancelArea.left<0){
+                        int cancelAreaLeftMargin=Math.abs(cancelArea.left)+mActionGap;
+                        cancelArea.left = cancelArea.left+cancelAreaLeftMargin;
+                        cancelArea.right = cancelArea.right+cancelAreaLeftMargin;
+                        confirmArea.left = confirmArea.left+cancelAreaLeftMargin;
+                        confirmArea.right = confirmArea.right+cancelAreaLeftMargin;
+                    }
                     if (!isValid) {
                         if (mOnClickListener != null) {
                             mOnClickListener.onCancel();

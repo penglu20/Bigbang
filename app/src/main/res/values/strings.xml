@@ -270,7 +270,8 @@
 
     <string name="setting_search_engine_web">设置搜索引擎</string>
 
-    <string name="auto_add_blanks">自动在选中的单词和数字后添加空格\n(空格默认被当做普通符号处理，不选中则不添加)</string>
+    <string name="treat_blanks_symbol">将空格当做普通符号\n(在分词界面控制显示/隐藏，否则当做文字)</string>
+    <string name="auto_add_blanks">自动在选中的单词和数字后添加空格\n(可能导致复制的网址中添加空格)</string>
     <string name="is_default_local">默认使用本地分词</string>
     <string name="is_full_screen">全屏显示分词</string>
     <string name="is_stick_header">功能键保持在顶部</string>
@@ -449,4 +450,8 @@ PS：xposed的触发方式和普通版本不一样，各有优劣，我们都会
     <string name="search_">以图搜图</string>
     <string name="upload_img">开始上传图片</string>
     <string name="upload_img_fail">抱歉，图片上传失败</string>
+
+    <string name="request_usage_setting_msg">需要开启使用量权限，请在打开的设置页面中授权！</string>
+    <string name="float_white_list">不显示悬浮球的应用</string>
+    <string name="float_white_list_nagetive">不开启使用量权限，无法获取前台应用程序,设置将不会起作用</string>
 </resources>

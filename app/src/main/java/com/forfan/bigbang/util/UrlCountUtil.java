@@ -18,6 +18,7 @@ public class UrlCountUtil {
     public static final String CLICK_SETTINGS_FEEDBACK ="click_settings_feedback";
     public static final String CLICK_SETTINGS_SET_STYLE_BIGBANG ="click_settings_set_style_bigbang";
     public static final String CLICK_SETTINGS_OPEN_FROM_OUTSIDE ="click_settings_open_from_outside";
+    public static final String CLICK_SETTINGS_FLOAT_WHITE_LIST ="click_settings_float_white_list";
     public static final String CLICK_SETTINGS_SEARCH_ENGINE ="click_settings_search_engine";
     public static final String CLICK_SETTINGS_CHECK_FOR_UPDATE ="click_settings_check_for_update";
     public static final String CLICK_SETTINGS_HOW_TO_USE ="click_settings_how_to_use";
@@ -128,6 +129,7 @@ public class UrlCountUtil {
     public static final String STATUS_SET_BB_STICK_SHAREBAR="status_set_bb_stick_sharebar";
     public static final String STATUS_SET_BB_DEFAULT_LOCAL="status_set_bb_default_local";
     public static final String STATUS_SET_BB_ADD_BLANKS="status_set_bb_add_blanks";
+    public static final String STATUS_SET_BB_BLANKS_IS_SYMBOL="status_set_bb_blanks_is_symbol";
 
 
     public static final String STATUS_DIY_OCR_KEY="status_diy_ocr_key";

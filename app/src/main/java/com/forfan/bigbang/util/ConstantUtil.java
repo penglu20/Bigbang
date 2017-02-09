@@ -47,7 +47,6 @@ public class ConstantUtil {
     public static final String REMAIN_SYMBOL="remain_symbol";
     public static final String REMAIN_SECTION="remain_section";
     public static final String DEFAULT_LOCAL="default_local";
-    public static final String AUTO_ADD_BLANKS="auto_add_blanks";
 
 
     public static final String AUTO_OPEN_SETTING="auto_open_setting";
@@ -97,6 +96,10 @@ public class ConstantUtil {
     public static final String IS_FULL_SCREEN ="is_full_screen";
     public static final String IS_STICK_HEADER ="is_stick_header";
     public static final String IS_STICK_SHAREBAR ="is_stick_sharebar";
+    public static final String AUTO_ADD_BLANKS="auto_add_blanks";
+    public static final String TREAT_BLANKS_AS_SYMBOL="treat_blanks_as_symbol";
+
+
 
     public static final String FLOATVIEW_SIZE ="floatview_size_";
     public static final String FLOATVIEW_ALPHA ="floatview_alpha";
@@ -114,6 +117,12 @@ public class ConstantUtil {
     public static final String WHITE_LIST_COUNT ="white_list_count";
     public static final String WHITE_LIST ="white_list";
     public static final String REFRESH_WHITE_LIST_BROADCAST ="refresh_white_list_broadcast";
+
+
+    //FloatwhiteListActivity
+    public static final String FLOAT_WHITE_LIST_COUNT ="float_white_list_count";
+    public static final String FLOAT_WHITE_LIST ="float_white_list_";
+    public static final String FLOAT_REFRESH_WHITE_LIST_BROADCAST ="float_refresh_white_list_broadcast";
 
     public static final String HAS_ADDED_LAUNCHER_AS_WHITE_LIST="has_added_launcher_as_white_list";
 

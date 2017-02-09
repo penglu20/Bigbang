@@ -206,11 +206,22 @@
                 android:background="@drawable/button_white_stroke_green"
                 android:layout_marginBottom="@dimen/height_normal"
                 android:layout_height="@dimen/card_detail_line_height">
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/ocr_diy_key_confirm"
+                    android:layout_width="wrap_content"
+                    android:text="@string/confirm"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="@dimen/margin_normal"
+                    android:paddingRight="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginBottom="@dimen/margin_normal"
+                    android:layout_height="wrap_content" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/ocr_diy_key"
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_toLeftOf="@id/ocr_diy_key_confirm"
                     android:hint="@string/set_diy_ocr_key_hint"
                     >
                     <android.support.design.widget.TextInputEditText
@@ -222,16 +233,7 @@
                         android:textColor="@color/secondary_text" />
                 </android.support.design.widget.TextInputLayout>
 
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/ocr_diy_key_confirm"
-                    android:layout_width="wrap_content"
-                    android:text="@string/confirm"
-                    android:layout_alignParentRight="true"
-                    android:paddingLeft="@dimen/margin_normal"
-                    android:paddingRight="@dimen/margin_normal"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:layout_marginBottom="@dimen/margin_normal"
-                    android:layout_height="wrap_content" />
+
             </RelativeLayout>
 
         </LinearLayout>

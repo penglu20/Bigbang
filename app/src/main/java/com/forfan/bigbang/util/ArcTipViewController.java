@@ -782,6 +782,10 @@ public class ArcTipViewController implements View.OnTouchListener {
 //        }
     }
 
+    public boolean isRemoved() {
+        return isRemoved;
+    }
+
     Runnable removeViewRunnanble = new Runnable() {
         @Override
         public void run() {

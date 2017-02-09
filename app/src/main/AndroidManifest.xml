@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
 
     <application
         android:name=".BigBangApp"
@@ -199,6 +200,9 @@
             android:theme="@style/WebActivityTheme" />
         <activity
             android:name=".component.activity.whitelist.WhiteListActivity"
+            android:theme="@style/BaseAppTheme" />
+        <activity
+            android:name=".component.activity.floatviewwhitelist.FloatViewWhiteListActivity"
             android:theme="@style/BaseAppTheme" />
         <activity
             android:name=".component.activity.screen.ScreenCaptureActivity"
