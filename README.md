@@ -74,6 +74,16 @@
 
 [使用辅助服务实现全局复制](http://www.jianshu.com/p/c34cbef4d68e)
 
+[使用辅助服务监听系统按键](http://www.jianshu.com/p/03904692b76b)
+
+[如何通过Xposed框架获取点击的文字](http://www.jianshu.com/p/d7083c6e83bb)
+
+[使用Xposed框架实现全局复制](http://www.jianshu.com/p/9dda421d23e4)
+
+[在onLayout中实现简单的微动效](http://www.jianshu.com/p/93463ab36df9)
+
+[通过ContentProvider多进程共享SharedPreferences数据](http://www.jianshu.com/p/bdebf741221e)
+
 [Android上如何实现矩形区域截屏](http://www.jianshu.com/p/0462dae4c808)
 
 [Android如何判断NavigationBar是否显示（获取屏幕真实的高度）](http://www.jianshu.com/p/84d951b3f079)
@@ -89,6 +99,8 @@
 [Android的supportV7中默认按钮的颜色设置](http://www.jianshu.com/p/98214d31318d)
 
 [Android沉浸式与SearchView的坑](http://www.jianshu.com/p/f5d6bf2fc634)
+
+[Android中“强制停止”和广播保活的一个小坑](http://www.jianshu.com/p/c632f5de465f)
 
 [Xposed大法好,教你实现ForceTouch炫酷功能](http://www.jianshu.com/p/e7ea5e3bdb47)
 
