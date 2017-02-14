@@ -70,6 +70,8 @@
 
 我们在做这个项目的过程中，学习到了一些知识，遇到了很多坑，记录整理成文，希望可以帮助你阅读和理解本项目：
 
+[开发《全能分词》（又名《锤子Bigbang》）的心路历程](http://www.jianshu.com/p/6e068fca111b)
+
 [通过辅助模式获取点击的文字](http://www.jianshu.com/p/60758b3f2c7c)
 
 [使用辅助服务实现全局复制](http://www.jianshu.com/p/c34cbef4d68e)
@@ -81,6 +83,8 @@
 [使用Xposed框架实现全局复制](http://www.jianshu.com/p/9dda421d23e4)
 
 [在onLayout中实现简单的微动效](http://www.jianshu.com/p/93463ab36df9)
+
+[如何使用Android的拖拽接口实现拖拽功能](http://www.jianshu.com/p/5001d0b42e10)
 
 [通过ContentProvider多进程共享SharedPreferences数据](http://www.jianshu.com/p/bdebf741221e)
 

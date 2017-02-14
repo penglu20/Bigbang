@@ -37,6 +37,8 @@ public class MarkSizeView extends View {
     private static final int DEFAULT_CONFIRM_BUTTON_RES = R.mipmap.ic_done_white_36dp;
     private static final int DEFAULT_CANCEL_BUTTON_RES = R.mipmap.ic_close_capture;
 
+    private static final int BUTTON_EXTRA_WIDTH = ViewUtil.dp2px(8);
+
     private static final int DEFAULT_VERTEX_WIDTH=20;//dp
 
 
@@ -221,13 +223,13 @@ public class MarkSizeView extends View {
                     if (mOnClickListener != null) {
                         mOnClickListener.onTouch();
                     }
-                    if (confirmArea.contains(x, y)) {
+                    if (isAreaContainPoint(confirmArea,x, y)) {
                         isButtonClicked = true;
                         isValid = true;
                         if (mOnClickListener != null) {
                             mOnClickListener.onConfirm(markedArea);
                         }
-                    } else if (cancelArea.contains(x, y)) {
+                    } else if (isAreaContainPoint(cancelArea,x, y)) {
                         isButtonClicked = true;
                         isValid = true;
                         if (mOnClickListener != null) {
@@ -236,16 +238,16 @@ public class MarkSizeView extends View {
                             startX = startY = endX = endY = 0;
                             adjustMark(0, 0);
                         }
-                    } else if (ltVer.contains(x, y)) {
+                    } else if (isAreaContainPoint(ltVer,x, y)) {
                         isAdjustMode = true;
                         adjustNum = 1;
-                    } else if (rtVer.contains(x, y)) {
+                    } else if (isAreaContainPoint(rtVer,x, y)) {
                         isAdjustMode = true;
                         adjustNum = 2;
-                    } else if (lbVer.contains(x, y)) {
+                    } else if (isAreaContainPoint(lbVer,x, y)) {
                         isAdjustMode = true;
                         adjustNum = 3;
-                    } else if (rbVer.contains(x, y)) {
+                    } else if (isAreaContainPoint(rbVer,x, y)) {
                         isAdjustMode = true;
                         adjustNum = 4;
                     } else if (markedArea.contains(x, y)) {
@@ -322,13 +324,13 @@ public class MarkSizeView extends View {
                     if (mOnClickListener != null) {
                         mOnClickListener.onTouch();
                     }
-                    if (confirmArea.contains(x, y)) {
+                    if (isAreaContainPoint(confirmArea,x, y)) {
                         isButtonClicked = true;
                         isValid = true;
                         if (mOnClickListener != null) {
                             mOnClickListener.onConfirm(mGraphicPath);
                         }
-                    } else if (cancelArea.contains(x, y)) {
+                    } else if (isAreaContainPoint(cancelArea,x, y)) {
                         isButtonClicked = true;
                         isValid = true;
                         if (mOnClickListener != null) {
@@ -409,6 +411,21 @@ public class MarkSizeView extends View {
         }
         postInvalidate();
         return true;
+    }
+
+    private boolean isAreaContainPoint(Rect area,int x,int y){
+        Rect newArea=new Rect(area.left-BUTTON_EXTRA_WIDTH,area.top-BUTTON_EXTRA_WIDTH,area.right+BUTTON_EXTRA_WIDTH,area.bottom+BUTTON_EXTRA_WIDTH);
+        if (newArea.contains(x,y)){
+            return true;
+        }
+        return false;
+    }
+    private boolean isAreaContainPoint(RectF area,int x,int y){
+        RectF newArea=new RectF(area.left-BUTTON_EXTRA_WIDTH,area.top-BUTTON_EXTRA_WIDTH,area.right+BUTTON_EXTRA_WIDTH,area.bottom+BUTTON_EXTRA_WIDTH);
+        if (newArea.contains(x,y)){
+            return true;
+        }
+        return false;
     }
 
     private void adjustMark(int x, int y) {
