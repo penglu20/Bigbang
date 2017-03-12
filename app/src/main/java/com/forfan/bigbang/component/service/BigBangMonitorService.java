@@ -28,6 +28,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.activity.BigBangActivity;
+import com.forfan.bigbang.component.activity.KeepAliveActivity;
 import com.forfan.bigbang.component.activity.floatviewwhitelist.AppListAdapter;
 import com.forfan.bigbang.component.activity.setting.SettingActivity;
 import com.forfan.bigbang.component.activity.whitelist.SelectionDbHelper;
@@ -121,6 +122,16 @@ public class BigBangMonitorService extends AccessibilityService {
         intentFilter.addAction(ConstantUtil.EFFECT_AFTER_REBOOT_BROADCAST);
         intentFilter.addAction(ConstantUtil.MONITOR_CLICK_BROADCAST);
         registerReceiver(bigBangBroadcastReceiver,intentFilter);
+
+
+
+
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.addAction(Intent.ACTION_SCREEN_OFF);
+        filter.addAction(Intent.ACTION_USER_PRESENT);
+        registerReceiver(mScreenReceiver,filter);
+
         handler=new Handler();
         handler.post(new Runnable() {
             @Override
@@ -179,6 +190,7 @@ public class BigBangMonitorService extends AccessibilityService {
         ArcTipViewController.getInstance().remove();
         try {
             unregisterReceiver(bigBangBroadcastReceiver);
+            unregisterReceiver(mScreenReceiver);
         } catch (Throwable e) {
         }
         super.onDestroy();
@@ -582,9 +594,13 @@ public class BigBangMonitorService extends AccessibilityService {
         }
         if (keepOpenThread==null || !keepOpenThread.isAlive()) {
             keepOpenThread = new Thread(new Runnable() {
-                int count=12;
+                int count=120;
                 @Override
                 public void run() {
+                    boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
+                    if (!isopen){
+                        return;
+                    }
                     BufferedWriter bufferedWriter = null;
                     BufferedReader bufferedReader = null;
                     java.lang.Process process=null;
@@ -599,7 +615,7 @@ public class BigBangMonitorService extends AccessibilityService {
 
                         do {
                             --count;
-                            boolean isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
+                            isopen=SPHelper.getBoolean(ConstantUtil.AUTO_OPEN_SETTING,false);
                             if (!isopen){
                                 Thread.sleep(10000);
                                 continue;
@@ -769,6 +785,25 @@ public class BigBangMonitorService extends AccessibilityService {
                 sendBroadcast(new Intent(ConstantUtil.BROADCAST_CLIPBOARD_LISTEN_SERVICE_MODIFIED));
             } else {
                 readSettingFromSp();
+            }
+        }
+    };
+
+
+    private  BroadcastReceiver mScreenReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+
+            if (Intent.ACTION_SCREEN_ON.equals(action)) {
+                // 开屏
+//                isScreenOn=true;
+            } else if (Intent.ACTION_SCREEN_OFF.equals(action)) {
+                // 锁屏
+                Intent alive =  new Intent(BigBangMonitorService.this, KeepAliveActivity.class);
+                alive.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(alive);
+            } else if (Intent.ACTION_USER_PRESENT.equals(action)) {
             }
         }
     };

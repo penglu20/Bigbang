@@ -219,6 +219,7 @@ public final class ListenClipboardService extends Service {
                 bigbangNotification.setContetView();
                 startForeground(NOTIFYID, bigbangNotification.getNotification());
                 isForegroundShow = true;
+                isGrayGuardOn=false;
             }
         } else {
             stopForeground();
@@ -227,10 +228,10 @@ public final class ListenClipboardService extends Service {
 
 
     private void stopForeground(){
-//        if (isForegroundShow) {
+        if (isForegroundShow) {
             stopForeground(true);
-//            isForegroundShow=false;
-//        }
+            isForegroundShow=false;
+        }
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {

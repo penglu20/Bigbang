@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.forfan.bigbang.BigBangApp;
 import com.forfan.bigbang.R;
 import com.forfan.bigbang.component.base.BaseActivity;
 import com.forfan.bigbang.onestep.ResolveInfoWrap;
@@ -82,9 +83,9 @@ public class ShareAppManagerActivity extends BaseActivity implements SearchView.
 
     @Override
     protected void onStop() {
-        super.onStop();
         if (resolveInfoWraps != null)
-            SharedIntentHelper.saveShareAppIndexs2Sp(resolveInfoWraps, ShareAppManagerActivity.this);
+            SharedIntentHelper.saveShareAppIndexs2Sp(resolveInfoWraps, BigBangApp.getInstance());
+        super.onStop();
     }
 
 

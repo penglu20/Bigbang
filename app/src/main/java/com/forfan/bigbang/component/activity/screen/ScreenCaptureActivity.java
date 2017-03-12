@@ -151,7 +151,11 @@ public class ScreenCaptureActivity extends BaseActivity {
 
     private void startScreenCapture(Intent intent, int resultCode) {
         screenCaptureService=new ScreenCapture(this ,intent, resultCode,markedArea,mGraphicPath);
-        screenCaptureService.toCapture();
+        try {
+            screenCaptureService.toCapture();
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)

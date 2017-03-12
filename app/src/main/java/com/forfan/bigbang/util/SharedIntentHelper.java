@@ -49,8 +49,17 @@ public class SharedIntentHelper {
             if (strings == null)
                 strings = new ArrayList<>();
             List<ResolveInfoWrap> resolveInfoWraps = new ArrayList<>();
+            //数组去重
+            String[] array = strings.toArray(new String[0]);
+            List<String> singleStringApps = new ArrayList<>();
+            singleStringApps.add(array[0]);
+            for(int i=1;i<array.length;i++){
+                if(singleStringApps.toString().indexOf(array[i]) == -1){
+                    singleStringApps.add(array[i]);
+                }
+            }
             //包含了则放到最前面
-            for (String str : strings) {
+            for (String str : singleStringApps) {
                 for (ResolveInfoWrap resolveInfoWrap : list) {
                     if (resolveInfoWrap.resolveInfo.loadLabel(context.getPackageManager()).toString().equalsIgnoreCase(str)) {
                         resolveInfoWraps.add(resolveInfoWrap);
@@ -71,7 +80,9 @@ public class SharedIntentHelper {
     public static void saveShareAppIndexs2Sp(List<ResolveInfoWrap> list, Context context) {
         ArrayList<String> string = new ArrayList<>();
         for (ResolveInfoWrap resolveInfoWrap : list) {
-            string.add(resolveInfoWrap.resolveInfo.loadLabel(context.getPackageManager()).toString());
+            String name =resolveInfoWrap.resolveInfo.loadLabel(context.getPackageManager()).toString();
+            if(!string.contains(name))
+                string.add(name);
         }
         context.getSharedPreferences(ShareAppManagerActivity.SHARE_APPS, Context.MODE_PRIVATE).edit().
                 putString(ConstantUtil.SHARE_APP_INDEX, new Gson().toJson(string)).apply();

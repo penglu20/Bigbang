@@ -231,7 +231,7 @@ public class ArcTipViewController implements View.OnTouchListener {
                             }
                             iconFloatView.setOnTouchListener(ArcTipViewController.this);
                             acrFloatView.setOnTouchListener(ArcTipViewController.this);
-
+                            floatImageView.setContentDescription(mContext.getString(R.string.float_view_hide));
                             LinearLayout.LayoutParams layoutParams_ = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
                             layoutParams_.width = (int) ((int) ViewUtil.dp2px(DEFAULT_MIN_WIDTH_HIDE)*SPHelper.getFloat(ConstantUtil.FLOATVIEW_SIZE,100)/ 100f);
                             layoutParams_.height = (int) ViewUtil.dp2px(MIN_LENGTH);
@@ -257,6 +257,7 @@ public class ArcTipViewController implements View.OnTouchListener {
     }
 
     int[] icons;
+    String[] contentDiscription;
 
     private void initView() {
         showBigBang = SPHelper.getBoolean(ConstantUtil.TOTAL_SWITCH, true);
@@ -301,10 +302,13 @@ public class ArcTipViewController implements View.OnTouchListener {
     private void initIcon() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
             icons = new int[]{R.mipmap.ic_float_switch};
+            contentDiscription = new String[]{mContext.getString(R.string.open_bigbang)};
         } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy};
+            contentDiscription = new String[]{mContext.getString(R.string.open_bigbang),mContext.getString(R.string.notify_copy_title)};
         } else {
             icons = new int[]{R.mipmap.ic_float_switch, R.mipmap.ic_float_copy, R.mipmap.ic_float_screen};
+            contentDiscription = new String[]{mContext.getString(R.string.open_bigbang),mContext.getString(R.string.notify_copy_title),mContext.getString(R.string.notify_srceen_cap)};
         }
     }
 
@@ -323,6 +327,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
             }
             archMenu.getHintView().setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
+            archMenu.getHintView().setContentDescription(mContext.getString(R.string.float_view_to_hide));
         }
         if (showBigBang) {
             mCurrentIconAlpha = SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f;
@@ -332,6 +337,7 @@ public class ArcTipViewController implements View.OnTouchListener {
         for (int i = 0; i < itemCount; i++) {
             ImageView item = new ImageView(acrFloatView.getContext());
             item.setImageResource(itemDrawables[i]);
+            item.setContentDescription(contentDiscription[i]);
             item.setPadding(arcMenupadding, arcMenupadding, arcMenupadding, arcMenupadding);
             item.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
@@ -345,6 +351,11 @@ public class ArcTipViewController implements View.OnTouchListener {
 
             if (i == 0) {
                 item.setAlpha(mCurrentIconAlpha);
+                if (showBigBang) {
+                    item.setContentDescription(contentDiscription[i]);
+                }else {
+                    item.setContentDescription(mContext.getString(R.string.close_bigbang));
+                }
             } else {
                 item.setAlpha(SPHelper.getInt(ConstantUtil.FLOATVIEW_ALPHA, 70) / 100f);
             }
@@ -622,6 +633,7 @@ public class ArcTipViewController implements View.OnTouchListener {
 
                 }
                 floatImageView.setImageDrawable(floatViewLastCache);
+                floatImageView.setContentDescription(mContext.getString(R.string.float_view));
                 LinearLayout.LayoutParams floatImageViewlayoutParams = (LinearLayout.LayoutParams) floatImageView.getLayoutParams();
                 floatImageViewlayoutParams.width = ViewUtil.dp2px(MIN_LENGTH);
                 floatImageViewlayoutParams.height = ViewUtil.dp2px(MIN_LENGTH);
@@ -656,7 +668,7 @@ public class ArcTipViewController implements View.OnTouchListener {
             int type = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Settings.canDrawOverlays(mContext)) {
                 type = WindowManager.LayoutParams.TYPE_PHONE;
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && Build.VERSION.SDK_INT< Build.VERSION_CODES.N) {
                 type = WindowManager.LayoutParams.TYPE_TOAST;
             } else {
                 type = WindowManager.LayoutParams.TYPE_PHONE;

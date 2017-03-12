@@ -29,7 +29,7 @@
     <string name="stringValue3">从图库中选取图片识别</string>
     <string name="stringValue2">开启BigBang之旅</string>
     <string name="copy_mode_help">复制\n将选择的词句复制到剪贴板</string>
-    <string name="remain_symbol">保留标点符号</string>
+    <string name="remain_symbol">显示符号</string>
     <string name="choose_sentences_mode">选词模式\n通过滑动和点击来选择词句进行操作</string>
     <string name="stringValue5">重新识别</string>
     <string name="stringValue4">拍照识别</string>
@@ -136,7 +136,32 @@
     <string name="share_">分享</string>
     <string name="save_">保存</string>
     <string name="ocr_">识别</string>
+    <string name="copy_">复制</string>
     <string name="bigbang_">炸词</string>
+    <string name="translate">翻译</string>
+    <string name="drag_select_mode">框选模式</string>
+    <string name="drag_select_mode_done">非框选模式</string>
+    <string name="drag_mode">拖动排序</string>
+    <string name="drag_mode_done">退出拖动排序</string>
+    <string name="online_segment">在线分词</string>
+    <string name="offline_segment">离线分词</string>
+    <string name="no_symbol">不显示符号</string>
+    <string name="select_other">反选</string>
+    <string name="remain_section">保留分段</string>
+    <string name="no_section">不保留分段</string>
+
+
+
+    <string name="open_bigbang">关闭分词</string>
+    <string name="close_bigbang">开启分词</string>
+
+
+    <string name="float_view_hide">全能分词悬浮窗（隐藏状态）</string>
+    <string name="float_view">展开悬浮窗功能</string>
+    <string name="float_view_to_hide">收起悬浮窗</string>
+
+
+
     <string name="share_content">BigBang，不止是分词！更是您的高效助手！单击、双击、长按、复制等多种触发方式随心选！更有全局复制，图片识别等黑科技加持，给你的手机插上翅膀！</string>
     <string name="share_no_wechat">你还没有安装微信</string>
     <string name="share_error">分享失败</string>

@@ -59,27 +59,33 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         mDragSelect=new ImageView(context);
         mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_n);
         mDragSelect.setOnClickListener(this);
-        
+        mDragSelect.setContentDescription(getContext().getString(R.string.drag_select_mode));
+
         mDrag=new ImageView(context);
         mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
         mDrag.setOnClickListener(this);
+        mDrag.setContentDescription(getContext().getString(R.string.drag_mode));
 
 
         mType=new ImageView(context);
         mType.setImageResource(R.mipmap.bigbang_action_cloud);
         mType.setOnClickListener(this);
+        mType.setContentDescription(getContext().getString(R.string.offline_segment));
 
         mSelectOther=new ImageView(context);
         mSelectOther.setImageResource(R.mipmap.bigbang_action_select_other);
         mSelectOther.setOnClickListener(this);
+        mSelectOther.setContentDescription(getContext().getString(R.string.select_other));
 
         mSymbol=new ImageView(context);
         mSymbol.setImageResource(R.mipmap.bigbang_action_symbol);
         mSymbol.setOnClickListener(this);
+        mSymbol.setContentDescription(getContext().getString(R.string.no_symbol));
 
         mSection=new ImageView(context);
         mSection.setImageResource(R.mipmap.bigbang_action_enter);
         mSection.setOnClickListener(this);
+        mSection.setContentDescription(getContext().getString(R.string.no_section));
 
         addView(mDragSelect, createLayoutParams());
         addView(mDrag, createLayoutParams());
@@ -154,6 +160,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
 
     public void onDragSelectEnd(){
         mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_n);
+        mDragSelect.setContentDescription(getContext().getString(R.string.drag_select_mode));
         mActionListener.onDragSelect(false);
         mDrag.setVisibility(VISIBLE);
         dragSelectionMode=false;
@@ -168,9 +175,11 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
             dragMode=!dragMode;
             if (dragMode) {
                 mDrag.setImageResource(R.mipmap.ic_done_white_36dp);
+                mDrag.setContentDescription(getContext().getString(R.string.drag_mode_done));
                 mDragSelect.setVisibility(INVISIBLE);
             }else {
                 mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
+                mDrag.setContentDescription(getContext().getString(R.string.drag_mode));
                 mDragSelect.setVisibility(VISIBLE);
             }
             mActionListener.onDrag();
@@ -191,6 +200,7 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
             }else {
                 mDragSelect.setImageResource(R.mipmap.ic_drag_select_36dp_p);
                 mDrag.setVisibility(INVISIBLE);
+                mDragSelect.setContentDescription(getContext().getString(R.string.drag_select_mode_done));
                 mActionListener.onDragSelect(true);
                 dragSelectionMode=true;
             }
@@ -203,8 +213,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         mActionListener.onSwitchType(isLocal);
         if (isLocal) {
             mType.setImageResource(R.mipmap.bigbang_action_local);
+            mType.setContentDescription(getContext().getString(R.string.online_segment));
         }else {
             mType.setImageResource(R.mipmap.bigbang_action_cloud);
+            mType.setContentDescription(getContext().getString(R.string.offline_segment));
         }
     }
 
@@ -215,8 +227,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         }
         if (showSymbol){
             mSymbol.setImageResource(R.mipmap.bigbang_action_symbol);
+            mSymbol.setContentDescription(getContext().getString(R.string.no_symbol));
         }else {
             mSymbol.setImageResource(R.mipmap.bigbang_action_no_symbol);
+            mSymbol.setContentDescription(getContext().getString(R.string.remain_symbol));
         }
     }
 
@@ -227,8 +241,10 @@ public class BigBangBottom extends ViewGroup implements View.OnClickListener {
         }
         if (showSection){
             mSection.setImageResource(R.mipmap.bigbang_action_enter);
+            mSection.setContentDescription(getContext().getString(R.string.no_section));
         }else {
             mSection.setImageResource(R.mipmap.bigbang_action_no_enter);
+            mSection.setContentDescription(getContext().getString(R.string.remain_section));
         }
     }
 

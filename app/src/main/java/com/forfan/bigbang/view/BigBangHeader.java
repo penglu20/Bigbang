@@ -66,12 +66,15 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         mSearch = new ImageView(context);
         mSearch.setImageResource(R.mipmap.bigbang_action_search);
         mSearch.setOnClickListener(this);
+        mSearch.setContentDescription(getContext().getString(R.string.search));
         mShare = new ImageView(context);
         mShare.setImageResource(R.mipmap.bigbang_action_share);
         mShare.setOnClickListener(this);
+        mShare.setContentDescription(getContext().getString(R.string.share_));
         mCopy = new ImageView(context);
         mCopy.setImageResource(R.mipmap.bigbang_action_copy);
         mCopy.setOnClickListener(this);
+        mCopy.setContentDescription(getContext().getString(R.string.copy_));
 
 //        mDrag=new ImageView(context);
 //        mDrag.setImageResource(R.mipmap.ic_sort_white_36dp);
@@ -80,6 +83,7 @@ class BigBangHeader extends ViewGroup implements View.OnClickListener {
         mTrans=new ImageView(context);
         mTrans.setImageResource(R.mipmap.ic_compare_arrows_white_36dp);
         mTrans.setOnClickListener(this);
+        mTrans.setContentDescription(getContext().getString(R.string.translate));
 
 //        mSelectAll=new ImageView(context);
 //        mSelectAll.setImageResource(R.mipmap.bigbang_action_select_all);

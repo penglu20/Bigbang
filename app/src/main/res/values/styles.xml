@@ -115,6 +115,12 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+    <style name="KeepAliveActivtyTheme" parent="BigBangTheme">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <!-- 淡入淡出动画 -->
     <style name="activity_switch_fade">
         <item name="android:windowAnimationStyle">@style/fade</item>

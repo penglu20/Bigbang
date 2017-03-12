@@ -24,6 +24,7 @@
         android:layout_marginRight="@dimen/margin_double"
         android:layout_marginTop="@dimen/margin_double"
         android:scaleType="centerInside"
+        android:contentDescription="@string/translate"
         android:src="@mipmap/ic_compare_arrows_white_36dp" />
 
     <android.support.v7.widget.AppCompatEditText
