@@ -213,6 +213,7 @@ public final class ListenClipboardService extends Service {
         boolean isForground = SPHelper.getBoolean(ConstantUtil.IS_SHOW_NOTIFY, false);
         if (isForground) {
             if (!isForegroundShow) {
+                handler.removeCallbacksAndMessages(null);
                 if (bigbangNotification == null) {
                     bigbangNotification = new BigbangNotification(this);
                 }
@@ -228,25 +229,31 @@ public final class ListenClipboardService extends Service {
 
 
     private void stopForeground(){
-        if (isForegroundShow) {
+        if (!isGrayGuardOn) {
             stopForeground(true);
             isForegroundShow=false;
+            isGrayGuardOn=false;
         }
+        handler.removeCallbacksAndMessages(null);
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!isGrayGuardOn) {
-                    if (Build.VERSION.SDK_INT < 18) {
-                        startForeground(GRAY_SERVICE_ID, new Notification());
-                    } else {
-                        Intent innerIntent = new Intent(ListenClipboardService.this, GrayInnerService.class);
-                        startService(innerIntent);
-                        startForeground(GRAY_SERVICE_ID, new Notification());
-                    }
-                    isGrayGuardOn=true;
-                }
+                startGreyService();
             }
         }, 3000);
+    }
+
+    private void startGreyService() {
+        if (!isGrayGuardOn) {
+            if (Build.VERSION.SDK_INT < 18) {
+                startForeground(GRAY_SERVICE_ID, new Notification());
+            } else {
+                Intent innerIntent = new Intent(ListenClipboardService.this, GrayInnerService.class);
+                startService(innerIntent);
+                startForeground(GRAY_SERVICE_ID, new Notification());
+            }
+            isGrayGuardOn=true;
+        }
     }
 
     private void readSettingFromSp(){
