@@ -195,6 +195,8 @@ public class BigBangActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        netWordSegments = null;
+        originString=null;
         init();
     }
 
