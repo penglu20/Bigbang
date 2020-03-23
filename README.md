@@ -1,4 +1,4 @@
-##Bigbang 是老罗设计的一种高效的文字处理方式。
+## Bigbang 是老罗设计的一种高效的文字处理方式。
 
 遗憾的是Bigbang只能在锤子手机上使用。
 
@@ -23,31 +23,31 @@
 
 后期我们会总结开发过程中使用到的技术和学习到的经验，写几篇技术博客，如果能对其他人有所帮助我们就心满意足了。
 
-##下载地址
+## 下载地址
 
 [酷安市场](http://www.coolapk.com/apk/com.forfan.bigbang )
 
 [GooglePlay](https://play.google.com/store/apps/details?id=com.forfan.bigbang)
 
 
-###应用内截图：
+### 应用内截图：
 
-######点击触发：
+###### 点击触发：
 ![点击触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/click.gif)
 
-######复制触发：
+###### 复制触发：
 
 ![复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/copy.gif)
 
-######全局复制触发：
+###### 全局复制触发：
 ![全局复制触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/ucopy.gif)
 
 
-######截屏OCR触发：
+###### 截屏OCR触发：
 ![截屏OCR触发](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/ocr.gif)
 
 
-######分词界面设置：
+###### 分词界面设置：
 ![分词界面设置](https://raw.githubusercontent.com/l465659833/Bigbang/master/gif/setting.gif)
 
 
@@ -55,7 +55,7 @@
 
 
 
-##感谢：
+## 感谢：
 
 
 首先要感谢[@shang1101](https://github.com/shang1101) ，Bigbang是由我们俩配合完成的！
@@ -65,7 +65,7 @@
 全局复制功能参考了这个应用的实现：http://www.coolapk.com/apk/com.camel.corp.universalcopy
 
 
-##相关文章
+## 相关文章
 
 
 我们在做这个项目的过程中，学习到了一些知识，遇到了很多坑，记录整理成文，希望可以帮助你阅读和理解本项目：
@@ -111,7 +111,7 @@
 [如何实现android炫酷悬浮球菜单](http://www.jianshu.com/p/56abca9fb592)
 
 
-##License
+## License
 
 
 ![DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE](http://www.wtfpl.net/wp-content/uploads/2012/12/logo-220x1601.png)
